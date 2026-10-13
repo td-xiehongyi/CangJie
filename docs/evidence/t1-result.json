@@ -1,0 +1,94 @@
+{
+  "checkedAt": "2026-10-12T15:14:32.9663889+00:00",
+  "stage": "T1",
+  "status": "complete",
+  "interpreterVersion": "1.0.0",
+  "checks": {
+    "interpreter": {
+      "skipped": 0,
+      "pass": 66,
+      "fail": 0
+    },
+    "all": {
+      "skipped": 0,
+      "pass": 80,
+      "fail": 0
+    },
+    "build": "passed",
+    "previewUnchanged": 6
+  },
+  "sources": [
+    {
+      "file": "apps\\core\\src\\budget.cj",
+      "sha256": "d8e39dc5dd85007c44110f698d47902f2f424f5e08e6d841e79b00da77e18974"
+    },
+    {
+      "file": "apps\\core\\src\\contracts.cj",
+      "sha256": "7af973948d5b73393ea8d6cdde186e9802ca5e02416bc7f4c7e6096e361e57b2"
+    },
+    {
+      "file": "apps\\core\\src\\interpreter.cj",
+      "sha256": "4ec9f71db3cc5a89094afef69ad8abc2d690ffcafdf00ac2bc8e88a842f10e23"
+    },
+    {
+      "file": "apps\\core\\src\\main.cj",
+      "sha256": "6cdfc4d0d649e7d070595afa6577452f26f6fe56c1cb11f61cf95ddd104c4ea1"
+    },
+    {
+      "file": "apps\\core\\src\\protocol.cj",
+      "sha256": "60ac5cdfa2dca3bd83d8152e8c419a32e85eb0f76293b41d502f67e21d647668"
+    },
+    {
+      "file": "apps\\core\\src\\scheduler.cj",
+      "sha256": "0eba0776d6cb880b381d1984148a3104d778e08c1ba15ebb6d27884884205ceb"
+    },
+    {
+      "file": "apps\\core\\src\\verdict.cj",
+      "sha256": "448b5cdf9db4cbe376f90f9653a4caf818fbff70003fb1eccc3fc1cc9f092c69"
+    },
+    {
+      "file": "apps\\host\\src\\core\\experiment.ts",
+      "sha256": "b7031ec0d4a41498f05a49734f83c87747c29a13edfcac767259cf6750086763"
+    },
+    {
+      "file": "packages\\contracts\\types.ts",
+      "sha256": "af540a78286a3271437be688ef0b13bebd852ca0765304187d328bd89718d756"
+    },
+    {
+      "file": "packages\\contracts\\schema.json",
+      "sha256": "36af3f13c3996d0fc40dc2f0ad591fa147dc2411446819e36b630de19648ce1b"
+    },
+    {
+      "file": "packages\\contracts\\validate.ts",
+      "sha256": "35b0937aad57534a3bfca75503ffc4e5efdccda112ce04fb80c87fa09bb1baa0"
+    },
+    {
+      "file": "packages\\contracts\\fixtures\\save-result.json",
+      "sha256": "4d3af4dca4e48d708982a03af8aae994c694aa4d9db9c7f5e60d1d48e66b9ffb"
+    },
+    {
+      "file": "packages\\contracts\\fixtures\\duplicate-submit.json",
+      "sha256": "52921cae3459b1419ba97563cb78f88dd8a0e8272dfe3b6a051ae74e6cfad6e6"
+    },
+    {
+      "file": "packages\\contracts\\fixtures\\permission-isolation.json",
+      "sha256": "2362455c1e25dcbd5c1d9eefefafa33526dab566f928d0d3f86b6621284c174b"
+    },
+    {
+      "file": "tests\\contracts\\interpreter.test.mjs",
+      "sha256": "8c46811017e7999cf411f8f4d79cf13de6f7bb1bf513923616b9ab7e085142d4"
+    },
+    {
+      "file": "tests\\contracts\\experiment-host.test.mjs",
+      "sha256": "9ca7f5c44266f1f310413ea485b4069be139ac1d0e617144d12042d8dc352c7b"
+    },
+    {
+      "file": "tests\\contracts\\schema.test.mjs",
+      "sha256": "08014ff7a123704f4eb0959a3ecbc36e84222a5b87fa7236516c90c1c7246de4"
+    }
+  ],
+  "limitations": [
+    "Observation fixtures only; HTTP and actual baseline reset are T2/T3",
+    "No formal candidate publication, model, live UI, load or delivery package yet"
+  ]
+}

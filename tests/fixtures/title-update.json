@@ -1,0 +1,175 @@
+{
+  "id": "title-update-test-probe",
+  "revision": 1,
+  "ruleRef": {
+    "id": "title-update-rule",
+    "version": 1
+  },
+  "parameters": {
+    "title": "初始标题",
+    "newTitle": "更新标题"
+  },
+  "requiredCapabilities": [
+    "create",
+    "query",
+    "update"
+  ],
+  "checks": [
+    "edit"
+  ],
+  "steps": [
+    {
+      "stepId": "create",
+      "checkId": "edit",
+      "operationId": "create",
+      "actorRef": "owner",
+      "bindings": {
+        "title": {
+          "op": "field",
+          "var": "params",
+          "path": [
+            "title"
+          ]
+        }
+      },
+      "output": "created"
+    },
+    {
+      "stepId": "before",
+      "checkId": "edit",
+      "operationId": "query",
+      "actorRef": "owner",
+      "bindings": {
+        "id": {
+          "op": "field",
+          "var": "created",
+          "path": [
+            "id"
+          ]
+        }
+      },
+      "output": "before"
+    },
+    {
+      "stepId": "update",
+      "checkId": "edit",
+      "operationId": "update",
+      "actorRef": "owner",
+      "bindings": {
+        "id": {
+          "op": "field",
+          "var": "created",
+          "path": [
+            "id"
+          ]
+        },
+        "title": {
+          "op": "field",
+          "var": "params",
+          "path": [
+            "newTitle"
+          ]
+        }
+      },
+      "output": "updated"
+    },
+    {
+      "stepId": "after",
+      "checkId": "edit",
+      "operationId": "query",
+      "actorRef": "owner",
+      "bindings": {
+        "id": {
+          "op": "field",
+          "var": "created",
+          "path": [
+            "id"
+          ]
+        }
+      },
+      "output": "after"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "updated-title",
+      "checkId": "edit",
+      "expr": {
+        "op": "eq",
+        "args": [
+          {
+            "op": "field",
+            "var": "after",
+            "path": [
+              "title"
+            ]
+          },
+          {
+            "op": "field",
+            "var": "params",
+            "path": [
+              "newTitle"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "unchanged-priority",
+      "checkId": "edit",
+      "expr": {
+        "op": "eq",
+        "args": [
+          {
+            "op": "field",
+            "var": "after",
+            "path": [
+              "priority"
+            ]
+          },
+          {
+            "op": "field",
+            "var": "before",
+            "path": [
+              "priority"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "unchanged-owner",
+      "checkId": "edit",
+      "expr": {
+        "op": "eq",
+        "args": [
+          {
+            "op": "field",
+            "var": "after",
+            "path": [
+              "ownerId"
+            ]
+          },
+          {
+            "op": "field",
+            "var": "before",
+            "path": [
+              "ownerId"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "evidenceRequirements": {
+    "identityVerified": true,
+    "queryComplete": true,
+    "acceptanceKnown": true,
+    "evidenceRefs": true
+  },
+  "limits": {
+    "maxActions": 16,
+    "actionTimeoutMs": 1500,
+    "runTimeoutMs": 10000
+  }
+}

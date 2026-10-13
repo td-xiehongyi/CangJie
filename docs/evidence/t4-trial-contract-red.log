@@ -1,0 +1,49 @@
+✖ shared validation contract accepts typed target trial evidence and remains strict (2.2696ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 101.6165
+
+✖ failing tests:
+
+test at tests\integration\candidate.test.mjs:51:1
+✖ shared validation contract accepts typed target trial evidence and remains strict (2.2696ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   issues: [
+  +     {
+  +       code: 'ADDITIONAL_PROPERTY',
+  +       path: '/copyId'
+  +     },
+  +     {
+  +       code: 'ADDITIONAL_PROPERTY',
+  +       path: '/completed'
+  +     },
+  +     {
+  +       code: 'ADDITIONAL_PROPERTY',
+  +       path: '/verdicts'
+  +     }
+  +   ],
+  +   valid: false
+  -   issues: [],
+  -   valid: true
+    }
+  
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:51:353)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { valid: false, issues: [ [Object], [Object], [Object] ] },
+    expected: { valid: true, issues: [] },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

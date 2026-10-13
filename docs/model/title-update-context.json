@@ -1,0 +1,42 @@
+{
+  "rule": {
+    "id": "title-update-rule",
+    "version": 1,
+    "confirmation": "confirmed",
+    "source": "docs/superpowers/specs/2026-10-11-candidate-template-lifecycle.md#业务示例; 用户已确认只改标题，优先级和所有者保持不变",
+    "preconditions": [
+      "owner creates and reads record before update"
+    ],
+    "expectedChanges": [
+      "only title changes to requested value"
+    ],
+    "invariants": [
+      "priority unchanged",
+      "ownerId unchanged"
+    ],
+    "completionDeadline": 10000
+  },
+  "capabilities": {
+    "expressions": [
+      "field",
+      "const",
+      "exists",
+      "eq",
+      "neq",
+      "count",
+      "contains",
+      "all",
+      "any",
+      "not"
+    ],
+    "operations": [
+      "create",
+      "query",
+      "update"
+    ],
+    "actorRefs": [
+      "owner",
+      "other"
+    ]
+  }
+}

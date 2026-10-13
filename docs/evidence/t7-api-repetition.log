@@ -1,0 +1,191 @@
+
+RUN 1
+TAP version 13
+# Subtest: scope changes retain project secrets; analysis budget survives retries
+ok 1 - scope changes retain project secrets; analysis budget survives retries
+  ---
+  duration_ms: 3378.7475
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3512.3974
+
+
+RUN 2
+TAP version 13
+# Subtest: scope changes retain project secrets; analysis budget survives retries
+ok 1 - scope changes retain project secrets; analysis budget survives retries
+  ---
+  duration_ms: 3408.7123
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3523.5731
+
+
+RUN 3
+TAP version 13
+# Subtest: scope changes retain project secrets; analysis budget survives retries
+ok 1 - scope changes retain project secrets; analysis budget survives retries
+  ---
+  duration_ms: 3447.0692
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3590.2357
+
+
+RUN 4
+TAP version 13
+# Subtest: scope changes retain project secrets; analysis budget survives retries
+ok 1 - scope changes retain project secrets; analysis budget survives retries
+  ---
+  duration_ms: 3596.7782
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3723.3611
+
+
+RUN 5
+TAP version 13
+# Subtest: scope changes retain project secrets; analysis budget survives retries
+ok 1 - scope changes retain project secrets; analysis budget survives retries
+  ---
+  duration_ms: 3399.1487
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3527.6626
+
+
+RUN 6
+TAP version 13
+# Subtest: scope changes retain project secrets; analysis budget survives retries
+ok 1 - scope changes retain project secrets; analysis budget survives retries
+  ---
+  duration_ms: 3145.4295
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3268.5361
+
+
+RUN 7
+TAP version 13
+# Subtest: scope changes retain project secrets; analysis budget survives retries
+ok 1 - scope changes retain project secrets; analysis budget survives retries
+  ---
+  duration_ms: 3356.6904
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3478.2869
+
+
+RUN 8
+TAP version 13
+# Subtest: scope changes retain project secrets; analysis budget survives retries
+ok 1 - scope changes retain project secrets; analysis budget survives retries
+  ---
+  duration_ms: 3378.7683
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3498.3875
+
+
+RUN 9
+TAP version 13
+# Subtest: scope changes retain project secrets; analysis budget survives retries
+ok 1 - scope changes retain project secrets; analysis budget survives retries
+  ---
+  duration_ms: 3482.0816
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3602.5787
+
+
+RUN 10
+TAP version 13
+# Subtest: scope changes retain project secrets; analysis budget survives retries
+not ok 1 - scope changes retain project secrets; analysis budget survives retries
+  ---
+  duration_ms: 1791.7881
+  type: 'test'
+  location: 'C:\\Users\\xie\\Desktop\\Project\\tests\\integration\\workbench-api.test.mjs:19:1'
+  failureType: 'unhandledRejection'
+  error: "EPERM: operation not permitted, rename 'C:\\Users\\xie\\Desktop\\Project\\.local-data\\workbench-tests\\d175cf9e-fbe0-4f43-ab8a-867a793a5540\\1e93d1d7-bef1-4cf6-b9cd-660927029165.tmp' -> 'C:\\Users\\xie\\Desktop\\Project\\.local-data\\workbench-tests\\d175cf9e-fbe0-4f43-ab8a-867a793a5540\\state.json'"
+  code: 'EPERM'
+  stack: |-
+    async rename (node:internal/fs/promises:842:10)
+    async file:///C:/Users/xie/Desktop/Project/apps/host/dist/api.js:45:323
+    async ModelProvider.checkpoint (file:///C:/Users/xie/Desktop/Project/apps/host/dist/api.js:179:119)
+    async ModelProvider.json (file:///C:/Users/xie/Desktop/Project/apps/host/dist/model/provider.js:98:13)
+    async propose (file:///C:/Users/xie/Desktop/Project/apps/host/dist/model/proposal.js:9:26)
+  ...
+

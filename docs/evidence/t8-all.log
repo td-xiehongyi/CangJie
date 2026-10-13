@@ -1,0 +1,1429 @@
+
+> website-verification@0.0.0 test
+> node scripts/verify.mjs all
+
+TAP version 13
+# Subtest: host clock sends a tick without any observation
+ok 1 - host clock sends a tick without any observation
+  ---
+  duration_ms: 116.5542
+  type: 'test'
+  ...
+# Subtest: host cancellation clears timer and returns terminal
+ok 2 - host cancellation clears timer and returns terminal
+  ---
+  duration_ms: 124.6492
+  type: 'test'
+  ...
+# Subtest: rejected observation leaves timer and valid observation usable
+ok 3 - rejected observation leaves timer and valid observation usable
+  ---
+  duration_ms: 74.1342
+  type: 'test'
+  ...
+# Subtest: valid template is accepted by actual Cangjie core
+ok 4 - valid template is accepted by actual Cangjie core
+  ---
+  duration_ms: 326.1364
+  type: 'test'
+  ...
+# Subtest: reject_unknown_operation
+ok 5 - reject_unknown_operation
+  ---
+  duration_ms: 40.8751
+  type: 'test'
+  ...
+# Subtest: reject_unbounded_repeat
+ok 6 - reject_unbounded_repeat
+  ---
+  duration_ms: 37.248
+  type: 'test'
+  ...
+# Subtest: reject_answer_access
+ok 7 - reject_answer_access
+  ---
+  duration_ms: 37.214
+  type: 'test'
+  ...
+# Subtest: reject_answer_file
+ok 8 - reject_answer_file
+  ---
+  duration_ms: 36.7572
+  type: 'test'
+  ...
+# Subtest: reject_undefined_variable
+ok 9 - reject_undefined_variable
+  ---
+  duration_ms: 36.837
+  type: 'test'
+  ...
+# Subtest: reject_constant_assertion
+ok 10 - reject_constant_assertion
+  ---
+  duration_ms: 36.8404
+  type: 'test'
+  ...
+# Subtest: reject_obvious_tautology
+ok 11 - reject_obvious_tautology
+  ---
+  duration_ms: 37.4231
+  type: 'test'
+  ...
+# Subtest: reject_dynamic_code
+ok 12 - reject_dynamic_code
+  ---
+  duration_ms: 37.3491
+  type: 'test'
+  ...
+# Subtest: reject_budget_overrun
+ok 13 - reject_budget_overrun
+  ---
+  duration_ms: 36.9286
+  type: 'test'
+  ...
+# Subtest: reject_unknown_actor
+ok 14 - reject_unknown_actor
+  ---
+  duration_ms: 36.9703
+  type: 'test'
+  ...
+# Subtest: reject_duplicate_step
+ok 15 - reject_duplicate_step
+  ---
+  duration_ms: 38.5168
+  type: 'test'
+  ...
+# Subtest: reject_unsafe_path
+ok 16 - reject_unsafe_path
+  ---
+  duration_ms: 38.1109
+  type: 'test'
+  ...
+# Subtest: reject_exists_expression
+ok 17 - reject_exists_expression
+  ---
+  duration_ms: 37.4907
+  type: 'test'
+  ...
+# Subtest: reject_constant_true_branch
+ok 18 - reject_constant_true_branch
+  ---
+  duration_ms: 38.1619
+  type: 'test'
+  ...
+# Subtest: reject_nested_constant_branch
+ok 19 - reject_nested_constant_branch
+  ---
+  duration_ms: 40.1139
+  type: 'test'
+  ...
+# Subtest: missing_is_not_equal
+ok 20 - missing_is_not_equal
+  ---
+  duration_ms: 37.6249
+  type: 'test'
+  ...
+# Subtest: mismatched_type
+ok 21 - mismatched_type
+  ---
+  duration_ms: 36.915
+  type: 'test'
+  ...
+# Subtest: null_is_present
+ok 22 - null_is_present
+  ---
+  duration_ms: 37.5978
+  type: 'test'
+  ...
+# Subtest: business_failure
+ok 23 - business_failure
+  ---
+  duration_ms: 38.0774
+  type: 'test'
+  ...
+# Subtest: exists_missing
+ok 24 - exists_missing
+  ---
+  duration_ms: 37.5603
+  type: 'test'
+  ...
+# Subtest: exists_null
+ok 25 - exists_null
+  ---
+  duration_ms: 37.9874
+  type: 'test'
+  ...
+# Subtest: count_and_contains
+ok 26 - count_and_contains
+  ---
+  duration_ms: 38.8748
+  type: 'test'
+  ...
+# Subtest: not_unknown
+ok 27 - not_unknown
+  ---
+  duration_ms: 36.7019
+  type: 'test'
+  ...
+# Subtest: known_violation_preserves_unknown
+ok 28 - known_violation_preserves_unknown
+  ---
+  duration_ms: 37.5379
+  type: 'test'
+  ...
+# Subtest: any_does_not_hide_missing
+ok 29 - any_does_not_hide_missing
+  ---
+  duration_ms: 37.2236
+  type: 'test'
+  ...
+# Subtest: identity_unknown
+ok 30 - identity_unknown
+  ---
+  duration_ms: 38.6709
+  type: 'test'
+  ...
+# Subtest: incomplete_query
+ok 31 - incomplete_query
+  ---
+  duration_ms: 38.1814
+  type: 'test'
+  ...
+# Subtest: acceptance_unknown
+ok 32 - acceptance_unknown
+  ---
+  duration_ms: 38.3193
+  type: 'test'
+  ...
+# Subtest: transport_timeout
+ok 33 - transport_timeout
+  ---
+  duration_ms: 39.7258
+  type: 'test'
+  ...
+# Subtest: missing_evidence
+ok 34 - missing_evidence
+  ---
+  duration_ms: 36.7532
+  type: 'test'
+  ...
+# Subtest: save-result passes and records evidence, action identity and bindings
+ok 35 - save-result passes and records evidence, action identity and bindings
+  ---
+  duration_ms: 38.2991
+  type: 'test'
+  ...
+# Subtest: independent_check_continues and check variables are isolated
+ok 36 - independent_check_continues and check variables are isolated
+  ---
+  duration_ms: 36.9076
+  type: 'test'
+  ...
+# Subtest: unknown_action_rejected and duplicate observation does not advance twice
+ok 37 - unknown_action_rejected and duplicate observation does not advance twice
+  ---
+  duration_ms: 37.3545
+  type: 'test'
+  ...
+# Subtest: cancel_stops_dispatch and late observations are ignored
+ok 38 - cancel_stops_dispatch and late observations are ignored
+  ---
+  duration_ms: 37.317
+  type: 'test'
+  ...
+# Subtest: cancelled run cannot replay cached ACTION_READY
+ok 39 - cancelled run cannot replay cached ACTION_READY
+  ---
+  duration_ms: 37.2688
+  type: 'test'
+  ...
+# Subtest: old run identity cannot be reused after another run
+ok 40 - old run identity cannot be reused after another run
+  ---
+  duration_ms: 37.5931
+  type: 'test'
+  ...
+# Subtest: no observation still times out and advances independent checks
+ok 41 - no observation still times out and advances independent checks
+  ---
+  duration_ms: 104.8571
+  type: 'test'
+  ...
+# Subtest: nested incompatible types and contains cannot pass through negation
+ok 42 - nested incompatible types and contains cannot pass through negation
+  ---
+  duration_ms: 75.7593
+  type: 'test'
+  ...
+# Subtest: known violation retains unknown diagnostics
+ok 43 - known violation retains unknown diagnostics
+  ---
+  duration_ms: 38.2769
+  type: 'test'
+  ...
+# Subtest: negation and comparison do not hide nested unknown diagnostics
+ok 44 - negation and comparison do not hide nested unknown diagnostics
+  ---
+  duration_ms: 79.3899
+  type: 'test'
+  ...
+# Subtest: replaying a consumed action never dispatches it again
+ok 45 - replaying a consumed action never dispatches it again
+  ---
+  duration_ms: 38.0543
+  type: 'test'
+  ...
+# Subtest: rejected write is not accepted as a successful save
+ok 46 - rejected write is not accepted as a successful save
+  ---
+  duration_ms: 42.9882
+  type: 'test'
+  ...
+# Subtest: duplicate observations cannot exhaust cancellation budget
+ok 47 - duplicate observations cannot exhaust cancellation budget
+  ---
+  duration_ms: 56.7066
+  type: 'test'
+  ...
+# Subtest: malformed observation never consumes the pending action
+ok 48 - malformed observation never consumes the pending action
+  ---
+  duration_ms: 39.5394
+  type: 'test'
+  ...
+# Subtest: type error under a proven false cannot become true under not
+ok 49 - type error under a proven false cannot become true under not
+  ---
+  duration_ms: 40.0897
+  type: 'test'
+  ...
+# Subtest: unconfirmed rule and formal run cannot bypass admission
+ok 50 - unconfirmed rule and formal run cannot bypass admission
+  ---
+  duration_ms: 39.8007
+  type: 'test'
+  ...
+# Subtest: deadline cannot accept late passing evidence
+ok 51 - deadline cannot accept late passing evidence
+  ---
+  duration_ms: 79.3118
+  type: 'test'
+  ...
+# Subtest: shared TS schema rejects malformed fixtures before core execution
+ok 52 - shared TS schema rejects malformed fixtures before core execution
+  ---
+  duration_ms: 1.2682
+  type: 'test'
+  ...
+# Subtest: seed save-result normal
+ok 53 - seed save-result normal
+  ---
+  duration_ms: 37.5056
+  type: 'test'
+  ...
+# Subtest: seed save-result business-defect
+ok 54 - seed save-result business-defect
+  ---
+  duration_ms: 39.7911
+  type: 'test'
+  ...
+# Subtest: seed save-result insufficient
+ok 55 - seed save-result insufficient
+  ---
+  duration_ms: 36.8334
+  type: 'test'
+  ...
+# Subtest: seed duplicate-submit normal
+ok 56 - seed duplicate-submit normal
+  ---
+  duration_ms: 43.3369
+  type: 'test'
+  ...
+# Subtest: seed duplicate-submit business-defect
+ok 57 - seed duplicate-submit business-defect
+  ---
+  duration_ms: 38.5234
+  type: 'test'
+  ...
+# Subtest: seed duplicate-submit insufficient
+ok 58 - seed duplicate-submit insufficient
+  ---
+  duration_ms: 39.0543
+  type: 'test'
+  ...
+# Subtest: seed permission-isolation normal
+ok 59 - seed permission-isolation normal
+  ---
+  duration_ms: 38.538
+  type: 'test'
+  ...
+# Subtest: seed permission-isolation business-defect
+ok 60 - seed permission-isolation business-defect
+  ---
+  duration_ms: 38.6969
+  type: 'test'
+  ...
+# Subtest: seed permission-isolation insufficient
+ok 61 - seed permission-isolation insufficient
+  ---
+  duration_ms: 38.3937
+  type: 'test'
+  ...
+# Subtest: protocol_utf8_roundtrip: real core preserves Chinese, spaces and nested JSON
+ok 62 - protocol_utf8_roundtrip: real core preserves Chinese, spaces and nested JSON
+  ---
+  duration_ms: 47.0351
+  type: 'test'
+  ...
+# Subtest: reject_version: core rejects unknown version and remains usable
+ok 63 - reject_version: core rejects unknown version and remains usable
+  ---
+  duration_ms: 41.3638
+  type: 'test'
+  ...
+# Subtest: cancel_and_exit: pending run cancels with terminal events
+ok 64 - cancel_and_exit: pending run cancels with terminal events
+  ---
+  duration_ms: 36.3865
+  type: 'test'
+  ...
+# Subtest: core exit rejects pending request without hanging
+ok 65 - core exit rejects pending request without hanging
+  ---
+  duration_ms: 14.0599
+  type: 'test'
+  ...
+# Subtest: timeout terminates unresponsive core and settles pending request
+ok 66 - timeout terminates unresponsive core and settles pending request
+  ---
+  duration_ms: 326.729
+  type: 'test'
+  ...
+# Subtest: stdout logs are protocol errors, stderr logs are separate
+ok 67 - stdout logs are protocol errors, stderr logs are separate
+  ---
+  duration_ms: 116.3099
+  type: 'test'
+  ...
+# Subtest: executable and cwd with Chinese and spaces work without shell quoting
+ok 68 - executable and cwd with Chinese and spaces work without shell quoting
+  ---
+  duration_ms: 61.0618
+  type: 'test'
+  ...
+# Subtest: unexpected process exit and missing executable settle promises
+ok 69 - unexpected process exit and missing executable settle promises
+  ---
+  duration_ms: 74.5057
+  type: 'test'
+  ...
+# Subtest: unknown kind and operation do not execute
+ok 70 - unknown kind and operation do not execute
+  ---
+  duration_ms: 37.9879
+  type: 'test'
+  ...
+# Subtest: JSONL chunking preserves correlation and rejects wrong run identity
+ok 71 - JSONL chunking preserves correlation and rejects wrong run identity
+  ---
+  duration_ms: 201.721
+  type: 'test'
+  ...
+# Subtest: near-limit real echo survives response envelope and JSON escaping overhead
+ok 72 - near-limit real echo survives response envelope and JSON escaping overhead
+  ---
+  duration_ms: 86.8109
+  type: 'test'
+  ...
+# Subtest: oversized input is rejected without closing the usable core
+ok 73 - oversized input is rejected without closing the usable core
+  ---
+  duration_ms: 38.2939
+  type: 'test'
+  ...
+# Subtest: oversized output terminates the peer and settles pending requests
+ok 74 - oversized output terminates the peer and settles pending requests
+  ---
+  duration_ms: 419.058
+  type: 'test'
+  ...
+# Subtest: multiple large valid event frames are processed independently
+ok 75 - multiple large valid event frames are processed independently
+  ---
+  duration_ms: 575.1548
+  type: 'test'
+  ...
+# Subtest: schema accepts save-result and rejects executable additions
+ok 76 - schema accepts save-result and rejects executable additions
+  ---
+  duration_ms: 1.3583
+  type: 'test'
+  ...
+# Subtest: schema accepts duplicate-submit and rejects executable additions
+ok 77 - schema accepts duplicate-submit and rejects executable additions
+  ---
+  duration_ms: 0.886
+  type: 'test'
+  ...
+# Subtest: schema accepts permission-isolation and rejects executable additions
+ok 78 - schema accepts permission-isolation and rejects executable additions
+  ---
+  duration_ms: 0.5079
+  type: 'test'
+  ...
+# Subtest: exists only tests field presence
+ok 79 - exists only tests field presence
+  ---
+  duration_ms: 0.4127
+  type: 'test'
+  ...
+# Subtest: schema rejects malformed observations, unknown capabilities and rules
+ok 80 - schema rejects malformed observations, unknown capabilities and rules
+  ---
+  duration_ms: 0.154
+  type: 'test'
+  ...
+# Subtest: actual Cangjie actions execute against isolated Express/SQLite and return evidence-backed verdict
+ok 81 - actual Cangjie actions execute against isolated Express/SQLite and return evidence-backed verdict
+  ---
+  duration_ms: 1849.4407
+  type: 'test'
+  ...
+# Subtest: ticket project exposes supported initialization and two test actors
+ok 82 - ticket project exposes supported initialization and two test actors
+  ---
+  duration_ms: 403.6503
+  type: 'test'
+  ...
+# Subtest: original_unchanged and original database/secrets excluded from copy
+ok 83 - original_unchanged and original database/secrets excluded from copy
+  ---
+  duration_ms: 911.7678
+  type: 'test'
+  ...
+# Subtest: path_escape_rejected
+ok 84 - path_escape_rejected
+  ---
+  duration_ms: 173.9231
+  type: 'test'
+  ...
+# Subtest: port_conflict prevents website startup without touching occupant
+ok 85 - port_conflict prevents website startup without touching occupant
+  ---
+  duration_ms: 190.5214
+  type: 'test'
+  ...
+# Subtest: missing initialization produces specific redacted gap and cannot run
+ok 86 - missing initialization produces specific redacted gap and cannot run
+  ---
+  duration_ms: 183.1243
+  type: 'test'
+  ...
+# Subtest: hardcoded original database or external init target is blocked
+ok 87 - hardcoded original database or external init target is blocked
+  ---
+  duration_ms: 411.866
+  type: 'test'
+  ...
+# Subtest: gap explanation is not initialization; reinspection required after repair
+ok 88 - gap explanation is not initialization; reinspection required after repair
+  ---
+  duration_ms: 336.6914
+  type: 'test'
+  ...
+# Subtest: unconfirmed data does not initialize or dispatch
+ok 89 - unconfirmed data does not initialize or dispatch
+  ---
+  duration_ms: 188.5605
+  type: 'test'
+  ...
+# Subtest: real login/create/query/update preserve actor and business identity
+ok 90 - real login/create/query/update preserve actor and business identity
+  ---
+  duration_ms: 914.0469
+  type: 'test'
+  ...
+# Subtest: login_200_is_not_identity
+ok 91 - login_200_is_not_identity
+  ---
+  duration_ms: 843.944
+  type: 'test'
+  ...
+# Subtest: incomplete_page never supplies complete evidence
+ok 92 - incomplete_page never supplies complete evidence
+  ---
+  duration_ms: 921.8807
+  type: 'test'
+  ...
+# Subtest: old_record_excluded from current intent/attempt evidence
+ok 93 - old_record_excluded from current intent/attempt evidence
+  ---
+  duration_ms: 971.5335
+  type: 'test'
+  ...
+# Subtest: external_service_blocked before HTTP request or token transmission
+ok 94 - external_service_blocked before HTTP request or token transmission
+  ---
+  duration_ms: 830.6182
+  type: 'test'
+  ...
+# Subtest: passwords/tokens never enter evidence, metadata or exports; session end clears
+ok 95 - passwords/tokens never enter evidence, metadata or exports; session end clears
+  ---
+  duration_ms: 867.1027
+  type: 'test'
+  ...
+# Subtest: independent experiments reset while dependent steps retain data
+ok 96 - independent experiments reset while dependent steps retain data
+  ---
+  duration_ms: 1756.5738
+  type: 'test'
+  ...
+# Subtest: reset failure blocks environment and preserves earlier evidence
+ok 97 - reset failure blocks environment and preserves earlier evidence
+  ---
+  duration_ms: 1003.0716
+  type: 'test'
+  ...
+# Subtest: interrupted write is not retried; explicit resume isolates old process and starts new attempt
+ok 98 - interrupted write is not retried; explicit resume isolates old process and starts new attempt
+  ---
+  duration_ms: 1830.6829
+  type: 'test'
+  ...
+# Subtest: changed recovery conditions require renewed confirmation
+ok 99 - changed recovery conditions require renewed confirmation
+  ---
+  duration_ms: 1058.3465
+  type: 'test'
+  ...
+# Subtest: unregistered operation, action replay and wrong attempt cannot cause writes
+ok 100 - unregistered operation, action replay and wrong attempt cannot cause writes
+  ---
+  duration_ms: 1023.6428
+  type: 'test'
+  ...
+# Subtest: failed existing initialization cannot dispatch, independent ready environment continues
+ok 101 - failed existing initialization cannot dispatch, independent ready environment continues
+  ---
+  duration_ms: 1477.9826
+  type: 'test'
+  ...
+# Subtest: unknown write timeout preserves incomplete attempt, cannot replay it automatically
+ok 102 - unknown write timeout preserves incomplete attempt, cannot replay it automatically
+  ---
+  duration_ms: 1099.7744
+  type: 'test'
+  ...
+# Subtest: running shared database refuses another experiment and concurrent operation
+ok 103 - running shared database refuses another experiment and concurrent operation
+  ---
+  duration_ms: 1403.6802
+  type: 'test'
+  ...
+# Subtest: changed conditions explicitly reconfirmed create a linked attempt, old evidence retained
+ok 104 - changed conditions explicitly reconfirmed create a linked attempt, old evidence retained
+  ---
+  duration_ms: 1722.6232
+  type: 'test'
+  ...
+# Subtest: execution budget exhausts without dispatching another HTTP action
+ok 105 - execution budget exhausts without dispatching another HTTP action
+  ---
+  duration_ms: 1032.1872
+  type: 'test'
+  ...
+# Subtest: mapping structural mismatch cannot dispatch
+ok 106 - mapping structural mismatch cannot dispatch
+  ---
+  duration_ms: 283.1107
+  type: 'test'
+  ...
+# Subtest: backend tool session close stops owned environments and clears passwords; reopen needs input
+ok 107 - backend tool session close stops owned environments and clears passwords; reopen needs input
+  ---
+  duration_ms: 969.1445
+  type: 'test'
+  ...
+# Subtest: SQLite destructuring and re-export aliases are unproven initialization targets
+ok 108 - SQLite destructuring and re-export aliases are unproven initialization targets
+  ---
+  duration_ms: 524.7355
+  type: 'test'
+  ...
+# Subtest: crash-torn final event is preserved while complete attempts can be restored twice
+ok 109 - crash-torn final event is preserved while complete attempts can be restored twice
+  ---
+  duration_ms: 1445.7665
+  type: 'test'
+  ...
+# Subtest: recording failure still stops website and clears tokens; tool shutdown can be retried
+ok 110 - recording failure still stops website and clears tokens; tool shutdown can be retried
+  ---
+  duration_ms: 976.7762
+  type: 'test'
+  ...
+# Subtest: middle event corruption blocks recovery instead of accepting a damaged history
+ok 111 - middle event corruption blocks recovery instead of accepting a damaged history
+  ---
+  duration_ms: 1242.6142
+  type: 'test'
+  ...
+# Subtest: echoed password and token values are redacted in raw HTTP evidence and exports
+ok 112 - echoed password and token values are redacted in raw HTTP evidence and exports
+  ---
+  duration_ms: 1181.0778
+  type: 'test'
+  ...
+# Subtest: HTTP response containing an old attempt row cannot become current evidence
+ok 113 - HTTP response containing an old attempt row cannot become current evidence
+  ---
+  duration_ms: 1058.8249
+  type: 'test'
+  ...
+# Subtest: code and environment changes require reconnect and renewed confirmation with old attempt link
+ok 114 - code and environment changes require reconnect and renewed confirmation with old attempt link
+  ---
+  duration_ms: 2532.961
+  type: 'test'
+  ...
+# Subtest: database path alias, object config and constructor alias cannot bypass test target proof
+ok 115 - database path alias, object config and constructor alias cannot bypass test target proof
+  ---
+  duration_ms: 1728.6052
+  type: 'test'
+  ...
+# Subtest: wrong business intent write response is unknown with inspectable HTTP evidence
+ok 116 - wrong business intent write response is unknown with inspectable HTTP evidence
+  ---
+  duration_ms: 1072.9056
+  type: 'test'
+  ...
+# Subtest: host crash disconnects old website; reopened environment requires new passwords and linked full rerun
+ok 117 - host crash disconnects old website; reopened environment requires new passwords and linked full rerun
+  ---
+  duration_ms: 2445.0912
+  type: 'test'
+  ...
+# Subtest: unconfigured model never calls and configured model is sent unchanged
+ok 118 - unconfigured model never calls and configured model is sent unchanged
+  ---
+  duration_ms: 171.0405
+  type: 'test'
+  ...
+# Subtest: scope confirmation enforced per request; allowed scope reused without reapproval
+ok 119 - scope confirmation enforced per request; allowed scope reused without reapproval
+  ---
+  duration_ms: 13.7877
+  type: 'test'
+  ...
+# Subtest: scope blocks project before any network request
+ok 120 - scope blocks project before any network request
+  ---
+  duration_ms: 6.1317
+  type: 'test'
+  ...
+# Subtest: scope blocks scope before any network request
+ok 121 - scope blocks scope before any network request
+  ---
+  duration_ms: 12.1176
+  type: 'test'
+  ...
+# Subtest: scope blocks service before any network request
+ok 122 - scope blocks service before any network request
+  ---
+  duration_ms: 5.4918
+  type: 'test'
+  ...
+# Subtest: scope blocks path before any network request
+ok 123 - scope blocks path before any network request
+  ---
+  duration_ms: 5.8759
+  type: 'test'
+  ...
+# Subtest: scope blocks sensitive before any network request
+ok 124 - scope blocks sensitive before any network request
+  ---
+  duration_ms: 4.6768
+  type: 'test'
+  ...
+# Subtest: authentication is a provider fault without retry or model fallback
+ok 125 - authentication is a provider fault without retry or model fallback
+  ---
+  duration_ms: 5.7769
+  type: 'test'
+  ...
+# Subtest: model missing is a provider fault without retry or model fallback
+ok 126 - model missing is a provider fault without retry or model fallback
+  ---
+  duration_ms: 5.6839
+  type: 'test'
+  ...
+# Subtest: service down is a provider fault without retry or model fallback
+ok 127 - service down is a provider fault without retry or model fallback
+  ---
+  duration_ms: 5.7112
+  type: 'test'
+  ...
+# Subtest: incompatible shape HTTP 200 is not structured compatibility
+ok 128 - incompatible shape HTTP 200 is not structured compatibility
+  ---
+  duration_ms: 5.6984
+  type: 'test'
+  ...
+# Subtest: empty HTTP 200 is not structured compatibility
+ok 129 - empty HTTP 200 is not structured compatibility
+  ---
+  duration_ms: 5.2101
+  type: 'test'
+  ...
+# Subtest: truncated HTTP 200 is not structured compatibility
+ok 130 - truncated HTTP 200 is not structured compatibility
+  ---
+  duration_ms: 5.2489
+  type: 'test'
+  ...
+# Subtest: malformed JSON HTTP 200 is not structured compatibility
+ok 131 - malformed JSON HTTP 200 is not structured compatibility
+  ---
+  duration_ms: 5.1684
+  type: 'test'
+  ...
+# Subtest: budget is finite, reserves before calls, invalid preset cannot run
+ok 132 - budget is finite, reserves before calls, invalid preset cannot run
+  ---
+  duration_ms: 4.8772
+  type: 'test'
+  ...
+# Subtest: invalid URL cannot transmit a model key
+ok 133 - invalid URL cannot transmit a model key
+  ---
+  duration_ms: 3.9017
+  type: 'test'
+  ...
+# Subtest: unremembered key stays session-only and clear removes cached access
+ok 134 - unremembered key stays session-only and clear removes cached access
+  ---
+  duration_ms: 0.6079
+  type: 'test'
+  ...
+# Subtest: actual Windows credential store: explicit remember, reopen, endpoint binding and deletion
+ok 135 - actual Windows credential store: explicit remember, reopen, endpoint binding and deletion
+  ---
+  duration_ms: 2423.3919
+  type: 'test'
+  ...
+# Subtest: proposal is one suggested flow, rules remain pending, malformed proposal is rejected
+ok 136 - proposal is one suggested flow, rules remain pending, malformed proposal is rejected
+  ---
+  duration_ms: 36.5676
+  type: 'test'
+  ...
+# Subtest: generation_is_not_publication; first passing candidate stops; target business defect preserves qualification
+ok 137 - generation_is_not_publication; first passing candidate stops; target business defect preserves qualification
+  ---
+  duration_ms: 10482.3141
+  type: 'test'
+  ...
+# Subtest: rule_cannot_be_weakened; malformed and constant assertions consume at most two revisions, reopen cannot reset
+ok 138 - rule_cannot_be_weakened; malformed and constant assertions consume at most two revisions, reopen cannot reset
+  ---
+  duration_ms: 763.8815
+  type: 'test'
+  ...
+# Subtest: unknown_capability_waits without revision; missing reviewed reference also waits
+ok 139 - unknown_capability_waits without revision; missing reviewed reference also waits
+  ---
+  duration_ms: 734.609
+  type: 'test'
+  ...
+# Subtest: budget_exhausted stops early and preserves cumulative usage after reopen
+ok 140 - budget_exhausted stops early and preserves cumulative usage after reopen
+  ---
+  duration_ms: 687.4178
+  type: 'test'
+  ...
+# Subtest: provider_down_pauses_candidate; no blind retry, draft and reserved budget survive reopen
+ok 141 - provider_down_pauses_candidate; no blind retry, draft and reserved budget survive reopen
+  ---
+  duration_ms: 379.1643
+  type: 'test'
+  ...
+# Subtest: unconfirmed rule and sending scope cannot generate or become model-confirmed
+ok 142 - unconfirmed rule and sending scope cannot generate or become model-confirmed
+  ---
+  duration_ms: 759.2301
+  type: 'test'
+  ...
+# Subtest: checkpoint failure blocks network with the call reservation preserved
+ok 143 - checkpoint failure blocks network with the call reservation preserved
+  ---
+  duration_ms: 5.7817
+  type: 'test'
+  ...
+# Subtest: credential store read/write failure is explicit and cannot fall back to plaintext
+ok 144 - credential store read/write failure is explicit and cannot fall back to plaintext
+  ---
+  duration_ms: 234.9936
+  type: 'test'
+  ...
+# Subtest: a constant invariant cannot weaken the rule or reach HTTP execution
+ok 145 - a constant invariant cannot weaken the rule or reach HTTP execution
+  ---
+  duration_ms: 597.6107
+  type: 'test'
+  ...
+# Subtest: core admission binds candidate, rule, suite, interpreter and every validation gate
+ok 146 - core admission binds candidate, rule, suite, interpreter and every validation gate
+  ---
+  duration_ms: 43.6056
+  type: 'test'
+  ...
+# Subtest: candidate cannot borrow expression capabilities from the reference facility
+ok 147 - candidate cannot borrow expression capabilities from the reference facility
+  ---
+  duration_ms: 383.5245
+  type: 'test'
+  ...
+# Subtest: normalized paths reuse confirmation but a symlink or private fixture never does
+ok 148 - normalized paths reuse confirmation but a symlink or private fixture never does
+  ---
+  duration_ms: 11.6488
+  type: 'test'
+  ...
+# Subtest: private evaluation and complete templates stay blocked when selected as context root
+ok 149 - private evaluation and complete templates stay blocked when selected as context root
+  ---
+  duration_ms: 6.2483
+  type: 'test'
+  ...
+# Subtest: same task cannot run concurrently through another restored instance or reset stale budget
+ok 150 - same task cannot run concurrently through another restored instance or reset stale budget
+  ---
+  duration_ms: 856.8436
+  type: 'test'
+  ...
+# Subtest: target incomplete evidence waits without weakening assertions or regenerating
+ok 151 - target incomplete evidence waits without weakening assertions or regenerating
+  ---
+  duration_ms: 11195.704
+  type: 'test'
+  ...
+# Subtest: Windows task mutex excludes a separate Node process and releases on close
+ok 152 - Windows task mutex excludes a separate Node process and releases on close
+  ---
+  duration_ms: 1055.8188
+  type: 'test'
+  ...
+# Subtest: shared validation contract accepts typed target trial evidence and remains strict
+ok 153 - shared validation contract accepts typed target trial evidence and remains strict
+  ---
+  duration_ms: 0.3837
+  type: 'test'
+  ...
+# Subtest: T6 resume refreshes context, consent and model without resetting candidate budget
+ok 154 - T6 resume refreshes context, consent and model without resetting candidate budget
+  ---
+  duration_ms: 1830.7835
+  type: 'test'
+  ...
+# Subtest: T5 registry: real validation, review binding, immutable publication and version qualification
+    # Subtest: drafts cannot publish or match
+    ok 1 - drafts cannot publish or match
+      ---
+      duration_ms: 4.4908
+      type: 'test'
+      ...
+    # Subtest: native core independently rejects failed gates, stale hashes, missing review and incomplete trial
+    ok 2 - native core independently rejects failed gates, stale hashes, missing review and incomplete trial
+      ---
+      duration_ms: 385.4915
+      type: 'test'
+      ...
+    # Subtest: missing_review_blocks
+    ok 3 - missing_review_blocks
+      ---
+      duration_ms: 4.8765
+      type: 'test'
+      ...
+    # Subtest: changed_candidate_needs_revalidation
+    ok 4 - changed_candidate_needs_revalidation
+      ---
+      duration_ms: 0.9731
+      type: 'test'
+      ...
+    # Subtest: changed_rule_invalidates_ticket
+    ok 5 - changed_rule_invalidates_ticket
+      ---
+      duration_ms: 1.4592
+      type: 'test'
+      ...
+    # Subtest: changed validation gates or review scope cannot be borrowed
+    ok 6 - changed validation gates or review scope cannot be borrowed
+      ---
+      duration_ms: 1.4957
+      type: 'test'
+      ...
+    # Subtest: changed or missing evidence after review blocks publication
+    ok 7 - changed or missing evidence after review blocks publication
+      ---
+      duration_ms: 67.4829
+      type: 'test'
+      ...
+    # Subtest: metadata change needs a fresh review
+    ok 8 - metadata change needs a fresh review
+      ---
+      duration_ms: 88.5258
+      type: 'test'
+      ...
+    # Subtest: core-approved immutable version retains target business fail
+    ok 9 - core-approved immutable version retains target business fail
+      ---
+      duration_ms: 111.5224
+      type: 'test'
+      ...
+    # Subtest: rule mismatch and missing capabilities never match
+    ok 10 - rule mismatch and missing capabilities never match
+      ---
+      duration_ms: 636.7283
+      type: 'test'
+      ...
+    # Subtest: concurrent publication cannot overwrite one fixed version
+    ok 11 - concurrent publication cannot overwrite one fixed version
+      ---
+      duration_ms: 0.4875
+      type: 'test'
+      ...
+    # Subtest: qualification_is_version_scoped; stale objects do not bypass disable
+    ok 12 - qualification_is_version_scoped; stale objects do not bypass disable
+      ---
+      duration_ms: 421.4706
+      type: 'test'
+      ...
+    # Subtest: disabled historical evidence failure does not poison a valid independent version
+    ok 13 - disabled historical evidence failure does not poison a valid independent version
+      ---
+      duration_ms: 216.0371
+      type: 'test'
+      ...
+    # Subtest: an active version with changed evidence is excluded with a qualification reason
+    ok 14 - an active version with changed evidence is excluded with a qualification reason
+      ---
+      duration_ms: 258.657
+      type: 'test'
+      ...
+    # Subtest: missing and malformed validation evidence have explicit version-local reasons
+    ok 15 - missing and malformed validation evidence have explicit version-local reasons
+      ---
+      duration_ms: 204.6717
+      type: 'test'
+      ...
+    # Subtest: operational failures are not silently converted into no matches
+    ok 16 - operational failures are not silently converted into no matches
+      ---
+      duration_ms: 4.4582
+      type: 'test'
+      ...
+    # Subtest: tampered stored publication is rejected
+    ok 17 - tampered stored publication is rejected
+      ---
+      duration_ms: 3.2034
+      type: 'test'
+      ...
+    # Subtest: exact version hash and path safety enforced
+    ok 18 - exact version hash and path safety enforced
+      ---
+      duration_ms: 0.8728
+      type: 'test'
+      ...
+    # Subtest: summary separates reuse eligibility, new publication and unresolved gaps
+    ok 19 - summary separates reuse eligibility, new publication and unresolved gaps
+      ---
+      duration_ms: 201.5175
+      type: 'test'
+      ...
+    1..19
+ok 155 - T5 registry: real validation, review binding, immutable publication and version qualification
+  ---
+  duration_ms: 25153.143
+  type: 'test'
+  ...
+# Subtest: T6 durable records, package integrity and single-flow confirmation
+ok 156 - T6 durable records, package integrity and single-flow confirmation
+  ---
+  duration_ms: 153.0129
+  type: 'test'
+  ...
+# Subtest: T6 actual published execution and model-free replay
+    # Subtest: progress_uses_real_events and formal scope
+    ok 1 - progress_uses_real_events and formal scope
+      ---
+      duration_ms: 0.4058
+      type: 'test'
+      ...
+    # Subtest: package includes exact executable template snapshot
+    ok 2 - package includes exact executable template snapshot
+      ---
+      duration_ms: 0.3767
+      type: 'test'
+      ...
+    # Subtest: replay_without_model and reset_makes_runs_comparable
+    ok 3 - replay_without_model and reset_makes_runs_comparable
+      ---
+      duration_ms: 1702.9193
+      type: 'test'
+      ...
+    # Subtest: pending_rules_are_observations
+    ok 4 - pending_rules_are_observations
+      ---
+      duration_ms: 1335.5095
+      type: 'test'
+      ...
+    # Subtest: stopped work never becomes success
+    ok 5 - stopped work never becomes success
+      ---
+      duration_ms: 365.5849
+      type: 'test'
+      ...
+    # Subtest: interrupted history is linked after old copy isolation; original stays immutable
+    ok 6 - interrupted history is linked after old copy isolation; original stays immutable
+      ---
+      duration_ms: 1944.9183
+      type: 'test'
+      ...
+    # Subtest: one flow executes three seed rules with independent business evidence
+    ok 7 - one flow executes three seed rules with independent business evidence
+      ---
+      duration_ms: 28580.4504
+      type: 'test'
+      ...
+    # Subtest: disabled exact version blocks package and new runs
+    ok 8 - disabled exact version blocks package and new runs
+      ---
+      duration_ms: 325.5005
+      type: 'test'
+      ...
+    1..8
+ok 157 - T6 actual published execution and model-free replay
+  ---
+  duration_ms: 46321.6622
+  type: 'test'
+  ...
+# Subtest: T8 provides a bounded load runner and explicit settlement
+ok 158 - T8 provides a bounded load runner and explicit settlement
+  ---
+  duration_ms: 159.9378
+  type: 'test'
+  ...
+# Subtest: actual k6 fixed target, accumulation, stopping and evidence
+    # Subtest: concurrent API starts admit only one task per project
+    ok 1 - concurrent API starts admit only one task per project
+      ---
+      duration_ms: 1831.4402
+      type: 'test'
+      ...
+    # Subtest: no_post_target_exploration and all sent experiments have evidence
+    ok 2 - no_post_target_exploration and all sent experiments have evidence
+      ---
+      duration_ms: 3279.6299
+      type: 'test'
+      ...
+    # Subtest: thresholds missing reports observation only
+    ok 3 - thresholds missing reports observation only
+      ---
+      duration_ms: 3429.2475
+      type: 'test'
+      ...
+    # Subtest: sustained_latency_stops
+    ok 4 - sustained_latency_stops
+      ---
+      duration_ms: 4731.3945
+      type: 'test'
+      ...
+    # Subtest: manual_cancel settles in-flight work
+    ok 5 - manual_cancel settles in-flight work
+      ---
+      duration_ms: 4455.113
+      type: 'test'
+      ...
+    # Subtest: hard operation limit stops without raising the target
+    ok 6 - hard operation limit stops without raising the target
+      ---
+      duration_ms: 4837.45
+      type: 'test'
+      ...
+    # Subtest: business_error_stops only selected flow
+    ok 7 - business_error_stops only selected flow
+      ---
+      duration_ms: 5975.4962
+      type: 'test'
+      ...
+    # Subtest: query incompleteness remains unknown
+    ok 8 - query incompleteness remains unknown
+      ---
+      duration_ms: 4898.3153
+      type: 'test'
+      ...
+    # Subtest: generator overload is unknown, not a website failure
+    ok 9 - generator overload is unknown, not a website failure
+      ---
+      duration_ms: 4181.937
+      type: 'test'
+      ...
+    # Subtest: missing password blocks before any target dispatch
+    ok 10 - missing password blocks before any target dispatch
+      ---
+      duration_ms: 420.5774
+      type: 'test'
+      ...
+    # Subtest: failed source and changed mapping block before starting k6
+    ok 11 - failed source and changed mapping block before starting k6
+      ---
+      duration_ms: 0.565
+      type: 'test'
+      ...
+    1..11
+ok 159 - actual k6 fixed target, accumulation, stopping and evidence
+  ---
+  duration_ms: 39535.2284
+  type: 'test'
+  ...
+# Subtest: ledger_unsettled_unknown: missing evidence and unfinished work never pass
+ok 160 - ledger_unsettled_unknown: missing evidence and unfinished work never pass
+  ---
+  duration_ms: 0.7314
+  type: 'test'
+  ...
+# Subtest: T7 frozen publications restore in an empty directory without republishing
+ok 161 - T7 frozen publications restore in an empty directory without republishing
+  ---
+  duration_ms: 446.209
+  type: 'test'
+  ...
+# Subtest: T7 fixture rejects tampered bytes and escaping paths before any restore
+ok 162 - T7 fixture rejects tampered bytes and escaping paths before any restore
+  ---
+  duration_ms: 157.5006
+  type: 'test'
+  ...
+# Subtest: T7 frozen templates execute against registration with new evidence
+    # Subtest: three seeds and field-preservation candidate pass with registration HTTP evidence
+    ok 1 - three seeds and field-preservation candidate pass with registration HTTP evidence
+      ---
+      duration_ms: 4502.6661
+      type: 'test'
+      ...
+    # Subtest: invalid registration baseline wrong-count blocks before HTTP actions
+    ok 2 - invalid registration baseline wrong-count blocks before HTTP actions
+      ---
+      duration_ms: 879.8866
+      type: 'test'
+      ...
+    # Subtest: invalid registration baseline conflicting-alias blocks before HTTP actions
+    ok 3 - invalid registration baseline conflicting-alias blocks before HTTP actions
+      ---
+      duration_ms: 844.8684
+      type: 'test'
+      ...
+    # Subtest: missing preserved field produces unknown rather than inherited success
+    ok 4 - missing preserved field produces unknown rather than inherited success
+      ---
+      duration_ms: 1392.3759
+      type: 'test'
+      ...
+    # Subtest: registration track-reset is detected by the frozen candidate
+    ok 5 - registration track-reset is detected by the frozen candidate
+      ---
+      duration_ms: 1528.2869
+      type: 'test'
+      ...
+    # Subtest: registration owner-change is detected by the frozen candidate
+    ok 6 - registration owner-change is detected by the frozen candidate
+      ---
+      duration_ms: 1651.8589
+      type: 'test'
+      ...
+    # Subtest: changed business semantics are rejected before any project execution
+    ok 7 - changed business semantics are rejected before any project execution
+      ---
+      duration_ms: 1105.5866
+      type: 'test'
+      ...
+    # Subtest: same publications remain qualified and unchanged without republication
+    ok 8 - same publications remain qualified and unchanged without republication
+      ---
+      duration_ms: 441.9631
+      type: 'test'
+      ...
+# T7 evidence: C:\\Users\\xie\\Desktop\\Project\\.local-data\\transfer-runs\\4a0241e1-028f-4cda-9467-06a09bc064f2
+    1..8
+ok 163 - T7 frozen templates execute against registration with new evidence
+  ---
+  duration_ms: 12608.3605
+  type: 'test'
+  ...
+# Subtest: saved-result: real Cangjie observation and HTTP normal/defect/unknown controls
+ok 164 - saved-result: real Cangjie observation and HTTP normal/defect/unknown controls
+  ---
+  duration_ms: 6316.0239
+  type: 'test'
+  ...
+# Subtest: duplicate-submit: real Cangjie observation and HTTP normal/defect/unknown controls
+ok 165 - duplicate-submit: real Cangjie observation and HTTP normal/defect/unknown controls
+  ---
+  duration_ms: 6680.9257
+  type: 'test'
+  ...
+# Subtest: permission-isolation: real Cangjie observation and HTTP normal/defect/unknown controls
+ok 166 - permission-isolation: real Cangjie observation and HTTP normal/defect/unknown controls
+  ---
+  duration_ms: 6909.7683
+  type: 'test'
+  ...
+# Subtest: title update controls detect priority reset and owner change at the corresponding assertion
+ok 167 - title update controls detect priority reset and owner change at the corresponding assertion
+  ---
+  duration_ms: 8920.3564
+  type: 'test'
+  ...
+# Subtest: hardcoded owner and priority cannot pass held-out normal variants
+ok 168 - hardcoded owner and priority cannot pass held-out normal variants
+  ---
+  duration_ms: 9054.7312
+  type: 'test'
+  ...
+# Subtest: suite parameters cannot repair a candidate with missing required parameter declarations
+ok 169 - suite parameters cannot repair a candidate with missing required parameter declarations
+  ---
+  duration_ms: 6497.2503
+  type: 'test'
+  ...
+# Subtest: semantically equivalent renamed step IDs use independent operation trace
+ok 170 - semantically equivalent renamed step IDs use independent operation trace
+  ---
+  duration_ms: 6641.2142
+  type: 'test'
+  ...
+# Subtest: unsupported observation trace produces an incomplete persisted validation record
+ok 171 - unsupported observation trace produces an incomplete persisted validation record
+  ---
+  duration_ms: 6602.0714
+  type: 'test'
+  ...
+# Subtest: save-drop frozen samples describe the same object and consistent persisted row
+ok 172 - save-drop frozen samples describe the same object and consistent persisted row
+  ---
+  duration_ms: 0.7076
+  type: 'test'
+  ...
+# Subtest: each HTTP case retains its actual bound mapping hash and copy identity
+ok 173 - each HTTP case retains its actual bound mapping hash and copy identity
+  ---
+  duration_ms: 1182.9559
+  type: 'test'
+  ...
+# Subtest: persisted validation record satisfies the shared contract used by later admission stages
+ok 174 - persisted validation record satisfies the shared contract used by later admission stages
+  ---
+  duration_ms: 54.1064
+  type: 'test'
+  ...
+# Subtest: always_pass_rejected
+ok 175 - always_pass_rejected
+  ---
+  duration_ms: 54.7845
+  type: 'test'
+  ...
+# Subtest: always_fail_rejected
+ok 176 - always_fail_rejected
+  ---
+  duration_ms: 6926.4261
+  type: 'test'
+  ...
+# Subtest: status_only_rejected
+ok 177 - status_only_rejected
+  ---
+  duration_ms: 6610.2383
+  type: 'test'
+  ...
+# Subtest: crash_is_not_detection and timeout are incomplete, never negative-control detection
+ok 178 - crash_is_not_detection and timeout are incomplete, never negative-control detection
+  ---
+  duration_ms: 3636.6192
+  type: 'test'
+  ...
+# Subtest: unrelated object cannot pass correlation after owner mismatch becomes business evidence
+ok 179 - unrelated object cannot pass correlation after owner mismatch becomes business evidence
+  ---
+  duration_ms: 1086.1103
+  type: 'test'
+  ...
+# Subtest: missing field is inconclusive even with HTTP 200 and complete pagination
+ok 180 - missing field is inconclusive even with HTTP 200 and complete pagination
+  ---
+  duration_ms: 1115.9972
+  type: 'test'
+  ...
+# Subtest: untrusted suites, changed labels, and rules without reference controls stay unsupported
+ok 181 - untrusted suites, changed labels, and rules without reference controls stay unsupported
+  ---
+  duration_ms: 10.0877
+  type: 'test'
+  ...
+# Subtest: candidate cannot access labels or unknown operation through validation harness
+ok 182 - candidate cannot access labels or unknown operation through validation harness
+  ---
+  duration_ms: 51.3796
+  type: 'test'
+  ...
+# Subtest: validation record retains replayable sanitized HTTP evidence and frozen provenance
+ok 183 - validation record retains replayable sanitized HTTP evidence and frozen provenance
+  ---
+  duration_ms: 25.83
+  type: 'test'
+  ...
+# Subtest: local workbench API guards mutations and preserves real empty state
+ok 184 - local workbench API guards mutations and preserves real empty state
+  ---
+  duration_ms: 378.8134
+  type: 'test'
+  ...
+# Subtest: scope changes retain project secrets; analysis budget survives retries
+ok 185 - scope changes retain project secrets; analysis budget survives retries
+  ---
+  duration_ms: 2909.5464
+  type: 'test'
+  ...
+# Subtest: recovered analysis keeps reservations and changed source needs fresh environment confirmation
+ok 186 - recovered analysis keeps reservations and changed source needs fresh environment confirmation
+  ---
+  duration_ms: 1169.239
+  type: 'test'
+  ...
+# Subtest: workbench state save survives a transient Windows reader lock without losing config
+ok 187 - workbench state save survives a transient Windows reader lock without losing config
+  ---
+  duration_ms: 849.6041
+  type: 'test'
+  ...
+# Subtest: run checkpoint survives the same Windows reader lock and remains readable
+ok 188 - run checkpoint survives the same Windows reader lock and remains readable
+  ---
+  duration_ms: 517.5787
+  type: 'test'
+  ...
+# Subtest: persistent Windows state lock fails within a bound, preserves old state and allows recovery
+ok 189 - persistent Windows state lock fails within a bound, preserves old state and allows recovery
+  ---
+  duration_ms: 1048.1532
+  type: 'test'
+  ...
+1..189
+# tests 235
+# suites 0
+# pass 235
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 288112.8614

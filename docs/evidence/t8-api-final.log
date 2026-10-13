@@ -1,0 +1,14 @@
+✔ local workbench API guards mutations and preserves real empty state (388.4102ms)
+✔ scope changes retain project secrets; analysis budget survives retries (2993.5023ms)
+✔ recovered analysis keeps reservations and changed source needs fresh environment confirmation (1431.7331ms)
+✔ workbench state save survives a transient Windows reader lock without losing config (875.6291ms)
+✔ run checkpoint survives the same Windows reader lock and remains readable (520.3389ms)
+✔ persistent Windows state lock fails within a bound, preserves old state and allows recovery (1095.2896ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7521.1015

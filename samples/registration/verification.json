@@ -1,0 +1,16 @@
+{
+  "schemaVersion":1,"name":"活动报名系统","start":{"argv":["src/server.ts"]},
+  "initialization":{"argv":["src/seed.ts"],"version":"registration-seed-v1","source":"synthetic","databaseEnv":"TEST_DATABASE","localOnly":true,"externalServices":[]},
+  "healthPath":"/health","actors":[{"actorRef":"owner","role":"user"},{"actorRef":"other","role":"user"}],
+  "mapping":{
+    "id":"registration-http","version":1,"authMode":"token","targetRef":"unbound","actorRefs":["owner","other"],
+    "auth":{"loginPath":"/sessions","usernameField":"account","passwordField":"passphrase","tokenPath":["session","access"],"identityPath":"/participant","idPath":["participant","key"]},
+    "operations":[
+      {"operationId":"create","method":"POST","path":"/enrollments","bodyBindings":{"displayName":"title","submissionKey":"intent"}},
+      {"operationId":"update","method":"PUT","path":"/enrollments/:id/profile","bodyBindings":{"displayName":"title"}},
+      {"operationId":"query","method":"GET","path":"/enrollments","queryBindings":{"recordKey":"id","submissionKey":"intent","pageSize":"limit"}}
+    ],
+    "resultBindings":{"create":{"id":["id"],"title":["displayName"]},"update":{"id":["id"],"title":["displayName"]},"query":{"id":["entries","0","id"],"title":["entries","0","displayName"],"priority":["entries","0","track"],"ownerId":["entries","0","ownerId"],"items":["entries"]}},
+    "queryCompleteness":{"query":{"itemsPath":["entries"],"totalPath":["page","count"],"hasMorePath":["page","more"],"completePath":["page","exhaustive"]}}
+  }
+}

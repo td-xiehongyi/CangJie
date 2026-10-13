@@ -1,0 +1,31 @@
+
+> website-verification@0.0.0 verify
+> node scripts/verify.mjs registry
+
+▶ T5 registry: real validation, review binding, immutable publication and version qualification
+  ✔ drafts cannot publish or match (4.1973ms)
+  ✔ native core independently rejects failed gates, stale hashes, missing review and incomplete trial (373.7947ms)
+  ✔ missing_review_blocks (4.5882ms)
+  ✔ changed_candidate_needs_revalidation (1.0795ms)
+  ✔ changed_rule_invalidates_ticket (1.1364ms)
+  ✔ changed validation gates or review scope cannot be borrowed (1.674ms)
+  ✔ changed or missing evidence after review blocks publication (64.6577ms)
+  ✔ metadata change needs a fresh review (86.0354ms)
+  ✔ core-approved immutable version retains target business fail (107.2453ms)
+  ✔ rule mismatch and missing capabilities never match (587.6831ms)
+  ✔ concurrent publication cannot overwrite one fixed version (0.4076ms)
+  ✔ qualification_is_version_scoped; stale objects do not bypass disable (404.4574ms)
+  ✔ disabled historical evidence failure does not poison a valid independent version (207.8492ms)
+  ✔ an active version with changed evidence is excluded with a qualification reason (224.3256ms)
+  ✔ tampered stored publication is rejected (3.5937ms)
+  ✔ exact version hash and path safety enforced (1.3494ms)
+  ✔ summary separates reuse eligibility, new publication and unresolved gaps (191.8511ms)
+✔ T5 registry: real validation, review binding, immutable publication and version qualification (22467.2538ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22584.8817

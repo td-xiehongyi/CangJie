@@ -1,0 +1,56 @@
+
+> website-verification@0.0.0 verify
+> node scripts/verify.mjs release
+
+TAP version 13
+# Subtest: ordinary delivery excludes compiled candidate examples
+ok 1 - ordinary delivery excludes compiled candidate examples
+  ---
+  duration_ms: 717.1258
+  type: 'test'
+  ...
+# Subtest: resource builder rejects a lock path before any escaping write
+ok 2 - resource builder rejects a lock path before any escaping write
+  ---
+  duration_ms: 9.5682
+  type: 'test'
+  ...
+# Subtest: root junction and installation ancestor junction are rejected
+ok 3 - root junction and installation ancestor junction are rejected
+  ---
+  duration_ms: 37.7348
+  type: 'test'
+  ...
+# Subtest: parent cleanup removes only the failed acceptance credential and verifies deletion
+ok 4 - parent cleanup removes only the failed acceptance credential and verifies deletion
+  ---
+  duration_ms: 2633.4091
+  type: 'test'
+  ...
+# Subtest: T9 delivery contains declared components, hashes and no development state
+ok 5 - T9 delivery contains declared components, hashes and no development state
+  ---
+  duration_ms: 819.1412
+  type: 'test'
+  ...
+# Subtest: T9 fresh delivery performs candidate, report, actual k6 and process-restart replay
+ok 6 - T9 fresh delivery performs candidate, report, actual k6 and process-restart replay
+  ---
+  duration_ms: 23924.8631
+  type: 'test'
+  ...
+# Subtest: T9 developer resources are separate, verified and install without overwriting conflicts
+ok 7 - T9 developer resources are separate, verified and install without overwriting conflicts
+  ---
+  duration_ms: 996.7218
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 29335.5828

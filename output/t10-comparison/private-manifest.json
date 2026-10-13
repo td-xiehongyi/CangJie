@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-13T04:55:57.047Z",
+  "status": "frozen developer fixture; formal comparison not run",
+  "source": "samples/ticket",
+  "knownIssue": "Updating title resets priority high to low in initial version; repaired preserves priority and owner.",
+  "usedDuringDevelopment": true,
+  "seed": {
+    "version": "ticket-seed-v1",
+    "count": 2,
+    "accounts": [
+      {
+        "username": "alpha",
+        "userId": "user-a",
+        "role": "user"
+      },
+      {
+        "username": "beta",
+        "userId": "user-b",
+        "role": "user"
+      }
+    ]
+  },
+  "original": {
+    "package.json": "0f2b602811c56b1d5d8f016350adf12d863ff19ec2e8ce719503298cfd856281",
+    "tsconfig.json": "06c555d4a878b08111902f51a2963abc7a7c28b0669d5e29372541ff39403642",
+    "verification.json": "2905588e05506fd073578a33d1faa4c63844e745e801920c0c8404a8f1093548",
+    "src/server.ts": "84cd00396575ad3a695a3be711f3044355a8c5d8430af640b1032835b34e70da",
+    "src/seed.ts": "92176ff838653cd136c9f09227b106fda23b91295ad5963ff267655c4c55a6be",
+    "src/db.ts": "4f4ca47ddc6515d3e4bc3ec1e044df61acb72ba68c16b94445ac6fa630f600b5"
+  },
+  "files": {
+    "initial/package.json": "0f2b602811c56b1d5d8f016350adf12d863ff19ec2e8ce719503298cfd856281",
+    "initial/tsconfig.json": "06c555d4a878b08111902f51a2963abc7a7c28b0669d5e29372541ff39403642",
+    "initial/verification.json": "2905588e05506fd073578a33d1faa4c63844e745e801920c0c8404a8f1093548",
+    "initial/src/server.ts": "9ffad1157f40393a86032ddd8a0b7f1830fbaa364ac2ef448e6f2a436e04b6af",
+    "initial/src/seed.ts": "92176ff838653cd136c9f09227b106fda23b91295ad5963ff267655c4c55a6be",
+    "initial/src/db.ts": "4f4ca47ddc6515d3e4bc3ec1e044df61acb72ba68c16b94445ac6fa630f600b5",
+    "repaired/package.json": "0f2b602811c56b1d5d8f016350adf12d863ff19ec2e8ce719503298cfd856281",
+    "repaired/tsconfig.json": "06c555d4a878b08111902f51a2963abc7a7c28b0669d5e29372541ff39403642",
+    "repaired/verification.json": "2905588e05506fd073578a33d1faa4c63844e745e801920c0c8404a8f1093548",
+    "repaired/src/server.ts": "84cd00396575ad3a695a3be711f3044355a8c5d8430af640b1032835b34e70da",
+    "repaired/src/seed.ts": "92176ff838653cd136c9f09227b106fda23b91295ad5963ff267655c4c55a6be",
+    "repaired/src/db.ts": "4f4ca47ddc6515d3e4bc3ec1e044df61acb72ba68c16b94445ac6fa630f600b5",
+    "public-case.md": "8b064c51ea0d876f5d2d4f7057adadc5eb195280099d2fe464ff2cfdee0e0e28"
+  }
+}

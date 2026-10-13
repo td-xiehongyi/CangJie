@@ -1,0 +1,21 @@
+{
+  "runtime": "C:\\Users\\xie\\Desktop\\Project\\output\\delivery\\website-verification-ziwjWs",
+  "formalAcceptance": "open: real model and human review",
+  "developerResources": "C:\\Users\\xie\\Desktop\\Project\\output\\delivery\\developer-resources-DsDUgU",
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-13T04:46:16.6349924Z",
+  "archives": [
+    {
+      "verifiedFiles": 175,
+      "sha256": "e986cb2bd7eba5ab9be99e565db1dd2e6ecf1bd55bd2b3b63af1cda30357450f",
+      "path": "C:\\Users\\xie\\Desktop\\Project\\output\\delivery\\website-verification-ziwjWs.zip",
+      "bytes": 1593203
+    },
+    {
+      "verifiedFiles": 9,
+      "sha256": "8f57afe3573d8024efcd01165a8c1be39525449b389bc3be5e4b3d234bc1565d",
+      "path": "C:\\Users\\xie\\Desktop\\Project\\output\\delivery\\developer-resources-DsDUgU.zip",
+      "bytes": 8574
+    }
+  ]
+}

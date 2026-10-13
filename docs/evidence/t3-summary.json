@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-13",
+  "t3": {
+    "passed": 20,
+    "failed": 0
+  },
+  "all": {
+    "passed": 137,
+    "failed": 0
+  },
+  "build": "passed",
+  "principal": [
+    {
+      "name": "saved-result",
+      "gates": {
+        "static": true,
+        "coverage": true,
+        "observation": true,
+        "http": true,
+        "admitted": true
+      },
+      "observationCases": 6,
+      "httpCases": 6,
+      "mappingHash": "fca16c68a80197d7d68898d8b5f6159388e952b4719d0a63b34373bee17697cd",
+      "mappingDefinitionHash": "336bb529218f906a0ca88ec4d5f9e2098e716bbcf8e2e9ec71ced7fa519cbdf3",
+      "recordRef": "validation:f12ba9d1-1b53-4081-a9c6-d482b95417be"
+    },
+    {
+      "name": "duplicate-submit",
+      "gates": {
+        "static": true,
+        "coverage": true,
+        "observation": true,
+        "http": true,
+        "admitted": true
+      },
+      "observationCases": 6,
+      "httpCases": 6,
+      "mappingHash": "c0a6f4052492e1e1ec2dd8370bba1f97916ed2d66485413e51db21d6b57f0515",
+      "mappingDefinitionHash": "336bb529218f906a0ca88ec4d5f9e2098e716bbcf8e2e9ec71ced7fa519cbdf3",
+      "recordRef": "validation:8e75ee07-782c-4dda-8a0c-ee3dc4297c41"
+    },
+    {
+      "name": "permission-isolation",
+      "gates": {
+        "static": true,
+        "coverage": true,
+        "observation": true,
+        "http": true,
+        "admitted": true
+      },
+      "observationCases": 6,
+      "httpCases": 6,
+      "mappingHash": "10bf249a4a0ab42127bfab2f931afeb1906115be1a553aa0f3a121c6d1213b67",
+      "mappingDefinitionHash": "336bb529218f906a0ca88ec4d5f9e2098e716bbcf8e2e9ec71ced7fa519cbdf3",
+      "recordRef": "validation:9a5f4c82-a5bc-4c27-931a-25b340d3b66b"
+    },
+    {
+      "name": "title-update",
+      "gates": {
+        "static": true,
+        "coverage": true,
+        "observation": true,
+        "http": true,
+        "admitted": true
+      },
+      "observationCases": 8,
+      "httpCases": 8,
+      "mappingHash": "d16b1c37c2f14f6cc0a998916bece7e7afc5f7401d99a8573daeac96e84c516b",
+      "mappingDefinitionHash": "336bb529218f906a0ca88ec4d5f9e2098e716bbcf8e2e9ec71ced7fa519cbdf3",
+      "recordRef": "validation:b9db94ad-b12c-4a3c-ad6d-24034fabbd7f"
+    }
+  ],
+  "phaseCases": 52,
+  "httpCopies": 26,
+  "httpEvidence": 70,
+  "ownedProcessMarkers": 52,
+  "allOwnedProcessesStopped": true,
+  "previewSourcesUnchanged": 6
+}

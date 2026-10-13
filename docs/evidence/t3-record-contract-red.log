@@ -1,0 +1,28 @@
+✖ persisted validation record satisfies the shared contract used by later admission stages (201.4754ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 288.8093
+
+✖ failing tests:
+
+test at tests\integration\validation-harness.test.mjs:66:1
+✖ persisted validation record satisfies the shared contract used by later admission stages (201.4754ms)
+  AssertionError [ERR_ASSERTION]: {"valid":false,"issues":[{"path":"/mappingDefinitionHash","code":"ADDITIONAL_PROPERTY"},{"path":"/cases","code":"ADDITIONAL_PROPERTY"},{"path":"/issues","code":"ADDITIONAL_PROPERTY"},{"path":"/recordRef","code":"ADDITIONAL_PROPERTY"}]}
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:69:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

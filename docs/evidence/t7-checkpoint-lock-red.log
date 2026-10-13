@@ -1,0 +1,27 @@
+TAP version 13
+# Subtest: run checkpoint survives the same Windows reader lock and remains readable
+not ok 1 - run checkpoint survives the same Windows reader lock and remains readable
+  ---
+  duration_ms: 333.5779
+  type: 'test'
+  location: 'C:\\Users\\xie\\Desktop\\Project\\tests\\integration\\workbench-state.test.mjs:27:1'
+  failureType: 'testCodeFailure'
+  error: "EPERM: operation not permitted, rename 'C:\\Users\\xie\\Desktop\\Project\\.local-data\\workbench-lock-tests\\3bce6485-22de-489b-8f38-cfcf246c3a9c\\d0788be5-3374-4c90-9fd0-47da197349ec.tmp' -> 'C:\\Users\\xie\\Desktop\\Project\\.local-data\\workbench-lock-tests\\3bce6485-22de-489b-8f38-cfcf246c3a9c\\3f08a549-2526-4dea-b88b-f08a42d29ba0.pending.json'"
+  code: 'EPERM'
+  stack: |-
+    async rename (node:internal/fs/promises:842:10)
+    async ArtifactStore.write (file:///C:/Users/xie/Desktop/Project/apps/host/dist/artifacts/store.js:26:9)
+    async ArtifactStore.checkpoint (file:///C:/Users/xie/Desktop/Project/apps/host/dist/artifacts/store.js:30:46)
+    async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/workbench-state.test.mjs:38:5)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 427.2249

@@ -1,0 +1,13 @@
+✔ suite parameters cannot repair a candidate with missing required parameter declarations (5889.5565ms)
+✔ semantically equivalent renamed step IDs use independent operation trace (5852.9036ms)
+✔ unsupported observation trace produces an incomplete persisted validation record (6186.3829ms)
+✔ save-drop frozen samples describe the same object and consistent persisted row (0.6924ms)
+✔ each HTTP case retains its actual bound mapping hash and copy identity (944.1302ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18975.8441

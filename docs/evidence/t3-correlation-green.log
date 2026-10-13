@@ -1,0 +1,12 @@
+✔ permission-isolation: real Cangjie observation and HTTP normal/defect/unknown controls (5722.9515ms)
+✔ title update controls detect priority reset and owner change at the corresponding assertion (7630.0044ms)
+✔ unrelated object cannot pass correlation after owner mismatch becomes business evidence (965.2398ms)
+✔ missing field is inconclusive even with HTTP 200 and complete pagination (985.7917ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15405.9385

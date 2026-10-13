@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-13",
+  "stage": "T4",
+  "status": "awaiting_live_model_acceptance",
+  "implementationSubtasks": { "done": 11, "total": 12 },
+  "automatedChecks": { "candidate": { "passed": 36, "total": 36 }, "all": { "passed": 173, "total": 173 }, "build": "passed" },
+  "evidenceTiers": { "deterministicModel": "passed", "nativeCangjie": "passed", "referenceHTTP": "passed", "targetCopyHTTP": "passed", "windowsCredentials": "passed", "crossProcessMutex": "passed", "liveDeepSeek": "not_run" },
+  "review": { "critical": 0, "importantFixed": 3, "minorFixed": 1 },
+  "previewSourcesUnchanged": 6,
+  "pending": ["User-selected exact model name", "Local secure API key input and disclosure confirmation", "Live generated candidate with static, normal, defect, unknown and target-trial evidence"],
+  "notStarted": ["T5", "T6", "T7", "T8", "T9", "T10"],
+  "publication": false
+}

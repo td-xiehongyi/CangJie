@@ -1,0 +1,41 @@
+{
+  "request": {
+    "schemaVersion": 1,
+    "messageId": "t0-evidence-001",
+    "runId": "通信 验证",
+    "kind": "start",
+    "payload": {
+      "operation": "echo",
+      "path": "C:\\测试 目录\\工单",
+      "text": "你好，仓颉与 Node",
+      "values": [
+        null,
+        true,
+        42
+      ]
+    }
+  },
+  "events": [
+    {
+      "schemaVersion": 1,
+      "messageId": "t0-evidence-001",
+      "runId": "通信 验证",
+      "kind": "event",
+      "payload": {
+        "status": "completed",
+        "code": "OK",
+        "data": {
+          "operation": "echo",
+          "path": "C:\\测试 目录\\工单",
+          "text": "你好，仓颉与 Node",
+          "values": [
+            null,
+            true,
+            42
+          ]
+        }
+      }
+    }
+  ],
+  "stderr": "protocol ready: schema v1; T0 transport only\n"
+}

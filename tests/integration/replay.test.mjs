@@ -1,0 +1,60 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {existsSync} from 'node:fs';
+import {readFile,mkdir} from 'node:fs/promises';
+import {join} from 'node:path';
+import {randomUUID} from 'node:crypto';
+const root=process.cwd();
+test('T6 durable records, package integrity and single-flow confirmation',async()=>{
+  assert.ok(existsSync(join(root,'apps/host/dist/artifacts/store.js')),'T6 artifact store must exist');
+  const {ArtifactStore}=await import('../../apps/host/dist/artifacts/store.js');
+  const {confirmPlan}=await import('../../apps/host/dist/replay.js');
+  const {exportPackage,readPackage}=await import('../../apps/host/dist/manifest.js');
+  const store=new ArtifactStore(join(root,'.local-data/replay-tests',randomUUID()));
+  const rule={id:'r',version:1,confirmation:'pending',source:'user',preconditions:[],expectedChanges:['save'],invariants:[],completionDeadline:10000};
+  await assert.rejects(async()=>confirmPlan({projectId:'p',flow:{id:'one',title:'one'},flows:[{},{}],checks:[],mapping:{},sourceHash:'x'}),/SINGLE_FLOW/);
+  assert.throws(()=>confirmPlan({projectId:'p',flow:{id:'one',title:'one'},checks:[{rule,mode:'verify'}],mapping:{},sourceHash:'x'}),/RULE_CONFIRMATION|INVALID/);
+  const run={schemaVersion:1,id:randomUUID(),projectId:'p',flow:{id:'one',title:'one'},status:'completed',startedAt:new Date().toISOString(),finishedAt:new Date().toISOString(),plan:{},checks:[],events:[],evidence:{},uncovered:['observation only'],kind:'observations'};
+  await store.finish(run);assert.deepEqual(await store.get(run.id),run);await assert.rejects(store.finish(run),/EXISTS/);
+  const pkg=await exportPackage(store,run.id);assert.equal(readPackage(pkg).run.id,run.id);
+  const tampered=structuredClone(pkg);tampered.files[0].content+=' ';assert.throws(()=>readPackage(tampered),/TAMPER/);
+  assert.throws(()=>readPackage({...pkg,schemaVersion:2}),/VERSION/);
+  assert.throws(()=>readPackage({...pkg,files:[{path:'../outside',content:'{}',hash:'x'}]}),/ESCAPE/);
+});
+test('T6 actual published execution and model-free replay',{timeout:180000},async t=>{
+  assert.ok(existsSync(join(root,'apps/host/dist/replay.js')),'T6 replay implementation must exist');
+  const {ArtifactStore}=await import('../../apps/host/dist/artifacts/store.js');
+  const {confirmPlan,RunExecutor,loadReplay}=await import('../../apps/host/dist/replay.js');
+  const {exportPackage}=await import('../../apps/host/dist/manifest.js');
+  const {TemplateRegistry}=await import('../../apps/host/dist/templates/store.js');
+  const {CredentialSession}=await import('../../apps/host/dist/execution/session.js');
+  const {inspectProject}=await import('../../apps/host/dist/projects/inspect.js');
+  const {publishedFixture}=await import('../support/published.mjs');
+  const directory=join(root,'.local-data/replay-tests',randomUUID()),registry=new TemplateRegistry(join(directory,'registry')),store=new ArtifactStore(join(directory,'runs'));
+  const p=await publishedFixture(directory,registry),profile=await inspectProject(join(root,'samples/ticket'));
+  const mapping=structuredClone(profile.mapping);Object.assign(mapping.resultBindings.query,{priority:['items','0','priority'],ownerId:['items','0','ownerId']});
+  const credentials=new CredentialSession();credentials.set('t6-test','owner','synthetic-t6-owner-secret');credentials.set('t6-test','other','synthetic-t6-other-secret');t.after(()=>credentials.close());
+  const environment={source:profile.root,projectId:'t6-test',confirmed:true,data:{source:'synthetic',count:2,seedVersion:'ticket-seed-v1'},accounts:[{actorRef:'owner',username:'alpha',userId:'user-a',role:'user'},{actorRef:'other',username:'beta',userId:'user-b',role:'user'}],credentials};
+  const plan=confirmPlan({projectId:'t6-test',flow:{id:'edit',title:'标题编辑'},checks:[{rule:p.rule,templateRef:p.ref,mode:'verify'}],mapping,sourceHash:profile.sourceHash});
+  const events=[],run=await new RunExecutor(registry,store).run(plan,environment,undefined,r=>events.push(r.status));
+  await t.test('progress_uses_real_events and formal scope',()=>{assert.equal(run.status,'completed',JSON.stringify(run.uncovered));assert.ok(events.includes('running'));assert.equal(events.at(-1),'completed');assert.deepEqual(run.checks[0].verdicts.map(v=>v.status),['pass','pass','pass']);assert.ok(run.checks[0].verdicts.every(v=>v.scope==='published_template'));});
+  const pkg=await exportPackage(store,run.id),original=JSON.stringify(await store.get(run.id));
+  await t.test('package includes exact executable template snapshot',()=>{const exported=JSON.parse(pkg.files[0].content);assert.deepEqual(exported.checks[0].template,p.spec);});
+  await t.test('replay_without_model and reset_makes_runs_comparable',async()=>{const replay=await loadReplay(pkg,environment,registry),next=await new RunExecutor(registry,store).run(replay.plan,environment,replay.parentRunId);assert.equal(next.status,'completed');assert.equal(next.parentRunId,run.id);assert.notEqual(next.id,run.id);assert.notEqual(next.checks[0].copyId,run.checks[0].copyId);assert.deepEqual(next.checks[0].verdicts.map(v=>v.status),run.checks[0].verdicts.map(v=>v.status));assert.equal(JSON.stringify(await store.get(run.id)),original);assert.ok(!JSON.stringify(pkg).includes('synthetic-t6-owner-secret'));});
+  await t.test('pending_rules_are_observations',async()=>{const observe=confirmPlan({...plan,checks:[{...plan.checks[0],rule:{...p.rule,confirmation:'pending'},mode:'observe'}]});const observation=await new RunExecutor(registry,store).run(observe,environment);assert.equal(observation.status,'completed');assert.equal(observation.kind,'observations');assert.equal(observation.checks[0].verdicts.length,0);assert.ok(observation.checks[0].observations.length);await assert.rejects(loadReplay(await exportPackage(store,observation.id),environment,registry),/OBSERVATION_PACKAGE/);});
+  await t.test('stopped work never becomes success',async()=>{const executor=new RunExecutor(registry,store);await executor.stop();const stopped=await executor.run(plan,environment);assert.equal(stopped.status,'cancelled');assert.equal(stopped.checks.length,0);});
+  await t.test('interrupted history is linked after old copy isolation; original stays immutable',async()=>{
+    const pending={...structuredClone(run),id:randomUUID(),status:'running'};delete pending.finishedAt;await store.checkpoint(pending);
+    const before=JSON.stringify(await store.get(pending.id)),replay=await loadReplay(await exportPackage(store,pending.id),environment,registry);
+    const next=await new RunExecutor(registry,store).run(replay.plan,environment,replay.parentRunId);
+    assert.equal(next.status,'completed');assert.equal(next.parentRunId,pending.id);assert.ok(next.events.some(e=>e.phase==='previous_copy_isolated'));assert.notEqual(next.checks[0].copyId,pending.checks[0].copyId);assert.equal(JSON.stringify(await store.get(pending.id)),before);
+  });
+  await t.test('one flow executes three seed rules with independent business evidence',{timeout:120000},async()=>{
+    const publications=[];for(const [fixture,ruleId]of [['saved-result','save-rule'],['duplicate-submit','duplicate-rule'],['permission-isolation','permission-rule']])publications.push(await publishedFixture(directory,registry,`templates/${fixture}.json`,ruleId));
+    const combined=confirmPlan({...plan,flow:{id:'submit',title:'提交'},checks:publications.map(v=>({rule:v.rule,templateRef:v.ref,mode:'verify'}))});
+    const result=await new RunExecutor(registry,store).run(combined,environment);assert.equal(result.status,'completed',JSON.stringify(result.uncovered));assert.equal(result.checks.length,3);
+    for(const check of result.checks){assert.ok(check.actions.length);assert.ok(check.observations.length);assert.ok(check.verdicts.length);assert.ok(check.verdicts.every(v=>v.status==='pass'));for(const o of check.observations)for(const ref of o.evidenceRefs)assert.ok(result.evidence[`${check.copyId}/${ref.slice(9)}`]);}
+    const roundtrip=(await import('../../apps/host/dist/manifest.js')).readPackage(await exportPackage(store,result.id));assert.deepEqual(roundtrip.run.plan,combined);assert.equal(roundtrip.run.id,result.id);
+  });
+  await t.test('disabled exact version blocks package and new runs',async()=>{await registry.disableVersion(p.ref,'test withdrawn');await assert.rejects(loadReplay(pkg,environment,registry),/VERSION_DISABLED/);await assert.rejects(new RunExecutor(registry,store).run(plan,environment),/VERSION_DISABLED/);assert.equal(JSON.stringify(await store.get(run.id)),original);});
+});

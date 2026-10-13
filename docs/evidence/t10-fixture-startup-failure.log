@@ -1,0 +1,19 @@
+✖ T10 frozen projects preserve originals and reproduce the intended difference over HTTP (725.107ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 822.9417
+
+✖ failing tests:
+
+test at tests\integration\comparison-fixture.test.mjs:15:1
+✖ T10 frozen projects preserve originals and reproduce the intended difference over HTTP (725.107ms)
+  Error: sample exited: 1
+      at ChildProcess.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/comparison-fixture.test.mjs:55:40)
+      at Object.onceWrapper (node:events:631:26)
+      at ChildProcess.emit (node:events:509:28)
+      at ChildProcess._handle.onexit (node:internal/child_process:295:12)

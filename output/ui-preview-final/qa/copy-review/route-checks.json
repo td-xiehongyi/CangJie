@@ -1,0 +1,371 @@
+[
+  {
+    "label": "首次接入",
+    "path": "index.html",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"项目接入\" [level=1]\n  - heading \"项目信息\" [level=2]\n  - generic: 项目目录\n  - textbox \"项目目录\": C:\\demo\\ticket-app\n  - button \"选择目录\"\n  - generic: 网站用途\n  - textbox \"网站用途\": 用户提交和编辑工单，查看处理进度。\n  - heading \"测试账号\" [level=2]\n  - generic: 两个普通用户\n  - generic: 用户甲\n  - textbox \"用户甲\": user_a\n  - generic: 测试密码\n  - textbox \"测试密码\":\n    - /placeholder: 本次会话使用\n  - generic: 用户乙\n  - textbox \"用户乙\": user_b\n  - generic: 测试密码\n  - textbox \"测试密码\":\n    - /placeholder: 本次会话使用\n  - generic: 密码仅本次会话使用\n  - button \"开始分析\"\n  - complementary:\n    - heading \"发送范围\" [level=2]\n    - button \"调整\"\n    - term: 模型服务\n    - definition: api.deepseek.com\n    - term: 所选文件\n    - definition:\n      - text: src/routes/tickets.ts\n      - text: src/auth.ts · package.json\n    - paragraph: 仅相关摘要与源码片段，排除凭据、环境文件和数据库。\n    - checkbox \"同意发送以上内容\"\n    - generic: 同意发送以上内容\n    - heading \"测试环境\" [level=2]\n    - generic: 源码副本\n    - generic: ticket-app-test\n    - generic: 独立数据库\n    - generic: ticket-test.sqlite\n    - generic: 数据来源\n    - generic: 已有测试初始化入口\n    - checkbox \"确认测试副本与专用测试数据\"\n    - generic: 确认测试副本与专用测试数据",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "项目接入"
+  },
+  {
+    "label": "初始化受阻",
+    "path": "index.html?state=init-blocked",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"需要补齐测试数据\" [level=1]\n  - paragraph: ticket-app · 独立测试副本\n  - heading \"初始化条件不足\" [level=2]\n  - generic: 受阻\n  - strong: 项目启动\n  - paragraph: Node.js / Express · 可启动\n  - generic: 通过\n  - strong: 账号身份\n  - paragraph: user_a / user_b · Token 登录\n  - generic: 通过\n  - strong: 测试数据\n  - paragraph: 缺少可靠初始化与重置入口\n  - generic: 受阻\n  - strong: 接口试运行\n  - paragraph: 等待确认后试运行\n  - generic: 待执行\n  - status:\n    - strong: 受影响的检查已暂停\n    - paragraph: 需要用户甲/乙及各自拥有的工单；初始状态可恢复。其他独立检查可继续。\n  - generic \"补充说明与补齐条件 －\"\n  - generic: 准备两个普通用户，各有一张可查询工单；提供仅作用于测试库的初始化和重置入口，清理旧写操作后恢复同一基线。补齐后核对作用目标、账号角色、数据归属及查询完整性。工具不会生成脚本或修改源码。\n  - button \"复制补充说明\"\n  - button \"补齐后重新检查\"\n  - complementary:\n    - heading \"本次接入\" [level=2]\n    - generic: 操作目标\n    - generic: ticket-app-test\n    - generic: 测试账号\n    - generic: user_a / user_b\n    - generic: 数据基线\n    - generic: seed-v1\n    - generic: 项目内容发送\n    - generic: 已确认范围内\n    - generic \"数据与凭据 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "需要补齐测试数据"
+  },
+  {
+    "label": "映射待确认",
+    "path": "index.html?state=mapping",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"确认当前项目映射\" [level=1]\n  - paragraph: ticket-app · 独立测试副本\n  - heading \"操作与查询\" [level=2]\n  - generic: 待确认\n  - strong: 项目启动\n  - paragraph: Node.js / Express · 可启动\n  - generic: 通过\n  - strong: 账号身份\n  - paragraph: user_a / user_b · Token 登录\n  - generic: 通过\n  - strong: 测试数据\n  - paragraph: 专用测试数据 · 独立数据库\n  - generic: 通过\n  - strong: 接口试运行\n  - paragraph: 等待确认后试运行\n  - generic: 待执行\n  - generic \"接口映射与取证 ＋\"\n  - checkbox \"确认接口、账号身份、字段与查询范围\"\n  - generic: 确认接口、账号身份、字段与查询范围\n  - button \"确认并试运行\"\n  - complementary:\n    - heading \"本次接入\" [level=2]\n    - generic: 操作目标\n    - generic: ticket-app-test\n    - generic: 测试账号\n    - generic: user_a / user_b\n    - generic: 数据基线\n    - generic: seed-v1\n    - generic: 项目内容发送\n    - generic: 已确认范围内\n    - generic \"数据与凭据 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "确认当前项目映射"
+  },
+  {
+    "label": "模型输出不兼容",
+    "path": "settings.html?state=failed",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"模型设置\" [level=1]\n  - heading \"模型服务\" [level=2]\n  - generic: 服务\n  - combobox \"服务\":\n    - option \"DeepSeek 官方\" [selected]\n    - option \"自定义地址\"\n  - generic: 接口地址\n  - textbox \"接口地址\": https://api.deepseek.com\n  - generic: 模型名称\n  - textbox \"模型名称\":\n    - /placeholder: 填写模型名称\n    - text: demo-model\n  - generic: API Key\n  - textbox \"API Key\":\n    - /placeholder: 输入 API Key\n    - text: <redacted>\n  - checkbox \"记住 API Key\"\n  - generic: 记住 API Key\n  - generic \"存储与兼容范围 ＋\"\n  - status:\n    - strong: 结构化输出检查未通过\n    - paragraph: 服务有响应，但返回内容缺少所需字段；依赖模型的步骤保持暂停。\n  - button \"清除已存密钥\"\n  - button \"检查连接\"\n  - button \"保存\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "模型设置"
+  },
+  {
+    "label": "第二项目映射复用",
+    "path": "index.html?state=transfer",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: activity-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"接入第二个项目\" [level=1]\n  - paragraph: activity-app · 编辑报名信息\n  - heading \"复用字段保持 v1.0\" [level=2]\n  - generic: 待项目确认\n  - paragraph: 仅修改显示名称，报名类别和报名人必须保持不变。\n  - generic: 更新\n  - code: PATCH /api/registrations/:id\n  - generic: 查询\n  - code: GET /api/registrations/:id\n  - generic: 字段\n  - code:\n    - text: title → displayName\n    - text: priority → category\n    - text: ownerId → userId\n  - generic \"匹配理由与不适用条件 ＋\"\n  - checkbox \"确认新项目规则、字段语义、身份和查询范围\"\n  - generic: 确认新项目规则、字段语义、身份和查询范围\n  - button \"确认并试运行新映射\"\n  - complementary:\n    - heading \"复用边界\" [level=2]\n    - generic: 项目\n    - generic: activity-app-test\n    - generic: 模板\n    - generic: 字段保持 v1.0 · 有效\n    - generic: 新映射\n    - generic: registration-v1\n    - generic: 数据\n    - generic: 独立专用测试数据\n    - status:\n      - strong: 只改映射才算直接复用\n      - paragraph: 修改实验或断言需另记能力扩展，不混算复用。",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "接入第二个项目"
+  },
+  {
+    "label": "凭据存储不可用",
+    "path": "settings.html?state=vault-failed",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"模型设置\" [level=1]\n  - heading \"模型服务\" [level=2]\n  - generic: 服务\n  - combobox \"服务\":\n    - option \"DeepSeek 官方\" [selected]\n    - option \"自定义地址\"\n  - generic: 接口地址\n  - textbox \"接口地址\": https://api.deepseek.com\n  - generic: 模型名称\n  - textbox \"模型名称\":\n    - /placeholder: 填写模型名称\n    - text: demo-model\n  - generic: API Key\n  - textbox \"API Key\":\n    - /placeholder: 输入 API Key\n    - text: <redacted>\n  - checkbox \"记住 API Key\"\n  - generic: 记住 API Key\n  - generic \"存储与兼容范围 ＋\"\n  - status:\n    - strong: 系统凭据存储不可用\n    - paragraph: 退回仅本次会话使用，不会明文保存。\n  - button \"清除已存密钥\"\n  - button \"检查连接\"\n  - button \"保存\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "模型设置"
+  },
+  {
+    "label": "外部服务受阻",
+    "path": "index.html?state=service-blocked",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"需要配置测试服务\" [level=1]\n  - status:\n    - strong: 外部服务检查已暂停\n    - paragraph: 请配置测试服务；其他独立检查可继续。\n  - generic: 测试服务地址\n  - textbox \"测试服务地址\":\n    - /placeholder: https://\n  - generic: 测试配置说明\n  - textbox \"测试配置说明\"\n  - checkbox \"确认仅调用测试服务\"\n  - generic: 确认仅调用测试服务\n  - button \"重新检查接入\"\n  - complementary:\n    - heading \"运行条件\" [level=2]\n    - generic: 运行\n    - generic: 待补充\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 规则 / 映射\n    - generic: v1.0 / v1.3\n    - generic: 模板\n    - generic: 字段保持 v1.0\n    - generic: 环境 / 基线\n    - generic: 测试副本 / seed-v1\n    - generic: 取证\n    - generic: 完整 HTTP 查询\n    - generic \"受影响检查 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "需要配置测试服务"
+  },
+  {
+    "label": "补充取证",
+    "path": "index.html?state=evidence-input",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"补充取证信息\" [level=1]\n  - status:\n    - strong: 最终结果查询不完整\n    - paragraph: 补充同一对象的完整查询入口。\n  - generic: HTTP 查询入口\n  - textbox \"HTTP 查询入口\":\n    - /placeholder: https://\n  - generic: 接口说明或查询页面线索\n  - textbox \"接口说明或查询页面线索\"\n  - checkbox \"确认查询对象、身份和完整字段\"\n  - generic: 确认查询对象、身份和完整字段\n  - button \"重新检查接入\"\n  - complementary:\n    - heading \"运行条件\" [level=2]\n    - generic: 运行\n    - generic: 待补充\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 规则 / 映射\n    - generic: v1.0 / v1.3\n    - generic: 模板\n    - generic: 字段保持 v1.0\n    - generic: 环境 / 基线\n    - generic: 测试副本 / seed-v1\n    - generic: 取证\n    - generic: 完整 HTTP 查询\n    - generic \"受影响检查 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "补充取证信息"
+  },
+  {
+    "label": "复位失败",
+    "path": "verify.html?state=reset-blocked",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"数据复位失败\" [level=1]\n  - status:\n    - strong: 实验尚未开始\n    - paragraph: 无法恢复 seed-v1。修复初始化或隔离条件后重试。\n  - heading \"保留状态\" [level=2]\n  - generic: 原运行\n  - generic: R014 · 未完成\n  - generic: 本次判定\n  - generic: 尚未验证\n  - generic \"处理要求 －\"\n  - generic: 核对测试副本、初始化入口和旧写操作；复位成功后从实验第一步执行。\n  - button \"重新核对复跑条件\"\n  - complementary:\n    - heading \"运行条件\" [level=2]\n    - generic: 运行\n    - generic: R014\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 规则 / 映射\n    - generic: v1.0 / v1.3\n    - generic: 模板\n    - generic: 字段保持 v1.0\n    - generic: 环境 / 基线\n    - generic: 测试副本 / seed-v1\n    - generic: 取证\n    - generic: 完整 HTTP 查询",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "数据复位失败"
+  },
+  {
+    "label": "确认新规则",
+    "path": "verify.html?state=rules&case=new",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - heading \"确认业务规则\" [level=2]\n  - generic: 0/1 已确认\n  - checkbox \"确认字段保持规则\"\n  - generic: 只修改标题时，优先级和所有者保持不变\n  - generic: 无适用模板\n  - generic: 待确认\n  - button \"编辑\"\n  - paragraph: 未确认项不参与判定。\n  - button \"确认并检查能力\"\n  - complementary:\n    - heading \"执行范围\" [level=2]\n    - generic: 1 条流程\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 测试身份\n    - generic: user_a / user_b\n    - generic: 测试环境\n    - generic: 独立副本 · seed-v1\n    - generic: 最终取证\n    - generic: HTTP 查询\n    - generic \"接口映射与取证 ＋\"\n    - generic \"规则与适用条件 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "编辑工单"
+  },
+  {
+    "label": "缺实验，可生成",
+    "path": "verify.html?state=gap",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - heading \"可以生成新候选\" [level=2]\n  - generic: 无适用模板\n  - paragraph: 当前能力可执行字段保持检查，需生成新候选。\n  - generic: 登录\n  - generic: 创建\n  - generic: 更新\n  - generic: 查询\n  - generic: 字段比较\n  - generic \"模板匹配依据 ＋\"\n  - status:\n    - strong: 先验证实验，再验证项目\n    - paragraph: 生成结果先作为草稿，不立即在项目执行。\n  - button \"生成候选\"\n  - complementary:\n    - heading \"执行范围\" [level=2]\n    - generic: 1 条流程\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 测试身份\n    - generic: user_a / user_b\n    - generic: 测试环境\n    - generic: 独立副本 · seed-v1\n    - generic: 最终取证\n    - generic: HTTP 查询\n    - generic \"接口映射与取证 ＋\"\n    - generic \"规则与适用条件 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "编辑工单"
+  },
+  {
+    "label": "候选草稿",
+    "path": "verify.html?state=generated",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - heading \"字段保持实验\" [level=2]\n  - generic: 候选 v0.1 · 草稿\n  - list:\n    - strong: 建立初始状态\n    - paragraph: 用户甲创建高优先级工单，查询并保存 id、priority、ownerId。\n    - strong: 只修改标题\n    - paragraph: 使用甲的身份更新同一张工单，确认请求被接受。\n    - strong: 查询最终结果\n    - paragraph: 标题等于新值；优先级等于操作前值；所有者按候选包含关系检查（待验证）。\n  - generic \"断言与执行限制 ＋\"\n  - generic: 首次生成后最多自动修订 2 轮\n  - button \"开始验证候选\"\n  - complementary:\n    - heading \"验证层次\" [level=2]\n    - list:\n      - generic: 定义检查\n      - generic: 当前\n      - generic: 独立样本\n      - generic: 待执行\n      - generic: 受控端到端\n      - generic: 待执行\n      - generic: 项目试运行\n      - generic: 待执行\n    - paragraph: 每轮重新验证，标准与业务规则保持不变。\n    - generic \"版本与依据 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "编辑工单"
+  },
+  {
+    "label": "首次漏检",
+    "path": "verify.html?state=validation-failed",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - heading \"候选需要修订\" [level=2]\n  - paragraph: 候选 v0.1 · 第 1 次尝试\n  - generic: 未准入\n  - table \"观察样本对照结果\":\n    - caption: 观察样本对照结果\n    - rowgroup:\n      - row \"对照场景 预期判定 实际判定 检查结果\":\n        - columnheader \"对照场景\"\n        - columnheader \"预期判定\"\n        - columnheader \"实际判定\"\n        - columnheader \"检查结果\"\n    - rowgroup:\n      - row \"正常更新 通过 通过 符合预期\":\n        - cell \"正常更新\"\n        - cell \"通过\"\n        - cell \"通过\"\n        - cell \"符合预期\":\n          - generic: 符合预期\n      - row \"优先级被重置 业务失败 业务失败 符合预期\":\n        - cell \"优先级被重置\"\n        - cell \"业务失败\"\n        - cell \"业务失败\"\n        - cell \"符合预期\":\n          - generic: 符合预期\n      - row \"所有者被改变 业务失败 通过 未检出缺陷\":\n        - cell \"所有者被改变\"\n        - cell \"业务失败\"\n        - cell \"通过\"\n        - cell \"未检出缺陷\":\n          - generic: 未检出缺陷\n      - row \"缺少最终字段 无法验证 无法验证 符合预期\":\n        - cell \"缺少最终字段\"\n        - cell \"无法验证\"\n        - cell \"无法验证\"\n        - cell \"符合预期\":\n          - generic: 符合预期\n  - status:\n    - strong: 漏检：所有者改变时仍判通过\n    - paragraph: ownerId 误用了包含关系，user_a → user_a2 被漏检。修订为前后严格相等后重新验证，规则和正确答案不变。\n  - generic \"定义检查与对照依据 ＋\"\n  - button \"修订并重新验证（剩余 2 轮）\"\n  - complementary:\n    - heading \"验证层次\" [level=2]\n    - list:\n      - generic: 定义检查\n      - generic: 已完成\n      - generic: 独立样本\n      - generic: 当前\n      - generic: 受控端到端\n      - generic: 待执行\n      - generic: 项目试运行\n      - generic: 待执行\n    - paragraph: 每轮重新验证，标准与业务规则保持不变。\n    - generic \"修订与预算 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "编辑工单"
+  },
+  {
+    "label": "修订后样本通过",
+    "path": "verify.html?state=samples",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - heading \"独立样本验证通过\" [level=2]\n  - paragraph: 候选 v0.2 · 第 2 次尝试 · 已修订 1/2 轮\n  - generic: 符合预期\n  - table \"观察样本对照结果\":\n    - caption: 观察样本对照结果\n    - rowgroup:\n      - row \"对照场景 预期判定 实际判定 检查结果\":\n        - columnheader \"对照场景\"\n        - columnheader \"预期判定\"\n        - columnheader \"实际判定\"\n        - columnheader \"检查结果\"\n    - rowgroup:\n      - row \"正常更新 通过 通过 符合预期\":\n        - cell \"正常更新\"\n        - cell \"通过\"\n        - cell \"通过\"\n        - cell \"符合预期\":\n          - generic: 符合预期\n      - row \"优先级被重置 业务失败 业务失败 符合预期\":\n        - cell \"优先级被重置\"\n        - cell \"业务失败\"\n        - cell \"业务失败\"\n        - cell \"符合预期\":\n          - generic: 符合预期\n      - row \"所有者被改变 业务失败 业务失败 符合预期\":\n        - cell \"所有者被改变\"\n        - cell \"业务失败\"\n        - cell \"业务失败\"\n        - cell \"符合预期\":\n          - generic: 符合预期\n      - row \"缺少最终字段 无法验证 无法验证 符合预期\":\n        - cell \"缺少最终字段\"\n        - cell \"无法验证\"\n        - cell \"无法验证\"\n        - cell \"符合预期\":\n          - generic: 符合预期\n  - generic \"定义检查与对照依据 ＋\"\n  - button \"运行受控端到端\"\n  - button \"对照未就绪\"\n  - complementary:\n    - heading \"验证层次\" [level=2]\n    - list:\n      - generic: 定义检查\n      - generic: 已完成\n      - generic: 独立样本\n      - generic: 已完成\n      - generic: 受控端到端\n      - generic: 当前\n      - generic: 项目试运行\n      - generic: 待执行\n    - paragraph: 每轮重新验证，标准与业务规则保持不变。\n    - generic \"修订与预算 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "编辑工单"
+  },
+  {
+    "label": "受控端到端",
+    "path": "verify.html?state=e2e",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - heading \"受控 HTTP 端到端\" [level=2]\n  - paragraph: 候选 v0.2 · 第 2 次尝试 · 已修订 1/2 轮\n  - generic: 符合预期\n  - table \"受控 HTTP对照结果\":\n    - caption: 受控 HTTP对照结果\n    - rowgroup:\n      - row \"对照场景 预期判定 实际判定 检查结果\":\n        - columnheader \"对照场景\"\n        - columnheader \"预期判定\"\n        - columnheader \"实际判定\"\n        - columnheader \"检查结果\"\n    - rowgroup:\n      - row \"正常更新 通过 通过 符合预期\":\n        - cell \"正常更新\"\n        - cell \"通过\"\n        - cell \"通过\"\n        - cell \"符合预期\":\n          - generic: 符合预期\n      - row \"优先级被重置 业务失败 业务失败 符合预期\":\n        - cell \"优先级被重置\"\n        - cell \"业务失败\"\n        - cell \"业务失败\"\n        - cell \"符合预期\":\n          - generic: 符合预期\n      - row \"所有者被改变 业务失败 业务失败 符合预期\":\n        - cell \"所有者被改变\"\n        - cell \"业务失败\"\n        - cell \"业务失败\"\n        - cell \"符合预期\":\n          - generic: 符合预期\n      - row \"缺少最终字段 无法验证 无法验证 符合预期\":\n        - cell \"缺少最终字段\"\n        - cell \"无法验证\"\n        - cell \"无法验证\"\n        - cell \"符合预期\":\n          - generic: 符合预期\n  - paragraph: 在审核冻结的 HTTP 参考服务执行整条链；启动崩溃或超时不计为检出业务缺陷。\n  - generic \"端到端证据与已知限制 ＋\"\n  - button \"在项目副本试运行\"\n  - complementary:\n    - heading \"验证层次\" [level=2]\n    - list:\n      - generic: 定义检查\n      - generic: 已完成\n      - generic: 独立样本\n      - generic: 已完成\n      - generic: 受控端到端\n      - generic: 已完成\n      - generic: 项目试运行\n      - generic: 当前\n    - paragraph: 每轮重新验证，标准与业务规则保持不变。\n    - generic \"修订与预算 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "编辑工单"
+  },
+  {
+    "label": "项目业务失败",
+    "path": "verify.html?state=trial",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed&inspect=1\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - heading \"项目副本试运行\" [level=2]\n  - paragraph: 候选 v0.2 · 第 2 次尝试 · 已修订 1/2 轮\n  - generic: 实验有效\n  - generic: 模板试运行\n  - strong: 身份与取证有效\n  - paragraph: 同一工单、完整字段、复位后可复跑。\n  - generic: 项目业务结果\n  - strong: 优先级被重置\n  - paragraph: 预期：高；实际：普通。标题已正确更新。\n  - status:\n    - strong: 业务失败不等于模板失效\n    - paragraph: 实验命中了已确认规则。保留网站缺陷，不削弱断言；满足技术准入后仍可审核模板。\n  - generic \"试运行与复跑证据 ＋\"\n  - button \"提交审核\"\n  - complementary:\n    - heading \"验证层次\" [level=2]\n    - list:\n      - generic: 定义检查\n      - generic: 已完成\n      - generic: 独立样本\n      - generic: 已完成\n      - generic: 受控端到端\n      - generic: 已完成\n      - generic: 项目试运行\n      - generic: 已完成\n    - paragraph: 每轮重新验证，标准与业务规则保持不变。\n    - generic \"修订与预算 ＋\"\n    - heading \"运行条件\" [level=2]\n    - generic: 运行\n    - generic: 候选试运行 C014\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 规则 / 映射\n    - generic: v1.0 / v1.3\n    - generic: 模板\n    - generic: 候选 v0.2\n    - generic: 环境 / 基线\n    - generic: 测试副本 / seed-v1\n    - generic: 取证\n    - generic: 完整 HTTP 查询",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "编辑工单"
+  },
+  {
+    "label": "等待审核",
+    "path": "report.html?state=review",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=review\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"验证报告\" [level=1]\n  - paragraph: 编辑工单 · R014 · 候选试运行 · 本轮已结束\n  - button \"导出\"\n  - button \"查看业务证据\"\n  - generic \"报告内容\":\n    - button \"业务结果\"\n    - button \"候选资格 待审核\":\n      - text: 候选资格\n      - generic: 待审核\n  - complementary:\n    - heading \"结果摘要\" [level=2]\n    - generic: 业务结果\n    - generic: 业务失败\n    - generic: 模板资格\n    - generic: 待技术审核\n    - generic: 验证范围\n    - generic: 低负载字段保持\n    - status:\n      - strong: 目标负载未测\n      - paragraph: 先修复业务错误并通过复测。\n    - generic \"历史运行 ＋\"\n    - generic \"运行与版本 ＋\"\n    - button \"选择下一条流程\"\n  - heading \"字段保持候选审核\" [level=2]\n  - paragraph: 候选 v0.2 · 规则 v1.0 · 已修订 1/2 轮\n  - generic: 待审核\n  - strong: 定义检查\n  - generic: 操作、变量、断言、有限预算\n  - generic: 通过\n  - strong: 独立样本\n  - generic: 正常、两个缺陷、证据不足及留出变体\n  - generic: 通过\n  - strong: 受控端到端\n  - generic: HTTP 参考服务与已审核缺陷版本\n  - generic: 通过\n  - strong: 项目试运行\n  - generic: 身份、对象、完整查询及复位复跑\n  - generic: 通过\n  - button \"查看分层验证证据\"\n  - generic: 业务适用确认\n  - checkbox \"确认仅修改标题，优先级和所有者必须保持不变\"\n  - generic: 确认仅修改标题，优先级和所有者必须保持不变\n  - generic: 技术审核 · 开发者\n  - checkbox \"已核对独立对照、端到端、试运行、限制和版本\"\n  - generic: 已核对独立对照、端到端、试运行、限制和版本\n  - paragraph: 缺技术审核或可信依据时不能发布。\n  - button \"退回候选\"\n  - button \"审核并发布固定版本\" [disabled]",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "验证报告"
+  },
+  {
+    "label": "已发布",
+    "path": "report.html?state=published",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=published\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"验证报告\" [level=1]\n  - paragraph: 编辑工单 · R014 · 候选试运行 · 本轮已结束\n  - button \"导出\"\n  - link \"修复后复测\":\n    - /url: verify.html?state=replay-prepare\n  - generic \"报告内容\":\n    - button \"业务结果\"\n    - button \"候选资格 已发布\":\n      - text: 候选资格\n      - generic: 已发布\n  - complementary:\n    - heading \"结果摘要\" [level=2]\n    - generic: 业务结果\n    - generic: 业务失败\n    - generic: 模板资格\n    - generic: 已发布 · v1.0\n    - generic: 验证范围\n    - generic: 低负载字段保持\n    - status:\n      - strong: 目标负载未测\n      - paragraph: 先修复业务错误并通过复测。\n    - generic \"历史运行 ＋\"\n    - generic \"运行与版本 ＋\"\n    - button \"选择下一条流程\"\n  - heading \"修改标题时优先级被重置\" [level=2]\n  - generic: 业务失败\n  - generic: 预期\n  - strong: 优先级保持为高\n  - generic: 实际\n  - strong: 普通，被重置\n  - heading \"复现与证据\" [level=3]\n  - list:\n    - listitem: 用户甲创建高优先级工单 T201，保存操作前快照。\n    - listitem: 仅更新标题，再查询同一 ID 的完整结果。\n    - listitem: title 更新正确，priority 从 high 变为 normal；ownerId 未变化。\n  - generic \"请求、响应与断言 ＋\"\n  - button \"复制修复说明\"\n  - button \"完整证据\"\n  - status:\n    - strong: 实验有效，项目业务失败\n    - paragraph: 候选对照验证已通过；修复网站，不放宽规则。\n  - generic \"模板适用说明 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "验证报告"
+  },
+  {
+    "label": "修复后复跑通过",
+    "path": "report.html?state=replayed",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=replayed\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"验证报告\" [level=1]\n  - paragraph: 编辑工单 · R015 · 修复后复跑 · 本轮已结束\n  - button \"导出\"\n  - link \"验证目标负载\":\n    - /url: verify.html?state=load-plan\n  - generic \"报告内容\":\n    - button \"业务结果\"\n    - button \"候选资格 已发布\":\n      - text: 候选资格\n      - generic: 已发布\n  - complementary:\n    - heading \"结果摘要\" [level=2]\n    - generic: 业务结果\n    - generic: 通过\n    - generic: 模板资格\n    - generic: 已发布 · v1.0\n    - generic: 验证范围\n    - generic: 低负载字段保持\n    - status:\n      - strong: 业务复测通过\n      - paragraph: 可按确认的目标开展负载验证。\n    - generic \"历史运行 ＋\"\n    - generic \"运行与版本 ＋\"\n    - button \"选择下一条流程\"\n  - heading \"修复后字段保持检查通过\" [level=2]\n  - generic: 业务通过\n  - generic: 预期\n  - strong: 优先级保持为高\n  - generic: 实际\n  - strong: 高，保持不变\n  - heading \"复现与证据\" [level=3]\n  - list:\n    - listitem: 用户甲创建高优先级工单 T201，保存操作前快照。\n    - listitem: 仅更新标题，再查询同一 ID 的完整结果。\n    - listitem: title 更新正确，priority 与 ownerId 保持原值。\n  - generic \"请求、响应与断言 ＋\"\n  - button \"复制修复说明\"\n  - button \"完整证据\"\n  - status:\n    - strong: 新记录已关联 R014\n    - paragraph: 初始数据已复位，规则和有效映射沿用，重新登录后从第一步复跑；未调用模型。\n  - generic \"模板适用说明 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "验证报告"
+  },
+  {
+    "label": "只缺映射",
+    "path": "verify.html?state=gap&case=mapping",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=replayed\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - heading \"缺少接口映射\" [level=2]\n  - generic: 需要补充\n  - paragraph: 已支持更新操作，但当前项目的字段和查询范围还未确认。\n  - generic: 登录\n  - generic: 创建\n  - generic: 更新\n  - generic: 查询\n  - generic: 字段比较\n  - generic \"模板匹配依据 ＋\"\n  - status:\n    - strong: 只暂停受影响的检查\n    - paragraph: 本流程内其他独立检查可继续。\n  - button \"补映射\"\n  - complementary:\n    - heading \"执行范围\" [level=2]\n    - generic: 1 条流程\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 测试身份\n    - generic: user_a / user_b\n    - generic: 测试环境\n    - generic: 独立副本 · seed-v1\n    - generic: 最终取证\n    - generic: HTTP 查询\n    - generic \"接口映射与取证 ＋\"\n    - generic \"规则与适用条件 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "编辑工单"
+  },
+  {
+    "label": "底层能力不足",
+    "path": "verify.html?state=gap&case=capability",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=replayed\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - heading \"缺少底层执行能力\" [level=2]\n  - generic: 需要补充\n  - paragraph: 此业务依赖首版不支持的浏览器操作或协议，不能用生成代码绕过。\n  - generic: 登录\n  - generic: 创建\n  - generic: 更新\n  - generic: 查询\n  - generic: 字段比较\n  - generic \"模板匹配依据 ＋\"\n  - status:\n    - strong: 只暂停受影响的检查\n    - paragraph: 本流程内其他独立检查可继续。\n  - button \"查看补充要求\"\n  - complementary:\n    - heading \"执行范围\" [level=2]\n    - generic: 1 条流程\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 测试身份\n    - generic: user_a / user_b\n    - generic: 测试环境\n    - generic: 独立副本 · seed-v1\n    - generic: 最终取证\n    - generic: HTTP 查询\n    - generic \"接口映射与取证 ＋\"\n    - generic \"规则与适用条件 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "编辑工单"
+  },
+  {
+    "label": "规则待定",
+    "path": "verify.html?state=gap&case=rule",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=replayed\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - heading \"业务规则尚未决定\" [level=2]\n  - generic: 需要补充\n  - paragraph: 优先级是否允许重置尚未确认。可以保留观察，不能判通过或失败。\n  - generic: 登录\n  - generic: 创建\n  - generic: 更新\n  - generic: 查询\n  - generic: 字段比较\n  - generic \"模板匹配依据 ＋\"\n  - status:\n    - strong: 只暂停受影响的检查\n    - paragraph: 本流程内其他独立检查可继续。\n  - button \"返回确认规则\"\n  - complementary:\n    - heading \"执行范围\" [level=2]\n    - generic: 1 条流程\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 测试身份\n    - generic: user_a / user_b\n    - generic: 测试环境\n    - generic: 独立副本 · seed-v1\n    - generic: 最终取证\n    - generic: HTTP 查询\n    - generic \"接口映射与取证 ＋\"\n    - generic \"规则与适用条件 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "编辑工单"
+  },
+  {
+    "label": "缺可信对照",
+    "path": "verify.html?state=waiting-reference",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=replayed\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - status:\n    - strong: 等待可信对照\n    - paragraph: 补齐经开发者审核的正常与缺陷对照后继续。补齐前不能发布。\n  - heading \"已保留的内容\" [level=2]\n  - generic: 规则\n  - generic: v1.0 · 不放宽\n  - generic: 候选\n  - generic: v0.2 · 待对照\n  - generic: 尝试次数\n  - generic: 2 / 3\n  - generic \"诊断记录 －\"\n  - generic: 缺少覆盖所有者变更的可信 HTTP 缺陷对照。\n  - button \"复制待补要求\"\n  - button \"补齐后重新检查\"\n  - complementary:\n    - heading \"验证层次\" [level=2]\n    - list:\n      - generic: 定义检查\n      - generic: 已完成\n      - generic: 独立样本\n      - generic: 已完成\n      - generic: 受控端到端\n      - generic: 当前\n      - generic: 项目试运行\n      - generic: 待执行\n    - paragraph: 每轮重新验证，标准与业务规则保持不变。",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "编辑工单"
+  },
+  {
+    "label": "尝试次数耗尽",
+    "path": "verify.html?state=exhausted",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=replayed\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - status:\n    - strong: 候选尝试已达上限\n    - paragraph: 首次生成和两轮修订仍未通过。草稿、各轮原因和计数已保留，不能自动重开绕过上限。\n  - heading \"已保留的内容\" [level=2]\n  - generic: 规则\n  - generic: v1.0 · 不放宽\n  - generic: 候选\n  - generic: v0.3 · 未准入\n  - generic: 尝试次数\n  - generic: 3 / 3\n  - generic \"诊断记录 －\"\n  - generic: 各轮仍存在漏检或误判；未执行项目正式验证，业务结论未知。\n  - link \"返回规则\":\n    - /url: verify.html?state=rules&flow=edit\n  - complementary:\n    - heading \"验证层次\" [level=2]\n    - list:\n      - generic: 定义检查\n      - generic: 已完成\n      - generic: 独立样本\n      - generic: 当前\n      - generic: 受控端到端\n      - generic: 待执行\n      - generic: 项目试运行\n      - generic: 待执行\n    - paragraph: 每轮重新验证，标准与业务规则保持不变。",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "编辑工单"
+  },
+  {
+    "label": "实验中断",
+    "path": "verify.html?state=interrupted",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=replayed\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"实验已中断\" [level=1]\n  - paragraph: R014 保留为未完成，不直接重发未知写请求\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - status:\n    - strong: 最终写入情况未知\n    - paragraph: 保留原请求与证据。恢复前必须隔离旧操作、核对环境并恢复基线；其他已完成独立检查仍保留。\n  - button \"核对条件并从头重跑\"\n  - generic \"执行与恢复原则 ＋\"\n  - complementary:\n    - heading \"运行条件\" [level=2]\n    - generic: 运行\n    - generic: R014\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 规则 / 映射\n    - generic: v1.0 / v1.3\n    - generic: 模板\n    - generic: 字段保持 v1.0\n    - generic: 环境 / 基线\n    - generic: 测试副本 / seed-v1\n    - generic: 取证\n    - generic: 完整 HTTP 查询\n    - status:\n      - strong: 无需重新分析\n      - paragraph: 规则、映射及模板有效时，无需模型重新分析。",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "实验已中断"
+  },
+  {
+    "label": "模型中途不可用",
+    "path": "verify.html?state=model-paused",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=replayed\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"模型分析已暂停\" [level=1]\n  - paragraph: 编辑工单 · 已保留进度与证据\n  - status:\n    - strong: 模型服务暂不可用\n    - paragraph: 依赖 AI 的候选分析暂停。已确认且无需 AI 的有效固定实验仍可执行；不会绕过候选准入。\n  - heading \"保留的状态\" [level=2]\n  - generic: 业务规则\n  - generic: v1.0 · 已确认\n  - generic: 候选任务\n  - generic: 第 2 次尝试 · 未发布\n  - generic: 执行记录\n  - generic: 已保存，不计为通过\n  - generic \"暂停原因 ＋\"\n  - button \"模型恢复后继续候选验证\"\n  - link \"复跑已确认实验\":\n    - /url: verify.html?state=replay-prepare\n  - complementary:\n    - heading \"运行条件\" [level=2]\n    - generic: 运行\n    - generic: R014 · 已保留\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 规则 / 映射\n    - generic: v1.0 / v1.3\n    - generic: 模板\n    - generic: 字段保持 v1.0\n    - generic: 环境 / 基线\n    - generic: 测试副本 / seed-v1\n    - generic: 取证\n    - generic: 完整 HTTP 查询",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "模型分析已暂停"
+  },
+  {
+    "label": "内部预算耗尽",
+    "path": "verify.html?state=budget-paused",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=replayed\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"已达到内部预算上限\" [level=1]\n  - paragraph: 编辑工单 · 已保留进度与证据\n  - status:\n    - strong: 停止新增调用与步骤\n    - paragraph: 候选轮数与累计使用量保留，不自动提高预算或重新计数。\n  - heading \"保留的状态\" [level=2]\n  - generic: 业务规则\n  - generic: v1.0 · 已确认\n  - generic: 候选任务\n  - generic: 第 2 次尝试 · 未发布\n  - generic: 执行记录\n  - generic: 已保存，不计为通过\n  - generic \"暂停原因 ＋\"\n  - button \"查看已保留证据\"\n  - complementary:\n    - heading \"运行条件\" [level=2]\n    - generic: 运行\n    - generic: R014 · 已保留\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 规则 / 映射\n    - generic: v1.0 / v1.3\n    - generic: 模板\n    - generic: 字段保持 v1.0\n    - generic: 环境 / 基线\n    - generic: 测试副本 / seed-v1\n    - generic: 取证\n    - generic: 完整 HTTP 查询",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "已达到内部预算上限"
+  },
+  {
+    "label": "无法取得证据",
+    "path": "report.html?state=unknown",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=unknown\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"验证报告\" [level=1]\n  - paragraph: 编辑工单 · R014 · 候选试运行 · 本轮已结束\n  - button \"导出\"\n  - link \"重新接入该流程\":\n    - /url: index.html?state=mapping\n  - generic \"报告内容\":\n    - button \"业务结果\"\n    - button \"候选资格 已发布\":\n      - text: 候选资格\n      - generic: 已发布\n  - complementary:\n    - heading \"结果摘要\" [level=2]\n    - generic: 业务结果\n    - generic: 无法验证\n    - generic: 模板资格\n    - generic: 已发布 · v1.0\n    - generic: 验证范围\n    - generic: 低负载字段保持\n    - status:\n      - strong: 目标负载未测\n      - paragraph: 补齐最终取证并通过业务验证后再运行。\n    - generic \"历史运行 ＋\"\n    - generic \"运行与版本 ＋\"\n    - button \"选择下一条流程\"\n  - heading \"无法取得完整最终字段\" [level=2]\n  - generic: 无法验证\n  - paragraph: 查询缺少 ownerId，不能证明所有者保持不变。未将缺字段当作空值相等。\n  - generic \"补充与重新检查 －\"\n  - generic: 提供返回同一工单完整 ownerId 的 HTTP 查询入口，并确认账号身份与字段语义。补齐后重新试运行；不因查询超时自动判接口变化。\n  - button \"复制补充说明\"\n  - button \"补充取证信息\"\n  - generic \"模板适用说明 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "验证报告"
+  },
+  {
+    "label": "已有模板流程",
+    "path": "verify.html?flow=submit",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=unknown\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"工单提交\" [level=1]\n  - button \"更换流程\"\n  - heading \"确认业务规则\" [level=2]\n  - generic: 0/3 已确认\n  - checkbox \"确认保存结果规则\"\n  - generic: 提交后能查到工单，标题与内容一致\n  - generic: 保存结果 v1.0\n  - generic: 待确认\n  - checkbox \"确认重复提交规则\"\n  - generic: 同一次提交重试，只生成一张工单\n  - generic: 重复提交 v1.0\n  - generic: 待确认\n  - checkbox \"确认权限隔离规则\"\n  - generic: 用户不能查看他人的工单\n  - generic: 权限隔离 v1.0\n  - generic: 待确认\n  - paragraph: 未确认项不参与判定。\n  - button \"确认并验证\"\n  - complementary:\n    - heading \"执行范围\" [level=2]\n    - generic: 1 条流程\n    - generic: 主流程\n    - generic: 工单提交\n    - generic: 测试身份\n    - generic: user_a / user_b\n    - generic: 测试环境\n    - generic: 独立副本 · seed-v1\n    - generic: 最终取证\n    - generic: HTTP 查询\n    - generic \"接口映射与取证 ＋\"\n    - generic \"规则与适用条件 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "工单提交"
+  },
+  {
+    "label": "目标确认",
+    "path": "verify.html?state=load-plan",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=unknown\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"目标负载\" [level=1]\n  - paragraph: 编辑工单 · 业务复测已通过\n  - heading \"确认本次目标\" [level=2]\n  - generic: 每分钟编辑次数\n  - spinbutton \"每分钟编辑次数\": \"60\"\n  - generic: 持续时间（分钟）\n  - spinbutton \"持续时间（分钟）\": \"10\"\n  - generic: 95% 请求允许等待（毫秒）\n  - spinbutton \"95% 请求允许等待（毫秒）\": \"1500\"\n  - generic: 请求错误率上限（%）\n  - spinbutton \"请求错误率上限（%）\": \"1\"\n  - generic: 使用方式\n  - textbox \"使用方式\": 普通用户编辑各自的工单，100% 为标题更新，均匀到达。\n  - generic \"数据、停止与结算条件 ＋\"\n  - checkbox \"确认目标、数据分布、判定与停止条件\"\n  - generic: 确认目标、数据分布、判定与停止条件\n  - button \"不确定目标\"\n  - button \"开始目标负载\"\n  - complementary:\n    - heading \"本次覆盖\" [level=2]\n    - generic: 低负载业务\n    - generic: R015 · 通过\n    - generic: 已验证检查\n    - generic: 字段保持 v1.0\n    - generic: 环境\n    - generic: 本机测试副本\n    - generic: 目标\n    - generic: 只验证已确认负载\n    - status:\n      - strong: 结论有范围\n      - paragraph: 不寻找最大容量，不把虚拟用户数换算成真实在线人数。",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "目标负载"
+  },
+  {
+    "label": "负载运行",
+    "path": "verify.html?state=load-running",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=unknown\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"目标负载运行中\" [level=1]\n  - paragraph: 编辑工单 · 60 次/分钟 · 10 分钟\n  - heading \"业务与性能同步检查\" [level=2]\n  - generic: 运行中\n  - generic: 业务意图\n  - strong: \"360\"\n  - generic: P95 等待\n  - strong: 820 ms\n  - generic: 请求错误率\n  - strong: 0.3%\n  - generic: 已取得最终记录\n  - strong: \"358\"\n  - generic: 在途 / 未结算\n  - generic: 2 项\n  - generic: 业务检查\n  - generic: 已观察结果符合规则\n  - button \"停止\"\n  - generic \"业务操作账本 ＋\"\n  - complementary:\n    - heading \"目标与边界\" [level=2]\n    - generic: P95 阈值\n    - generic: 1500 ms\n    - generic: 请求错误率\n    - generic: 1%\n    - generic: 持续超标窗口\n    - generic: 30 秒\n    - generic: 在途结算期限\n    - generic: 30 秒\n    - generic: 适用业务检查\n    - generic: 字段保持\n    - status:\n      - strong: 本机环境\n      - paragraph: 工具与网站共用资源；结论不能直接代表线上。",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "目标负载运行中"
+  },
+  {
+    "label": "违规停止",
+    "path": "verify.html?state=load-stopped&case=business",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=unknown\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"发现业务违规\" [level=1]\n  - paragraph: 编辑工单 · 60 次/分钟 · 10 分钟\n  - heading \"发现业务违规\" [level=2]\n  - generic: 已停止\n  - generic: 业务意图\n  - strong: \"360\"\n  - generic: P95 等待\n  - strong: 820 ms\n  - generic: 请求错误率\n  - strong: 0.3%\n  - generic: 已取得最终记录\n  - strong: \"358\"\n  - generic: 在途 / 未结算\n  - generic: 2 项\n  - generic: 业务检查\n  - generic: 优先级发生违规变化\n  - status:\n    - strong: 业务违规，立即停止\n    - paragraph: 即使响应很快，也不能判该目标通过。\n  - button \"结算在途操作\"\n  - generic \"业务操作账本 ＋\"\n  - complementary:\n    - heading \"目标与边界\" [level=2]\n    - generic: P95 阈值\n    - generic: 1500 ms\n    - generic: 请求错误率\n    - generic: 1%\n    - generic: 持续超标窗口\n    - generic: 30 秒\n    - generic: 在途结算期限\n    - generic: 30 秒\n    - generic: 适用业务检查\n    - generic: 字段保持\n    - status:\n      - strong: 本机环境\n      - paragraph: 工具与网站共用资源；结论不能直接代表线上。",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "发现业务违规"
+  },
+  {
+    "label": "性能超标停止",
+    "path": "verify.html?state=load-stopped&case=performance",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=unknown\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"性能持续超标\" [level=1]\n  - paragraph: 编辑工单 · 60 次/分钟 · 10 分钟\n  - heading \"性能持续超标\" [level=2]\n  - generic: 已停止\n  - generic: 业务意图\n  - strong: \"360\"\n  - generic: P95 等待\n  - strong: 1800 ms\n  - generic: 请求错误率\n  - strong: 0.3%\n  - generic: 已取得最终记录\n  - strong: \"358\"\n  - generic: 在途 / 未结算\n  - generic: 2 项\n  - generic: 业务检查\n  - generic: 已观察结果符合规则\n  - button \"结算在途操作\"\n  - generic \"业务操作账本 ＋\"\n  - complementary:\n    - heading \"目标与边界\" [level=2]\n    - generic: P95 阈值\n    - generic: 1500 ms\n    - generic: 请求错误率\n    - generic: 1%\n    - generic: 持续超标窗口\n    - generic: 30 秒\n    - generic: 在途结算期限\n    - generic: 30 秒\n    - generic: 适用业务检查\n    - generic: 字段保持\n    - status:\n      - strong: 本机环境\n      - paragraph: 工具与网站共用资源；结论不能直接代表线上。",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "性能持续超标"
+  },
+  {
+    "label": "资源上限停止",
+    "path": "verify.html?state=load-stopped&case=resource",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=unknown\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"达到资源上限\" [level=1]\n  - paragraph: 编辑工单 · 60 次/分钟 · 10 分钟\n  - heading \"达到资源上限\" [level=2]\n  - generic: 已停止\n  - generic: 业务意图\n  - strong: \"360\"\n  - generic: P95 等待\n  - strong: 820 ms\n  - generic: 请求错误率\n  - strong: 0.3%\n  - generic: 已取得最终记录\n  - strong: \"358\"\n  - generic: 在途 / 未结算\n  - generic: 2 项\n  - generic: 业务检查\n  - generic: 已观察结果符合规则\n  - button \"结算在途操作\"\n  - generic \"业务操作账本 ＋\"\n  - complementary:\n    - heading \"目标与边界\" [level=2]\n    - generic: P95 阈值\n    - generic: 1500 ms\n    - generic: 请求错误率\n    - generic: 1%\n    - generic: 持续超标窗口\n    - generic: 30 秒\n    - generic: 在途结算期限\n    - generic: 30 秒\n    - generic: 适用业务检查\n    - generic: 字段保持\n    - status:\n      - strong: 本机环境\n      - paragraph: 工具与网站共用资源；结论不能直接代表线上。",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "达到资源上限"
+  },
+  {
+    "label": "在途结算",
+    "path": "verify.html?state=load-settling",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=unknown\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"结算在途操作\" [level=1]\n  - paragraph: 编辑工单 · 60 次/分钟 · 10 分钟\n  - heading \"已停止派发，等待最终结果\" [level=2]\n  - generic: 结算中\n  - generic: 业务意图\n  - strong: \"600\"\n  - generic: P95 等待\n  - strong: 820 ms\n  - generic: 请求错误率\n  - strong: 0.3%\n  - generic: 已取得最终记录\n  - strong: \"598\"\n  - generic: 在途 / 未结算\n  - generic: 2 项\n  - generic: 业务检查\n  - generic: 已观察结果符合规则\n  - status:\n    - strong: 还不能给出目标通过结论\n    - paragraph: 在途结果需在 30 秒内完成查询；超期或查询不完整的项保留未知。\n  - generic \"业务操作账本 ＋\"\n  - complementary:\n    - heading \"目标与边界\" [level=2]\n    - generic: P95 阈值\n    - generic: 1500 ms\n    - generic: 请求错误率\n    - generic: 1%\n    - generic: 持续超标窗口\n    - generic: 30 秒\n    - generic: 在途结算期限\n    - generic: 30 秒\n    - generic: 适用业务检查\n    - generic: 字段保持\n    - status:\n      - strong: 本机环境\n      - paragraph: 工具与网站共用资源；结论不能直接代表线上。",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "结算在途操作"
+  },
+  {
+    "label": "结算后通过",
+    "path": "report.html?state=load-passed",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-passed\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"验证报告\" [level=1]\n  - paragraph: 编辑工单 · L016 · 目标负载 · 本轮已结束\n  - button \"导出\"\n  - link \"查看业务复测\":\n    - /url: report.html?state=replayed\n  - generic \"报告内容\":\n    - button \"业务结果\"\n    - button \"候选资格 已发布\":\n      - text: 候选资格\n      - generic: 已发布\n  - complementary:\n    - heading \"结果摘要\" [level=2]\n    - generic: 业务结果\n    - generic: 通过\n    - generic: 模板资格\n    - generic: 已发布 · v1.0\n    - generic: 验证范围\n    - generic: 目标负载\n    - heading \"目标条件\" [level=2]\n    - generic: 操作率\n    - generic: 60 次/分钟\n    - generic: 持续时间\n    - generic: 10 分钟\n    - generic: P95 阈值\n    - generic: 1500 ms\n    - generic: 请求错误率\n    - generic: 1%\n    - generic \"历史运行 ＋\"\n    - generic \"运行与版本 ＋\"\n    - button \"选择下一条流程\"\n  - heading \"已确认目标通过\" [level=2]\n  - generic: 目标通过\n  - generic: P95 等待\n  - strong: 820 ms\n  - generic: 请求错误率\n  - strong: 0.3%\n  - generic: 未结算\n  - strong: \"0\"\n  - table \"负载业务账本\":\n    - caption: 负载业务账本\n    - rowgroup:\n      - row \"独立业务意图 请求尝试 接受操作 最终记录\":\n        - columnheader \"独立业务意图\"\n        - columnheader \"请求尝试\"\n        - columnheader \"接受操作\"\n        - columnheader \"最终记录\"\n    - rowgroup:\n      - row \"600 612 600 600\":\n        - cell \"600\"\n        - cell \"612\"\n        - cell \"600\"\n        - cell \"600\"\n  - status:\n    - strong: 业务与性能条件共同满足\n    - paragraph: 仅限本次负载、数据、环境和字段保持检查。未探索更高负载或最大容量。\n  - paragraph: 本机测试副本 · 100 张专用工单 · 2 个身份 · 均匀编辑。权限隔离、重复提交与线上部署未包含在本次结论中；压测端与网站共用资源。\n  - generic \"模板适用说明 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "验证报告"
+  },
+  {
+    "label": "结算未知",
+    "path": "report.html?state=load-unknown",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-unknown\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"验证报告\" [level=1]\n  - paragraph: 编辑工单 · L016 · 目标负载 · 本轮已结束\n  - button \"导出\"\n  - link \"查看业务复测\":\n    - /url: report.html?state=replayed\n  - generic \"报告内容\":\n    - button \"业务结果\"\n    - button \"候选资格 已发布\":\n      - text: 候选资格\n      - generic: 已发布\n  - complementary:\n    - heading \"结果摘要\" [level=2]\n    - generic: 业务结果\n    - generic: 无法验证\n    - generic: 模板资格\n    - generic: 已发布 · v1.0\n    - generic: 验证范围\n    - generic: 目标负载\n    - heading \"目标条件\" [level=2]\n    - generic: 操作率\n    - generic: 60 次/分钟\n    - generic: 持续时间\n    - generic: 10 分钟\n    - generic: P95 阈值\n    - generic: 1500 ms\n    - generic: 请求错误率\n    - generic: 1%\n    - generic \"历史运行 ＋\"\n    - generic \"运行与版本 ＋\"\n    - button \"选择下一条流程\"\n  - heading \"结算证据不足\" [level=2]\n  - generic: 无法验证\n  - generic: P95 等待\n  - strong: 820 ms\n  - generic: 请求错误率\n  - strong: 0.3%\n  - generic: 未结算\n  - strong: \"2\"\n  - table \"负载业务账本\":\n    - caption: 负载业务账本\n    - rowgroup:\n      - row \"独立业务意图 请求尝试 接受操作 最终记录\":\n        - columnheader \"独立业务意图\"\n        - columnheader \"请求尝试\"\n        - columnheader \"接受操作\"\n        - columnheader \"最终记录\"\n    - rowgroup:\n      - row \"600 612 600 598\":\n        - cell \"600\"\n        - cell \"612\"\n        - cell \"600\"\n        - cell \"598\"\n  - status:\n    - strong: 最终结果未完整取得\n    - paragraph: 结算期限已到，无法确认整体业务目标；查询失败不直接等于网站业务失败。\n  - paragraph: 本机测试副本 · 100 张专用工单 · 2 个身份 · 均匀编辑。权限隔离、重复提交与线上部署未包含在本次结论中；压测端与网站共用资源。\n  - generic \"模板适用说明 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "验证报告"
+  },
+  {
+    "label": "包检查通过",
+    "path": "index.html?state=package-check",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-unknown\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"加载验证包\" [level=1]\n  - paragraph: ticket-title-check · 来自运行 R014\n  - heading \"加载前检查\" [level=2]\n  - generic: 检查通过\n  - strong: 包格式与完整性\n  - generic: 通过\n  - strong: 引用路径与边界\n  - generic: 通过\n  - strong: 解释器与运行版本\n  - generic: 通过\n  - strong: 模板资格\n  - generic: 有效 · 字段保持 v1.0\n  - strong: 环境与数据要求\n  - generic: 待在复跑前确认\n  - status:\n    - strong: 可在本工具内复跑\n    - paragraph: 规则、映射和模板版本有效；重新输入测试密码并核对测试条件后运行。\n  - button \"继续复跑\"\n  - generic \"包内内容 ＋\"\n  - complementary:\n    - heading \"运行条件\" [level=2]\n    - generic: 运行\n    - generic: 原运行 R014\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 规则 / 映射\n    - generic: v1.0 / v1.3\n    - generic: 模板\n    - generic: 字段保持 v1.0\n    - generic: 环境 / 基线\n    - generic: 测试副本 / seed-v1\n    - generic: 取证\n    - generic: 完整 HTTP 查询\n    - generic \"范围 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "加载验证包"
+  },
+  {
+    "label": "模板停用",
+    "path": "index.html?state=package-check&case=disabled",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-unknown\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"加载验证包\" [level=1]\n  - paragraph: ticket-title-check · 来自运行 R014\n  - heading \"加载前检查\" [level=2]\n  - generic: 已阻止执行\n  - strong: 包格式与完整性\n  - generic: 通过\n  - strong: 引用路径与边界\n  - generic: 通过\n  - strong: 解释器与运行版本\n  - generic: 通过\n  - strong: 模板资格\n  - generic: 已停用\n  - strong: 环境与数据要求\n  - generic: 待在复跑前确认\n  - status:\n    - strong: 模板已停用\n    - paragraph: 字段保持 v1.0 已停用，历史报告保留，不能直接执行。\n  - button \"选择其他验证包\"\n  - button \"选择有效版本并重新确认\"\n  - generic \"包内内容 ＋\"\n  - complementary:\n    - heading \"运行条件\" [level=2]\n    - generic: 运行\n    - generic: 原运行 R014\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 规则 / 映射\n    - generic: v1.0 / v1.3\n    - generic: 模板\n    - generic: 字段保持 v1.0\n    - generic: 环境 / 基线\n    - generic: 测试副本 / seed-v1\n    - generic: 取证\n    - generic: 完整 HTTP 查询\n    - generic \"范围 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "加载验证包"
+  },
+  {
+    "label": "包被改动",
+    "path": "index.html?state=package-check&case=damaged",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-unknown\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"加载验证包\" [level=1]\n  - paragraph: ticket-title-check · 来自运行 R014\n  - heading \"加载前检查\" [level=2]\n  - generic: 已阻止执行\n  - strong: 包格式与完整性\n  - generic: 不通过\n  - strong: 引用路径与边界\n  - generic: 通过\n  - strong: 解释器与运行版本\n  - generic: 通过\n  - strong: 模板资格\n  - generic: 有效 · 字段保持 v1.0\n  - strong: 环境与数据要求\n  - generic: 待在复跑前确认\n  - status:\n    - strong: 验证包完整性不通过\n    - paragraph: 证据引用的摘要与包清单不一致，不能加载执行。\n  - button \"选择其他验证包\"\n  - button \"返回项目接入\"\n  - generic \"包内内容 ＋\"\n  - complementary:\n    - heading \"运行条件\" [level=2]\n    - generic: 运行\n    - generic: 原运行 R014\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 规则 / 映射\n    - generic: v1.0 / v1.3\n    - generic: 模板\n    - generic: 字段保持 v1.0\n    - generic: 环境 / 基线\n    - generic: 测试副本 / seed-v1\n    - generic: 取证\n    - generic: 完整 HTTP 查询\n    - generic \"范围 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "加载验证包"
+  },
+  {
+    "label": "版本不兼容",
+    "path": "index.html?state=package-check&case=version",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=load-unknown\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"加载验证包\" [level=1]\n  - paragraph: ticket-title-check · 来自运行 R014\n  - heading \"加载前检查\" [level=2]\n  - generic: 已阻止执行\n  - strong: 包格式与完整性\n  - generic: 通过\n  - strong: 引用路径与边界\n  - generic: 通过\n  - strong: 解释器与运行版本\n  - generic: 不兼容\n  - strong: 模板资格\n  - generic: 有效 · 字段保持 v1.0\n  - strong: 环境与数据要求\n  - generic: 待在复跑前确认\n  - status:\n    - strong: 运行版本不兼容\n    - paragraph: 验证包要求解释器 v2，当前版本为 v1。\n  - button \"选择其他验证包\"\n  - button \"返回项目接入\"\n  - generic \"包内内容 ＋\"\n  - complementary:\n    - heading \"运行条件\" [level=2]\n    - generic: 运行\n    - generic: 原运行 R014\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 规则 / 映射\n    - generic: v1.0 / v1.3\n    - generic: 模板\n    - generic: 字段保持 v1.0\n    - generic: 环境 / 基线\n    - generic: 测试副本 / seed-v1\n    - generic: 取证\n    - generic: 完整 HTTP 查询\n    - generic \"范围 ＋\"",
+    "overflow": false,
+    "previewCopy": false,
+    "simulationButtons": 0,
+    "title": "加载验证包"
+  }
+]

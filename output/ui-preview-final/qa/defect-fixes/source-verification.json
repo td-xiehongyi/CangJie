@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-12",
+  "scope": "static-preview-only",
+  "syntax": "node --check passed",
+  "uniqueFunctions": 47,
+  "realNetworkOrFileExecutionAdded": false,
+  "sources": [
+    {
+      "file": "index.html",
+      "before": "ad589191f2e84dc65342e02c48f4f242a78b32817d6b201f4771f26f0f1324a1",
+      "after": "b1d6f5aed4071cdbe3f3abee335c80e404961b55aa38aef36eb1606a5f3bd5a4",
+      "changed": true
+    },
+    {
+      "file": "verify.html",
+      "before": "241dbab2c0577e159340d392b7495b1a2aa1da2c17786ac747bcca2170ff3728",
+      "after": "31d330013d3ba2cd63d1b707f4bbd0989370b0c32c5bef25d5b78f2c75e939e0",
+      "changed": true
+    },
+    {
+      "file": "report.html",
+      "before": "7c593836e9bac4a108120988d69e7a927ff2d54d3ea4695ded149f69807b343f",
+      "after": "9ab6bb02e9aeaeaaf96321f0791993b1507cc752ac6598692a76b0dcd6f8208a",
+      "changed": true
+    },
+    {
+      "file": "settings.html",
+      "before": "3933ed1d1beb406e9514899f3aafa0a4dc551ac1d21d66f2d1935caa10c52d51",
+      "after": "038a4aeefcba3644d0a948dd5d2a6a4983b3bda4920ae1d6537da926c6e7dc3b",
+      "changed": true
+    },
+    {
+      "file": "preview.js",
+      "before": "a011dd535a6429edc6a52d7c40b9fc3bb98c8bac464c6548fd5ae66728ef212c",
+      "after": "2b3505e05d4fdf59e71797eb07218056964598bdef615415181dd889447f6183",
+      "changed": true
+    },
+    {
+      "file": "styles.css",
+      "before": "7e333b85e9e22f8e99392cde989a495d6e712eeb3e214b5d3acac2422591b57c",
+      "after": "7e333b85e9e22f8e99392cde989a495d6e712eeb3e214b5d3acac2422591b57c",
+      "changed": false
+    }
+  ]
+}

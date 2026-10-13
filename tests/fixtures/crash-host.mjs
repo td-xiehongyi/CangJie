@@ -1,0 +1,17 @@
+import {inspectProject} from '../../apps/host/dist/projects/inspect.js';
+import {prepareCopy} from '../../apps/host/dist/projects/copy.js';
+import {CredentialSession} from '../../apps/host/dist/execution/session.js';
+import {bindMapping,mappingHash} from '../../apps/host/dist/execution/mapping.js';
+import {execute} from '../../apps/host/dist/execution/http.js';
+import {fileURLToPath} from 'node:url';
+import {createServer} from 'node:net';
+const s=createServer();await new Promise(r=>s.listen(0,'127.0.0.1',r));const port=s.address().port;await new Promise(r=>s.close(r));
+const credentials=new CredentialSession();credentials.set('crash-project','owner','synthetic-crash-owner');credentials.set('crash-project','other','synthetic-crash-other');
+const profile=await inspectProject(fileURLToPath(new URL('../../samples/ticket',import.meta.url)));
+const env=await prepareCopy(profile,{projectId:'crash-project',port,confirmed:true,accounts:[{actorRef:'owner',username:'alpha',userId:'user-a',role:'user'},{actorRef:'other',username:'beta',userId:'user-b',role:'user'}],data:{source:'synthetic',count:2,seedVersion:'ticket-seed-v1'},credentials});
+const mapping=bindMapping(profile.mapping,env.id);await env.prepareExperiment({checkId:'save',ruleHash:'crash-rule',mappingHash:mappingHash(mapping),confirmed:true,budget:{maxOperations:16,deadlineMs:10000}});
+const p=env.currentAttempt;
+const action={actionId:'crash-login',operationId:'query',actorRef:'owner',intentId:`${p.runId}:save`,attemptId:p.id,checkId:'save',stepId:'first',bindings:{},deadline:2000,isolationKey:`${p.runId}:save`,requiresBaseline:false};
+await execute(action,{environment:env,mapping});
+void execute({...action,actionId:'crash-write',operationId:'create',bindings:{title:'unacknowledged',delayMs:2000}},{environment:env,mapping});
+setTimeout(()=>process.stdout.write(JSON.stringify({copyId:env.id,attemptId:p.id})+'\n'),150);

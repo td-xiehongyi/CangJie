@@ -1,0 +1,12 @@
+✔ ordinary delivery excludes compiled candidate examples (652.8243ms)
+✔ resource builder rejects a lock path before any escaping write (12.5562ms)
+✔ root junction and installation ancestor junction are rejected (39.4871ms)
+✔ parent cleanup removes only the failed acceptance credential and verifies deletion (2608.9392ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3404.9583

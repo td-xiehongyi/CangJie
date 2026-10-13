@@ -1,0 +1,18 @@
+import {useEffect,useState} from 'react';
+import {api,connect,type Data} from './api/client';
+import ProjectView from './ProjectView';
+import VerifyView from './VerifyView';
+import ReportView from './ReportView';
+import SettingsView from './SettingsView';
+const params=()=>new URLSearchParams(location.search);
+export default function App(){
+  const [state,setState]=useState<Data>(),[page,setPage]=useState(params().get('page')??'project'),[projectId,setProjectId]=useState(params().get('project')??''),[runId,setRunId]=useState(params().get('run')??''),[error,setError]=useState(''),[busy,setBusy]=useState(false),[closed,setClosed]=useState(false);
+  async function refresh(){setState(await api('/state'));}
+  useEffect(()=>{let alive=true;if(closed)return;void connect().then(async()=>{if(alive)await refresh();}).catch(e=>setError(e.message));const timer=setInterval(()=>{if(alive)void refresh().catch(e=>setError(e.message));},1500);const back=()=>{setPage(params().get('page')??'project');setProjectId(params().get('project')??'');setRunId(params().get('run')??'');};window.addEventListener('popstate',back);return()=>{alive=false;clearInterval(timer);window.removeEventListener('popstate',back);};},[closed]);
+  function select(pid:string,rid?:string,target=page){setProjectId(pid);setRunId(rid??'');setPage(target);const q=new URLSearchParams({page:target});if(pid)q.set('project',pid);if(rid)q.set('run',rid);history.pushState({},'',`?${q}`);}
+  function act(work:()=>Promise<void>){setError('');setBusy(true);void work().catch(e=>setError(e.message)).finally(()=>setBusy(false));}
+  const project=state?.projects.find((p:Data)=>p.id===projectId),run=state?.runs.find((r:Data)=>r.id===runId),titles:Record<string,string>={project:'项目接入',verify:'业务验证',report:'验证报告',settings:'模型设置'};
+  if(closed)return <main className="closed"><h1>本次会话已退出</h1><p>测试密码、Token 和未记住的模型密钥已清除。</p></main>;
+  const props={state:state!,project,run,refresh,act,select};
+  return <div className="app"><a className="skip" href="#main">跳转到主要内容</a><aside className="sidebar"><div className="brand"><span className="brand-mark">W</span>网站验证</div><nav className="nav" aria-label="主导航">{Object.entries(titles).map(([id,title])=><a key={id} href={`?page=${id}${projectId?`&project=${projectId}`:''}${runId?`&run=${runId}`:''}`} aria-current={page===id?'page':undefined} className={page===id?'active':''} onClick={e=>{e.preventDefault();select(projectId,runId,id);}}>{title}</a>)}</nav><div className="side-note">本地工作台<br/>证据与历史保留在本机</div></aside><div className="main"><header className="topbar"><span>{project?.name??'尚未选择项目'}</span><div className="top-actions"><label className="sr-only" htmlFor="project-switch">切换项目</label><select id="project-switch" value={projectId} onChange={e=>select(e.target.value,undefined,'project')}><option value="">新建项目</option>{state?.projects.map((p:Data)=><option key={p.id} value={p.id}>{p.name} · {p.id.slice(0,6)}</option>)}</select><button className="text-button" onClick={()=>act(async()=>{await api('/session/close',{});setClosed(true);})}>退出会话</button></div></header><main id="main" className="page"><div aria-live="polite" className="status-line">{busy?'正在处理请求…':''}</div>{error&&<div className="notice error" role="alert">{error}<button className="text-button" onClick={()=>setError('')}>关闭提示</button></div>}{!state?<p role="status">正在连接本机服务…</p>:<><div hidden={page!=='project'}><ProjectView key={projectId||'new'} {...props}/></div><div hidden={page!=='verify'}><VerifyView key={projectId||'new'} {...props}/></div><div hidden={page!=='report'}><ReportView key={projectId||'new'} {...props}/></div><div hidden={page!=='settings'}><SettingsView {...props}/></div></>}</main></div></div>;
+}

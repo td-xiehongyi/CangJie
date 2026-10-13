@@ -1,0 +1,9 @@
+{
+  "tests/reference/server.ts": "fcddab6c889b24bcadefe69cac602b249722416be045175d90aae3c8b2e5818a",
+  "tests/reference/behaviors.ts": "3f62fb9a907421c47429f134d0e81f7d502d75ec199d146bac5e30fbec167bc8",
+  "tests/reference/db.ts": "4f4ca47ddc6515d3e4bc3ec1e044df61acb72ba68c16b94445ac6fa630f600b5",
+  "tests/reference/seed.ts": "92176ff838653cd136c9f09227b106fda23b91295ad5963ff267655c4c55a6be",
+  "tests/reference/mapping.json": "3a1122c9c54eaa9b53230a26bf840d4f67673dc0e43834b5ed38ab80a6fa89bf",
+  "tests/reference/suite-manifest.json": "74bd2ba7f828052eca0bf393b4eb627094c1999b18458d5acf3d1edeec0e11a4",
+  "tests/fixtures/observations.json": "8b8e70facf2ec407a20492d973e2145c59231a225b30321a7a0444776cdaf22b"
+}

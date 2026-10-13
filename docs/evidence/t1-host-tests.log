@@ -1,0 +1,11 @@
+✔ host clock sends a tick without any observation (107.4472ms)
+✔ host cancellation clears timer and returns terminal (126.0471ms)
+✔ rejected observation leaves timer and valid observation usable (77.4488ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 400.0855

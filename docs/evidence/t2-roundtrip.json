@@ -1,0 +1,101 @@
+{
+  "state": {
+    "runId": "9a36307c-1b90-4ea8-b1b8-1eaf4af771cc",
+    "state": "completed",
+    "code": "COMPLETED",
+    "actions": [],
+    "verdicts": [
+      {
+        "status": "pass",
+        "reasonCode": "ASSERTION_TRUE",
+        "ruleRef": {
+          "id": "save-rule",
+          "version": 1
+        },
+        "assertionRef": "saved-title",
+        "checkId": "save",
+        "evidenceRefs": [
+          "evidence:932166e97e204e12416c633a05d2c63cab1a1a75918b5a7a53f5b7f3e2cced69.json",
+          "evidence:0752f43a200056771282513b7f045354a0d47b504261c4701b0649076ba04c9a.json"
+        ],
+        "unknownReasons": [],
+        "scope": "observation_validation"
+      },
+      {
+        "status": "pass",
+        "reasonCode": "ASSERTION_TRUE",
+        "ruleRef": {
+          "id": "save-rule",
+          "version": 1
+        },
+        "assertionRef": "no-old-data",
+        "checkId": "after-reset",
+        "evidenceRefs": [
+          "evidence:50a94e3776c0e35bf3ad815083feb56632b3c49ce406d88aae52cd5eaea2b94a.json"
+        ],
+        "unknownReasons": [],
+        "scope": "observation_validation"
+      }
+    ]
+  },
+  "observations": [
+    {
+      "actionId": "9a36307c-1b90-4ea8-b1b8-1eaf4af771cc:a1",
+      "intentId": "9a36307c-1b90-4ea8-b1b8-1eaf4af771cc:save",
+      "attemptId": "9a36307c-1b90-4ea8-b1b8-1eaf4af771cc:save:attempt-1",
+      "transportStatus": "ok",
+      "identityVerified": true,
+      "acceptance": "accepted",
+      "result": {
+        "id": "21a9bffb-c3da-4885-88a5-dcca6d6f1780",
+        "title": "测试工单"
+      },
+      "queryComplete": true,
+      "evidenceRefs": [
+        "evidence:932166e97e204e12416c633a05d2c63cab1a1a75918b5a7a53f5b7f3e2cced69.json"
+      ]
+    },
+    {
+      "actionId": "9a36307c-1b90-4ea8-b1b8-1eaf4af771cc:a2",
+      "intentId": "9a36307c-1b90-4ea8-b1b8-1eaf4af771cc:save",
+      "attemptId": "9a36307c-1b90-4ea8-b1b8-1eaf4af771cc:save:attempt-1",
+      "transportStatus": "ok",
+      "identityVerified": true,
+      "acceptance": "accepted",
+      "result": {
+        "id": "21a9bffb-c3da-4885-88a5-dcca6d6f1780",
+        "title": "测试工单",
+        "items": [
+          {
+            "id": "21a9bffb-c3da-4885-88a5-dcca6d6f1780",
+            "ownerId": "user-a",
+            "title": "测试工单",
+            "priority": "high",
+            "intentId": "9a36307c-1b90-4ea8-b1b8-1eaf4af771cc:save",
+            "attemptId": "9a36307c-1b90-4ea8-b1b8-1eaf4af771cc:save:attempt-1"
+          }
+        ]
+      },
+      "queryComplete": true,
+      "evidenceRefs": [
+        "evidence:0752f43a200056771282513b7f045354a0d47b504261c4701b0649076ba04c9a.json"
+      ]
+    },
+    {
+      "actionId": "9a36307c-1b90-4ea8-b1b8-1eaf4af771cc:a3",
+      "intentId": "9a36307c-1b90-4ea8-b1b8-1eaf4af771cc:after-reset",
+      "attemptId": "9a36307c-1b90-4ea8-b1b8-1eaf4af771cc:after-reset:attempt-1",
+      "transportStatus": "ok",
+      "identityVerified": true,
+      "acceptance": "accepted",
+      "result": {
+        "items": []
+      },
+      "queryComplete": true,
+      "evidenceRefs": [
+        "evidence:50a94e3776c0e35bf3ad815083feb56632b3c49ce406d88aae52cd5eaea2b94a.json"
+      ]
+    }
+  ],
+  "copyId": "2f7aae40-5e82-4f0d-9ff4-272448a58715"
+}

@@ -1,0 +1,88 @@
+{
+  "id": "permission-isolation",
+  "revision": 1,
+  "ruleRef": {
+    "id": "permission-rule",
+    "version": 1
+  },
+  "parameters": {
+    "title": "私有工单"
+  },
+  "requiredCapabilities": [
+    "create",
+    "query"
+  ],
+  "checks": [
+    "permission"
+  ],
+  "steps": [
+    {
+      "stepId": "create",
+      "checkId": "permission",
+      "operationId": "create",
+      "actorRef": "owner",
+      "bindings": {
+        "title": {
+          "op": "field",
+          "var": "params",
+          "path": [
+            "title"
+          ]
+        }
+      },
+      "output": "created"
+    },
+    {
+      "stepId": "other-query",
+      "checkId": "permission",
+      "operationId": "query",
+      "actorRef": "other",
+      "bindings": {
+        "id": {
+          "op": "field",
+          "var": "created",
+          "path": [
+            "id"
+          ]
+        }
+      },
+      "output": "visible"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "not-visible",
+      "checkId": "permission",
+      "expr": {
+        "op": "eq",
+        "args": [
+          {
+            "op": "count",
+            "arg": {
+              "op": "field",
+              "var": "visible",
+              "path": [
+                "items"
+              ]
+            }
+          },
+          {
+            "op": "const",
+            "value": 0
+          }
+        ]
+      }
+    }
+  ],
+  "evidenceRequirements": {
+    "identityVerified": true,
+    "queryComplete": true,
+    "acceptanceKnown": true,
+    "evidenceRefs": true
+  },
+  "limits": {
+    "maxActions": 16,
+    "actionTimeoutMs": 1500,
+    "runTimeoutMs": 10000
+  }
+}

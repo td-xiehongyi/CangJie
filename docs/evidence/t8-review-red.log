@@ -1,0 +1,46 @@
+▶ actual k6 fixed target, accumulation, stopping and evidence
+  ✖ concurrent API starts admit only one task per project (1845.0905ms)
+  ✔ no_post_target_exploration and all sent experiments have evidence (3270.3648ms)
+  ✔ thresholds missing reports observation only (3326.7894ms)
+  ✔ sustained_latency_stops (4787.64ms)
+  ✔ manual_cancel settles in-flight work (4366.4694ms)
+  ✔ hard operation limit stops without raising the target (4945.2776ms)
+  ✔ business_error_stops only selected flow (6051.5048ms)
+  ✔ query incompleteness remains unknown (4786.3255ms)
+  ✔ failed source and changed mapping block before starting k6 (0.6063ms)
+✖ actual k6 fixed target, accumulation, stopping and evidence (35157.6238ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 8
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 35274.4337
+
+✖ failing tests:
+
+test at tests\integration\target-load.test.mjs:39:11
+✖ concurrent API starts admit only one task per project (1845.0905ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      202,
+  +   202
+  -   400
+    ]
+  
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/target-load.test.mjs:48:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/target-load.test.mjs:39:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 202, 202 ],
+    expected: [ 202, 400 ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

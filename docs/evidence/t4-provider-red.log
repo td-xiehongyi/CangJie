@@ -1,0 +1,384 @@
+✖ unconfigured model never calls and configured model is sent unchanged (1.0446ms)
+✖ scope confirmation enforced per request; allowed scope reused without reapproval (0.2327ms)
+✖ scope blocks project before any network request (0.2075ms)
+✖ scope blocks scope before any network request (0.1428ms)
+✖ scope blocks service before any network request (0.1669ms)
+✖ scope blocks path before any network request (0.1757ms)
+✖ scope blocks sensitive before any network request (0.1459ms)
+✖ authentication is a provider fault without retry or model fallback (0.1754ms)
+✖ model missing is a provider fault without retry or model fallback (0.1559ms)
+✖ service down is a provider fault without retry or model fallback (0.206ms)
+✖ incompatible shape HTTP 200 is not structured compatibility (0.307ms)
+✖ empty HTTP 200 is not structured compatibility (0.5485ms)
+✖ truncated HTTP 200 is not structured compatibility (0.1647ms)
+✖ malformed JSON HTTP 200 is not structured compatibility (0.1362ms)
+✖ budget is finite, reserves before calls, invalid preset cannot run (0.2049ms)
+✖ invalid URL cannot transmit a model key (0.1784ms)
+✖ unremembered key stays session-only and clear removes cached access (0.2025ms)
+✖ actual Windows credential store: explicit remember, reopen, endpoint binding and deletion (0.1767ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 0
+ℹ fail 18
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 108.7815
+
+✖ failing tests:
+
+test at tests\integration\candidate.test.mjs:14:1
+✖ unconfigured model never calls and configured model is sent unchanged (1.0446ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:14:102)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:15:1
+✖ scope confirmation enforced per request; allowed scope reused without reapproval (0.2327ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:15:113)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:16:70
+✖ scope blocks project before any network request (0.2075ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:16:151)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:16:70
+✖ scope blocks scope before any network request (0.1428ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:16:151)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:16:70
+✖ scope blocks service before any network request (0.1669ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:16:151)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:16:70
+✖ scope blocks path before any network request (0.1757ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:16:151)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:16:70
+✖ scope blocks sensitive before any network request (0.1459ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:16:151)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:17:165
+✖ authentication is a provider fault without retry or model fallback (0.1754ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:17:256)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:17:165
+✖ model missing is a provider fault without retry or model fallback (0.1559ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:17:256)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:17:165
+✖ service down is a provider fault without retry or model fallback (0.206ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:17:256)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:23:3
+✖ incompatible shape HTTP 200 is not structured compatibility (0.307ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:23:83)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:23:3
+✖ empty HTTP 200 is not structured compatibility (0.5485ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:23:83)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:23:3
+✖ truncated HTTP 200 is not structured compatibility (0.1647ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:23:83)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:23:3
+✖ malformed JSON HTTP 200 is not structured compatibility (0.1362ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:23:83)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:24:1
+✖ budget is finite, reserves before calls, invalid preset cannot run (0.2049ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:24:99)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:25:1
+✖ invalid URL cannot transmit a model key (0.1784ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:13:52)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:25:72)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:26:1
+✖ unremembered key stays session-only and clear removes cached access (0.2025ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:26:100)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:27:1
+✖ actual Windows credential store: explicit remember, reopen, endpoint binding and deletion (0.1767ms)
+  AssertionError [ERR_ASSERTION]: T4 model provider must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:10:29)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:27:122)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

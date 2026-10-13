@@ -1,0 +1,53 @@
+
+Running 6 tests using 1 worker
+
+(node:47224) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\e2e\target-load.spec.ts:9:1 › T8 browser config, real k6, evidence and server restart @t8 (19.8s)
+(node:20068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 tests\e2e\workbench.spec.ts:20:1 › empty report does not invent runs; four pages respond at 1280, 768, 390 (4.6s)
+  ok 3 tests\e2e\workbench.spec.ts:27:1 › project form and session passwords survive scope edits; actual run and package replay (8.9s)
+  ok 4 tests\e2e\workbench.spec.ts:42:1 › scope and backend errors cannot become success by waiting (1.3s)
+  ok 5 tests\e2e\workbench.spec.ts:49:1 › candidate review is explicit and a disabled version cannot silently fall back (13.0s)
+  ok 6 tests\e2e\workbench.spec.ts:63:1 › failure and unknown reports come from real website observations and block load (7.4s)
+
+
+  1) tests\e2e\target-load.spec.ts:9:1 › T8 browser config, real k6, evidence and server restart @t8 
+
+    Error: expect(locator).not.toBeChecked() failed
+
+    Locator:  getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限')
+    Expected: not checked
+    Received: checked
+    Timeout:  12000ms
+
+    Call log:
+      - Expect "not toBeChecked" getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限') with timeout 12000ms
+      - waiting for getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限')
+        27 × locator resolved to <input type="checkbox"/>
+           - unexpected value "checked"
+
+
+      25 |     for(const input of await page.getByLabel(/占比 %/).all())await input.fill('25');
+      26 |     await page.getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限').check();
+    > 27 |     await page.getByLabel('目标业务实验/秒',{exact:true}).fill('4');await expect(page.getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限')).not.toBeChecked();await page.getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限').check();
+         |                                                                                                                            ^
+      28 |     await page.getByRole('button',{name:'开始目标负载验证',exact:true}).click();
+      29 |     await expect(page.getByRole('heading',{name:'目标达标',exact:true})).toBeVisible({timeout:30000});
+      30 |     const result=(await request('/state')).loads[0];expect(result.metrics.started).toBe(8);const detail=await request(`/loads/${result.id}`);expect(new Set(detail.ledger.map((e:any)=>e.ruleId)).size).toBe(4);expect(detail.settlement.unknown).toBe(0);expect(JSON.stringify(detail)).not.toContain('synthetic-t8-browser-owner');
+        at C:\Users\xie\Desktop\Project\tests\e2e\target-load.spec.ts:27:124
+
+    Error Context: output\t6-workbench\test-results\target-load-T8-browser-con-445bb-evidence-and-server-restart\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    output\t6-workbench\test-results\target-load-T8-browser-con-445bb-evidence-and-server-restart\trace.zip
+    Usage:
+
+        npx playwright show-trace output\t6-workbench\test-results\target-load-T8-browser-con-445bb-evidence-and-server-restart\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests\e2e\target-load.spec.ts:9:1 › T8 browser config, real k6, evidence and server restart @t8 
+  5 passed (1.1m)

@@ -1,0 +1,36 @@
+✔ schema accepts save-result and rejects executable additions (1.3246ms)
+✔ schema accepts duplicate-submit and rejects executable additions (0.4935ms)
+✔ schema accepts permission-isolation and rejects executable additions (0.8212ms)
+✖ exists only tests field presence (0.8593ms)
+✔ schema rejects malformed observations, unknown capabilities and rules (0.1283ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 92.7734
+
+✖ failing tests:
+
+test at tests\contracts\schema.test.mjs:6:1
+✖ exists only tests field presence (0.8593ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/schema.test.mjs:6:263)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

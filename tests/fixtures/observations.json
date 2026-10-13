@@ -1,0 +1,1604 @@
+{
+  "c001": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-a",
+            "title": "样本甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-a",
+            "title": "样本甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200,
+            "items": [
+              {
+                "id": "object-a",
+                "title": "样本甲",
+                "priority": "high",
+                "ownerId": "user-a",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c002": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-a",
+            "title": "样本甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-a",
+            "title": "错误持久化值",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200,
+            "items": [
+              {
+                "id": "object-a",
+                "title": "错误持久化值",
+                "priority": "high",
+                "ownerId": "user-a",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c003": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-a",
+            "title": "样本甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-a",
+            "title": "样本甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200,
+            "items": [
+              {
+                "id": "object-a",
+                "title": "样本甲",
+                "priority": "high",
+                "ownerId": "user-a",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": false
+        }
+      }
+    ]
+  },
+  "c004": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-z",
+            "title": "留出 数值42 空格",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-z",
+            "title": "留出 数值42 空格",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200,
+            "items": [
+              {
+                "id": "object-z",
+                "title": "留出 数值42 空格",
+                "priority": "critical-42",
+                "ownerId": "held-owner-77",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c005": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-z",
+            "title": "留出 数值42 空格",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-z",
+            "title": "错误持久化值",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200,
+            "items": [
+              {
+                "id": "object-z",
+                "title": "错误持久化值",
+                "priority": "critical-42",
+                "ownerId": "held-owner-77",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c006": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-z",
+            "title": "留出 数值42 空格",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-z",
+            "title": "留出 数值42 空格",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200,
+            "items": [
+              {
+                "id": "object-z",
+                "title": "留出 数值42 空格",
+                "priority": "critical-42",
+                "ownerId": "held-owner-77",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": false
+        }
+      }
+    ]
+  },
+  "c007": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-a",
+            "title": "样本甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-a",
+            "title": "样本甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "items": [
+              {
+                "id": "object-a",
+                "title": "样本甲",
+                "priority": "high",
+                "ownerId": "user-a",
+                "status": 200
+              }
+            ],
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c008": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-a",
+            "title": "样本甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-b",
+            "title": "样本甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "items": [
+              {
+                "id": "object-a",
+                "title": "样本甲",
+                "priority": "high",
+                "ownerId": "user-a",
+                "status": 200
+              },
+              {
+                "id": "object-b",
+                "title": "样本甲",
+                "priority": "high",
+                "ownerId": "user-a",
+                "status": 200
+              }
+            ],
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c009": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-a",
+            "title": "样本甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-a",
+            "title": "样本甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "items": [
+              {
+                "id": "object-a",
+                "title": "样本甲",
+                "priority": "high",
+                "ownerId": "user-a",
+                "status": 200
+              }
+            ],
+            "status": 200
+          },
+          "queryComplete": false
+        }
+      }
+    ]
+  },
+  "c010": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-z",
+            "title": "留出 数值42 空格",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-z",
+            "title": "留出 数值42 空格",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "items": [
+              {
+                "id": "object-z",
+                "title": "留出 数值42 空格",
+                "priority": "critical-42",
+                "ownerId": "held-owner-77",
+                "status": 200
+              }
+            ],
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c011": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-z",
+            "title": "留出 数值42 空格",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-b",
+            "title": "留出 数值42 空格",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "items": [
+              {
+                "id": "object-z",
+                "title": "留出 数值42 空格",
+                "priority": "critical-42",
+                "ownerId": "held-owner-77",
+                "status": 200
+              },
+              {
+                "id": "object-b",
+                "title": "留出 数值42 空格",
+                "priority": "critical-42",
+                "ownerId": "held-owner-77",
+                "status": 200
+              }
+            ],
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c012": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-z",
+            "title": "留出 数值42 空格",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-z",
+            "title": "留出 数值42 空格",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "items": [
+              {
+                "id": "object-z",
+                "title": "留出 数值42 空格",
+                "priority": "critical-42",
+                "ownerId": "held-owner-77",
+                "status": 200
+              }
+            ],
+            "status": 200
+          },
+          "queryComplete": false
+        }
+      }
+    ]
+  },
+  "c013": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-a",
+            "title": "样本甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "other",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "items": [],
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c014": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-a",
+            "title": "样本甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "other",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "items": [
+              {
+                "id": "object-a",
+                "title": "样本甲",
+                "priority": "high",
+                "ownerId": "user-a",
+                "status": 200
+              }
+            ],
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c015": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-a",
+            "title": "样本甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "other",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "items": [],
+            "status": 200
+          },
+          "queryComplete": false
+        }
+      }
+    ]
+  },
+  "c016": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-z",
+            "title": "留出 数值42 空格",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "other",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "items": [],
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c017": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-z",
+            "title": "留出 数值42 空格",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "other",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "items": [
+              {
+                "id": "object-z",
+                "title": "留出 数值42 空格",
+                "priority": "critical-42",
+                "ownerId": "held-owner-77",
+                "status": 200
+              }
+            ],
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c018": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-z",
+            "title": "留出 数值42 空格",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "other",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "items": [],
+            "status": 200
+          },
+          "queryComplete": false
+        }
+      }
+    ]
+  },
+  "c019": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "初始甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "初始甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200,
+            "items": [
+              {
+                "id": "edit-object",
+                "title": "初始甲",
+                "priority": "high",
+                "ownerId": "user-a",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "修改乙",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "修改乙",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200,
+            "items": [
+              {
+                "id": "edit-object",
+                "title": "修改乙",
+                "priority": "high",
+                "ownerId": "user-a",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c020": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "初始甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "初始甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200,
+            "items": [
+              {
+                "id": "edit-object",
+                "title": "初始甲",
+                "priority": "high",
+                "ownerId": "user-a",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "修改乙",
+            "priority": "low",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "修改乙",
+            "priority": "low",
+            "ownerId": "user-a",
+            "status": 200,
+            "items": [
+              {
+                "id": "edit-object",
+                "title": "修改乙",
+                "priority": "low",
+                "ownerId": "user-a",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c021": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "初始甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "初始甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200,
+            "items": [
+              {
+                "id": "edit-object",
+                "title": "初始甲",
+                "priority": "high",
+                "ownerId": "user-a",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "修改乙",
+            "priority": "high",
+            "ownerId": "user-b",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "修改乙",
+            "priority": "high",
+            "ownerId": "user-b",
+            "status": 200,
+            "items": [
+              {
+                "id": "edit-object",
+                "title": "修改乙",
+                "priority": "high",
+                "ownerId": "user-b",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c022": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "初始甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "初始甲",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200,
+            "items": [
+              {
+                "id": "edit-object",
+                "title": "初始甲",
+                "priority": "high",
+                "ownerId": "user-a",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "修改乙",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "edit-object",
+            "title": "修改乙",
+            "priority": "high",
+            "ownerId": "user-a",
+            "status": 200,
+            "items": [
+              {
+                "id": "edit-object",
+                "title": "修改乙",
+                "priority": "high",
+                "ownerId": "user-a",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": false
+        }
+      }
+    ]
+  },
+  "c023": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出初始77",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出初始77",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200,
+            "items": [
+              {
+                "id": "hidden-object",
+                "title": "留出初始77",
+                "priority": "critical-42",
+                "ownerId": "held-owner-77",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出修改88",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出修改88",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200,
+            "items": [
+              {
+                "id": "hidden-object",
+                "title": "留出修改88",
+                "priority": "critical-42",
+                "ownerId": "held-owner-77",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c024": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出初始77",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出初始77",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200,
+            "items": [
+              {
+                "id": "hidden-object",
+                "title": "留出初始77",
+                "priority": "critical-42",
+                "ownerId": "held-owner-77",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出修改88",
+            "priority": "low",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出修改88",
+            "priority": "low",
+            "ownerId": "held-owner-77",
+            "status": 200,
+            "items": [
+              {
+                "id": "hidden-object",
+                "title": "留出修改88",
+                "priority": "low",
+                "ownerId": "held-owner-77",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c025": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出初始77",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出初始77",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200,
+            "items": [
+              {
+                "id": "hidden-object",
+                "title": "留出初始77",
+                "priority": "critical-42",
+                "ownerId": "held-owner-77",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出修改88",
+            "priority": "critical-42",
+            "ownerId": "held-other-88",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出修改88",
+            "priority": "critical-42",
+            "ownerId": "held-other-88",
+            "status": 200,
+            "items": [
+              {
+                "id": "hidden-object",
+                "title": "留出修改88",
+                "priority": "critical-42",
+                "ownerId": "held-other-88",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "c026": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出初始77",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出初始77",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200,
+            "items": [
+              {
+                "id": "hidden-object",
+                "title": "留出初始77",
+                "priority": "critical-42",
+                "ownerId": "held-owner-77",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出修改88",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "hidden-object",
+            "title": "留出修改88",
+            "priority": "critical-42",
+            "ownerId": "held-owner-77",
+            "status": 200,
+            "items": [
+              {
+                "id": "hidden-object",
+                "title": "留出修改88",
+                "priority": "critical-42",
+                "ownerId": "held-owner-77",
+                "status": 200
+              }
+            ]
+          },
+          "queryComplete": false
+        }
+      }
+    ]
+  }
+}

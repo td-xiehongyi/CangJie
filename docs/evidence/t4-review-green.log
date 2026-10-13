@@ -1,0 +1,11 @@
+✔ private evaluation and complete templates stay blocked when selected as context root (162.208ms)
+✔ same task cannot run concurrently through another restored instance or reset stale budget (1144.5912ms)
+✔ target incomplete evidence waits without weakening assertions or regenerating (9287.102ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10705.9213

@@ -1,0 +1,27 @@
+✖ T5 registry: real validation, review binding, immutable publication and version qualification (1.0344ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 96.6234
+
+✖ failing tests:
+
+test at tests\integration\registry.test.mjs:12:1
+✖ T5 registry: real validation, review binding, immutable publication and version qualification (1.0344ms)
+  AssertionError [ERR_ASSERTION]: T5 registry implementation must exist
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/registry.test.mjs:13:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

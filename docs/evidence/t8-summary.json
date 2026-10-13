@@ -1,0 +1,147 @@
+{
+  "date": "2026-10-13",
+  "phase": "T8 target load development acceptance",
+  "allTests": {
+    "pass": 235,
+    "fail": 0,
+    "log": "t8-all.log",
+    "scope": "full suite before final environment-state/query-timing and HTTP shutdown refinements; final affected regressions below"
+  },
+  "finalTargetLoad": {
+    "pass": 14,
+    "fail": 0,
+    "log": "t8-target-load.log"
+  },
+  "browser": {
+    "existingPassed": 5,
+    "existingLog": "t8-browser.log",
+    "note": "combined run retains an earlier failed new-test action; five existing tests passed",
+    "finalNewPassed": 1,
+    "finalNewFailed": 0,
+    "finalNewLog": "t8-browser-load.log",
+    "screenshots": [
+      "output/t8-load/screenshots/report-1280.png",
+      "output/t8-load/screenshots/report-768.png",
+      "output/t8-load/screenshots/report-390.png"
+    ]
+  },
+  "finalApi": {
+    "pass": 6,
+    "fail": 0,
+    "log": "t8-api-final.log"
+  },
+  "build": {
+    "fullPassed": true,
+    "log": "t8-build.log",
+    "finalHostCompilePassed": true
+  },
+  "k6": {
+    "version": "2.3.0",
+    "zipSha256": "112276d495e5741c968e2bc09ea6196099c1275bd6db9ee0875d173c7148ce43",
+    "systemPathChanged": false
+  },
+  "fourRuleBrowserLoad": {
+    "record": "C:\\Users\\xie\\Desktop\\Project\\.local-data\\t8-browser\\0a2360e9-f553-4f6e-9777-32a1989f3432\\loads\\3b0707fd-da3d-443f-8a35-f73f181898f0.json",
+    "id": "3b0707fd-da3d-443f-8a35-f73f181898f0",
+    "target": {
+      "confirmed": true,
+      "rate": 4,
+      "durationSeconds": 2,
+      "maxVUs": 4,
+      "maxIterations": 10000,
+      "maxHostMemoryMb": 2048,
+      "settlementMs": 5000,
+      "latencyMs": 3000,
+      "errorRate": 0,
+      "sustainedSamples": 3,
+      "ratios": {
+        "save-rule": 25,
+        "duplicate-rule": 25,
+        "permission-rule": 25,
+        "title-update-rule": 25
+      }
+    },
+    "metrics": {
+      "started": 8,
+      "completed": 8,
+      "p95Ms": 235,
+      "errorRate": 0,
+      "businessRequests": 12,
+      "verificationRequests": 10,
+      "businessExecutionMs": 285.06230000000687,
+      "verificationMs": 133.27339999999822,
+      "unknownResponses": 0
+    },
+    "settlement": {
+      "passed": 12,
+      "failed": 0,
+      "unknown": 0,
+      "unfinished": []
+    },
+    "generator": {
+      "engine": "k6 constant-arrival-rate / loopback declarative executor",
+      "dropped": 0,
+      "iterations": 8,
+      "limited": false,
+      "exitCode": 0
+    },
+    "verdict": "pass"
+  },
+  "previewSources": [
+    {
+      "file": "output\\ui-preview-final\\index.html",
+      "sha256": "b1d6f5aed4071cdbe3f3abee335c80e404961b55aa38aef36eb1606a5f3bd5a4",
+      "unchanged": true
+    },
+    {
+      "file": "output\\ui-preview-final\\verify.html",
+      "sha256": "31d330013d3ba2cd63d1b707f4bbd0989370b0c32c5bef25d5b78f2c75e939e0",
+      "unchanged": true
+    },
+    {
+      "file": "output\\ui-preview-final\\report.html",
+      "sha256": "9ab6bb02e9aeaeaaf96321f0791993b1507cc752ac6598692a76b0dcd6f8208a",
+      "unchanged": true
+    },
+    {
+      "file": "output\\ui-preview-final\\settings.html",
+      "sha256": "038a4aeefcba3644d0a948dd5d2a6a4983b3bda4920ae1d6537da926c6e7dc3b",
+      "unchanged": true
+    },
+    {
+      "file": "output\\ui-preview-final\\preview.js",
+      "sha256": "2b3505e05d4fdf59e71797eb07218056964598bdef615415181dd889447f6183",
+      "unchanged": true
+    },
+    {
+      "file": "output\\ui-preview-final\\styles.css",
+      "sha256": "7e333b85e9e22f8e99392cde989a495d6e712eeb3e214b5d3acac2422591b57c",
+      "unchanged": true
+    }
+  ],
+  "finalSourceHashes": {
+    "apps/host/src/load/runner.ts": "88df380aea6156be732bd1eeba98cbdc37f97fbf77d7e2548267113f33737a9d",
+    "apps/host/src/load/ledger.ts": "73fdbef62caa0681b6ebc9741bdf098a7e49a4d68da9c97265c631add7d6401a",
+    "apps/host/src/load/metrics.ts": "f73f090d1c3bf37949b5d70010d832dd398615fdead645bd4662bcf77a29d9bb",
+    "apps/core/src/load.cj": "218563f4190ba268c5c4168d4cc5c1ae55525a64cdd2e59e84147088ed2f6a19",
+    "apps/core/src/protocol.cj": "fcba3283d58e6a5c24bfe1ad5143ef51966a8fbed990a5f1e8fb372148cd3586",
+    "apps/host/src/api.ts": "39bb0f20b7b5cb0ebc28ab41641c94395c28b2c80a018b0285f5b2ff87d2aecd",
+    "apps/host/src/execution/http.ts": "fc5372c8472c8bbb5cf2db894383fd090b4f6c5b00272065a932f8afa711d620",
+    "apps/host/src/execution/auth.ts": "1ab1251af4f90c036ef99a7e1d036aa392faf0f8a2452061235338bc3e1c083d",
+    "templates/load-http.js": "2d406e446829836ad3105b675c2a70c20d6b402eb507b24eb18b206d98fc011f",
+    "apps/ui/src/components/TargetLoadCard.tsx": "10caed203a241a9014456a0dcd4256abc66d0dc3b0c2a7e1c084380d444d0110",
+    "apps/ui/src/ReportView.tsx": "472b2ec4765a3a6be19bec1a11e1d8dbe4b22c25f7c17966d0fb189be6615c71",
+    "tests/integration/target-load.test.mjs": "5aad341f32d47f98ab36a50c075c4386d36ad5c9cce2ffdbcf7db0e5e25cb8cc",
+    "tests/e2e/target-load.spec.ts": "ee99234025afdad4c9d9fb0ac32a24e3639dd90ed5b67ad4f1da2e5bedc5f13f"
+  },
+  "review": "Two independent Important findings fixed; final targeted tests and browser shutdown regression passed",
+  "openGates": [
+    "T4 live DeepSeek generation",
+    "actual business confirmation and developer review for formal publication",
+    "T9 delivery reproduction",
+    "T10 final comparison"
+  ],
+  "gitInitialized": false,
+  "committed": false,
+  "published": false
+}

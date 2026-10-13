@@ -1,0 +1,65 @@
+✖ private evaluation and complete templates stay blocked when selected as context root (165.3737ms)
+✖ same task cannot run concurrently through another restored instance or reset stale budget (509.0019ms)
+✖ target incomplete evidence waits without weakening assertions or regenerating (8690.938ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9475.4068
+
+✖ failing tests:
+
+test at tests\integration\candidate.test.mjs:46:1
+✖ private evaluation and complete templates stay blocked when selected as context root (165.3737ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:46:264)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /SENSITIVE_FILE/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:47:1
+✖ same task cannot run concurrently through another restored instance or reset stale budget (509.0019ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:47:472)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\integration\candidate.test.mjs:48:1
+✖ target incomplete evidence waits without weakening assertions or regenerating (8690.938ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ready_for_review'
+  - 'validating'
+  
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/candidate.test.mjs:48:606)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ready_for_review',
+    expected: 'validating',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

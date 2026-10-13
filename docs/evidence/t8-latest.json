@@ -1,0 +1,149 @@
+{
+  "directory": "C:\\Users\\xie\\Desktop\\Project\\.local-data\\target-load-tests\\d8fa47f8-5d9a-4eba-97c3-fbab0efcf05d",
+  "reports": [
+    {
+      "id": "fc1e5660-11b3-4e98-8b51-eea87a62d57e",
+      "reason": "target_finished",
+      "verdict": "pass",
+      "metrics": {
+        "started": 4,
+        "completed": 4,
+        "p95Ms": 158,
+        "errorRate": 0,
+        "businessRequests": 4,
+        "verificationRequests": 4,
+        "businessExecutionMs": 86.66440000000148,
+        "verificationMs": 61.08179999999993,
+        "unknownResponses": 0
+      }
+    },
+    {
+      "id": "d7d75030-c909-4fe0-a616-a71e89ae15a3",
+      "reason": "OBSERVATION_ONLY",
+      "verdict": "unknown",
+      "metrics": {
+        "started": 4,
+        "completed": 4,
+        "p95Ms": 165,
+        "errorRate": 0,
+        "businessRequests": 4,
+        "verificationRequests": 4,
+        "businessExecutionMs": 93.51069999999982,
+        "verificationMs": 53.96520000000237,
+        "unknownResponses": 0
+      }
+    },
+    {
+      "id": "3d13e866-a74b-4781-94c2-275fbb418086",
+      "reason": "sustained_latency",
+      "verdict": "unknown",
+      "metrics": {
+        "started": 2,
+        "completed": 2,
+        "p95Ms": 171,
+        "errorRate": 0,
+        "businessRequests": 2,
+        "verificationRequests": 2,
+        "businessExecutionMs": 35.54410000000098,
+        "verificationMs": 37.66900000000169,
+        "unknownResponses": 0
+      }
+    },
+    {
+      "id": "463535cf-414c-4628-abed-005dd6135f18",
+      "reason": "manual_cancel",
+      "verdict": "unknown",
+      "metrics": {
+        "started": 1,
+        "completed": 1,
+        "p95Ms": 163,
+        "errorRate": 0,
+        "businessRequests": 1,
+        "verificationRequests": 1,
+        "businessExecutionMs": 29.13130000000092,
+        "verificationMs": 11.54910000000018,
+        "unknownResponses": 0
+      }
+    },
+    {
+      "id": "f820d757-ea55-4725-994f-5f66384eed6c",
+      "reason": "operation_limit",
+      "verdict": "unknown",
+      "metrics": {
+        "started": 1,
+        "completed": 1,
+        "p95Ms": 182,
+        "errorRate": 0,
+        "businessRequests": 1,
+        "verificationRequests": 1,
+        "businessExecutionMs": 31.206899999997404,
+        "verificationMs": 11.413400000001275,
+        "unknownResponses": 0
+      }
+    },
+    {
+      "id": "3101b36f-6a81-4d57-8de3-6ab5ac5131db",
+      "reason": "business_error",
+      "verdict": "fail",
+      "metrics": {
+        "started": 1,
+        "completed": 1,
+        "p95Ms": 174,
+        "errorRate": 1,
+        "businessRequests": 1,
+        "verificationRequests": 1,
+        "businessExecutionMs": 32.36149999999907,
+        "verificationMs": 20.547200000000885,
+        "unknownResponses": 0
+      }
+    },
+    {
+      "id": "e43a93ad-55a4-402f-925a-2f2b6399fc24",
+      "reason": "sustained_errors",
+      "verdict": "unknown",
+      "metrics": {
+        "started": 2,
+        "completed": 2,
+        "p95Ms": 169,
+        "errorRate": 1,
+        "businessRequests": 2,
+        "verificationRequests": 2,
+        "businessExecutionMs": 50.413000000000466,
+        "verificationMs": 23.5428000000029,
+        "unknownResponses": 0
+      }
+    },
+    {
+      "id": "ba876e9c-4626-46bd-b084-0eb73b3db57d",
+      "reason": "generator_limited",
+      "verdict": "unknown",
+      "metrics": {
+        "started": 4,
+        "completed": 4,
+        "p95Ms": 264,
+        "errorRate": 0,
+        "businessRequests": 4,
+        "verificationRequests": 4,
+        "businessExecutionMs": 476.65899999999965,
+        "verificationMs": 45.43609999999899,
+        "unknownResponses": 0
+      }
+    },
+    {
+      "id": "15a01c91-9f14-4e3c-ac37-7a63d1a04f25",
+      "reason": "TEST_PASSWORD_REQUIRED",
+      "verdict": "unknown",
+      "metrics": {
+        "started": 0,
+        "completed": 0,
+        "p95Ms": 0,
+        "errorRate": 0,
+        "businessRequests": 0,
+        "verificationRequests": 0,
+        "businessExecutionMs": 0,
+        "verificationMs": 0,
+        "unknownResponses": 0
+      }
+    }
+  ]
+}

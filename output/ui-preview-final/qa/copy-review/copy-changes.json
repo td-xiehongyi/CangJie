@@ -1,0 +1,306 @@
+[
+  {
+    "before": "const params = new URLSearchParams(location.search);",
+    "after": "const params = new URLSearchParams(location.search);\nconst inspectMode = params.get('inspect') === '1';\nfunction previewUrl(href) { if(!inspectMode)return href;const u=new URL(href,location.href);if(u.origin===location.origin&&/\\.html$/.test(u.pathname))u.searchParams.set('inspect','1');return u.href; }\nfunction navigate(href){location.href=previewUrl(href);}\nfunction decoratePreviewLinks(){if(inspectMode)document.querySelectorAll('a[href]').forEach(a=>{if(!a.getAttribute('href').startsWith('#'))a.href=previewUrl(a.href);});}"
+  },
+  {
+    "before": "const q = new URLSearchParams({state,",
+    "after": "const q = new URLSearchParams({state,...(inspectMode?{inspect:'1'}:{}),"
+  },
+  {
+    "before": "<div class=\"preview-label\">交互预览 · 示例数据</div>",
+    "after": ""
+  },
+  {
+    "before": "<button class=\"text-button muted\" data-action=\"scenes\">切换示例</button>",
+    "after": ""
+  },
+  {
+    "before": "function stageBar(active) {",
+    "after": "function stageBar(active) {"
+  },
+  {
+    "before": "\n}\nfunction stageBar",
+    "after": "\n  if(inspectMode)document.querySelector('.top-actions').insertAdjacentHTML('afterbegin','<button class=\"text-button muted\" data-action=\"scenes\">检查状态</button>');\n  else {\n    const simulationActions=['sample-passwords','replay-passwords','sample-model','repair-example','model-result','business-complete','load-finish','settle','scenes'];\n    document.querySelectorAll('[data-action]').forEach(el=>{if(simulationActions.includes(el.dataset.action))el.remove();});\n    document.querySelector('#credential-mode')?.remove();\n  }\n  decoratePreviewLinks();\n}\nfunction stageBar"
+  },
+  {
+    "before": "heading('项目接入','选择项目，准备一次可复跑的验证')",
+    "after": "heading('项目接入')"
+  },
+  {
+    "before": "${pill('示例项目')}",
+    "after": ""
+  },
+  {
+    "before": "不保存密码；复跑重新登录",
+    "after": "密码仅本次会话使用"
+  },
+  {
+    "before": "heading('模型设置','预览不会发送项目或凭据')",
+    "after": "heading('模型设置')"
+  },
+  {
+    "before": "填写实际模型名称",
+    "after": "填写模型名称"
+  },
+  {
+    "before": "仅用于演示，不要输入真实密钥",
+    "after": "输入 API Key"
+  },
+  {
+    "before": "notice('示例连接检查通过','协议调用、JSON 输出与字段检查通过；尚未验证真实模型效果。','green')",
+    "after": "notice('连接检查通过','协议与结构化输出检查通过。','green')"
+  },
+  {
+    "before": "此示例包要求解释器 v2，当前示例环境为 v1。",
+    "after": "验证包要求解释器 v2，当前版本为 v1。"
+  },
+  {
+    "before": "开始示例复跑",
+    "after": "开始复跑"
+  },
+  {
+    "before": "选择其他示例包",
+    "after": "选择其他验证包"
+  },
+  {
+    "before": "flow==='edit'?'新业务性质 · 从候选到可复用模板':'复用适用的已发布模板'",
+    "after": "''"
+  },
+  {
+    "before": "未确认规则保留待定，不判定对错。",
+    "after": "未确认项不参与判定。"
+  },
+  {
+    "before": "缺实验，原语足够",
+    "after": "无适用模板"
+  },
+  {
+    "before": "为什么不能直接套用旧模板",
+    "after": "模板匹配依据"
+  },
+  {
+    "before": "已有登录、创建、更新与完整查询能力，缺少“修改标题时其他字段保持不变”的实验。",
+    "after": "当前能力可执行字段保持检查，需生成新候选。"
+  },
+  {
+    "before": "同一流程中其他条件完备的独立检查可继续；不自动转去另一条流程。",
+    "after": "本流程内其他独立检查可继续。"
+  },
+  {
+    "before": "观察样本不足以替代受控端到端。需由开发者审核参考行为和缺陷对照，补齐前不能发布。",
+    "after": "补齐经开发者审核的正常与缺陷对照后继续。补齐前不能发布。"
+  },
+  {
+    "before": "普通使用者无需编写脚本；缺审核者或可信依据时保留候选。",
+    "after": "缺技术审核或可信依据时不能发布。"
+  },
+  {
+    "before": "示例路径，不读取本机项目。规则 v1.0、基线 seed-v1 沿用。",
+    "after": "沿用规则 v1.0 与数据基线 seed-v1。"
+  },
+  {
+    "before": "本次会话可用（示例）",
+    "after": "本次会话可用"
+  },
+  {
+    "before": "仅使用示例密码",
+    "after": "输入测试密码"
+  },
+  {
+    "before": "使用本次会话的示例凭据重新登录；不会沿用旧 Token。",
+    "after": "使用本次会话密码重新登录。"
+  },
+  {
+    "before": "规则、映射及模板有效时可无模型复跑；当前仍是示例状态。",
+    "after": "规则、映射及模板有效时，无需模型重新分析。"
+  },
+  {
+    "before": "示例运行中",
+    "after": "运行中"
+  },
+  {
+    "before": "${pill('示例条件 · 可调整')}",
+    "after": ""
+  },
+  {
+    "before": "此预览只展示字段保持性质。",
+    "after": ""
+  },
+  {
+    "before": "规则变更保存为新依据，不能按当前源码自动放宽；",
+    "after": "规则变更后需重新确认。"
+  },
+  {
+    "before": "模板固定哈希 demo-8d3c（演示标识）。",
+    "after": "模板摘要 demo-8d3c。"
+  },
+  {
+    "before": "demo-8d3c（演示标识）",
+    "after": "demo-8d3c"
+  },
+  {
+    "before": "activity-app · 编辑报名信息 · 迁移示例",
+    "after": "activity-app · 编辑报名信息"
+  },
+  {
+    "before": "工单与报名两个受控样例的映射迁移示例，不代表任意真实网站适配；新项目结果由本项目证据得出，未继承工单项目通过结论。",
+    "after": "结论仅限当前项目、规则与映射；未继承旧项目的通过结论。"
+  },
+  {
+    "before": "本示例只改映射；若新增模板逻辑，应进入新的验证与审核。",
+    "after": "新增模板逻辑须重新验证与审核。"
+  },
+  {
+    "before": "本轮结束后再选下一条，保留已有运行记录。",
+    "after": "一次验证一条流程。"
+  },
+  {
+    "before": "字段保持性质 · 重点展示候选生成",
+    "after": "更新标题，核对其他字段"
+  },
+  {
+    "before": "这是真实业务违规的示例，不说明候选无效。",
+    "after": "业务失败证据与模板资格分别保留。"
+  },
+  {
+    "before": "示例模板 v1.0 已发布，业务失败证据保留",
+    "after": "模板 v1.0 已发布"
+  },
+  {
+    "before": "已复制示例说明",
+    "after": "已复制"
+  },
+  {
+    "before": "复制示例说明",
+    "after": "复制说明"
+  },
+  {
+    "before": "复制示例内容",
+    "after": "复制内容"
+  },
+  {
+    "before": "可直接选择对话框中的示例文字复制",
+    "after": "请选择文字并复制"
+  },
+  {
+    "before": "目标超过本示例内部上限，不能自动提高预算",
+    "after": "目标超过内部执行上限，请调整操作率或时长"
+  },
+  {
+    "before": "API Key 或填入演示配置",
+    "after": "API Key"
+  },
+  {
+    "before": "测试密码或填入示例密码",
+    "after": "测试密码"
+  },
+  {
+    "before": "请补填或使用本次会话示例",
+    "after": "请重新输入"
+  },
+  {
+    "before": "示例凭据与会话状态已清除，没有保存真实密钥",
+    "after": "已清除密钥与会话状态"
+  },
+  {
+    "before": "示例：模型调用超时。",
+    "after": "模型调用超时。"
+  },
+  {
+    "before": "示例：达到有限步骤/调用/时间预设之一。",
+    "after": "达到步骤、调用或时间上限。"
+  },
+  {
+    "before": "示例完整运行",
+    "after": "完整运行"
+  },
+  {
+    "before": ":notice('目标负载未测','本轮已证明业务错误，修复并复测后再运行。')",
+    "after": ":notice('目标负载未测',unknown?'补齐最终取证并通过业务验证后再运行。':'先修复业务错误并通过复测。')"
+  },
+  {
+    "before": "<p>规则、映射与基线相同，代码版本不同。历史记录不覆盖，新记录关联原运行。</p>",
+    "after": "<p>每轮保留所用版本与证据，新记录关联原运行。</p>"
+  },
+  {
+    "before": "link('重新接入该流程','index.html?state=mapping',true))}</section>",
+    "after": "button('补充取证信息','evidence-input',true))}</section>"
+  },
+  {
+    "before": "if(state==='transfer'||state==='transfer-ready')return transferView();",
+    "after": "if(state==='service-blocked'||state==='evidence-input')return accessGapView();\n  if(state==='transfer'||state==='transfer-ready')return transferView();"
+  },
+  {
+    "before": "if(state==='model-paused'||state==='budget-paused')return pausedView();",
+    "after": "if(state==='reset-blocked')return resetBlockedView();\n  if(state==='model-paused'||state==='budget-paused')return pausedView();"
+  },
+  {
+    "before": "${actions(button('开始目标负载','load-start',true))}",
+    "after": "${actions(button('不确定目标','load-guide'),button('开始目标负载','load-start',true))}"
+  },
+  {
+    "before": "${actions(button('查看验证证据','review-proof'))}</section>",
+    "after": "${actions(button('查看验证证据','review-proof'),button('生成修订候选','template-revise'),button('停用此版本','template-disable'))}</section>"
+  },
+  {
+    "before": "${pill('已发布','green')}</div>${notice('固定版本，可按适用条件复用'",
+    "after": "${pill(demo.disabledTemplate?'已停用':'已发布',demo.disabledTemplate?'amber':'green')}</div>${notice(demo.disabledTemplate?'已停止推荐与执行':'固定版本，可按适用条件复用'"
+  },
+  {
+    "before": "demo.published&&variant!=='new'",
+    "after": "demo.published&&!demo.disabledTemplate&&variant!=='new'"
+  },
+  {
+    "before": "if(action==='package-select'){demo.replacement=false;saveDemo();const kind=document.querySelector('input[name=\"package-case\"]:checked').value;",
+    "after": "if(action==='package-select'){if(!inspectMode&&!document.querySelector('#package-file')?.files.length)return error('请选择验证包');demo.replacement=false;saveDemo();const kind=document.querySelector('input[name=\"package-case\"]:checked')?.value||(demo.disabledTemplate?'disabled':'valid');"
+  },
+  {
+    "before": "document.querySelector('#app').inert=true;",
+    "after": "decoratePreviewLinks();\n  document.querySelector('#app').inert=true;"
+  },
+  {
+    "before": "<p class=\"fine\">只切换演示结果，不读取参考服务或文件。</p>",
+    "after": ""
+  },
+  {
+    "before": "示例对照状态",
+    "after": "对照状态"
+  },
+  {
+    "before": "开始示例重检",
+    "after": "重新检查"
+  },
+  {
+    "before": "<div class=\"field\"><label for=\"reference-case\">对照状态</label><select id=\"reference-case\"><option value=\"missing\">仍缺所有者变更对照</option><option value=\"ready\">对照已补齐</option></select></div>",
+    "after": "${inspectMode?'<div class=\"field\"><label for=\"reference-case\">对照状态</label><select id=\"reference-case\"><option value=\"missing\">仍缺所有者变更对照</option><option value=\"ready\">对照已补齐</option></select></div>':''}"
+  },
+  {
+    "before": "document.querySelector('#reference-case').value!=='ready'",
+    "after": "inspectMode&&document.querySelector('#reference-case').value!=='ready'"
+  },
+  {
+    "before": "state==='replay-running'?'replayed':'published'",
+    "after": "state==='replay-running'?'replayed':'published'"
+  },
+  {
+    "before": "flow==='submit'?'submit&flow=submit':state==='replay-running'?'replayed':'published'",
+    "after": "flow==='submit'?(state==='replay-running'?'submit&flow=submit&case=repaired':'submit&flow=submit'):state==='replay-running'?'replayed':'published'"
+  },
+  {
+    "before": "selected.map(x=>`<div class=\"status-row\"><div><strong>${names[x]}</strong><p>${x==='duplicate'",
+    "after": "selected.map(x=>`<div class=\"status-row\"><div><strong>${names[x]}</strong><p>${variant==='repaired'?'已复位并重新执行，最终结果符合规则。':x==='duplicate'"
+  },
+  {
+    "before": "${pill(x==='duplicate'?'业务失败':x==='permission'?'无法验证':'通过',x==='duplicate'?'red':x==='permission'?'amber':'green')}",
+    "after": "${pill(variant==='repaired'?'通过':x==='duplicate'?'业务失败':x==='permission'?'无法验证':'通过',variant==='repaired'?'green':x==='duplicate'?'red':x==='permission'?'amber':'green')}"
+  },
+  {
+    "before": "selected.includes('duplicate')?'目标负载已暂停':'未自动开展目标负载'",
+    "after": "variant==='repaired'?'业务复测通过':selected.includes('duplicate')?'目标负载已暂停':'未自动开展目标负载'"
+  },
+  {
+    "before": "selected.includes('duplicate')?'先修复重复创建并通过业务复测。':'仅报告本轮已确认检查，不将未执行项算通过。'",
+    "after": "variant==='repaired'?'新记录关联原运行，所选检查保持不变。':selected.includes('duplicate')?'先修复重复创建并通过业务复测。':'仅报告本轮已确认检查，不将未执行项算通过。'"
+  }
+]

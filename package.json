@@ -1,0 +1,34 @@
+{
+  "name": "website-verification",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "workspaces": [
+    "apps/host",
+    "packages/contracts",
+    "apps/ui"
+  ],
+  "scripts": {
+    "doctor": "node scripts/doctor.mjs",
+    "build:core": "node scripts/build-core.mjs",
+    "build:host": "tsc -p apps/host/tsconfig.json",
+    "build:ui": "npm run build --workspace apps/ui",
+    "start": "node scripts/workbench.mjs",
+    "build:contracts": "tsc -p packages/contracts/tsconfig.json",
+    "build:sample": "tsc -p samples/ticket/tsconfig.json && tsc -p samples/registration/tsconfig.json",
+    "check:reference": "tsc -p tests/reference/tsconfig.json",
+    "check": "npm run build:contracts && npm run build:host && npm run build:sample && npm run check:reference && npm run build:core && npm run build:ui",
+    "verify": "node scripts/verify.mjs",
+    "test": "node scripts/verify.mjs all",
+    "package": "node scripts/package.mjs"
+  },
+  "devDependencies": {
+    "@types/express": "5.0.5",
+    "@types/node": "24.10.0",
+    "typescript": "5.9.3",
+    "@playwright/test": "1.64.0"
+  }
+}

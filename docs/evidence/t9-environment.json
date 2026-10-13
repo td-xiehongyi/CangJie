@@ -1,0 +1,49 @@
+{
+  "recordedAt": "2026-10-13T04:42:13.848Z",
+  "os": {
+    "type": "Windows_NT",
+    "release": "10.0.26100",
+    "arch": "x64"
+  },
+  "node": {
+    "executable": "D:\\Node_js\\node.exe",
+    "version": "v24.19.0"
+  },
+  "cjc": {
+    "executable": "C:\\Users\\xie\\Desktop\\Project\\.local-tools\\cangjie\\bin\\cjc.exe",
+    "available": true,
+    "status": 0,
+    "version": "Cangjie Compiler: 1.0.5 (cjnative)\r\nTarget: x86_64-w64-mingw32"
+  },
+  "cjpm": {
+    "executable": "C:\\Users\\xie\\Desktop\\Project\\.local-tools\\cangjie\\tools\\bin\\cjpm.exe",
+    "available": true,
+    "status": 0,
+    "version": "Cangjie Package Manager: 1.0.5"
+  },
+  "stdx": {
+    "version": "1.0.5.1",
+    "path": "C:\\Users\\xie\\Desktop\\Project\\.local-tools\\stdx\\windows_x86_64_cjnative",
+    "found": true
+  },
+  "k6": {
+    "executable": "C:\\Users\\xie\\Desktop\\Project\\.local-tools\\k6-v2.3.0-windows-amd64\\k6.exe",
+    "available": true,
+    "status": 0,
+    "version": "k6.exe v2.3.0 (commit/e088784614, go1.26.8, windows/amd64)"
+  },
+  "browsers": [
+    {
+      "path": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+      "found": true,
+      "automationVerified": false
+    },
+    {
+      "path": "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
+      "found": true,
+      "automationVerified": false
+    }
+  ],
+  "playwrightInstalled": true,
+  "previewUnmodifiedRequired": true
+}

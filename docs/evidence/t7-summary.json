@@ -1,0 +1,492 @@
+{
+  "date": "2026-10-13",
+  "phase": "T7 controlled transfer development acceptance",
+  "allTests": {
+    "pass": 221,
+    "fail": 0,
+    "log": "t7-all-tests.log"
+  },
+  "transfer": {
+    "pass": 11,
+    "fail": 0,
+    "log": "t7-transfer.log"
+  },
+  "stateAndApiRegression": {
+    "pass": 6,
+    "fail": 0,
+    "log": "t7-state-lock-green.log"
+  },
+  "build": {
+    "passed": true,
+    "log": "t7-check.log"
+  },
+  "frozenAt": "2026-10-13T03:03:36.735Z",
+  "frozenFilesUnchanged": 15,
+  "publications": [
+    {
+      "ref": {
+        "id": "save-result",
+        "version": "1.0.0",
+        "hash": "8f95a7d7a07ba6383fd3712f83d5eb4961bb1db419c4b9df001e8aa84721a811"
+      },
+      "candidateHash": "241997fa21c47fc17e18361e42ff707bc93d7825e09befda1dc62f2176ebb90c",
+      "ruleHash": "f1b840191625306e735961228b79355dca06ff32bbb10563ccf11eb8130d776a",
+      "interpreterVersion": "1.0.0",
+      "suiteHash": "f5a387e92be5f3d5d8c69cbfbc05ac16c2a82a1588a346460e0cbef1f438bbd0",
+      "publishedAt": "2026-10-13T03:03:08.741Z"
+    },
+    {
+      "ref": {
+        "id": "duplicate-submit",
+        "version": "1.0.0",
+        "hash": "53dad97177e47f54496d785726c7e0fd1fbebe6b0f59c150f589a660130f6bec"
+      },
+      "candidateHash": "12e77fbda9d91f934d6e414836931af48d528c1759bc8d5c4bde3596e1e90b14",
+      "ruleHash": "6f64d346253cd19ff9906e3005ad95808ef186ae23e1c3cf9a5e71eb20f1acec",
+      "interpreterVersion": "1.0.0",
+      "suiteHash": "58e9d0f60cdfbbb805c621f3da4dcf0457ef7aecca53a4ed481eb734b0c14e70",
+      "publishedAt": "2026-10-13T03:03:16.888Z"
+    },
+    {
+      "ref": {
+        "id": "permission-isolation",
+        "version": "1.0.0",
+        "hash": "635d27efe3b9dc1e1a1c0c7bd7c83b17de566c3bb38126e309c4e0a282c3b8ea"
+      },
+      "candidateHash": "17f60f3d5301c176264f1aa5805d07cc7f03f074d8c7d7da2f19b58d41d495b2",
+      "ruleHash": "4814fb2efc18ae2bb12286bd6614a81348574422b55e17183e0d62aedf046989",
+      "interpreterVersion": "1.0.0",
+      "suiteHash": "0c6a0bad728f7297695ac85fd416f66b8d95cbc7032775c4311cc066126c93f3",
+      "publishedAt": "2026-10-13T03:03:25.995Z"
+    },
+    {
+      "ref": {
+        "id": "title-update-test-probe",
+        "version": "1.0.0",
+        "hash": "a5a85e02dc2ca1320635ff17baebbae32cddfa5bb59c31afd97c807cb5845ec2"
+      },
+      "candidateHash": "b7a89c92f0e844f08cc3baa98738d00efbd6d4a683aa5460d5b28dc0a6978009",
+      "ruleHash": "d7f9e045dcfa7ee1e16a5fcdf0e7333f08fd0e661d986aa94c4a076a962f9c0b",
+      "interpreterVersion": "1.0.0",
+      "suiteHash": "255eac35b63f2a672f7dda63b26fad365021b74e02290698daf48bc61d2e512d",
+      "publishedAt": "2026-10-13T03:03:36.725Z"
+    }
+  ],
+  "portableFrozenEvidence": {
+    "files": 119,
+    "path": "tests/fixtures/t7-frozen-evidence.json",
+    "sha256": "73c72a22b787b67a06a5bf7e4967b8c7cbffc4bfe933063d12aa3c8a3dde4d40",
+    "republished": false
+  },
+  "directory": "C:\\\\Users\\\\xie\\\\Desktop\\\\Project\\\\.local-data\\\\transfer-runs\\\\fd23343e-2578-43d3-9228-c922908bab2f",
+  "runs": [
+    {
+      "id": "90a319ce-756b-4da3-b3fb-f7f41c29075e",
+      "projectId": "registration-transfer",
+      "checks": [
+        {
+          "rule": "save-rule",
+          "copyId": "ec9f8047-c663-4f83-a023-0a7f3900b955",
+          "verdicts": [
+            {
+              "status": "pass",
+              "reasonCode": "ASSERTION_TRUE",
+              "ruleRef": {
+                "id": "save-rule",
+                "version": 1
+              },
+              "assertionRef": "saved-title",
+              "checkId": "save",
+              "evidenceRefs": [
+                "evidence:ee4de61f600c8e5766dcf1fad35c71943db038177b793f343f58ba7424575845.json",
+                "evidence:7866e81f4666140f6e0ed726d3aaa1c64afeb595502aafe6723f1bfcbde18a3d.json"
+              ],
+              "unknownReasons": [],
+              "scope": "published_template"
+            }
+          ]
+        },
+        {
+          "rule": "duplicate-rule",
+          "copyId": "ae20eb50-e838-40d7-a601-2d7a31dec1f0",
+          "verdicts": [
+            {
+              "status": "pass",
+              "reasonCode": "ASSERTION_TRUE",
+              "ruleRef": {
+                "id": "duplicate-rule",
+                "version": 1
+              },
+              "assertionRef": "one-result",
+              "checkId": "duplicate",
+              "evidenceRefs": [
+                "evidence:6ab96bebeadcfcc4f3b4df98dc61c1acfeeae8bd2b658a754c473ec3effe31b8.json",
+                "evidence:5471be04dc67a1db29bdcf274660abf5e3ff174e7c98095b744b2e326d8124a3.json",
+                "evidence:98045d7364ecab21569acc12cb0bad2e2996eabe5534a5329cefe47d93af6214.json"
+              ],
+              "unknownReasons": [],
+              "scope": "published_template"
+            }
+          ]
+        },
+        {
+          "rule": "permission-rule",
+          "copyId": "14ff2cf5-122d-43a6-bc69-d86cdcb5059c",
+          "verdicts": [
+            {
+              "status": "pass",
+              "reasonCode": "ASSERTION_TRUE",
+              "ruleRef": {
+                "id": "permission-rule",
+                "version": 1
+              },
+              "assertionRef": "not-visible",
+              "checkId": "permission",
+              "evidenceRefs": [
+                "evidence:ffa25ae0290fbb1eae734a6389fd15dd9ff10082ffd2b19bbb4b221a7eca79cd.json",
+                "evidence:1aefeb7de856c07246710e815cca148d43a5d8b174d19c743a2778a1c318ac23.json"
+              ],
+              "unknownReasons": [],
+              "scope": "published_template"
+            }
+          ]
+        },
+        {
+          "rule": "title-update-rule",
+          "copyId": "72b22af3-6b35-47fd-af46-7173998d01dc",
+          "verdicts": [
+            {
+              "status": "pass",
+              "reasonCode": "ASSERTION_TRUE",
+              "ruleRef": {
+                "id": "title-update-rule",
+                "version": 1
+              },
+              "assertionRef": "updated-title",
+              "checkId": "edit",
+              "evidenceRefs": [
+                "evidence:de2360c5f6dc023ecdf2d5f04cb0574b3ed3267b44166293e5f0851cadedaa69.json",
+                "evidence:55ea68334e54c8c3485d7a8e5a35e95625ba25ff04542abac5ea838c6ab65e95.json",
+                "evidence:3b33610abddacb1b85b8c04c12c0246e345591535f031001e20ad68b312d3e5d.json",
+                "evidence:9cb1656a6b3de204b879e37d96f1140c17ff1dcc4e935781e762d55c110df54c.json"
+              ],
+              "unknownReasons": [],
+              "scope": "published_template"
+            },
+            {
+              "status": "pass",
+              "reasonCode": "ASSERTION_TRUE",
+              "ruleRef": {
+                "id": "title-update-rule",
+                "version": 1
+              },
+              "assertionRef": "unchanged-priority",
+              "checkId": "edit",
+              "evidenceRefs": [
+                "evidence:de2360c5f6dc023ecdf2d5f04cb0574b3ed3267b44166293e5f0851cadedaa69.json",
+                "evidence:55ea68334e54c8c3485d7a8e5a35e95625ba25ff04542abac5ea838c6ab65e95.json",
+                "evidence:3b33610abddacb1b85b8c04c12c0246e345591535f031001e20ad68b312d3e5d.json",
+                "evidence:9cb1656a6b3de204b879e37d96f1140c17ff1dcc4e935781e762d55c110df54c.json"
+              ],
+              "unknownReasons": [],
+              "scope": "published_template"
+            },
+            {
+              "status": "pass",
+              "reasonCode": "ASSERTION_TRUE",
+              "ruleRef": {
+                "id": "title-update-rule",
+                "version": 1
+              },
+              "assertionRef": "unchanged-owner",
+              "checkId": "edit",
+              "evidenceRefs": [
+                "evidence:de2360c5f6dc023ecdf2d5f04cb0574b3ed3267b44166293e5f0851cadedaa69.json",
+                "evidence:55ea68334e54c8c3485d7a8e5a35e95625ba25ff04542abac5ea838c6ab65e95.json",
+                "evidence:3b33610abddacb1b85b8c04c12c0246e345591535f031001e20ad68b312d3e5d.json",
+                "evidence:9cb1656a6b3de204b879e37d96f1140c17ff1dcc4e935781e762d55c110df54c.json"
+              ],
+              "unknownReasons": [],
+              "scope": "published_template"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6c907844-beec-4ffe-81a1-5968d06e5920",
+      "projectId": "registration-transfer",
+      "checks": [
+        {
+          "rule": "save-rule",
+          "copyId": "b20d659d-de46-48c2-846a-521218be1d62",
+          "verdicts": []
+        }
+      ]
+    },
+    {
+      "id": "e4c7263d-e187-4de0-bcc0-ad0e2983568e",
+      "projectId": "registration-transfer",
+      "checks": [
+        {
+          "rule": "save-rule",
+          "copyId": "35e74f18-65e3-49fe-b915-ee73c20f8e28",
+          "verdicts": []
+        }
+      ]
+    },
+    {
+      "id": "81b6d1f2-48b7-4087-8e2e-3786cde3223d",
+      "projectId": "registration-transfer",
+      "checks": [
+        {
+          "rule": "title-update-rule",
+          "copyId": "f4197946-90c0-4b2e-af5c-9fe36eb6ee58",
+          "verdicts": [
+            {
+              "status": "pass",
+              "reasonCode": "ASSERTION_TRUE",
+              "ruleRef": {
+                "id": "title-update-rule",
+                "version": 1
+              },
+              "assertionRef": "updated-title",
+              "checkId": "edit",
+              "evidenceRefs": [
+                "evidence:c695c80da400e2ec038d987d5d1998b9a9162f2bea6e824ee25643077dc8c47a.json",
+                "evidence:2b3c8c4ba7442a0d6e7974519a418f04580505b87d16dd7f2e0f731133910925.json",
+                "evidence:1de9323c89460985a686a8dbc98b2358a2a500712623cbfb97dcdfe020b25528.json",
+                "evidence:fcd451205531e9fdc10a8471e0683f4600d6520aae05260e21c5e8d055118985.json"
+              ],
+              "unknownReasons": [],
+              "scope": "published_template"
+            },
+            {
+              "status": "inconclusive",
+              "reasonCode": "MISSING_VALUE",
+              "ruleRef": {
+                "id": "title-update-rule",
+                "version": 1
+              },
+              "assertionRef": "unchanged-priority",
+              "checkId": "edit",
+              "evidenceRefs": [
+                "evidence:c695c80da400e2ec038d987d5d1998b9a9162f2bea6e824ee25643077dc8c47a.json",
+                "evidence:2b3c8c4ba7442a0d6e7974519a418f04580505b87d16dd7f2e0f731133910925.json",
+                "evidence:1de9323c89460985a686a8dbc98b2358a2a500712623cbfb97dcdfe020b25528.json",
+                "evidence:fcd451205531e9fdc10a8471e0683f4600d6520aae05260e21c5e8d055118985.json"
+              ],
+              "unknownReasons": [
+                "MISSING_VALUE"
+              ],
+              "scope": "published_template"
+            },
+            {
+              "status": "pass",
+              "reasonCode": "ASSERTION_TRUE",
+              "ruleRef": {
+                "id": "title-update-rule",
+                "version": 1
+              },
+              "assertionRef": "unchanged-owner",
+              "checkId": "edit",
+              "evidenceRefs": [
+                "evidence:c695c80da400e2ec038d987d5d1998b9a9162f2bea6e824ee25643077dc8c47a.json",
+                "evidence:2b3c8c4ba7442a0d6e7974519a418f04580505b87d16dd7f2e0f731133910925.json",
+                "evidence:1de9323c89460985a686a8dbc98b2358a2a500712623cbfb97dcdfe020b25528.json",
+                "evidence:fcd451205531e9fdc10a8471e0683f4600d6520aae05260e21c5e8d055118985.json"
+              ],
+              "unknownReasons": [],
+              "scope": "published_template"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a6c8805f-e2f9-4025-a289-f2a9675c066f",
+      "projectId": "registration-transfer",
+      "checks": [
+        {
+          "rule": "title-update-rule",
+          "copyId": "6890fe8d-a183-468d-880a-fa6b544194e7",
+          "verdicts": [
+            {
+              "status": "pass",
+              "reasonCode": "ASSERTION_TRUE",
+              "ruleRef": {
+                "id": "title-update-rule",
+                "version": 1
+              },
+              "assertionRef": "updated-title",
+              "checkId": "edit",
+              "evidenceRefs": [
+                "evidence:38b7040fdd7e7b0d56f7512d49779df6c60abcc9d99cbe6115e18998007759a7.json",
+                "evidence:57a21878cf3588d13f5d0aa9ec7b062f23069fb0a8f51526095d0a42ea574683.json",
+                "evidence:666cf0ba29626d89a319f58aaf8c117a40db8e28aa2924f0287446ad8ac5635e.json",
+                "evidence:6878b668029f1401e0dd02307bb60b1b53df8e8751e62351615dd39b0929d2c1.json"
+              ],
+              "unknownReasons": [],
+              "scope": "published_template"
+            },
+            {
+              "status": "fail",
+              "reasonCode": "ASSERTION_FALSE",
+              "ruleRef": {
+                "id": "title-update-rule",
+                "version": 1
+              },
+              "assertionRef": "unchanged-priority",
+              "checkId": "edit",
+              "evidenceRefs": [
+                "evidence:38b7040fdd7e7b0d56f7512d49779df6c60abcc9d99cbe6115e18998007759a7.json",
+                "evidence:57a21878cf3588d13f5d0aa9ec7b062f23069fb0a8f51526095d0a42ea574683.json",
+                "evidence:666cf0ba29626d89a319f58aaf8c117a40db8e28aa2924f0287446ad8ac5635e.json",
+                "evidence:6878b668029f1401e0dd02307bb60b1b53df8e8751e62351615dd39b0929d2c1.json"
+              ],
+              "unknownReasons": [],
+              "scope": "published_template"
+            },
+            {
+              "status": "pass",
+              "reasonCode": "ASSERTION_TRUE",
+              "ruleRef": {
+                "id": "title-update-rule",
+                "version": 1
+              },
+              "assertionRef": "unchanged-owner",
+              "checkId": "edit",
+              "evidenceRefs": [
+                "evidence:38b7040fdd7e7b0d56f7512d49779df6c60abcc9d99cbe6115e18998007759a7.json",
+                "evidence:57a21878cf3588d13f5d0aa9ec7b062f23069fb0a8f51526095d0a42ea574683.json",
+                "evidence:666cf0ba29626d89a319f58aaf8c117a40db8e28aa2924f0287446ad8ac5635e.json",
+                "evidence:6878b668029f1401e0dd02307bb60b1b53df8e8751e62351615dd39b0929d2c1.json"
+              ],
+              "unknownReasons": [],
+              "scope": "published_template"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "231c96ef-01f6-4c2d-9650-8afec0ccd01a",
+      "projectId": "registration-transfer",
+      "checks": [
+        {
+          "rule": "title-update-rule",
+          "copyId": "2c8fe849-e395-45c7-ad9e-1efc077f13d0",
+          "verdicts": [
+            {
+              "status": "pass",
+              "reasonCode": "ASSERTION_TRUE",
+              "ruleRef": {
+                "id": "title-update-rule",
+                "version": 1
+              },
+              "assertionRef": "updated-title",
+              "checkId": "edit",
+              "evidenceRefs": [
+                "evidence:3e7ca51895e790fcd0ea2ed43b39f699f363bbdc72c5d088c45bb8e06ad42f0c.json",
+                "evidence:5a3ac05fc097e99a4d79c3967542d96938782ea84ba9391fc7503829bed8e225.json",
+                "evidence:7aa14e2c5c1c81664ec0ac0675c2ae7b72f6347c6c309de24c04475b093a1306.json",
+                "evidence:b8df6d93385a9d911a1596af0c006e11cd240ef635c39cff62c8fac0d3b37935.json"
+              ],
+              "unknownReasons": [],
+              "scope": "published_template"
+            },
+            {
+              "status": "pass",
+              "reasonCode": "ASSERTION_TRUE",
+              "ruleRef": {
+                "id": "title-update-rule",
+                "version": 1
+              },
+              "assertionRef": "unchanged-priority",
+              "checkId": "edit",
+              "evidenceRefs": [
+                "evidence:3e7ca51895e790fcd0ea2ed43b39f699f363bbdc72c5d088c45bb8e06ad42f0c.json",
+                "evidence:5a3ac05fc097e99a4d79c3967542d96938782ea84ba9391fc7503829bed8e225.json",
+                "evidence:7aa14e2c5c1c81664ec0ac0675c2ae7b72f6347c6c309de24c04475b093a1306.json",
+                "evidence:b8df6d93385a9d911a1596af0c006e11cd240ef635c39cff62c8fac0d3b37935.json"
+              ],
+              "unknownReasons": [],
+              "scope": "published_template"
+            },
+            {
+              "status": "fail",
+              "reasonCode": "ASSERTION_FALSE",
+              "ruleRef": {
+                "id": "title-update-rule",
+                "version": 1
+              },
+              "assertionRef": "unchanged-owner",
+              "checkId": "edit",
+              "evidenceRefs": [
+                "evidence:3e7ca51895e790fcd0ea2ed43b39f699f363bbdc72c5d088c45bb8e06ad42f0c.json",
+                "evidence:5a3ac05fc097e99a4d79c3967542d96938782ea84ba9391fc7503829bed8e225.json",
+                "evidence:7aa14e2c5c1c81664ec0ac0675c2ae7b72f6347c6c309de24c04475b093a1306.json",
+                "evidence:b8df6d93385a9d911a1596af0c006e11cd240ef635c39cff62c8fac0d3b37935.json"
+              ],
+              "unknownReasons": [],
+              "scope": "published_template"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "previewSources": [
+    {
+      "file": "index.html",
+      "sha256": "b1d6f5aed4071cdbe3f3abee335c80e404961b55aa38aef36eb1606a5f3bd5a4",
+      "unchanged": true
+    },
+    {
+      "file": "verify.html",
+      "sha256": "31d330013d3ba2cd63d1b707f4bbd0989370b0c32c5bef25d5b78f2c75e939e0",
+      "unchanged": true
+    },
+    {
+      "file": "report.html",
+      "sha256": "9ab6bb02e9aeaeaaf96321f0791993b1507cc752ac6598692a76b0dcd6f8208a",
+      "unchanged": true
+    },
+    {
+      "file": "settings.html",
+      "sha256": "038a4aeefcba3644d0a948dd5d2a6a4983b3bda4920ae1d6537da926c6e7dc3b",
+      "unchanged": true
+    },
+    {
+      "file": "preview.js",
+      "sha256": "2b3505e05d4fdf59e71797eb07218056964598bdef615415181dd889447f6183",
+      "unchanged": true
+    },
+    {
+      "file": "styles.css",
+      "sha256": "7e333b85e9e22f8e99392cde989a495d6e712eeb3e214b5d3acac2422591b57c",
+      "unchanged": true
+    }
+  ],
+  "formalPublications": 0,
+  "liveModelCalls": 0,
+  "review": "One independent Important fixed with RED-to-GREEN restore tests; subsequent Windows state/checkpoint issues fixed with real-lock tests; final full suite green",
+  "hostChanges": [
+    "generic records baseline count with legacy tickets support",
+    "bounded Windows atomic replacement retry for workbench and run checkpoints; state persistence recovery and shutdown cleanup"
+  ],
+  "limitations": [
+    "Controlled synthetic sites only; registration participated in integration debugging",
+    "Correlation fields id/ownerId/intentId/attemptId retain protocol names",
+    "Deterministic candidate generation and test reviewers; not actual AI or formal business approval",
+    "Local hashes are integrity checks, not externally signed provenance"
+  ],
+  "openGates": [
+    "T4 real DeepSeek generation",
+    "actual business confirmation and developer review for formal publication",
+    "T8 target load",
+    "T9 delivery reproduction",
+    "T10 final comparison"
+  ],
+  "gitInitialized": false
+}

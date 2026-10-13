@@ -1,0 +1,510 @@
+{
+  "version": "reference-v1",
+  "review": {
+    "reviewer": "Codex developer review against confirmed rule contracts",
+    "date": "2026-10-13",
+    "basis": "Literal expectations reviewed independently of candidate verdicts; service business logic independent from samples/ticket; baseline account setup reused only"
+  },
+  "suites": [
+    {
+      "rule": {
+        "id": "save-rule",
+        "version": 1,
+        "confirmation": "confirmed",
+        "source": "docs/superpowers/plans/2026-10-11-website-verification.md#T3; docs/superpowers/specs/2026-10-11-candidate-template-lifecycle.md",
+        "preconditions": [
+          "two verified synthetic accounts",
+          "isolated baseline",
+          "HTTP object correlation"
+        ],
+        "expectedChanges": [
+          "submitted title persists"
+        ],
+        "invariants": [],
+        "completionDeadline": 10000
+      },
+      "cases": [
+        {
+          "id": "c001",
+          "kind": "normal",
+          "heldOut": false,
+          "parameters": {
+            "title": "样本甲",
+            "intent": "same-intent-a"
+          },
+          "behavior": "normal",
+          "expected": {
+            "saved-title": "pass"
+          }
+        },
+        {
+          "id": "c002",
+          "kind": "defect",
+          "heldOut": false,
+          "parameters": {
+            "title": "样本甲",
+            "intent": "same-intent-a"
+          },
+          "behavior": "save-drop",
+          "expected": {
+            "saved-title": "fail"
+          }
+        },
+        {
+          "id": "c003",
+          "kind": "unknown",
+          "heldOut": false,
+          "parameters": {
+            "title": "样本甲",
+            "intent": "same-intent-a"
+          },
+          "behavior": "partial",
+          "expected": {
+            "saved-title": "inconclusive"
+          }
+        },
+        {
+          "id": "c004",
+          "kind": "normal",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出 数值42 空格",
+            "intent": "held-intent-z"
+          },
+          "behavior": "normal",
+          "expected": {
+            "saved-title": "pass"
+          },
+          "context": {
+            "ownerId": "held-owner-77",
+            "otherId": "held-other-88",
+            "initialPriority": "critical-42"
+          }
+        },
+        {
+          "id": "c005",
+          "kind": "defect",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出 数值42 空格",
+            "intent": "held-intent-z"
+          },
+          "behavior": "save-drop",
+          "expected": {
+            "saved-title": "fail"
+          },
+          "context": {
+            "ownerId": "held-owner-77",
+            "otherId": "held-other-88",
+            "initialPriority": "critical-42"
+          }
+        },
+        {
+          "id": "c006",
+          "kind": "unknown",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出 数值42 空格",
+            "intent": "held-intent-z"
+          },
+          "behavior": "partial",
+          "expected": {
+            "saved-title": "inconclusive"
+          },
+          "context": {
+            "ownerId": "held-owner-77",
+            "otherId": "held-other-88",
+            "initialPriority": "critical-42"
+          }
+        }
+      ]
+    },
+    {
+      "rule": {
+        "id": "duplicate-rule",
+        "version": 1,
+        "confirmation": "confirmed",
+        "source": "docs/superpowers/plans/2026-10-11-website-verification.md#T3; docs/superpowers/specs/2026-10-11-candidate-template-lifecycle.md",
+        "preconditions": [
+          "two verified synthetic accounts",
+          "isolated baseline",
+          "HTTP object correlation"
+        ],
+        "expectedChanges": [
+          "same business intent produces one record"
+        ],
+        "invariants": [],
+        "completionDeadline": 10000
+      },
+      "cases": [
+        {
+          "id": "c007",
+          "kind": "normal",
+          "heldOut": false,
+          "parameters": {
+            "title": "样本甲",
+            "intent": "same-intent-a"
+          },
+          "behavior": "normal",
+          "expected": {
+            "one-result": "pass"
+          }
+        },
+        {
+          "id": "c008",
+          "kind": "defect",
+          "heldOut": false,
+          "parameters": {
+            "title": "样本甲",
+            "intent": "same-intent-a"
+          },
+          "behavior": "duplicate",
+          "expected": {
+            "one-result": "fail"
+          }
+        },
+        {
+          "id": "c009",
+          "kind": "unknown",
+          "heldOut": false,
+          "parameters": {
+            "title": "样本甲",
+            "intent": "same-intent-a"
+          },
+          "behavior": "partial",
+          "expected": {
+            "one-result": "inconclusive"
+          }
+        },
+        {
+          "id": "c010",
+          "kind": "normal",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出 数值42 空格",
+            "intent": "held-intent-z"
+          },
+          "behavior": "normal",
+          "expected": {
+            "one-result": "pass"
+          },
+          "context": {
+            "ownerId": "held-owner-77",
+            "otherId": "held-other-88",
+            "initialPriority": "critical-42"
+          }
+        },
+        {
+          "id": "c011",
+          "kind": "defect",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出 数值42 空格",
+            "intent": "held-intent-z"
+          },
+          "behavior": "duplicate",
+          "expected": {
+            "one-result": "fail"
+          },
+          "context": {
+            "ownerId": "held-owner-77",
+            "otherId": "held-other-88",
+            "initialPriority": "critical-42"
+          }
+        },
+        {
+          "id": "c012",
+          "kind": "unknown",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出 数值42 空格",
+            "intent": "held-intent-z"
+          },
+          "behavior": "partial",
+          "expected": {
+            "one-result": "inconclusive"
+          },
+          "context": {
+            "ownerId": "held-owner-77",
+            "otherId": "held-other-88",
+            "initialPriority": "critical-42"
+          }
+        }
+      ]
+    },
+    {
+      "rule": {
+        "id": "permission-rule",
+        "version": 1,
+        "confirmation": "confirmed",
+        "source": "docs/superpowers/plans/2026-10-11-website-verification.md#T3; docs/superpowers/specs/2026-10-11-candidate-template-lifecycle.md",
+        "preconditions": [
+          "two verified synthetic accounts",
+          "isolated baseline",
+          "HTTP object correlation"
+        ],
+        "expectedChanges": [
+          "other account cannot view owner record"
+        ],
+        "invariants": [],
+        "completionDeadline": 10000
+      },
+      "cases": [
+        {
+          "id": "c013",
+          "kind": "normal",
+          "heldOut": false,
+          "parameters": {
+            "title": "样本甲",
+            "intent": "same-intent-a"
+          },
+          "behavior": "normal",
+          "expected": {
+            "not-visible": "pass"
+          }
+        },
+        {
+          "id": "c014",
+          "kind": "defect",
+          "heldOut": false,
+          "parameters": {
+            "title": "样本甲",
+            "intent": "same-intent-a"
+          },
+          "behavior": "permission-leak",
+          "expected": {
+            "not-visible": "fail"
+          }
+        },
+        {
+          "id": "c015",
+          "kind": "unknown",
+          "heldOut": false,
+          "parameters": {
+            "title": "样本甲",
+            "intent": "same-intent-a"
+          },
+          "behavior": "partial",
+          "expected": {
+            "not-visible": "inconclusive"
+          }
+        },
+        {
+          "id": "c016",
+          "kind": "normal",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出 数值42 空格",
+            "intent": "held-intent-z"
+          },
+          "behavior": "normal",
+          "expected": {
+            "not-visible": "pass"
+          },
+          "context": {
+            "ownerId": "held-owner-77",
+            "otherId": "held-other-88",
+            "initialPriority": "critical-42"
+          }
+        },
+        {
+          "id": "c017",
+          "kind": "defect",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出 数值42 空格",
+            "intent": "held-intent-z"
+          },
+          "behavior": "permission-leak",
+          "expected": {
+            "not-visible": "fail"
+          },
+          "context": {
+            "ownerId": "held-owner-77",
+            "otherId": "held-other-88",
+            "initialPriority": "critical-42"
+          }
+        },
+        {
+          "id": "c018",
+          "kind": "unknown",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出 数值42 空格",
+            "intent": "held-intent-z"
+          },
+          "behavior": "partial",
+          "expected": {
+            "not-visible": "inconclusive"
+          },
+          "context": {
+            "ownerId": "held-owner-77",
+            "otherId": "held-other-88",
+            "initialPriority": "critical-42"
+          }
+        }
+      ]
+    },
+    {
+      "rule": {
+        "id": "title-update-rule",
+        "version": 1,
+        "confirmation": "confirmed",
+        "source": "docs/superpowers/specs/2026-10-11-candidate-template-lifecycle.md#业务示例; 用户已确认只改标题，优先级和所有者保持不变",
+        "preconditions": [
+          "owner creates and reads record before update"
+        ],
+        "expectedChanges": [
+          "only title changes to requested value"
+        ],
+        "invariants": [
+          "priority unchanged",
+          "ownerId unchanged"
+        ],
+        "completionDeadline": 10000
+      },
+      "cases": [
+        {
+          "id": "c019",
+          "kind": "normal",
+          "heldOut": false,
+          "parameters": {
+            "title": "初始甲",
+            "newTitle": "修改乙"
+          },
+          "behavior": "normal",
+          "expected": {
+            "updated-title": "pass",
+            "unchanged-priority": "pass",
+            "unchanged-owner": "pass"
+          }
+        },
+        {
+          "id": "c020",
+          "kind": "defect",
+          "heldOut": false,
+          "parameters": {
+            "title": "初始甲",
+            "newTitle": "修改乙"
+          },
+          "behavior": "priority-reset",
+          "expected": {
+            "updated-title": "pass",
+            "unchanged-priority": "fail",
+            "unchanged-owner": "pass"
+          }
+        },
+        {
+          "id": "c021",
+          "kind": "defect",
+          "heldOut": false,
+          "parameters": {
+            "title": "初始甲",
+            "newTitle": "修改乙"
+          },
+          "behavior": "owner-change",
+          "expected": {
+            "updated-title": "pass",
+            "unchanged-priority": "pass",
+            "unchanged-owner": "fail"
+          }
+        },
+        {
+          "id": "c022",
+          "kind": "unknown",
+          "heldOut": false,
+          "parameters": {
+            "title": "初始甲",
+            "newTitle": "修改乙"
+          },
+          "behavior": "partial",
+          "expected": {
+            "updated-title": "inconclusive",
+            "unchanged-priority": "inconclusive",
+            "unchanged-owner": "inconclusive"
+          }
+        },
+        {
+          "id": "c023",
+          "kind": "normal",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出初始77",
+            "newTitle": "留出修改88"
+          },
+          "behavior": "normal",
+          "expected": {
+            "updated-title": "pass",
+            "unchanged-priority": "pass",
+            "unchanged-owner": "pass"
+          },
+          "context": {
+            "ownerId": "held-owner-77",
+            "otherId": "held-other-88",
+            "initialPriority": "critical-42"
+          }
+        },
+        {
+          "id": "c024",
+          "kind": "defect",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出初始77",
+            "newTitle": "留出修改88"
+          },
+          "behavior": "priority-reset",
+          "expected": {
+            "updated-title": "pass",
+            "unchanged-priority": "fail",
+            "unchanged-owner": "pass"
+          },
+          "context": {
+            "ownerId": "held-owner-77",
+            "otherId": "held-other-88",
+            "initialPriority": "critical-42"
+          }
+        },
+        {
+          "id": "c025",
+          "kind": "defect",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出初始77",
+            "newTitle": "留出修改88"
+          },
+          "behavior": "owner-change",
+          "expected": {
+            "updated-title": "pass",
+            "unchanged-priority": "pass",
+            "unchanged-owner": "fail"
+          },
+          "context": {
+            "ownerId": "held-owner-77",
+            "otherId": "held-other-88",
+            "initialPriority": "critical-42"
+          }
+        },
+        {
+          "id": "c026",
+          "kind": "unknown",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出初始77",
+            "newTitle": "留出修改88"
+          },
+          "behavior": "partial",
+          "expected": {
+            "updated-title": "inconclusive",
+            "unchanged-priority": "inconclusive",
+            "unchanged-owner": "inconclusive"
+          },
+          "context": {
+            "ownerId": "held-owner-77",
+            "otherId": "held-other-88",
+            "initialPriority": "critical-42"
+          }
+        }
+      ]
+    }
+  ]
+}

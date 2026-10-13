@@ -1,0 +1,10 @@
+✔ T7 frozen publications restore in an empty directory without republishing (385.0839ms)
+✔ T7 fixture rejects tampered bytes and escaping paths before any restore (127.1651ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 598.2662

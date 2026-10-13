@@ -1,0 +1,48 @@
+
+> website-verification@0.0.0 verify
+> node scripts/verify.mjs candidate
+
+✔ unconfigured model never calls and configured model is sent unchanged (175.3893ms)
+✔ scope confirmation enforced per request; allowed scope reused without reapproval (12.4268ms)
+✔ scope blocks project before any network request (5.5803ms)
+✔ scope blocks scope before any network request (12.3566ms)
+✔ scope blocks service before any network request (6.1624ms)
+✔ scope blocks path before any network request (4.5762ms)
+✔ scope blocks sensitive before any network request (5.3074ms)
+✔ authentication is a provider fault without retry or model fallback (6.3057ms)
+✔ model missing is a provider fault without retry or model fallback (13.912ms)
+✔ service down is a provider fault without retry or model fallback (5.479ms)
+✔ incompatible shape HTTP 200 is not structured compatibility (5.4762ms)
+✔ empty HTTP 200 is not structured compatibility (5.4708ms)
+✔ truncated HTTP 200 is not structured compatibility (5.6902ms)
+✔ malformed JSON HTTP 200 is not structured compatibility (5.3725ms)
+✔ budget is finite, reserves before calls, invalid preset cannot run (6.2021ms)
+✔ invalid URL cannot transmit a model key (3.9041ms)
+✔ unremembered key stays session-only and clear removes cached access (0.5925ms)
+✔ actual Windows credential store: explicit remember, reopen, endpoint binding and deletion (2478.0015ms)
+✔ proposal is one suggested flow, rules remain pending, malformed proposal is rejected (37.8081ms)
+✔ generation_is_not_publication; first passing candidate stops; target business defect preserves qualification (9702.3434ms)
+✔ rule_cannot_be_weakened; malformed and constant assertions consume at most two revisions, reopen cannot reset (712.9613ms)
+✔ unknown_capability_waits without revision; missing reviewed reference also waits (724.8516ms)
+✔ budget_exhausted stops early and preserves cumulative usage after reopen (696.7495ms)
+✔ provider_down_pauses_candidate; no blind retry, draft and reserved budget survive reopen (374.9739ms)
+✔ unconfirmed rule and sending scope cannot generate or become model-confirmed (859.4565ms)
+✔ checkpoint failure blocks network with the call reservation preserved (7.6673ms)
+✔ credential store read/write failure is explicit and cannot fall back to plaintext (352.5081ms)
+✔ a constant invariant cannot weaken the rule or reach HTTP execution (881.0521ms)
+✔ core admission binds candidate, rule, suite, interpreter and every validation gate (63.1519ms)
+✔ candidate cannot borrow expression capabilities from the reference facility (576.9516ms)
+✔ normalized paths reuse confirmation but a symlink or private fixture never does (13.64ms)
+✔ private evaluation and complete templates stay blocked when selected as context root (8.206ms)
+✔ same task cannot run concurrently through another restored instance or reset stale budget (1160.0133ms)
+✔ target incomplete evidence waits without weakening assertions or regenerating (12931.3813ms)
+✔ Windows task mutex excludes a separate Node process and releases on close (1155.8057ms)
+✔ shared validation contract accepts typed target trial evidence and remains strict (0.4149ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 33138.9412

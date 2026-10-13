@@ -1,0 +1,18 @@
+# T1 ledger — plan: docs/superpowers/plans/2026-10-11-website-verification.md
+
+Scope: user authorized T1 only, 2026-10-12. T0 preserved; no T2, commit, push or publishing.
+
+- Pre-flight: T0 CoreClient carries JSONL envelopes; T1 adds validation/start/observation transitions without moving judgment into TypeScript. T2 consumes approved ToolActions, T3 consumes the same observation/verdict contract.
+- Ruling: this directory has no Git repository; retain the existing project and record evidence here instead of creating a worktree or initializing Git.
+- Ruling: T1 runs only controlled observation validation, with confirmed scope and a static validation reference. Formal published-template admission remains T5; no self-declared publication authorizes execution.
+- Ruling: one main flow, serial actions, check-local variables. Independent checks receive distinct isolation keys and a baseline-preparation requirement; actual baseline reset is T2. A blocked check cannot supply another check's variables.
+- Ruling: finite repeats must be expanded into explicit steps; reject repeat/loop/code/file primitives. Limits are finite and capped; deadlines use the core's monotonic clock.
+- Ruling: three seed definitions are language fixtures, not validated published templates; HTTP controls and admission remain T3–T5.
+- RED: first interpreter tests on the T0 binary failed with UNKNOWN_OPERATION (t1-red.log); presence schema restriction failed before its schema fix (t1-presence-red.log); two constant-true/nested constant-true branches failed on the real T1 core before staticBoolean (t1-tautology-red.log).
+- Ruling: exists is a field-presence primitive only; missing=false, null=true. General expressions cannot use exists to erase unknown comparisons. Nested types are checked; verdict retains unknownReasons and cannot pass with unresolved critical unknowns.
+- Ruling: host CoreExperiment serializes IO and schedules tick on action deadlines; the core enforces the monotonic clock and returns authoritative timeouts. No independent core thread/queue is added. Default step acceptance is accepted; explicit expectedAcceptance=rejected supports future denial checks without treating rejected writes as successful saves.
+- Ruling: do not replay consumed or terminal actions; meaningful transition caches are bounded by maxActions, duplicate/terminal responses are not stored. Core process retains up to 256 used run IDs and refuses reuse; caller creates a new process when that lifecycle budget is exhausted.
+- Build approval: compiler optimizer execution was blocked in sandbox; two automatic escalation reviews timed out. User explicitly approved this local build, then real compilation succeeded. No global tool configuration changed.
+- Independent review: reviewer actually read final sources; action replay, run identity reuse, timeout progression, nested unknown/type propagation, malformed observation consumption, acceptance and exists findings fixed. Final static review plus staticBoolean addition review reported no remaining Important/Critical findings.
+- Task T1: complete — npm run check passed; npm run verify -- interpreter passed 66/66; npm test passed 80/80, including 14 T0 protocol regressions. Shared schema validates every returned Transition. Actual rebuilt Cangjie core used for semantic tests; three host clock transport-peer tests do not stand in for core evidence. Logs, roundtrip and unchanged preview hashes retained.
+- Next: stop at T1 as authorized. T2 HTTP project/test database work requires the next instruction. Real HTTP/evidence files, candidate admission, model, UI, packages and load remain their planned stages.

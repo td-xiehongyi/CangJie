@@ -1,0 +1,569 @@
+✖ valid template is accepted by actual Cangjie core (60.1078ms)
+✖ reject_unknown_operation (41.9013ms)
+✖ reject_unbounded_repeat (42.2755ms)
+✖ reject_answer_access (40.6359ms)
+✖ reject_answer_file (41.296ms)
+✖ reject_undefined_variable (40.2932ms)
+✖ reject_constant_assertion (40.5189ms)
+✖ reject_obvious_tautology (42.7896ms)
+✖ reject_dynamic_code (41.5529ms)
+✖ reject_budget_overrun (44.2608ms)
+✖ reject_unknown_actor (42.9779ms)
+✖ reject_duplicate_step (44.291ms)
+✖ reject_unsafe_path (43.3364ms)
+✖ missing_is_not_equal (44.6093ms)
+✖ mismatched_type (41.0107ms)
+✖ null_is_present (43.1284ms)
+✖ business_failure (40.1655ms)
+✖ exists_missing (39.0737ms)
+✖ count_and_contains (40.1318ms)
+✖ not_unknown (41.1925ms)
+✖ known_violation_preserves_unknown (39.319ms)
+✖ any_does_not_hide_missing (38.852ms)
+✖ identity_unknown (39.4816ms)
+✖ incomplete_query (39.7086ms)
+✖ acceptance_unknown (40.9144ms)
+✖ transport_timeout (38.179ms)
+✖ missing_evidence (43.5016ms)
+✖ save-result passes and records evidence, action identity and bindings (39.6346ms)
+✖ independent_check_continues and check variables are isolated (40.1969ms)
+✖ unknown_action_rejected and duplicate observation does not advance twice (39.9721ms)
+✖ cancel_stops_dispatch and late observations are ignored (40.7877ms)
+✔ unconfirmed rule and formal run cannot bypass admission (39.8996ms)
+✖ deadline cannot accept late passing evidence (40.1065ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 1
+ℹ fail 32
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1480.513
+
+✖ failing tests:
+
+test at tests\contracts\interpreter.test.mjs:25:1
+✖ valid template is accepted by actual Cangjie core (60.1078ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"f77c9b90-78e2-4afa-892f-dbe851c0189a","runId":"validate","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:25:85)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:39:4
+✖ reject_unknown_operation (41.9013ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"dcc34ff3-0922-4f2e-a355-e757a7ea6dec","runId":"validate","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:39:62)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:39:4
+✖ reject_unbounded_repeat (42.2755ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"50dab7bb-1018-449a-af2f-129f2277f9cd","runId":"validate","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:39:62)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:39:4
+✖ reject_answer_access (40.6359ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"b7ad42b4-d702-477e-af75-81b108540517","runId":"validate","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:39:62)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:39:4
+✖ reject_answer_file (41.296ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"74f7f84e-a4f2-4830-877f-e1436578772c","runId":"validate","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:39:62)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:39:4
+✖ reject_undefined_variable (40.2932ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"7094b27f-5147-49d4-b345-fe791fd07177","runId":"validate","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:39:62)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:39:4
+✖ reject_constant_assertion (40.5189ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"a30826ec-b26e-4aaf-ac10-14090f7cca2f","runId":"validate","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:39:62)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:39:4
+✖ reject_obvious_tautology (42.7896ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"980a5d59-06b7-4643-8218-f3c529f4c635","runId":"validate","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:39:62)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:39:4
+✖ reject_dynamic_code (41.5529ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"ccdfd9f4-b43f-4603-b504-76adb656d8b4","runId":"validate","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:39:62)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:39:4
+✖ reject_budget_overrun (44.2608ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"de5c01b8-58ec-415a-ad28-af459c56bb0d","runId":"validate","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:39:62)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:39:4
+✖ reject_unknown_actor (42.9779ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"1f0b1398-f20c-483a-a0ea-95b71f228795","runId":"validate","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:39:62)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:39:4
+✖ reject_duplicate_step (44.291ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"e6f9c70c-9f86-4234-a97c-69d8c9e9d7ed","runId":"validate","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:39:62)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:39:4
+✖ reject_unsafe_path (43.3364ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"41367e45-a86f-4c72-925a-fa960f995c22","runId":"validate","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:39:62)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:51:4
+✖ missing_is_not_equal (44.6093ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"32c17900-db2d-41ab-8ce3-887af9f000e2","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async evaluate (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:23:164)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:51:32)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:51:4
+✖ mismatched_type (41.0107ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"b35d8e54-2ab7-422a-9036-101d9e1110bd","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async evaluate (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:23:164)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:51:32)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:51:4
+✖ null_is_present (43.1284ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"6b068f18-163e-46b1-8e23-b1f1f5820d13","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async evaluate (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:23:164)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:51:32)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:51:4
+✖ business_failure (40.1655ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"1fac4dd2-de92-4d67-9f74-cb466829e000","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async evaluate (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:23:164)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:51:32)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:51:4
+✖ exists_missing (39.0737ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"1fa2a23a-c936-4ddb-9d53-f91798ef78bd","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async evaluate (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:23:164)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:51:32)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:51:4
+✖ count_and_contains (40.1318ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"e12dcc87-7d91-4c56-9fbc-3ec4cb10a1b0","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async evaluate (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:23:164)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:51:32)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:51:4
+✖ not_unknown (41.1925ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"195a09c6-13bc-49ed-b3f0-470fbf34c4b2","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async evaluate (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:23:164)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:51:32)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:51:4
+✖ known_violation_preserves_unknown (39.319ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"7b88a033-0feb-419c-bef3-9aa2c7060e81","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async evaluate (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:23:164)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:51:32)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:51:4
+✖ any_does_not_hide_missing (38.852ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"7edd4628-3882-414b-bba0-336bcfd3d463","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async evaluate (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:23:164)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:51:32)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:53:254
+✖ identity_unknown (39.4816ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"2f5aead7-6af4-4907-9fe3-3618c4ffa805","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async evaluate (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:23:164)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:53:282)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:53:254
+✖ incomplete_query (39.7086ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"7c525cdf-91e5-42a3-b8c7-801c5340589e","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async evaluate (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:23:164)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:53:282)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:53:254
+✖ acceptance_unknown (40.9144ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"6c34a17f-5adb-4ead-b940-ecfe770b7040","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async evaluate (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:23:164)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:53:282)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:53:254
+✖ transport_timeout (38.179ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"718cf57c-3511-41ec-bac7-b3a2d4dddffd","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async evaluate (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:23:164)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:53:282)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:53:254
+✖ missing_evidence (43.5016ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"4242a56e-4c40-4358-907c-69a657e681e1","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async evaluate (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:23:164)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:53:282)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:55:1
+✖ save-result passes and records evidence, action identity and bindings (39.6346ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"12c4ab55-e9d1-4d4e-86ef-c24bf2027852","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:55:113)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:56:1
+✖ independent_check_continues and check variables are isolated (40.1969ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"3293ed30-e441-41b4-afb9-ec5ba4a5978e","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:56:377)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:57:1
+✖ unknown_action_rejected and duplicate observation does not advance twice (39.9721ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"4a3dfa61-bf7e-43c8-8d7c-1c7c7d7595e4","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:57:116)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:58:1
+✖ cancel_stops_dispatch and late observations are ignored (40.7877ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"9a8f71a0-b10b-4364-94df-3ded5d2ef0c2","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:58:101)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\contracts\interpreter.test.mjs:60:1
+✖ deadline cannot accept late passing evidence (40.1065ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":1,"messageId":"c72e77e8-b251-4c09-925d-a398d5c3b254","runId":"run","kind":"event","payload":{"status":"error","code":"UNKNOWN_OPERATION","data":null}}
+      at request (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:17:33)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/contracts/interpreter.test.mjs:60:132)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'error',
+    expected: 'error',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }

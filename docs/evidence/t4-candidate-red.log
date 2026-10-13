@@ -1,0 +1,7 @@
+2026-10-13 initial candidate tests before implementation: 7/7 failed, T4 candidate engine must exist.
+2026-10-13 first implemented candidate run: 22/25 passed, 3/25 failed.
+rule_cannot_be_weakened reopen: INVALID_BUDGET
+budget_exhausted reopen: INVALID_BUDGET
+provider_down_pauses_candidate reopen: INVALID_BUDGET
+Cause: broad secret-key filtering also removed legitimate tokens/maxTokens/totalTokens accounting fields from persisted state.
+Correction: exact secret field names, preserving accounting and mapping field names.

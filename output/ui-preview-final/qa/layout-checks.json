@@ -1,0 +1,138 @@
+[
+  {
+    "page": "项目接入",
+    "url": "http://127.0.0.1:9309/index.html",
+    "heading": "项目接入",
+    "height": 1080,
+    "scrollWidth": 1536,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 1536
+  },
+  {
+    "page": "业务验证",
+    "url": "http://127.0.0.1:9309/verify.html?state=generated&theme=dark",
+    "heading": "编辑工单",
+    "height": 1080,
+    "scrollWidth": 1536,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 1536
+  },
+  {
+    "page": "验证报告",
+    "url": "http://127.0.0.1:9309/report.html?state=published",
+    "heading": "验证报告",
+    "height": 1080,
+    "scrollWidth": 1536,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 1536
+  },
+  {
+    "page": "模型设置",
+    "url": "http://127.0.0.1:9309/settings.html",
+    "heading": "模型设置",
+    "height": 1080,
+    "scrollWidth": 1536,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 1536
+  },
+  {
+    "page": "项目接入",
+    "height": 1012,
+    "scrollWidth": 453,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 468
+  },
+  {
+    "page": "业务验证",
+    "height": 1012,
+    "scrollWidth": 453,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 468
+  },
+  {
+    "page": "验证报告",
+    "height": 1012,
+    "scrollWidth": 453,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 468
+  },
+  {
+    "page": "模型设置",
+    "height": 1012,
+    "scrollWidth": 468,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 468
+  },
+  {
+    "page": "项目接入",
+    "height": 1024,
+    "scrollWidth": 753,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 768
+  },
+  {
+    "page": "业务验证",
+    "height": 1024,
+    "scrollWidth": 753,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 768
+  },
+  {
+    "page": "验证报告",
+    "height": 1024,
+    "scrollWidth": 753,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 768
+  },
+  {
+    "page": "模型设置",
+    "height": 1024,
+    "scrollWidth": 768,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 768
+  },
+  {
+    "page": "项目接入",
+    "height": 844,
+    "scrollWidth": 375,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 390
+  },
+  {
+    "page": "业务验证",
+    "height": 844,
+    "scrollWidth": 375,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 390
+  },
+  {
+    "page": "验证报告",
+    "height": 844,
+    "scrollWidth": 375,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 390
+  },
+  {
+    "page": "模型设置",
+    "height": 844,
+    "scrollWidth": 375,
+    "styleSelector": 0,
+    "theme": "blue",
+    "width": 390
+  }
+]

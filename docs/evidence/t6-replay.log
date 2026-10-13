@@ -1,0 +1,26 @@
+
+> website-verification@0.0.0 verify
+> node scripts/verify.mjs replay
+
+✔ T6 durable records, package integrity and single-flow confirmation (161.0274ms)
+▶ T6 actual published execution and model-free replay
+  ✔ progress_uses_real_events and formal scope (0.2868ms)
+  ✔ package includes exact executable template snapshot (0.3524ms)
+  ✔ replay_without_model and reset_makes_runs_comparable (1689.6115ms)
+  ✔ pending_rules_are_observations (1326.4215ms)
+  ✔ stopped work never becomes success (370.9169ms)
+  ✔ interrupted history is linked after old copy isolation; original stays immutable (1989.6475ms)
+  ✔ one flow executes three seed rules with independent business evidence (28654.3827ms)
+  ✔ disabled exact version blocks package and new runs (330.3946ms)
+✔ T6 actual published execution and model-free replay (46598.4251ms)
+✔ local workbench API guards mutations and preserves real empty state (351.4323ms)
+✔ scope changes retain project secrets; analysis budget survives retries (2776.1765ms)
+✔ recovered analysis keeps reservations and changed source needs fresh environment confirmation (1299.131ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 51423.8957

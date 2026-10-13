@@ -1,0 +1,26 @@
+
+> website-verification@0.0.0 verify
+> node scripts/verify.mjs workbench
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 22 modules transformed.
+rendering chunks...
+computing gzip size...
+apps/ui/dist/index.html                   0.36 kB │ gzip:  0.29 kB
+apps/ui/dist/assets/index-5jx4FUoj.css    8.03 kB │ gzip:  2.36 kB
+apps/ui/dist/assets/index-Cp1zZ8wX.js   253.49 kB │ gzip: 78.67 kB
+
+✓ built in 111ms
+
+Running 5 tests using 1 worker
+
+(node:46280) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\e2e\workbench.spec.ts:20:1 › empty report does not invent runs; four pages respond at 1280, 768, 390 (4.6s)
+  ok 2 tests\e2e\workbench.spec.ts:27:1 › project form and session passwords survive scope edits; actual run and package replay (9.4s)
+  ok 3 tests\e2e\workbench.spec.ts:42:1 › scope and backend errors cannot become success by waiting (2.0s)
+  ok 4 tests\e2e\workbench.spec.ts:49:1 › candidate review is explicit and a disabled version cannot silently fall back (12.6s)
+  ok 5 tests\e2e\workbench.spec.ts:63:1 › failure and unknown reports come from real website observations and block load (6.9s)
+
+  5 passed (45.9s)

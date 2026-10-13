@@ -1,0 +1,16 @@
+✔ host clock sends a tick without any observation (129.6205ms)
+✔ host cancellation clears timer and returns terminal (138.3426ms)
+✔ rejected observation leaves timer and valid observation usable (86.2627ms)
+✔ schema accepts save-result and rejects executable additions (1.3693ms)
+✔ schema accepts duplicate-submit and rejects executable additions (0.8797ms)
+✔ schema accepts permission-isolation and rejects executable additions (0.4621ms)
+✔ exists only tests field presence (0.3784ms)
+✔ schema rejects malformed observations, unknown capabilities and rules (0.1456ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 447.9557

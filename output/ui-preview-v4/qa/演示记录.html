@@ -1,0 +1,2138 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>四页预览 v4 风格与完整演示</title><style>body{margin:0;background:#f4f6fa;color:#182743;font:15px/1.8 "Segoe UI","Microsoft YaHei",sans-serif}main{max-width:1180px;margin:auto;padding:35px 24px}h1{font-size:30px}h2{font-size:20px}section,article{background:white;border:1px solid #dfe5ef;border-radius:10px;padding:24px;margin:28px 0}img{width:100%;height:auto;display:block;border:1px solid #dfe5ef}a{color:#2459cf}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px}summary{cursor:pointer;padding-top:14px}.styles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.styles article{padding:15px}nav{display:flex;flex-wrap:wrap;gap:18px}.result{background:#e9f6ef;padding:18px;border-radius:8px}@media(max-width:800px){.styles{grid-template-columns:1fr}main{padding:20px 12px}section{padding:16px}}</style><main><h1>四页预览 v4 风格与完整演示</h1><p>2026-10-12 · 本轮重新点击与截图 · 全部为静态示例</p><p class="result">两处预览缺口已补齐；可信对照的复制与重检已贯通。主线和相关阻断分支已核对，真实功能尚未开发。</p><div class="styles"><article><h2>A 蓝白工作台</h2><a href="http://127.0.0.1:11086/verify.html?state=generated&amp;flow=edit&amp;theme=blue"><img src="../qa/A-蓝白工作台.jpg" alt="风格A"></a><a href="http://127.0.0.1:11086/verify.html?state=generated&amp;flow=edit&amp;theme=blue">打开此风格的四页预览</a></article><article><h2>B 暖灰编辑式</h2><a href="http://127.0.0.1:11086/verify.html?state=generated&amp;flow=edit&amp;theme=paper"><img src="../qa/B-暖灰编辑式.jpg" alt="风格B"></a><a href="http://127.0.0.1:11086/verify.html?state=generated&amp;flow=edit&amp;theme=paper">打开此风格的四页预览</a></article><article><h2>C 深色控制台</h2><a href="http://127.0.0.1:11086/verify.html?state=generated&amp;flow=edit&amp;theme=dark"><img src="../qa/C-深色控制台.jpg" alt="风格C"></a><a href="http://127.0.0.1:11086/verify.html?state=generated&amp;flow=edit&amp;theme=dark">打开此风格的四页预览</a></article></div><nav><a href="#s01">项目接入</a><a href="#s05">可信对照补齐</a><a href="#s10">审核发布</a><a href="#s12">修复复跑</a><a href="#s15">目标负载</a><a href="#s18">报告切换修复</a><a href="#s19">接口变化</a><a href="#s21">验证包</a></nav><p>30张本轮截图配套说明；完整界面文字可展开。三种风格四页共36次布局检查无横向溢出。完整键盘/读屏、真实生成执行和负载未验收。</p><section id="s01"><h2>01 蓝白项目接入</h2><p>首次接入集中项目、测试账号、发送范围与环境确认。未配置模型或未确认范围不能分析。</p><a href="../qa/01-蓝白项目接入.jpg"><img loading="lazy" width="1265" src="../qa/01-蓝白项目接入.jpg" alt="01 蓝白项目接入"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/index.html?theme=blue</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=published
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;项目接入&quot; [level=1]
+  - paragraph: 选择项目，准备一次可复跑的验证
+  - status:
+    - strong: 模型尚未配置
+    - paragraph:
+      - text: 首次分析前需填写模型并检查输出。
+      - link &quot;前往模型设置&quot;:
+        - /url: settings.html
+  - heading &quot;项目信息&quot; [level=2]
+  - generic: 示例项目
+  - generic: 项目目录
+  - textbox &quot;项目目录&quot;: C:\demo\ticket-app
+  - button &quot;选择目录&quot;
+  - generic: 网站用途
+  - textbox &quot;网站用途&quot;: 用户提交和编辑工单，查看处理进度。
+  - heading &quot;测试账号&quot; [level=2]
+  - generic: 两个普通用户
+  - generic: 用户甲
+  - textbox &quot;用户甲&quot;: user_a
+  - generic: 测试密码
+  - textbox &quot;测试密码&quot;:
+    - /placeholder: 本次会话使用
+  - generic: 用户乙
+  - textbox &quot;用户乙&quot;: user_b
+  - generic: 测试密码
+  - textbox &quot;测试密码&quot;:
+    - /placeholder: 本次会话使用
+  - generic: 不保存密码；复跑重新登录
+  - button &quot;填入示例密码&quot;
+  - button &quot;开始分析&quot;
+  - complementary:
+    - heading &quot;发送范围&quot; [level=2]
+    - button &quot;调整&quot;
+    - term: 模型服务
+    - definition: api.deepseek.com
+    - term: 所选文件
+    - definition:
+      - text: src/routes/tickets.ts
+      - text: src/auth.ts · package.json
+    - paragraph: 仅相关摘要与源码片段，排除凭据、环境文件和数据库。
+    - checkbox &quot;同意发送以上内容&quot;
+    - generic: 同意发送以上内容
+    - heading &quot;测试环境&quot; [level=2]
+    - generic: 源码副本
+    - generic: ticket-app-test
+    - generic: 独立数据库
+    - generic: ticket-test.sqlite
+    - generic: 数据来源
+    - generic: 已有测试初始化入口
+    - checkbox &quot;确认测试副本与专用测试数据&quot;
+    - generic: 确认测试副本与专用测试数据</pre></details></section><section id="s02"><h2>02 模型检查示例通过</h2><p>模型为空时保存被阻断；演示连接及结构化输出检查通过后可返回项目。此截图为主链结束后同轮补拍的结果区域，不是真实调用。</p><a href="../qa/02-模型检查示例通过.jpg"><img loading="lazy" width="1265" src="../qa/02-模型检查示例通过.jpg" alt="02 模型检查示例通过"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/settings.html?state=connected</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=load-passed
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;模型设置&quot; [level=1]
+  - paragraph: 预览不会发送项目或凭据
+  - heading &quot;模型服务&quot; [level=2]
+  - button &quot;填入演示配置&quot;
+  - generic: 服务
+  - combobox &quot;服务&quot;:
+    - option &quot;DeepSeek 官方&quot; [selected]
+    - option &quot;自定义地址&quot;
+  - generic: 接口地址
+  - textbox &quot;接口地址&quot;: https://api.deepseek.com
+  - generic: 模型名称
+  - textbox &quot;模型名称&quot;:
+    - /placeholder: 填写实际模型名称
+    - text: demo-model
+  - generic: API Key
+  - textbox &quot;API Key&quot;:
+    - /placeholder: 仅用于演示，不要输入真实密钥
+    - text: &lt;redacted&gt;
+  - checkbox &quot;记住 API Key&quot;
+  - generic: 记住 API Key
+  - generic &quot;存储与兼容范围 ＋&quot;
+  - status:
+    - strong: 示例连接检查通过
+    - paragraph: 协议调用、JSON 输出与字段检查通过；尚未验证真实模型效果。
+  - button &quot;清除已存密钥&quot;
+  - button &quot;检查连接&quot;
+  - button &quot;保存并返回项目&quot; [active]</pre></details></section><section id="s03"><h2>03 无模板规则确认</h2><p>编辑工单：只改标题，priority、ownerId保持不变。无适用模板；规则未勾选时阻断。</p><a href="../qa/03-无模板规则确认.jpg"><img loading="lazy" width="1265" src="../qa/03-无模板规则确认.jpg" alt="03 无模板规则确认"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=rules&amp;flow=edit</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=published
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;编辑工单&quot; [level=1]
+  - paragraph: 新业务性质 · 从候选到可复用模板
+  - button &quot;更换流程&quot;
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - heading &quot;确认业务规则&quot; [level=2]
+  - generic: 0/1 已确认
+  - checkbox &quot;确认字段保持规则&quot;
+  - generic: 只修改标题时，优先级和所有者保持不变
+  - generic: 无适用模板
+  - generic: 待确认
+  - button &quot;编辑&quot;
+  - paragraph: 未确认规则保留待定，不判定对错。
+  - button &quot;确认并检查能力&quot;
+  - complementary:
+    - heading &quot;执行范围&quot; [level=2]
+    - generic: 1 条流程
+    - generic: 主流程
+    - generic: 编辑工单
+    - generic: 测试身份
+    - generic: user_a / user_b
+    - generic: 测试环境
+    - generic: 独立副本 · seed-v1
+    - generic: 最终取证
+    - generic: HTTP 查询
+    - generic &quot;接口映射与取证 ＋&quot;
+    - generic &quot;规则与适用条件 ＋&quot;</pre></details></section><section id="s04"><h2>04 独立样本抓住漏检</h2><p>生成v0.1后，独立样本抓住user_a→user_a2漏检。修订为严格相等的v0.2，修订次数1/2，规则不变。</p><a href="../qa/04-独立样本抓住漏检.jpg"><img loading="lazy" width="1265" src="../qa/04-独立样本抓住漏检.jpg" alt="04 独立样本抓住漏检"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=validation-failed&amp;flow=edit</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=published
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;编辑工单&quot; [active] [level=1]
+  - paragraph: 新业务性质 · 从候选到可复用模板
+  - button &quot;更换流程&quot;
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - heading &quot;候选需要修订&quot; [level=2]
+  - paragraph: 候选 v0.1 · 第 1 次尝试
+  - generic: 未准入
+  - table &quot;观察样本对照结果&quot;:
+    - caption: 观察样本对照结果
+    - rowgroup:
+      - row &quot;对照场景 预期判定 实际判定 检查结果&quot;:
+        - columnheader &quot;对照场景&quot;
+        - columnheader &quot;预期判定&quot;
+        - columnheader &quot;实际判定&quot;
+        - columnheader &quot;检查结果&quot;
+    - rowgroup:
+      - row &quot;正常更新 通过 通过 符合预期&quot;:
+        - cell &quot;正常更新&quot;
+        - cell &quot;通过&quot;
+        - cell &quot;通过&quot;
+        - cell &quot;符合预期&quot;:
+          - generic: 符合预期
+      - row &quot;优先级被重置 业务失败 业务失败 符合预期&quot;:
+        - cell &quot;优先级被重置&quot;
+        - cell &quot;业务失败&quot;
+        - cell &quot;业务失败&quot;
+        - cell &quot;符合预期&quot;:
+          - generic: 符合预期
+      - row &quot;所有者被改变 业务失败 通过 未检出缺陷&quot;:
+        - cell &quot;所有者被改变&quot;
+        - cell &quot;业务失败&quot;
+        - cell &quot;通过&quot;
+        - cell &quot;未检出缺陷&quot;:
+          - generic: 未检出缺陷
+      - row &quot;缺少最终字段 无法验证 无法验证 符合预期&quot;:
+        - cell &quot;缺少最终字段&quot;
+        - cell &quot;无法验证&quot;
+        - cell &quot;无法验证&quot;
+        - cell &quot;符合预期&quot;:
+          - generic: 符合预期
+  - status:
+    - strong: 漏检：所有者改变时仍判通过
+    - paragraph: ownerId 误用了包含关系，user_a → user_a2 被漏检。修订为前后严格相等后重新验证，规则和正确答案不变。
+  - generic &quot;定义检查与对照依据 ＋&quot;
+  - button &quot;修订并重新验证（剩余 2 轮）&quot;
+  - complementary:
+    - heading &quot;验证层次&quot; [level=2]
+    - list:
+      - generic: 定义检查
+      - generic: 已完成
+      - generic: 独立样本
+      - generic: 当前
+      - generic: 受控端到端
+      - generic: 待执行
+      - generic: 项目试运行
+      - generic: 待执行
+    - paragraph: 每轮重新验证，标准与业务规则保持不变。
+    - generic &quot;修订与预算 ＋&quot;</pre></details></section><section id="s05"><h2>05 可信对照待补入口</h2><p>从样本通过页点击对照未就绪，进入等待可信对照。新增复制待补要求与补齐后重新检查，候选与2/3尝试记录保留。</p><a href="../qa/05-可信对照待补入口.jpg"><img loading="lazy" width="1265" src="../qa/05-可信对照待补入口.jpg" alt="05 可信对照待补入口"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=waiting-reference&amp;flow=edit</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=published
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;编辑工单&quot; [active] [level=1]
+  - paragraph: 新业务性质 · 从候选到可复用模板
+  - button &quot;更换流程&quot;
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - status:
+    - strong: 等待可信对照
+    - paragraph: 观察样本不足以替代受控端到端。需由开发者审核参考行为和缺陷对照，补齐前不能发布。
+  - heading &quot;已保留的内容&quot; [level=2]
+  - generic: 规则
+  - generic: v1.0 · 不放宽
+  - generic: 候选
+  - generic: v0.2 · 待对照
+  - generic: 尝试次数
+  - generic: 2 / 3
+  - generic &quot;诊断记录 －&quot;
+  - generic: 缺少覆盖所有者变更的可信 HTTP 缺陷对照。
+  - button &quot;复制待补要求&quot;
+  - button &quot;补齐后重新检查&quot;
+  - complementary:
+    - heading &quot;验证层次&quot; [level=2]
+    - list:
+      - generic: 定义检查
+      - generic: 已完成
+      - generic: 独立样本
+      - generic: 已完成
+      - generic: 受控端到端
+      - generic: 当前
+      - generic: 项目试运行
+      - generic: 待执行
+    - paragraph: 每轮重新验证，标准与业务规则保持不变。</pre></details></section><section id="s06"><h2>06 待补要求复制成功</h2><p>待补清单包含正常与两类缺陷、开发者独立审核、冻结版本、隐藏变体及次数约束。复制按钮实际写入的文字已读回核对；内置浏览器原生复制可用，失败时选中文字提示Ctrl+C。</p><a href="../qa/06-待补要求复制成功.jpg"><img loading="lazy" width="1265" src="../qa/06-待补要求复制成功.jpg" alt="06 待补要求复制成功"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=waiting-reference&amp;flow=edit</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=published
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;编辑工单&quot; [level=1]
+  - paragraph: 新业务性质 · 从候选到可复用模板
+  - button &quot;更换流程&quot;
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - status:
+    - strong: 等待可信对照
+    - paragraph: 观察样本不足以替代受控端到端。需由开发者审核参考行为和缺陷对照，补齐前不能发布。
+  - heading &quot;已保留的内容&quot; [level=2]
+  - generic: 规则
+  - generic: v1.0 · 不放宽
+  - generic: 候选
+  - generic: v0.2 · 待对照
+  - generic: 尝试次数
+  - generic: 2 / 3
+  - generic &quot;诊断记录 －&quot;
+  - generic: 缺少覆盖所有者变更的可信 HTTP 缺陷对照。
+  - button &quot;复制待补要求&quot;
+  - button &quot;补齐后重新检查&quot;
+  - complementary:
+    - heading &quot;验证层次&quot; [level=2]
+    - list:
+      - generic: 定义检查
+      - generic: 已完成
+      - generic: 独立样本
+      - generic: 已完成
+      - generic: 受控端到端
+      - generic: 当前
+      - generic: 项目试运行
+      - generic: 待执行
+    - paragraph: 每轮重新验证，标准与业务规则保持不变。
+- dialog &quot;待补可信对照&quot;:
+  - heading &quot;待补可信对照&quot; [level=2]
+  - button &quot;关闭对话框&quot;: 关闭
+  - generic: 交给开发者的补充要求
+  - textbox &quot;交给开发者的补充要求&quot; [active]: 待补：覆盖所有者变更的可信 HTTP 缺陷对照。提供正常参考行为、priority-reset 与 owner-changed 缺陷依据，并由开发者独立审核、冻结版本。规则 v1.0 / 候选 v0.2 / 第 2 次尝试（已修订 1/2 轮）保持不变。保留生成器不可见变体；缺字段应为无法验证。补齐后重新检查受控端到端，再进入项目试运行与双重审核；不能自动发布或重置次数。
+  - button &quot;复制要求&quot;</pre></details></section><section id="s07"><h2>07 对照仍缺失重检被阻断</h2><p>未审核时阻断；审核后仍缺所有者变更对照也阻断，不消耗或重置修订次数。</p><a href="../qa/07-对照仍缺失重检被阻断.jpg"><img loading="lazy" width="1265" src="../qa/07-对照仍缺失重检被阻断.jpg" alt="07 对照仍缺失重检被阻断"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=waiting-reference&amp;flow=edit</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=published
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;编辑工单&quot; [level=1]
+  - paragraph: 新业务性质 · 从候选到可复用模板
+  - button &quot;更换流程&quot;
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - status:
+    - strong: 等待可信对照
+    - paragraph: 观察样本不足以替代受控端到端。需由开发者审核参考行为和缺陷对照，补齐前不能发布。
+  - heading &quot;已保留的内容&quot; [level=2]
+  - generic: 规则
+  - generic: v1.0 · 不放宽
+  - generic: 候选
+  - generic: v0.2 · 待对照
+  - generic: 尝试次数
+  - generic: 2 / 3
+  - generic &quot;诊断记录 －&quot;
+  - generic: 缺少覆盖所有者变更的可信 HTTP 缺陷对照。
+  - button &quot;复制待补要求&quot;
+  - button &quot;补齐后重新检查&quot;
+  - complementary:
+    - heading &quot;验证层次&quot; [level=2]
+    - list:
+      - generic: 定义检查
+      - generic: 已完成
+      - generic: 独立样本
+      - generic: 已完成
+      - generic: 受控端到端
+      - generic: 当前
+      - generic: 项目试运行
+      - generic: 待执行
+    - paragraph: 每轮重新验证，标准与业务规则保持不变。
+- dialog &quot;重新检查可信对照&quot;:
+  - heading &quot;重新检查可信对照&quot; [level=2]
+  - button &quot;关闭对话框&quot;: 关闭
+  - paragraph: 只切换演示结果，不读取参考服务或文件。
+  - generic: 补充对照版本
+  - textbox &quot;补充对照版本&quot;: ref-crud-v2
+  - generic: 示例对照状态
+  - combobox &quot;示例对照状态&quot;:
+    - option &quot;仍缺所有者变更对照&quot; [selected]
+    - option &quot;对照已补齐&quot;
+  - checkbox &quot;开发者已独立核对正常行为与两类缺陷&quot; [checked]
+  - generic: 开发者已独立核对正常行为与两类缺陷
+  - checkbox &quot;版本已冻结，规则、隐藏变体与候选次数保持不变&quot; [checked]
+  - generic: 版本已冻结，规则、隐藏变体与候选次数保持不变
+  - alert:
+    - status:
+      - strong: 仍缺所有者变更对照，候选继续等待，不消耗或重置修订次数
+  - button &quot;开始示例重检&quot; [active]</pre></details></section><section id="s08"><h2>08 对照重检通过计数不重置</h2><p>补齐ref-crud-v2并确认独立审核与冻结后，四类端到端结果符合预期；候选仍v0.2、第二次尝试，下一步只能项目试运行。</p><a href="../qa/08-对照重检通过计数不重置.jpg"><img loading="lazy" width="1265" src="../qa/08-对照重检通过计数不重置.jpg" alt="08 对照重检通过计数不重置"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=reference-rechecked&amp;flow=edit</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=published
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;编辑工单&quot; [active] [level=1]
+  - paragraph: 新业务性质 · 从候选到可复用模板
+  - button &quot;更换流程&quot;
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - status:
+    - strong: 可信对照重检通过
+    - paragraph: 候选 v0.2 · 第 2 次尝试 · 已修订 1/2 轮，规则与计数未重置。
+  - heading &quot;受控 HTTP 端到端&quot; [level=2]
+  - generic: 符合预期
+  - table &quot;受控 HTTP对照结果&quot;:
+    - caption: 受控 HTTP对照结果
+    - rowgroup:
+      - row &quot;对照场景 预期判定 实际判定 检查结果&quot;:
+        - columnheader &quot;对照场景&quot;
+        - columnheader &quot;预期判定&quot;
+        - columnheader &quot;实际判定&quot;
+        - columnheader &quot;检查结果&quot;
+    - rowgroup:
+      - row &quot;正常更新 通过 通过 符合预期&quot;:
+        - cell &quot;正常更新&quot;
+        - cell &quot;通过&quot;
+        - cell &quot;通过&quot;
+        - cell &quot;符合预期&quot;:
+          - generic: 符合预期
+      - row &quot;优先级被重置 业务失败 业务失败 符合预期&quot;:
+        - cell &quot;优先级被重置&quot;
+        - cell &quot;业务失败&quot;
+        - cell &quot;业务失败&quot;
+        - cell &quot;符合预期&quot;:
+          - generic: 符合预期
+      - row &quot;所有者被改变 业务失败 业务失败 符合预期&quot;:
+        - cell &quot;所有者被改变&quot;
+        - cell &quot;业务失败&quot;
+        - cell &quot;业务失败&quot;
+        - cell &quot;符合预期&quot;:
+          - generic: 符合预期
+      - row &quot;缺少最终字段 无法验证 无法验证 符合预期&quot;:
+        - cell &quot;缺少最终字段&quot;
+        - cell &quot;无法验证&quot;
+        - cell &quot;无法验证&quot;
+        - cell &quot;符合预期&quot;:
+          - generic: 符合预期
+  - generic &quot;本次对照依据 －&quot;
+  - generic: 参考版本 ref-crud-v2 · 开发者独立审核，正常、优先级重置、所有者改变与证据不足对照覆盖。适用范围未扩大，隐藏变体未反馈生成器。
+  - button &quot;在项目副本试运行&quot;
+  - complementary:
+    - heading &quot;验证层次&quot; [level=2]
+    - list:
+      - generic: 定义检查
+      - generic: 已完成
+      - generic: 独立样本
+      - generic: 已完成
+      - generic: 受控端到端
+      - generic: 已完成
+      - generic: 项目试运行
+      - generic: 当前
+    - paragraph: 每轮重新验证，标准与业务规则保持不变。</pre></details></section><section id="s09"><h2>09 实验有效网站业务失败</h2><p>项目试运行实验有效，但priority高→普通，网站业务失败。候选资格与网站结果分别展示。</p><a href="../qa/09-实验有效网站业务失败.jpg"><img loading="lazy" width="1265" src="../qa/09-实验有效网站业务失败.jpg" alt="09 实验有效网站业务失败"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=trial&amp;flow=edit</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=published
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;编辑工单&quot; [active] [level=1]
+  - paragraph: 新业务性质 · 从候选到可复用模板
+  - button &quot;更换流程&quot;
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - heading &quot;项目副本试运行&quot; [level=2]
+  - paragraph: 候选 v0.2 · 第 2 次尝试 · 已修订 1/2 轮
+  - generic: 实验有效
+  - generic: 模板试运行
+  - strong: 身份与取证有效
+  - paragraph: 同一工单、完整字段、复位后可复跑。
+  - generic: 项目业务结果
+  - strong: 优先级被重置
+  - paragraph: 预期：高；实际：普通。标题已正确更新。
+  - status:
+    - strong: 业务失败不等于模板失效
+    - paragraph: 实验命中了已确认规则。保留网站缺陷，不削弱断言；满足技术准入后仍可审核模板。
+  - generic &quot;试运行与复跑证据 ＋&quot;
+  - button &quot;提交审核&quot;
+  - complementary:
+    - heading &quot;验证层次&quot; [level=2]
+    - list:
+      - generic: 定义检查
+      - generic: 已完成
+      - generic: 独立样本
+      - generic: 已完成
+      - generic: 受控端到端
+      - generic: 已完成
+      - generic: 项目试运行
+      - generic: 已完成
+    - paragraph: 每轮重新验证，标准与业务规则保持不变。
+    - generic &quot;修订与预算 ＋&quot;
+    - heading &quot;运行条件&quot; [level=2]
+    - generic: 运行
+    - generic: 候选试运行 C014
+    - generic: 主流程
+    - generic: 编辑工单
+    - generic: 规则 / 映射
+    - generic: v1.0 / v1.3
+    - generic: 模板
+    - generic: 候选 v0.2
+    - generic: 环境 / 基线
+    - generic: 测试副本 / seed-v1
+    - generic: 取证
+    - generic: 完整 HTTP 查询</pre></details></section><section id="s10"><h2>10 审核证据沿用补充对照版本</h2><p>业务确认与技术审核缺一不可；审核证据引用补齐后的ref-crud-v2，而非旧参考版本。</p><a href="../qa/10-审核证据沿用补充对照版本.jpg"><img loading="lazy" width="1265" src="../qa/10-审核证据沿用补充对照版本.jpg" alt="10 审核证据沿用补充对照版本"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/report.html?state=review</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=review
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;验证报告&quot; [level=1]
+  - paragraph: 编辑工单 · R014 · 候选试运行 · 本轮已结束
+  - button &quot;导出&quot;
+  - button &quot;查看业务证据&quot;
+  - generic &quot;报告内容&quot;:
+    - button &quot;业务结果&quot;
+    - button &quot;候选资格 待审核&quot;:
+      - text: 候选资格
+      - generic: 待审核
+  - complementary:
+    - heading &quot;结果摘要&quot; [level=2]
+    - generic: 业务结果
+    - generic: 业务失败
+    - generic: 模板资格
+    - generic: 待技术审核
+    - generic: 验证范围
+    - generic: 低负载字段保持
+    - status:
+      - strong: 目标负载未测
+      - paragraph: 本轮已证明业务错误，修复并复测后再运行。
+    - generic &quot;历史运行 ＋&quot;
+    - generic &quot;运行与版本 ＋&quot;
+    - button &quot;选择下一条流程&quot;
+  - heading &quot;字段保持候选审核&quot; [level=2]
+  - paragraph: 候选 v0.2 · 规则 v1.0 · 已修订 1/2 轮
+  - generic: 待审核
+  - strong: 定义检查
+  - generic: 操作、变量、断言、有限预算
+  - generic: 通过
+  - strong: 独立样本
+  - generic: 正常、两个缺陷、证据不足及留出变体
+  - generic: 通过
+  - strong: 受控端到端
+  - generic: HTTP 参考服务与已审核缺陷版本
+  - generic: 通过
+  - strong: 项目试运行
+  - generic: 身份、对象、完整查询及复位复跑
+  - generic: 通过
+  - button &quot;查看分层验证证据&quot;
+  - generic: 业务适用确认
+  - checkbox &quot;确认仅修改标题，优先级和所有者必须保持不变&quot; [checked]
+  - generic: 确认仅修改标题，优先级和所有者必须保持不变
+  - generic: 技术审核 · 开发者
+  - checkbox &quot;已核对独立对照、端到端、试运行、限制和版本&quot;
+  - generic: 已核对独立对照、端到端、试运行、限制和版本
+  - paragraph: 普通使用者无需编写脚本；缺审核者或可信依据时保留候选。
+  - button &quot;退回候选&quot;
+  - button &quot;审核并发布固定版本&quot; [disabled]
+- dialog &quot;候选准入证据&quot;:
+  - heading &quot;候选准入证据&quot; [level=2]
+  - button &quot;关闭对话框&quot; [active]: 关闭
+  - strong: 定义检查
+  - paragraph: 操作与引用合法，规则和有限预算冻结
+  - generic: 已核对
+  - strong: 独立样本
+  - paragraph: 正常通过；两类缺陷命中对应断言；缺字段为未知
+  - generic: 已核对
+  - strong: 留出变体
+  - paragraph: 保留生成时不可见的数值、对象和正常变体
+  - generic: 已核对
+  - strong: 端到端
+  - paragraph: 正确 HTTP 参考服务及开发者审核的缺陷版本
+  - generic: 已核对
+  - strong: 项目试运行
+  - paragraph: 身份、同一对象、完整字段、复位后复现
+  - generic: 已核对
+  - strong: 已知限制
+  - paragraph: 仅更新标题；不覆盖转交、复杂状态、定价
+  - generic: 已核对
+  - paragraph: 规则 v1.0 · 候选 v0.2 · 对照 ref-crud-v2 · 解释器 v1 · demo-8d3c（演示标识）。模型无权自我发布。
+  - button &quot;返回审核&quot;</pre></details></section><section id="s11"><h2>11 模板发布不覆盖业务失败</h2><p>发布固定v1.0后回到R014业务证据；网站失败仍保留，提供工具外修复与复测入口。</p><a href="../qa/11-模板发布不覆盖业务失败.jpg"><img loading="lazy" width="1265" src="../qa/11-模板发布不覆盖业务失败.jpg" alt="11 模板发布不覆盖业务失败"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/report.html?state=published</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=published
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;验证报告&quot; [active] [level=1]
+  - paragraph: 编辑工单 · R014 · 候选试运行 · 本轮已结束
+  - button &quot;导出&quot;
+  - link &quot;修复后复测&quot;:
+    - /url: verify.html?state=replay-prepare
+  - generic &quot;报告内容&quot;:
+    - button &quot;业务结果&quot;
+    - button &quot;候选资格 已发布&quot;:
+      - text: 候选资格
+      - generic: 已发布
+  - complementary:
+    - heading &quot;结果摘要&quot; [level=2]
+    - generic: 业务结果
+    - generic: 业务失败
+    - generic: 模板资格
+    - generic: 已发布 · v1.0
+    - generic: 验证范围
+    - generic: 低负载字段保持
+    - status:
+      - strong: 目标负载未测
+      - paragraph: 本轮已证明业务错误，修复并复测后再运行。
+    - generic &quot;历史运行 ＋&quot;
+    - generic &quot;运行与版本 ＋&quot;
+    - button &quot;选择下一条流程&quot;
+  - heading &quot;修改标题时优先级被重置&quot; [level=2]
+  - generic: 业务失败
+  - generic: 预期
+  - strong: 优先级保持为高
+  - generic: 实际
+  - strong: 普通，被重置
+  - heading &quot;复现与证据&quot; [level=3]
+  - list:
+    - listitem: 用户甲创建高优先级工单 T201，保存操作前快照。
+    - listitem: 仅更新标题，再查询同一 ID 的完整结果。
+    - listitem: title 更新正确，priority 从 high 变为 normal；ownerId 未变化。
+  - generic &quot;请求、响应与断言 ＋&quot;
+  - button &quot;复制修复说明&quot;
+  - button &quot;完整证据&quot;
+  - status:
+    - strong: 实验有效，项目业务失败
+    - paragraph: 候选对照验证已通过；修复网站，不放宽规则。
+  - generic &quot;模板适用说明 ＋&quot;</pre></details></section><section id="s12"><h2>12 修复项目版本与变化核对</h2><p>新增修复项目目录、示例项目按钮、原/新代码版本、本次变化范围。可填写版本demo-2-fixed。项目、版本与环境缺项时阻断。</p><a href="../qa/12-修复项目版本与变化核对.jpg"><img loading="lazy" width="1265" src="../qa/12-修复项目版本与变化核对.jpg" alt="12 修复项目版本与变化核对"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=replay-prepare</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=published
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;修复后复跑&quot; [level=1]
+  - paragraph: 新记录关联 R014，原证据保留
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - heading &quot;修复后的项目&quot; [level=2]
+  - button &quot;使用示例修复项目&quot;
+  - generic: 项目目录
+  - textbox &quot;项目目录&quot;: C:\demo\ticket-app-fixed
+  - generic: 原代码版本
+  - generic: demo-1 · R014
+  - generic: 本次代码版本
+  - textbox &quot;本次代码版本&quot;: demo-2
+  - generic: 本次变化
+  - combobox &quot;本次变化&quot;:
+    - option &quot;业务修复，接口与字段未变&quot; [selected]
+    - option &quot;接口或查询字段变化，需重新接入&quot;
+  - paragraph: 示例路径，不读取本机项目。规则 v1.0、基线 seed-v1 沿用。
+  - heading &quot;测试账号&quot; [level=2]
+  - combobox &quot;测试密码状态&quot;:
+    - option &quot;已失效，重新输入&quot; [selected]
+    - option &quot;本次会话可用（示例）&quot;
+  - generic: user_a 的测试密码
+  - textbox &quot;user_a 的测试密码&quot;:
+    - /placeholder: 仅使用示例密码
+  - generic: user_b 的测试密码
+  - textbox &quot;user_b 的测试密码&quot;:
+    - /placeholder: 仅使用示例密码
+  - generic: 仅本次会话使用，不进入验证包
+  - button &quot;填入示例密码&quot;
+  - heading &quot;复跑前确认&quot; [level=2]
+  - checkbox &quot;确认修复项目、代码版本与变化范围&quot;
+  - generic: 确认修复项目、代码版本与变化范围
+  - checkbox &quot;确认测试副本、代码与配置符合本次复跑条件&quot;
+  - generic: 确认测试副本、代码与配置符合本次复跑条件
+  - checkbox &quot;确认旧写操作已停止或隔离&quot;
+  - generic: 确认旧写操作已停止或隔离
+  - checkbox &quot;恢复并核对 seed-v1，重新登录后从第一步执行&quot;
+  - generic: 恢复并核对 seed-v1，重新登录后从第一步执行
+  - generic &quot;版本与变化 ＋&quot;
+  - button &quot;准备完成，开始复跑&quot;
+  - generic &quot;执行与恢复原则 ＋&quot;
+  - complementary:
+    - heading &quot;运行条件&quot; [level=2]
+    - generic: 运行
+    - generic: R014 → R015
+    - generic: 主流程
+    - generic: 编辑工单
+    - generic: 规则 / 映射
+    - generic: v1.0 / v1.3
+    - generic: 模板
+    - generic: 字段保持 v1.0
+    - generic: 环境 / 基线
+    - generic: 测试副本 / seed-v1
+    - generic: 取证
+    - generic: 完整 HTTP 查询
+    - status:
+      - strong: 无需重新分析
+      - paragraph: 规则、映射及模板有效时可无模型复跑；当前仍是示例状态。</pre></details></section><section id="s13"><h2>13 失效凭据补填与会话复用</h2><p>普通复跑和包复跑共用凭据卡；已失效时补填，缺密码阻断；本次会话可用时收起字段。密码只在当前表单，不写入演示状态。</p><a href="../qa/13-失效凭据补填与会话复用.jpg"><img loading="lazy" width="1265" src="../qa/13-失效凭据补填与会话复用.jpg" alt="13 失效凭据补填与会话复用"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=replay-prepare</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=published
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;修复后复跑&quot; [level=1]
+  - paragraph: 新记录关联 R014，原证据保留
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - heading &quot;修复后的项目&quot; [level=2]
+  - button &quot;使用示例修复项目&quot;
+  - generic: 项目目录
+  - textbox &quot;项目目录&quot;: C:\demo\ticket-app-fixed
+  - generic: 原代码版本
+  - generic: demo-1 · R014
+  - generic: 本次代码版本
+  - textbox &quot;本次代码版本&quot;: demo-2
+  - generic: 本次变化
+  - combobox &quot;本次变化&quot;:
+    - option &quot;业务修复，接口与字段未变&quot; [selected]
+    - option &quot;接口或查询字段变化，需重新接入&quot;
+  - paragraph: 示例路径，不读取本机项目。规则 v1.0、基线 seed-v1 沿用。
+  - heading &quot;测试账号&quot; [level=2]
+  - combobox &quot;测试密码状态&quot;:
+    - option &quot;已失效，重新输入&quot; [selected]
+    - option &quot;本次会话可用（示例）&quot;
+  - generic: user_a 的测试密码
+  - textbox &quot;user_a 的测试密码&quot; [active]:
+    - /placeholder: 仅使用示例密码
+  - generic: user_b 的测试密码
+  - textbox &quot;user_b 的测试密码&quot;:
+    - /placeholder: 仅使用示例密码
+  - generic: 仅本次会话使用，不进入验证包
+  - button &quot;填入示例密码&quot;
+  - heading &quot;复跑前确认&quot; [level=2]
+  - checkbox &quot;确认修复项目、代码版本与变化范围&quot; [checked]
+  - generic: 确认修复项目、代码版本与变化范围
+  - checkbox &quot;确认测试副本、代码与配置符合本次复跑条件&quot; [checked]
+  - generic: 确认测试副本、代码与配置符合本次复跑条件
+  - checkbox &quot;确认旧写操作已停止或隔离&quot; [checked]
+  - generic: 确认旧写操作已停止或隔离
+  - checkbox &quot;恢复并核对 seed-v1，重新登录后从第一步执行&quot; [checked]
+  - generic: 恢复并核对 seed-v1，重新登录后从第一步执行
+  - generic &quot;版本与变化 ＋&quot;
+  - alert:
+    - status:
+      - strong: 测试密码已失效，请补填或使用本次会话示例
+  - button &quot;准备完成，开始复跑&quot;
+  - generic &quot;执行与恢复原则 ＋&quot;
+  - complementary:
+    - heading &quot;运行条件&quot; [level=2]
+    - generic: 运行
+    - generic: R014 → R015
+    - generic: 主流程
+    - generic: 编辑工单
+    - generic: 规则 / 映射
+    - generic: v1.0 / v1.3
+    - generic: 模板
+    - generic: 字段保持 v1.0
+    - generic: 环境 / 基线
+    - generic: 测试副本 / seed-v1
+    - generic: 取证
+    - generic: 完整 HTTP 查询
+    - status:
+      - strong: 无需重新分析
+      - paragraph: 规则、映射及模板有效时可无模型复跑；当前仍是示例状态。</pre></details></section><section id="s14"><h2>14 复跑报告保留本次代码与运行</h2><p>沿用v1.0规则、v1.3映射，从第一步复跑得到R015通过示例。报告记录demo-2-fixed；切候选资格并返回仍为R015。</p><a href="../qa/14-复跑报告保留本次代码与运行.jpg"><img loading="lazy" width="1265" src="../qa/14-复跑报告保留本次代码与运行.jpg" alt="14 复跑报告保留本次代码与运行"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/report.html?state=replayed</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=replayed
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;验证报告&quot; [level=1]
+  - paragraph: 编辑工单 · R015 · 修复后复跑 · 本轮已结束
+  - button &quot;导出&quot;
+  - link &quot;验证目标负载&quot;:
+    - /url: verify.html?state=load-plan
+  - generic &quot;报告内容&quot;:
+    - button &quot;业务结果&quot;
+    - button &quot;候选资格 已发布&quot;:
+      - text: 候选资格
+      - generic: 已发布
+  - complementary:
+    - heading &quot;结果摘要&quot; [level=2]
+    - generic: 业务结果
+    - generic: 通过
+    - generic: 模板资格
+    - generic: 已发布 · v1.0
+    - generic: 验证范围
+    - generic: 低负载字段保持
+    - status:
+      - strong: 业务复测通过
+      - paragraph: 可按确认的目标开展负载验证。
+    - generic &quot;历史运行 ＋&quot;
+    - generic &quot;运行与版本 －&quot; [active]
+    - generic: 代码 demo-2-fixed · 规则 v1.0 · 映射 v1.3 · seed-v1 · 解释器 v1。模板固定哈希 demo-8d3c（演示标识）。
+    - button &quot;选择下一条流程&quot;
+  - heading &quot;修复后字段保持检查通过&quot; [level=2]
+  - generic: 业务通过
+  - generic: 预期
+  - strong: 优先级保持为高
+  - generic: 实际
+  - strong: 高，保持不变
+  - heading &quot;复现与证据&quot; [level=3]
+  - list:
+    - listitem: 用户甲创建高优先级工单 T201，保存操作前快照。
+    - listitem: 仅更新标题，再查询同一 ID 的完整结果。
+    - listitem: title 更新正确，priority 与 ownerId 保持原值。
+  - generic &quot;请求、响应与断言 ＋&quot;
+  - button &quot;复制修复说明&quot;
+  - button &quot;完整证据&quot;
+  - status:
+    - strong: 新记录已关联 R014
+    - paragraph: 初始数据已复位，规则和有效映射沿用，重新登录后从第一步复跑；未调用模型。
+  - generic &quot;模板适用说明 ＋&quot;</pre></details></section><section id="s15"><h2>15 目标负载运行中</h2><p>确认60次/分钟×10分钟、P95≤1500ms、请求错误率≤1%、2身份、100工单、均匀标题更新后启动。未确认不能启动。</p><a href="../qa/15-目标负载运行中.jpg"><img loading="lazy" width="1265" src="../qa/15-目标负载运行中.jpg" alt="15 目标负载运行中"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=load-running&amp;flow=edit</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=replayed
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;目标负载运行中&quot; [active] [level=1]
+  - paragraph: 编辑工单 · 60 次/分钟 · 10 分钟
+  - heading &quot;业务与性能同步检查&quot; [level=2]
+  - generic: 示例运行中
+  - generic: 业务意图
+  - strong: &quot;360&quot;
+  - generic: P95 等待
+  - strong: 820 ms
+  - generic: 请求错误率
+  - strong: 0.3%
+  - generic: 已取得最终记录
+  - strong: &quot;358&quot;
+  - generic: 在途 / 未结算
+  - generic: 2 项
+  - generic: 业务检查
+  - generic: 已观察结果符合规则
+  - button &quot;停止&quot;
+  - button &quot;显示目标结束示例&quot;
+  - generic &quot;业务操作账本 ＋&quot;
+  - complementary:
+    - heading &quot;目标与边界&quot; [level=2]
+    - generic: P95 阈值
+    - generic: 1500 ms
+    - generic: 请求错误率
+    - generic: 1%
+    - generic: 持续超标窗口
+    - generic: 30 秒
+    - generic: 在途结算期限
+    - generic: 30 秒
+    - generic: 适用业务检查
+    - generic: 字段保持
+    - status:
+      - strong: 本机环境
+      - paragraph: 工具与网站共用资源；结论不能直接代表线上。</pre></details></section><section id="s16"><h2>16 在途结算前不能判通过</h2><p>运行结束停止派发，600意图、598最终记录、2在途，明确不能提前判通过。结算期限30秒。</p><a href="../qa/16-在途结算前不能判通过.jpg"><img loading="lazy" width="1265" src="../qa/16-在途结算前不能判通过.jpg" alt="16 在途结算前不能判通过"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=load-settling&amp;flow=edit</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=replayed
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;结算在途操作&quot; [active] [level=1]
+  - paragraph: 编辑工单 · 60 次/分钟 · 10 分钟
+  - heading &quot;已停止派发，等待最终结果&quot; [level=2]
+  - generic: 结算中
+  - generic: 业务意图
+  - strong: &quot;600&quot;
+  - generic: P95 等待
+  - strong: 820 ms
+  - generic: 请求错误率
+  - strong: 0.3%
+  - generic: 已取得最终记录
+  - strong: &quot;598&quot;
+  - generic: 在途 / 未结算
+  - generic: 2 项
+  - generic: 业务检查
+  - generic: 已观察结果符合规则
+  - status:
+    - strong: 还不能给出目标通过结论
+    - paragraph: 在途结果需在 30 秒内完成查询；超期或查询不完整的项保留未知。
+  - button &quot;完成示例结算&quot;
+  - generic &quot;业务操作账本 ＋&quot;
+  - complementary:
+    - heading &quot;目标与边界&quot; [level=2]
+    - generic: P95 阈值
+    - generic: 1500 ms
+    - generic: 请求错误率
+    - generic: 1%
+    - generic: 持续超标窗口
+    - generic: 30 秒
+    - generic: 在途结算期限
+    - generic: 30 秒
+    - generic: 适用业务检查
+    - generic: 字段保持
+    - status:
+      - strong: 本机环境
+      - paragraph: 工具与网站共用资源；结论不能直接代表线上。</pre></details></section><section id="s17"><h2>17 目标通过账本完整</h2><p>结算完整后600意图、612请求尝试、600接受与最终记录、0未结算。L016在已确认范围内通过。</p><a href="../qa/17-目标通过账本完整.jpg"><img loading="lazy" width="1265" src="../qa/17-目标通过账本完整.jpg" alt="17 目标通过账本完整"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/report.html?state=load-passed&amp;case=valid</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=load-passed&amp;case=valid
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;验证报告&quot; [level=1]
+  - paragraph: 编辑工单 · L016 · 目标负载 · 本轮已结束
+  - button &quot;导出&quot;
+  - link &quot;查看业务复测&quot;:
+    - /url: report.html?state=replayed
+  - generic &quot;报告内容&quot;:
+    - button &quot;业务结果&quot;
+    - button &quot;候选资格 已发布&quot;:
+      - text: 候选资格
+      - generic: 已发布
+  - complementary:
+    - heading &quot;结果摘要&quot; [level=2]
+    - generic: 业务结果
+    - generic: 通过
+    - generic: 模板资格
+    - generic: 已发布 · v1.0
+    - generic: 验证范围
+    - generic: 目标负载
+    - heading &quot;目标条件&quot; [level=2]
+    - generic: 操作率
+    - generic: 60 次/分钟
+    - generic: 持续时间
+    - generic: 10 分钟
+    - generic: P95 阈值
+    - generic: 1500 ms
+    - generic: 请求错误率
+    - generic: 1%
+    - generic &quot;历史运行 ＋&quot;
+    - generic &quot;运行与版本 ＋&quot;
+    - button &quot;选择下一条流程&quot;
+  - heading &quot;已确认目标通过&quot; [level=2]
+  - generic: 目标通过
+  - generic: P95 等待
+  - strong: 820 ms
+  - generic: 请求错误率
+  - strong: 0.3%
+  - generic: 未结算
+  - strong: &quot;0&quot;
+  - table &quot;负载业务账本&quot;:
+    - caption: 负载业务账本
+    - rowgroup:
+      - row &quot;独立业务意图 请求尝试 接受操作 最终记录&quot;:
+        - columnheader &quot;独立业务意图&quot;
+        - columnheader &quot;请求尝试&quot;
+        - columnheader &quot;接受操作&quot;
+        - columnheader &quot;最终记录&quot;
+    - rowgroup:
+      - row &quot;600 612 600 600&quot;:
+        - cell &quot;600&quot;
+        - cell &quot;612&quot;
+        - cell &quot;600&quot;
+        - cell &quot;600&quot;
+  - status:
+    - strong: 业务与性能条件共同满足
+    - paragraph: 仅限本次负载、数据、环境和字段保持检查。未探索更高负载或最大容量。
+  - paragraph: 本机测试副本 · 100 张专用工单 · 2 个身份 · 均匀编辑。权限隔离、重复提交与线上部署未包含在本次结论中；压测端与网站共用资源。
+  - generic &quot;模板适用说明 ＋&quot;</pre></details></section><section id="s18"><h2>18 候选资格保持L016报告上下文</h2><p>L016切候选资格仍显示L016、目标负载和通过；切回业务结果、刷新仍保持。历史增加L016入口。</p><a href="../qa/18-候选资格保持L016报告上下文.jpg"><img loading="lazy" width="1265" src="../qa/18-候选资格保持L016报告上下文.jpg" alt="18 候选资格保持L016报告上下文"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/report.html?state=load-passed&amp;tab=qualification</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=load-passed&amp;tab=qualification
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;验证报告&quot; [active] [level=1]
+  - paragraph: 编辑工单 · L016 · 目标负载 · 本轮已结束
+  - button &quot;导出&quot;
+  - link &quot;查看业务复测&quot;:
+    - /url: report.html?state=replayed
+  - generic &quot;报告内容&quot;:
+    - button &quot;业务结果&quot;
+    - button &quot;候选资格 已发布&quot;:
+      - text: 候选资格
+      - generic: 已发布
+  - complementary:
+    - heading &quot;结果摘要&quot; [level=2]
+    - generic: 业务结果
+    - generic: 通过
+    - generic: 模板资格
+    - generic: 已发布 · v1.0
+    - generic: 验证范围
+    - generic: 目标负载
+    - heading &quot;目标条件&quot; [level=2]
+    - generic: 操作率
+    - generic: 60 次/分钟
+    - generic: 持续时间
+    - generic: 10 分钟
+    - generic: P95 阈值
+    - generic: 1500 ms
+    - generic: 请求错误率
+    - generic: 1%
+    - generic &quot;历史运行 ＋&quot;
+    - generic &quot;运行与版本 ＋&quot;
+    - button &quot;选择下一条流程&quot;
+  - heading &quot;字段保持模板 v1.0&quot; [level=2]
+  - generic: 已发布
+  - status:
+    - strong: 固定版本，可按适用条件复用
+    - paragraph: 业务适用确认与开发者技术审核已完成；候选 v0.2 发布为 v1.0。
+  - list:
+    - strong: 建立初始状态
+    - paragraph: 用户甲创建高优先级工单，查询并保存 id、priority、ownerId。
+    - strong: 只修改标题
+    - paragraph: 使用甲的身份更新同一张工单，确认请求被接受。
+    - strong: 查询最终结果
+    - paragraph: 标题等于新值；优先级等于操作前值；所有者严格等于原值。
+  - generic &quot;准入与版本 ＋&quot;
+  - button &quot;查看验证证据&quot;
+  - generic &quot;模板适用说明 ＋&quot;</pre></details></section><section id="s19"><h2>19 接口变化重新接入不改业务规则</h2><p>额外补查：修复后选择接口变化，返回首次接入映射确认，不自动修改业务规则。</p><a href="../qa/19-接口变化重新接入不改业务规则.jpg"><img loading="lazy" width="1265" src="../qa/19-接口变化重新接入不改业务规则.jpg" alt="19 接口变化重新接入不改业务规则"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/index.html?state=mapping&amp;return=replay</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=published
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;确认当前项目映射&quot; [level=1]
+  - paragraph: ticket-app · 独立测试副本
+  - heading &quot;操作与查询&quot; [level=2]
+  - generic: 待确认
+  - strong: 项目启动
+  - paragraph: Node.js / Express · 可启动
+  - generic: 通过
+  - strong: 账号身份
+  - paragraph: user_a / user_b · Token 登录
+  - generic: 通过
+  - strong: 测试数据
+  - paragraph: 专用测试数据 · 独立数据库
+  - generic: 通过
+  - strong: 接口试运行
+  - paragraph: 等待确认后试运行
+  - generic: 待执行
+  - generic &quot;接口映射与取证 ＋&quot;
+  - checkbox &quot;确认接口、账号身份、字段与查询范围&quot;
+  - generic: 确认接口、账号身份、字段与查询范围
+  - button &quot;确认并试运行&quot;
+  - complementary:
+    - heading &quot;本次接入&quot; [level=2]
+    - generic: 操作目标
+    - generic: ticket-app-test
+    - generic: 测试账号
+    - generic: user_a / user_b
+    - generic: 数据基线
+    - generic: seed-v1
+    - generic: 项目内容发送
+    - generic: 已确认范围内
+    - generic &quot;数据与凭据 ＋&quot;</pre></details></section><section id="s20"><h2>20 新映射v1.4原规则v1.0保留</h2><p>确认试运行新映射v1.4后返回复跑准备；原规则v1.0、基线seed-v1保留。再次输入密码、确认条件后复跑；R014仍demo-1/v1.3。</p><a href="../qa/20-新映射v1.4原规则v1.0保留.jpg"><img loading="lazy" width="1265" src="../qa/20-新映射v1.4原规则v1.0保留.jpg" alt="20 新映射v1.4原规则v1.0保留"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=replay-prepare</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=published
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;修复后复跑&quot; [level=1]
+  - paragraph: 新记录关联 R014，原证据保留
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - heading &quot;修复后的项目&quot; [level=2]
+  - button &quot;使用示例修复项目&quot;
+  - generic: 项目目录
+  - textbox &quot;项目目录&quot;: C:\demo\ticket-app-fixed
+  - generic: 原代码版本
+  - generic: demo-1 · R014
+  - generic: 本次代码版本
+  - textbox &quot;本次代码版本&quot;: demo-2-fixed
+  - generic: 本次变化
+  - combobox &quot;本次变化&quot;:
+    - option &quot;业务修复，接口与字段未变&quot; [selected]
+    - option &quot;接口或查询字段变化，需重新接入&quot;
+  - paragraph: 示例路径，不读取本机项目。规则 v1.0、基线 seed-v1 沿用。
+  - heading &quot;测试账号&quot; [level=2]
+  - combobox &quot;测试密码状态&quot;:
+    - option &quot;已失效，重新输入&quot; [selected]
+    - option &quot;本次会话可用（示例）&quot;
+  - generic: user_a 的测试密码
+  - textbox &quot;user_a 的测试密码&quot;:
+    - /placeholder: 仅使用示例密码
+  - generic: user_b 的测试密码
+  - textbox &quot;user_b 的测试密码&quot;:
+    - /placeholder: 仅使用示例密码
+  - generic: 仅本次会话使用，不进入验证包
+  - button &quot;填入示例密码&quot;
+  - heading &quot;复跑前确认&quot; [level=2]
+  - checkbox &quot;确认修复项目、代码版本与变化范围&quot;
+  - generic: 确认修复项目、代码版本与变化范围
+  - checkbox &quot;确认测试副本、代码与配置符合本次复跑条件&quot;
+  - generic: 确认测试副本、代码与配置符合本次复跑条件
+  - checkbox &quot;确认旧写操作已停止或隔离&quot;
+  - generic: 确认旧写操作已停止或隔离
+  - checkbox &quot;恢复并核对 seed-v1，重新登录后从第一步执行&quot;
+  - generic: 恢复并核对 seed-v1，重新登录后从第一步执行
+  - generic &quot;版本与变化 －&quot; [active]
+  - generic: 原运行 R014 / demo-1 保留。本次 demo-2-fixed；新映射 v1.4 已确认。新运行关联原记录。
+  - button &quot;准备完成，开始复跑&quot;
+  - generic &quot;执行与恢复原则 ＋&quot;
+  - complementary:
+    - heading &quot;运行条件&quot; [level=2]
+    - generic: 运行
+    - generic: R014 → R015
+    - generic: 主流程
+    - generic: 编辑工单
+    - generic: 规则 / 映射
+    - generic: v1.0 / v1.4
+    - generic: 模板
+    - generic: 字段保持 v1.0
+    - generic: 环境 / 基线
+    - generic: 测试副本 / seed-v1
+    - generic: 取证
+    - generic: 完整 HTTP 查询
+    - status:
+      - strong: 无需重新分析
+      - paragraph: 规则、映射及模板有效时可无模型复跑；当前仍是示例状态。</pre></details></section><section id="s21"><h2>21 停用模板包不可直接执行</h2><p>额外补查：模板停用的验证包阻止直接执行，旧报告保留；可以选择有效替代版本并重新确认。</p><a href="../qa/21-停用模板包不可直接执行.jpg"><img loading="lazy" width="1265" src="../qa/21-停用模板包不可直接执行.jpg" alt="21 停用模板包不可直接执行"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/index.html?state=package-check&amp;case=disabled</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=replayed
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;加载验证包&quot; [level=1]
+  - paragraph: ticket-title-check · 来自运行 R014
+  - heading &quot;加载前检查&quot; [level=2]
+  - generic: 已阻止执行
+  - strong: 包格式与完整性
+  - generic: 通过
+  - strong: 引用路径与边界
+  - generic: 通过
+  - strong: 解释器与运行版本
+  - generic: 通过
+  - strong: 模板资格
+  - generic: 已停用
+  - strong: 环境与数据要求
+  - generic: 待在复跑前确认
+  - status:
+    - strong: 模板已停用
+    - paragraph: 字段保持 v1.0 已停用，历史报告保留，不能直接执行。
+  - button &quot;选择其他示例包&quot;
+  - button &quot;选择有效版本并重新确认&quot;
+  - generic &quot;包内内容 ＋&quot;
+  - complementary:
+    - heading &quot;运行条件&quot; [level=2]
+    - generic: 运行
+    - generic: 原运行 R014
+    - generic: 主流程
+    - generic: 编辑工单
+    - generic: 规则 / 映射
+    - generic: v1.0 / v1.3
+    - generic: 模板
+    - generic: 字段保持 v1.0
+    - generic: 环境 / 基线
+    - generic: 测试副本 / seed-v1
+    - generic: 取证
+    - generic: 完整 HTTP 查询
+    - generic &quot;范围 ＋&quot;</pre></details></section><section id="s22"><h2>22 验证包共用凭据准备与缺项阻断</h2><p>选择有效v1.1后使用同一凭据准备卡；密码为空阻断，四项条件须重新确认。</p><a href="../qa/22-验证包共用凭据准备与缺项阻断.jpg"><img loading="lazy" width="1265" src="../qa/22-验证包共用凭据准备与缺项阻断.jpg" alt="22 验证包共用凭据准备与缺项阻断"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/index.html?state=package-passwords</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=replayed
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;验证包复跑&quot; [level=1]
+  - paragraph: 编辑工单 · 无需 AI 重新分析
+  - heading &quot;测试账号&quot; [level=2]
+  - combobox &quot;测试密码状态&quot;:
+    - option &quot;已失效，重新输入&quot; [selected]
+    - option &quot;本次会话可用（示例）&quot;
+  - generic: user_a 的测试密码
+  - textbox &quot;user_a 的测试密码&quot;:
+    - /placeholder: 仅使用示例密码
+  - generic: user_b 的测试密码
+  - textbox &quot;user_b 的测试密码&quot;:
+    - /placeholder: 仅使用示例密码
+  - generic: 仅本次会话使用，不进入验证包
+  - button &quot;填入示例密码&quot;
+  - heading &quot;复跑前确认&quot; [level=2]
+  - checkbox &quot;确认所选模板版本与业务适用条件&quot;
+  - generic: 确认所选模板版本与业务适用条件
+  - checkbox &quot;确认当前测试副本和数据基线&quot;
+  - generic: 确认当前测试副本和数据基线
+  - checkbox &quot;确认旧写操作已经停止或隔离&quot;
+  - generic: 确认旧写操作已经停止或隔离
+  - checkbox &quot;确认可以恢复 seed-v1 并从实验第一步执行&quot;
+  - generic: 确认可以恢复 seed-v1 并从实验第一步执行
+  - alert:
+    - status:
+      - strong: 请重新输入测试密码或填入示例密码
+  - button &quot;开始示例复跑&quot; [active]
+  - complementary:
+    - heading &quot;运行条件&quot; [level=2]
+    - generic: 运行
+    - generic: R014 → 新运行
+    - generic: 主流程
+    - generic: 编辑工单
+    - generic: 规则 / 映射
+    - generic: v1.0 / v1.3
+    - generic: 模板
+    - generic: 字段保持 v1.1
+    - generic: 环境 / 基线
+    - generic: 测试副本 / seed-v1
+    - generic: 取证
+    - generic: 完整 HTTP 查询
+    - status:
+      - strong: 保留历史
+      - paragraph: 本次执行创建关联的新记录，不覆盖原报告。</pre></details></section><section id="s23"><h2>23 替代模板包复跑保持版本</h2><p>包复跑使用包内映射v1.3及有效替代模板v1.1，不误用刚才修复项目的新映射。切候选资格后版本仍为v1.1。</p><a href="../qa/23-替代模板包复跑保持版本.jpg"><img loading="lazy" width="1265" src="../qa/23-替代模板包复跑保持版本.jpg" alt="23 替代模板包复跑保持版本"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/report.html?state=replayed&amp;case=replacement</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=replayed&amp;case=replacement
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;验证报告&quot; [level=1]
+  - paragraph: 编辑工单 · R015 · 修复后复跑 · 本轮已结束
+  - button &quot;导出&quot;
+  - link &quot;验证目标负载&quot;:
+    - /url: verify.html?state=load-plan
+  - generic &quot;报告内容&quot;:
+    - button &quot;业务结果&quot;
+    - button &quot;候选资格 已发布&quot;:
+      - text: 候选资格
+      - generic: 已发布
+  - complementary:
+    - heading &quot;结果摘要&quot; [level=2]
+    - generic: 业务结果
+    - generic: 通过
+    - generic: 模板资格
+    - generic: 已发布 · v1.1
+    - generic: 验证范围
+    - generic: 低负载字段保持
+    - status:
+      - strong: 业务复测通过
+      - paragraph: 可按确认的目标开展负载验证。
+    - generic &quot;历史运行 ＋&quot;
+    - generic &quot;运行与版本 －&quot; [active]
+    - generic: 代码 demo-2 · 规则 v1.0 · 映射 v1.3 · seed-v1 · 解释器 v1。模板固定哈希 demo-8d3c（演示标识）。
+    - button &quot;选择下一条流程&quot;
+  - heading &quot;修复后字段保持检查通过&quot; [level=2]
+  - generic: 业务通过
+  - generic: 预期
+  - strong: 优先级保持为高
+  - generic: 实际
+  - strong: 高，保持不变
+  - heading &quot;复现与证据&quot; [level=3]
+  - list:
+    - listitem: 用户甲创建高优先级工单 T201，保存操作前快照。
+    - listitem: 仅更新标题，再查询同一 ID 的完整结果。
+    - listitem: title 更新正确，priority 与 ownerId 保持原值。
+  - generic &quot;请求、响应与断言 ＋&quot;
+  - button &quot;复制修复说明&quot;
+  - button &quot;完整证据&quot;
+  - status:
+    - strong: 新记录已关联 R014
+    - paragraph: 初始数据已复位，规则和有效映射沿用，重新登录后从第一步复跑；未调用模型。
+  - generic &quot;模板适用说明 ＋&quot;</pre></details></section><section id="s24"><h2>24 严格目标未达标不冒充通过</h2><p>额外补查：200次/分钟×10分钟超内部1200次预算被阻断；30次/分钟、P95≤500ms示例结果820ms，结算后正确未达标。</p><a href="../qa/24-严格目标未达标不冒充通过.jpg"><img loading="lazy" width="1265" src="../qa/24-严格目标未达标不冒充通过.jpg" alt="24 严格目标未达标不冒充通过"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/report.html?state=load-unmet&amp;case=valid</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=load-unmet&amp;case=valid
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;验证报告&quot; [level=1]
+  - paragraph: 编辑工单 · L016 · 目标负载 · 本轮已结束
+  - button &quot;导出&quot;
+  - link &quot;查看业务复测&quot;:
+    - /url: report.html?state=replayed
+  - generic &quot;报告内容&quot;:
+    - button &quot;业务结果&quot;
+    - button &quot;候选资格 已发布&quot;:
+      - text: 候选资格
+      - generic: 已发布
+  - complementary:
+    - heading &quot;结果摘要&quot; [level=2]
+    - generic: 业务结果
+    - generic: 目标未完成
+    - generic: 模板资格
+    - generic: 已发布 · v1.1
+    - generic: 验证范围
+    - generic: 目标负载
+    - heading &quot;目标条件&quot; [level=2]
+    - generic: 操作率
+    - generic: 30 次/分钟
+    - generic: 持续时间
+    - generic: 10 分钟
+    - generic: P95 阈值
+    - generic: 500 ms
+    - generic: 请求错误率
+    - generic: 1%
+    - generic &quot;历史运行 ＋&quot;
+    - generic &quot;运行与版本 ＋&quot;
+    - button &quot;选择下一条流程&quot;
+  - heading &quot;目标条件未满足&quot; [level=2]
+  - generic: 目标未达标
+  - generic: P95 等待
+  - strong: 820 ms
+  - generic: 请求错误率
+  - strong: 0.3%
+  - generic: 未结算
+  - strong: &quot;0&quot;
+  - table &quot;负载业务账本&quot;:
+    - caption: 负载业务账本
+    - rowgroup:
+      - row &quot;独立业务意图 请求尝试 接受操作 最终记录&quot;:
+        - columnheader &quot;独立业务意图&quot;
+        - columnheader &quot;请求尝试&quot;
+        - columnheader &quot;接受操作&quot;
+        - columnheader &quot;最终记录&quot;
+    - rowgroup:
+      - row &quot;300 312 300 300&quot;:
+        - cell &quot;300&quot;
+        - cell &quot;312&quot;
+        - cell &quot;300&quot;
+        - cell &quot;300&quot;
+  - status:
+    - strong: 目标条件未满足
+    - paragraph: 性能阈值或资源上限触发停止；保留业务观察，不能冒充业务违规，也不判目标通过。
+  - paragraph: 本机测试副本 · 100 张专用工单 · 2 个身份 · 均匀编辑。权限隔离、重复提交与线上部署未包含在本次结论中；压测端与网站共用资源。
+  - generic &quot;模板适用说明 ＋&quot;</pre></details></section><section id="s25"><h2>25 最终负载报告切换回归通过</h2><p>恢复60次/分钟、1500ms后重新结算，最终源码下L016通过；资格与业务标签往返仍为L016，模板版本一致。</p><a href="../qa/25-最终负载报告切换回归通过.jpg"><img loading="lazy" width="1265" src="../qa/25-最终负载报告切换回归通过.jpg" alt="25 最终负载报告切换回归通过"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/report.html?state=load-passed</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=load-passed
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;验证报告&quot; [active] [level=1]
+  - paragraph: 编辑工单 · L016 · 目标负载 · 本轮已结束
+  - button &quot;导出&quot;
+  - link &quot;查看业务复测&quot;:
+    - /url: report.html?state=replayed
+  - generic &quot;报告内容&quot;:
+    - button &quot;业务结果&quot;
+    - button &quot;候选资格 已发布&quot;:
+      - text: 候选资格
+      - generic: 已发布
+  - complementary:
+    - heading &quot;结果摘要&quot; [level=2]
+    - generic: 业务结果
+    - generic: 通过
+    - generic: 模板资格
+    - generic: 已发布 · v1.1
+    - generic: 验证范围
+    - generic: 目标负载
+    - heading &quot;目标条件&quot; [level=2]
+    - generic: 操作率
+    - generic: 60 次/分钟
+    - generic: 持续时间
+    - generic: 10 分钟
+    - generic: P95 阈值
+    - generic: 1500 ms
+    - generic: 请求错误率
+    - generic: 1%
+    - generic &quot;历史运行 ＋&quot;
+    - generic &quot;运行与版本 ＋&quot;
+    - button &quot;选择下一条流程&quot;
+  - heading &quot;已确认目标通过&quot; [level=2]
+  - generic: 目标通过
+  - generic: P95 等待
+  - strong: 820 ms
+  - generic: 请求错误率
+  - strong: 0.3%
+  - generic: 未结算
+  - strong: &quot;0&quot;
+  - table &quot;负载业务账本&quot;:
+    - caption: 负载业务账本
+    - rowgroup:
+      - row &quot;独立业务意图 请求尝试 接受操作 最终记录&quot;:
+        - columnheader &quot;独立业务意图&quot;
+        - columnheader &quot;请求尝试&quot;
+        - columnheader &quot;接受操作&quot;
+        - columnheader &quot;最终记录&quot;
+    - rowgroup:
+      - row &quot;600 612 600 600&quot;:
+        - cell &quot;600&quot;
+        - cell &quot;612&quot;
+        - cell &quot;600&quot;
+        - cell &quot;600&quot;
+  - status:
+    - strong: 业务与性能条件共同满足
+    - paragraph: 仅限本次负载、数据、环境和字段保持检查。未探索更高负载或最大容量。
+  - paragraph: 本机测试副本 · 100 张专用工单 · 2 个身份 · 均匀编辑。权限隔离、重复提交与线上部署未包含在本次结论中；压测端与网站共用资源。
+  - generic &quot;模板适用说明 ＋&quot;</pre></details></section><section id="sA"><h2>A 蓝白工作台</h2><p>蓝白工作台：左侧导航、圆角卡片、蓝色主操作、绿色通过/红色失败，适合日常验证工作。</p><a href="../qa/A-蓝白工作台.jpg"><img loading="lazy" width="1265" src="../qa/A-蓝白工作台.jpg" alt="A 蓝白工作台"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=generated&amp;flow=edit&amp;theme=blue</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=load-passed
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot; [selected]
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;编辑工单&quot; [level=1]
+  - paragraph: 新业务性质 · 从候选到可复用模板
+  - button &quot;更换流程&quot;
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - heading &quot;字段保持实验&quot; [level=2]
+  - generic: 候选 v0.1 · 草稿
+  - list:
+    - strong: 建立初始状态
+    - paragraph: 用户甲创建高优先级工单，查询并保存 id、priority、ownerId。
+    - strong: 只修改标题
+    - paragraph: 使用甲的身份更新同一张工单，确认请求被接受。
+    - strong: 查询最终结果
+    - paragraph: 标题等于新值；优先级等于操作前值；所有者按候选包含关系检查（待验证）。
+  - generic &quot;断言与执行限制 ＋&quot;
+  - generic: 首次生成后最多自动修订 2 轮
+  - button &quot;开始验证候选&quot;
+  - complementary:
+    - heading &quot;验证层次&quot; [level=2]
+    - list:
+      - generic: 定义检查
+      - generic: 当前
+      - generic: 独立样本
+      - generic: 待执行
+      - generic: 受控端到端
+      - generic: 待执行
+      - generic: 项目试运行
+      - generic: 待执行
+    - paragraph: 每轮重新验证，标准与业务规则保持不变。
+    - generic &quot;版本与依据 ＋&quot;</pre></details></section><section id="sB"><h2>B 暖灰编辑式</h2><p>暖灰编辑式：顶部导航、米灰背景、衬线标题、直角纸面卡片，适合阅读规则与证据。</p><a href="../qa/B-暖灰编辑式.jpg"><img loading="lazy" width="1265" src="../qa/B-暖灰编辑式.jpg" alt="B 暖灰编辑式"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=generated&amp;flow=edit&amp;theme=paper</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=load-passed
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot;
+    - option &quot;暖灰编辑式&quot; [selected]
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;编辑工单&quot; [level=1]
+  - paragraph: 新业务性质 · 从候选到可复用模板
+  - button &quot;更换流程&quot;
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - heading &quot;字段保持实验&quot; [level=2]
+  - generic: 候选 v0.1 · 草稿
+  - list:
+    - strong: 建立初始状态
+    - paragraph: 用户甲创建高优先级工单，查询并保存 id、priority、ownerId。
+    - strong: 只修改标题
+    - paragraph: 使用甲的身份更新同一张工单，确认请求被接受。
+    - strong: 查询最终结果
+    - paragraph: 标题等于新值；优先级等于操作前值；所有者按候选包含关系检查（待验证）。
+  - generic &quot;断言与执行限制 ＋&quot;
+  - generic: 首次生成后最多自动修订 2 轮
+  - button &quot;开始验证候选&quot;
+  - complementary:
+    - heading &quot;验证层次&quot; [level=2]
+    - list:
+      - generic: 定义检查
+      - generic: 当前
+      - generic: 独立样本
+      - generic: 待执行
+      - generic: 受控端到端
+      - generic: 待执行
+      - generic: 项目试运行
+      - generic: 待执行
+    - paragraph: 每轮重新验证，标准与业务规则保持不变。
+    - generic &quot;版本与依据 ＋&quot;</pre></details></section><section id="sC"><h2>C 深色控制台</h2><p>深色控制台：深蓝灰底、冷色操作、小圆角与等宽数据，适合持续查看运行状态。</p><a href="../qa/C-深色控制台.jpg"><img loading="lazy" width="1265" src="../qa/C-深色控制台.jpg" alt="C 深色控制台"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html?state=generated&amp;flow=edit&amp;theme=dark</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=load-passed
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+  - generic: 交互预览 · 示例数据
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot;
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot; [selected]
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;编辑工单&quot; [level=1]
+  - paragraph: 新业务性质 · 从候选到可复用模板
+  - button &quot;更换流程&quot;
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - heading &quot;字段保持实验&quot; [level=2]
+  - generic: 候选 v0.1 · 草稿
+  - list:
+    - strong: 建立初始状态
+    - paragraph: 用户甲创建高优先级工单，查询并保存 id、priority、ownerId。
+    - strong: 只修改标题
+    - paragraph: 使用甲的身份更新同一张工单，确认请求被接受。
+    - strong: 查询最终结果
+    - paragraph: 标题等于新值；优先级等于操作前值；所有者按候选包含关系检查（待验证）。
+  - generic &quot;断言与执行限制 ＋&quot;
+  - generic: 首次生成后最多自动修订 2 轮
+  - button &quot;开始验证候选&quot;
+  - complementary:
+    - heading &quot;验证层次&quot; [level=2]
+    - list:
+      - generic: 定义检查
+      - generic: 当前
+      - generic: 独立样本
+      - generic: 待执行
+      - generic: 受控端到端
+      - generic: 待执行
+      - generic: 项目试运行
+      - generic: 待执行
+    - paragraph: 每轮重新验证，标准与业务规则保持不变。
+    - generic &quot;版本与依据 ＋&quot;</pre></details></section><section id="sM1"><h2>M1 深色小屏模型设置</h2><p>390像素宽度：深色模型设置视觉检查，导航换行、表单单列，无横向溢出。</p><a href="../qa/M1-深色小屏模型设置.jpg"><img loading="lazy" width="1265" src="../qa/M1-深色小屏模型设置.jpg" alt="M1 深色小屏模型设置"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/settings.html</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=load-passed
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+- banner:
+  - generic: ticket-app
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot;
+    - option &quot;暖灰编辑式&quot;
+    - option &quot;深色控制台&quot; [selected]
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;模型设置&quot; [level=1]
+  - paragraph: 预览不会发送项目或凭据
+  - heading &quot;模型服务&quot; [level=2]
+  - button &quot;填入演示配置&quot;
+  - generic: 服务
+  - combobox &quot;服务&quot;:
+    - option &quot;DeepSeek 官方&quot; [selected]
+    - option &quot;自定义地址&quot;
+  - generic: 接口地址
+  - textbox &quot;接口地址&quot;: https://api.deepseek.com
+  - generic: 模型名称
+  - textbox &quot;模型名称&quot;:
+    - /placeholder: 填写实际模型名称
+  - generic: API Key
+  - textbox &quot;API Key&quot;:
+    - /placeholder: 仅用于演示，不要输入真实密钥
+  - checkbox &quot;记住 API Key&quot;
+  - generic: 记住 API Key
+  - generic &quot;存储与兼容范围 ＋&quot;
+  - button &quot;清除已存密钥&quot;
+  - button &quot;检查连接&quot;
+  - button &quot;保存&quot;</pre></details></section><section id="sM2"><h2>M2 暖灰小屏规则确认</h2><p>390像素宽度：暖灰规则确认视觉检查，顶部导航与流程阶段可换行，主操作可达。</p><a href="../qa/M2-暖灰小屏规则确认.jpg"><img loading="lazy" width="1265" src="../qa/M2-暖灰小屏规则确认.jpg" alt="M2 暖灰小屏规则确认"></a><details><summary>同轮界面文字与路由</summary><p>http://127.0.0.1:11086/verify.html</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=load-passed
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+- banner:
+  - generic: ticket-app
+  - combobox &quot;界面风格&quot;:
+    - option &quot;蓝白工作台&quot;
+    - option &quot;暖灰编辑式&quot; [selected]
+    - option &quot;深色控制台&quot;
+  - button &quot;切换示例&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;编辑工单&quot; [level=1]
+  - paragraph: 新业务性质 · 从候选到可复用模板
+  - button &quot;更换流程&quot;
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - heading &quot;确认业务规则&quot; [level=2]
+  - generic: 0/1 已确认
+  - checkbox &quot;确认字段保持规则&quot;
+  - generic: 只修改标题时，优先级和所有者保持不变
+  - generic: 字段保持 v1.1
+  - generic: 待确认
+  - button &quot;编辑&quot;
+  - paragraph: 未确认规则保留待定，不判定对错。
+  - button &quot;确认并验证&quot;
+  - complementary:
+    - heading &quot;执行范围&quot; [level=2]
+    - generic: 1 条流程
+    - generic: 主流程
+    - generic: 编辑工单
+    - generic: 测试身份
+    - generic: user_a / user_b
+    - generic: 测试环境
+    - generic: 独立副本 · seed-v1
+    - generic: 最终取证
+    - generic: HTTP 查询
+    - generic &quot;接口映射与取证 ＋&quot;
+    - generic &quot;规则与适用条件 ＋&quot;</pre></details></section></main></html>

@@ -1,0 +1,170 @@
+[
+  {
+    "path": "index.html",
+    "height": 900,
+    "scrollWidth": 1265,
+    "theme": "blue",
+    "width": 1280
+  },
+  {
+    "path": "verify.html?state=rules&case=new",
+    "height": 900,
+    "scrollWidth": 1280,
+    "theme": "blue",
+    "width": 1280
+  },
+  {
+    "path": "report.html?state=unknown",
+    "height": 900,
+    "scrollWidth": 1280,
+    "theme": "blue",
+    "width": 1280
+  },
+  {
+    "path": "settings.html",
+    "height": 900,
+    "scrollWidth": 1280,
+    "theme": "blue",
+    "width": 1280
+  },
+  {
+    "path": "index.html?state=service-blocked",
+    "height": 900,
+    "scrollWidth": 1280,
+    "theme": "blue",
+    "width": 1280
+  },
+  {
+    "path": "index.html?state=evidence-input",
+    "height": 900,
+    "scrollWidth": 1280,
+    "theme": "blue",
+    "width": 1280
+  },
+  {
+    "path": "verify.html?state=reset-blocked",
+    "height": 900,
+    "scrollWidth": 1280,
+    "theme": "blue",
+    "width": 1280
+  },
+  {
+    "path": "verify.html?state=load-plan",
+    "height": 900,
+    "scrollWidth": 1280,
+    "theme": "blue",
+    "width": 1280
+  },
+  {
+    "path": "index.html",
+    "height": 1024,
+    "scrollWidth": 753,
+    "theme": "blue",
+    "width": 768
+  },
+  {
+    "path": "verify.html?state=rules&case=new",
+    "height": 1024,
+    "scrollWidth": 768,
+    "theme": "blue",
+    "width": 768
+  },
+  {
+    "path": "report.html?state=unknown",
+    "height": 1024,
+    "scrollWidth": 753,
+    "theme": "blue",
+    "width": 768
+  },
+  {
+    "path": "settings.html",
+    "height": 1024,
+    "scrollWidth": 768,
+    "theme": "blue",
+    "width": 768
+  },
+  {
+    "path": "index.html?state=service-blocked",
+    "height": 1024,
+    "scrollWidth": 753,
+    "theme": "blue",
+    "width": 768
+  },
+  {
+    "path": "index.html?state=evidence-input",
+    "height": 1024,
+    "scrollWidth": 753,
+    "theme": "blue",
+    "width": 768
+  },
+  {
+    "path": "verify.html?state=reset-blocked",
+    "height": 1024,
+    "scrollWidth": 768,
+    "theme": "blue",
+    "width": 768
+  },
+  {
+    "path": "verify.html?state=load-plan",
+    "height": 1024,
+    "scrollWidth": 753,
+    "theme": "blue",
+    "width": 768
+  },
+  {
+    "path": "index.html",
+    "height": 844,
+    "scrollWidth": 375,
+    "theme": "blue",
+    "width": 390
+  },
+  {
+    "path": "verify.html?state=rules&case=new",
+    "height": 844,
+    "scrollWidth": 375,
+    "theme": "blue",
+    "width": 390
+  },
+  {
+    "path": "report.html?state=unknown",
+    "height": 844,
+    "scrollWidth": 375,
+    "theme": "blue",
+    "width": 390
+  },
+  {
+    "path": "settings.html",
+    "height": 844,
+    "scrollWidth": 375,
+    "theme": "blue",
+    "width": 390
+  },
+  {
+    "path": "index.html?state=service-blocked",
+    "height": 844,
+    "scrollWidth": 375,
+    "theme": "blue",
+    "width": 390
+  },
+  {
+    "path": "index.html?state=evidence-input",
+    "height": 844,
+    "scrollWidth": 375,
+    "theme": "blue",
+    "width": 390
+  },
+  {
+    "path": "verify.html?state=reset-blocked",
+    "height": 844,
+    "scrollWidth": 375,
+    "theme": "blue",
+    "width": 390
+  },
+  {
+    "path": "verify.html?state=load-plan",
+    "height": 844,
+    "scrollWidth": 375,
+    "theme": "blue",
+    "width": 390
+  }
+]

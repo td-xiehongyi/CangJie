@@ -1,0 +1,1496 @@
+[
+  {
+    "id": "01-project",
+    "title": "项目接入：01、04—07、34、40",
+    "file": "01-project.jpg",
+    "url": "http://127.0.0.1:9309/index.html",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=published\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"项目接入\" [level=1]\n  - status:\n    - strong: 模型尚未配置\n    - paragraph:\n      - text: 首次分析前需填写模型并检查输出。\n      - link \"前往模型设置\":\n        - /url: settings.html\n  - heading \"项目信息\" [level=2]\n  - generic: 项目目录\n  - textbox \"项目目录\": C:\\demo\\ticket-app\n  - button \"选择目录\"\n  - generic: 网站用途\n  - textbox \"网站用途\": 用户提交和编辑工单，查看处理进度。\n  - heading \"测试账号\" [level=2]\n  - generic: 两个普通用户\n  - generic: 用户甲\n  - textbox \"用户甲\": user_a\n  - generic: 测试密码\n  - textbox \"测试密码\":\n    - /placeholder: 本次会话使用\n  - generic: 用户乙\n  - textbox \"用户乙\": user_b\n  - generic: 测试密码\n  - textbox \"测试密码\":\n    - /placeholder: 本次会话使用\n  - generic: 密码仅本次会话使用\n  - button \"开始分析\"\n  - complementary:\n    - heading \"发送范围\" [level=2]\n    - button \"调整\"\n    - term: 模型服务\n    - definition: api.deepseek.com\n    - term: 所选文件\n    - definition:\n      - text: src/routes/tickets.ts\n      - text: src/auth.ts · package.json\n    - paragraph: 仅相关摘要与源码片段，排除凭据、环境文件和数据库。\n    - checkbox \"同意发送以上内容\"\n    - generic: 同意发送以上内容\n    - heading \"测试环境\" [level=2]\n    - generic: 源码副本\n    - generic: ticket-app-test\n    - generic: 独立数据库\n    - generic: ticket-test.sqlite\n    - generic: 数据来源\n    - generic: 已有测试初始化入口\n    - checkbox \"确认测试副本与专用测试数据\"\n    - generic: 确认测试副本与专用测试数据",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 47.125,
+        "label": "选择目录",
+        "n": "04",
+        "selector": "[data-action=\"directory\"]",
+        "visible": true,
+        "w": 87.33333587646484,
+        "x": 792.6666870117188,
+        "y": 386.28125
+      },
+      {
+        "enabled": true,
+        "h": 16,
+        "label": "scope-consent",
+        "n": "05",
+        "selector": "#scope-consent",
+        "visible": true,
+        "w": 16,
+        "x": 951.3333740234376,
+        "y": 481.2291870117187
+      },
+      {
+        "enabled": true,
+        "h": 16,
+        "label": "env-consent",
+        "n": "06",
+        "selector": "#env-consent",
+        "visible": true,
+        "w": 16,
+        "x": 951.3333740234376,
+        "y": 749.6146240234375
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1163.666748046875,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1092.666748046875,
+        "y": 18.61458396911621
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "02-settings",
+    "title": "模型设置：02—03",
+    "file": "02-settings.jpg",
+    "url": "http://127.0.0.1:9309/settings.html",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=published\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"模型设置\" [level=1]\n  - heading \"模型服务\" [level=2]\n  - generic: 服务\n  - combobox \"服务\":\n    - option \"DeepSeek 官方\" [selected]\n    - option \"自定义地址\"\n  - generic: 接口地址\n  - textbox \"接口地址\": https://api.deepseek.com\n  - generic: 模型名称\n  - textbox \"模型名称\":\n    - /placeholder: 填写模型名称\n  - generic: API Key\n  - textbox \"API Key\":\n    - /placeholder: 输入 API Key\n  - checkbox \"记住 API Key\"\n  - generic: 记住 API Key\n  - generic \"存储与兼容范围 ＋\"\n  - button \"清除已存密钥\"\n  - button \"检查连接\"\n  - button \"保存\"",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "检查连接",
+        "n": "02",
+        "selector": "[data-action=\"model-check\"]",
+        "visible": true,
+        "w": 87.33333587646484,
+        "x": 841.6666870117188,
+        "y": 784.28125
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "保存",
+        "n": "03",
+        "selector": "[data-action=\"model-save\"]",
+        "visible": true,
+        "w": 61.33333587646485,
+        "x": 939,
+        "y": 784.28125
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1179,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1108,
+        "y": 18.61458396911621
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "03-default-blocked",
+    "title": "缺陷 F1：默认预览停在检查连接",
+    "file": "03-default-blocked.jpg",
+    "url": "http://127.0.0.1:9309/settings.html?state=checking",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=published\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"模型设置\" [level=1]\n  - heading \"模型服务\" [level=2]\n  - generic: 服务\n  - combobox \"服务\":\n    - option \"DeepSeek 官方\" [selected]\n    - option \"自定义地址\"\n  - generic: 接口地址\n  - textbox \"接口地址\": https://api.deepseek.com\n  - generic: 模型名称\n  - textbox \"模型名称\":\n    - /placeholder: 填写模型名称\n    - text: demo-model\n  - generic: API Key\n  - textbox \"API Key\":\n    - /placeholder: 输入 API Key\n    - text: <redacted>\n  - checkbox \"记住 API Key\"\n  - generic: 记住 API Key\n  - generic \"存储与兼容范围 ＋\"\n  - alert:\n    - status:\n      - strong: 请先填写模型并完成连接和输出检查\n  - status:\n    - strong: 正在检查连接\n    - paragraph: 检查协议调用与结构化输出，不发送项目源码。\n  - button \"清除已存密钥\"\n  - button \"保存\" [active]",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "保存",
+        "n": "03",
+        "selector": "[data-action=\"model-save\"]",
+        "visible": true,
+        "w": 61.33333587646485,
+        "x": 939,
+        "y": 926.3333740234376
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1163.666748046875,
+        "y": 14.614583969116213
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1092.666748046875,
+        "y": 14.614583969116213
+      }
+    ],
+    "scrollY": 4,
+    "w": 1280
+  },
+  {
+    "id": "04-form-before",
+    "title": "缺陷 F2：调整范围前",
+    "file": "04-form-before.jpg",
+    "url": "http://127.0.0.1:9309/index.html",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=published\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"项目接入\" [level=1]\n  - heading \"项目信息\" [level=2]\n  - generic: 项目目录\n  - textbox \"项目目录\": C:\\demo\\my-ticket-copy\n  - button \"选择目录\"\n  - generic: 网站用途\n  - textbox \"网站用途\": 自定义工单用途，仅用于本轮预览检查\n  - heading \"测试账号\" [level=2]\n  - generic: 两个普通用户\n  - generic: 用户甲\n  - textbox \"用户甲\": user_a\n  - generic: 测试密码\n  - textbox \"测试密码\":\n    - /placeholder: 本次会话使用\n  - generic: 用户乙\n  - textbox \"用户乙\": user_b\n  - generic: 测试密码\n  - textbox \"测试密码\":\n    - /placeholder: 本次会话使用\n  - generic: 密码仅本次会话使用\n  - button \"开始分析\"\n  - complementary:\n    - heading \"发送范围\" [level=2]\n    - button \"调整\"\n    - term: 模型服务\n    - definition: api.deepseek.com\n    - term: 所选文件\n    - definition:\n      - text: src/routes/tickets.ts\n      - text: src/auth.ts · package.json\n    - paragraph: 仅相关摘要与源码片段，排除凭据、环境文件和数据库。\n    - checkbox \"同意发送以上内容\"\n    - generic: 同意发送以上内容\n    - heading \"测试环境\" [level=2]\n    - generic: 源码副本\n    - generic: ticket-app-test\n    - generic: 独立数据库\n    - generic: ticket-test.sqlite\n    - generic: 数据来源\n    - generic: 已有测试初始化入口\n    - checkbox \"确认测试副本与专用测试数据\" [checked] [active]\n    - generic: 确认测试副本与专用测试数据",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 47.125,
+        "label": "选择目录",
+        "n": "04",
+        "selector": "[data-action=\"directory\"]",
+        "visible": true,
+        "w": 87.33333587646484,
+        "x": 808,
+        "y": 279.9583435058594
+      },
+      {
+        "enabled": true,
+        "h": 16,
+        "label": "scope-consent",
+        "n": "05",
+        "selector": "#scope-consent",
+        "visible": true,
+        "w": 16,
+        "x": 966.6666870117188,
+        "y": 481.2291870117187
+      },
+      {
+        "enabled": true,
+        "h": 16,
+        "label": "env-consent",
+        "n": "06",
+        "selector": "#env-consent",
+        "visible": true,
+        "w": 16,
+        "x": 966.6666870117188,
+        "y": 749.6146240234375
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "开始分析",
+        "n": "07",
+        "selector": "[data-action=\"analyze\"]",
+        "visible": true,
+        "w": 87.33333587646484,
+        "x": 832.6666870117188,
+        "y": 844.6666870117188
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1179,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1108,
+        "y": 18.61458396911621
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "05-form-after",
+    "title": "缺陷 F2：调整范围后",
+    "file": "05-form-after.jpg",
+    "url": "http://127.0.0.1:9309/index.html",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=published\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"项目接入\" [level=1]\n  - heading \"项目信息\" [level=2]\n  - generic: 项目目录\n  - textbox \"项目目录\": C:\\demo\\ticket-app\n  - button \"选择目录\"\n  - generic: 网站用途\n  - textbox \"网站用途\": 用户提交和编辑工单，查看处理进度。\n  - heading \"测试账号\" [level=2]\n  - generic: 两个普通用户\n  - generic: 用户甲\n  - textbox \"用户甲\": user_a\n  - generic: 测试密码\n  - textbox \"测试密码\":\n    - /placeholder: 本次会话使用\n  - generic: 用户乙\n  - textbox \"用户乙\": user_b\n  - generic: 测试密码\n  - textbox \"测试密码\":\n    - /placeholder: 本次会话使用\n  - generic: 密码仅本次会话使用\n  - button \"开始分析\"\n  - complementary:\n    - heading \"发送范围\" [level=2]\n    - button \"调整\"\n    - term: 模型服务\n    - definition: api.deepseek.com\n    - term: 所选文件\n    - definition:\n      - text: src/routes/tickets.ts\n      - text: src/auth.ts · package.json\n      - text: src/services/ticket-service.ts\n    - paragraph: 仅相关摘要与源码片段，排除凭据、环境文件和数据库。\n    - checkbox \"同意发送以上内容\"\n    - generic: 同意发送以上内容\n    - heading \"测试环境\" [level=2]\n    - generic: 源码副本\n    - generic: ticket-app-test\n    - generic: 独立数据库\n    - generic: ticket-test.sqlite\n    - generic: 数据来源\n    - generic: 已有测试初始化入口\n    - checkbox \"确认测试副本与专用测试数据\"\n    - generic: 确认测试副本与专用测试数据",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 47.125,
+        "label": "选择目录",
+        "n": "04",
+        "selector": "[data-action=\"directory\"]",
+        "visible": true,
+        "w": 87.33333587646484,
+        "x": 808,
+        "y": 279.9583435058594
+      },
+      {
+        "enabled": true,
+        "h": 16,
+        "label": "scope-consent",
+        "n": "05",
+        "selector": "#scope-consent",
+        "visible": true,
+        "w": 16,
+        "x": 966.6666870117188,
+        "y": 505.9270935058594
+      },
+      {
+        "enabled": true,
+        "h": 16,
+        "label": "env-consent",
+        "n": "06",
+        "selector": "#env-consent",
+        "visible": true,
+        "w": 16,
+        "x": 966.6666870117188,
+        "y": 774.3125
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "开始分析",
+        "n": "07",
+        "selector": "[data-action=\"analyze\"]",
+        "visible": true,
+        "w": 87.33333587646484,
+        "x": 832.6666870117188,
+        "y": 844.6666870117188
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1179,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1108,
+        "y": 18.61458396911621
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "06-rules",
+    "title": "规则确认：09—11",
+    "file": "06-rules.jpg",
+    "url": "http://127.0.0.1:9309/verify.html?state=rules&case=new",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=published\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - heading \"确认业务规则\" [level=2]\n  - generic: 0/1 已确认\n  - checkbox \"确认字段保持规则\"\n  - generic: 只修改标题时，优先级和所有者保持不变\n  - generic: 无适用模板\n  - generic: 待确认\n  - button \"编辑\"\n  - paragraph: 未确认项不参与判定。\n  - button \"确认并检查能力\"\n  - complementary:\n    - heading \"执行范围\" [level=2]\n    - generic: 1 条流程\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 测试身份\n    - generic: user_a / user_b\n    - generic: 测试环境\n    - generic: 独立副本 · seed-v1\n    - generic: 最终取证\n    - generic: HTTP 查询\n    - generic \"接口映射与取证 ＋\"\n    - generic \"规则与适用条件 ＋\"",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "更换流程",
+        "n": "09",
+        "selector": "[data-action=\"flow\"]",
+        "visible": true,
+        "w": 87.33333587646484,
+        "x": 1156.666748046875,
+        "y": 110
+      },
+      {
+        "enabled": true,
+        "h": 17,
+        "label": "确认字段保持规则",
+        "n": "10",
+        "selector": ".rule-confirm",
+        "visible": true,
+        "w": 17,
+        "x": 278.66668701171875,
+        "y": 343.9270935058594
+      },
+      {
+        "enabled": true,
+        "h": 27,
+        "label": "编辑",
+        "n": "10",
+        "selector": "[data-action=\"edit-rule\"]",
+        "visible": true,
+        "w": 26,
+        "x": 869.3333740234375,
+        "y": 338.9270935058594
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "确认并检查能力",
+        "n": "11",
+        "selector": "[data-action=\"rules-next\"]",
+        "visible": true,
+        "w": 126.33333587646484,
+        "x": 793.6666870117188,
+        "y": 488.78125
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1179,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1108,
+        "y": 18.61458396911621
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "07-candidate",
+    "title": "候选草稿：13",
+    "file": "07-candidate.jpg",
+    "url": "http://127.0.0.1:9309/verify.html?state=generated&flow=edit&case=new",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=published\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [active] [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - heading \"字段保持实验\" [level=2]\n  - generic: 候选 v0.1 · 草稿\n  - list:\n    - strong: 建立初始状态\n    - paragraph: 用户甲创建高优先级工单，查询并保存 id、priority、ownerId。\n    - strong: 只修改标题\n    - paragraph: 使用甲的身份更新同一张工单，确认请求被接受。\n    - strong: 查询最终结果\n    - paragraph: 标题等于新值；优先级等于操作前值；所有者按候选包含关系检查（待验证）。\n  - generic \"断言与执行限制 ＋\"\n  - generic: 首次生成后最多自动修订 2 轮\n  - button \"开始验证候选\"\n  - complementary:\n    - heading \"验证层次\" [level=2]\n    - list:\n      - generic: 定义检查\n      - generic: 当前\n      - generic: 独立样本\n      - generic: 待执行\n      - generic: 受控端到端\n      - generic: 待执行\n      - generic: 项目试运行\n      - generic: 待执行\n    - paragraph: 每轮重新验证，标准与业务规则保持不变。\n    - generic \"版本与依据 ＋\"",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "更换流程",
+        "n": "09",
+        "selector": "[data-action=\"flow\"]",
+        "visible": true,
+        "w": 87.33333587646484,
+        "x": 1156.666748046875,
+        "y": 110
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "开始验证候选",
+        "n": "13",
+        "selector": "[data-action=\"validate\"]",
+        "visible": true,
+        "w": 113.33333587646484,
+        "x": 806.6666870117188,
+        "y": 657.6771240234375
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1179,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1108,
+        "y": 18.61458396911621
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "08-review",
+    "title": "审核发布：18—20、A7",
+    "file": "08-review.jpg",
+    "url": "http://127.0.0.1:9309/report.html?state=review",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=review\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"验证报告\" [level=1]\n  - paragraph: 编辑工单 · R014 · 候选试运行 · 本轮已结束\n  - button \"导出\"\n  - button \"查看业务证据\"\n  - generic \"报告内容\":\n    - button \"业务结果\"\n    - button \"候选资格 待审核\":\n      - text: 候选资格\n      - generic: 待审核\n  - complementary:\n    - heading \"结果摘要\" [level=2]\n    - generic: 业务结果\n    - generic: 业务失败\n    - generic: 模板资格\n    - generic: 待技术审核\n    - generic: 验证范围\n    - generic: 低负载字段保持\n    - status:\n      - strong: 目标负载未测\n      - paragraph: 先修复业务错误并通过复测。\n    - generic \"历史运行 ＋\"\n    - generic \"运行与版本 ＋\"\n    - button \"选择下一条流程\"\n  - heading \"字段保持候选审核\" [level=2]\n  - paragraph: 候选 v0.2 · 规则 v1.0 · 已修订 1/2 轮\n  - generic: 待审核\n  - strong: 定义检查\n  - generic: 操作、变量、断言、有限预算\n  - generic: 通过\n  - strong: 独立样本\n  - generic: 正常、两个缺陷、证据不足及留出变体\n  - generic: 通过\n  - strong: 受控端到端\n  - generic: HTTP 参考服务与已审核缺陷版本\n  - generic: 通过\n  - strong: 项目试运行\n  - generic: 身份、对象、完整查询及复位复跑\n  - generic: 通过\n  - button \"查看分层验证证据\"\n  - generic: 业务适用确认\n  - checkbox \"确认仅修改标题，优先级和所有者必须保持不变\"\n  - generic: 确认仅修改标题，优先级和所有者必须保持不变\n  - generic: 技术审核 · 开发者\n  - checkbox \"已核对独立对照、端到端、试运行、限制和版本\"\n  - generic: 已核对独立对照、端到端、试运行、限制和版本\n  - paragraph: 缺技术审核或可信依据时不能发布。\n  - button \"退回候选\"\n  - button \"审核并发布固定版本\" [disabled]",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 16,
+        "label": "business-confirm",
+        "n": "18",
+        "selector": "#business-confirm",
+        "visible": true,
+        "w": 16,
+        "x": 583.6666870117188,
+        "y": 712.5208740234375
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "查看分层验证证据",
+        "n": "18",
+        "selector": "[data-action=\"review-proof\"]",
+        "visible": true,
+        "w": 104,
+        "x": 583.6666870117188,
+        "y": 602.3646240234375
+      },
+      {
+        "enabled": true,
+        "h": 16,
+        "label": "technical-confirm",
+        "n": "19",
+        "selector": "#technical-confirm",
+        "visible": true,
+        "w": 16,
+        "x": 583.6666870117188,
+        "y": 791.9166870117188
+      },
+      {
+        "enabled": false,
+        "h": 44,
+        "label": "审核并发布固定版本",
+        "n": "20",
+        "selector": "[data-action=\"publish\"]",
+        "visible": true,
+        "w": 152.33334350585938,
+        "x": 1067,
+        "y": 862.3125
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "查看业务证据",
+        "n": "21",
+        "selector": "[data-action=\"business-evidence\"]",
+        "visible": true,
+        "w": 113.33333587646484,
+        "x": 1130.666748046875,
+        "y": 123.19792175292967
+      },
+      {
+        "enabled": true,
+        "h": 41,
+        "label": "业务结果",
+        "n": "21",
+        "selector": "[data-action=\"business-evidence\"]",
+        "visible": true,
+        "w": 52,
+        "x": 250,
+        "y": 206.39584350585935
+      },
+      {
+        "enabled": true,
+        "h": 41,
+        "label": "候选资格\n待审核",
+        "n": "21",
+        "selector": "[data-action=\"review-tab\"]",
+        "visible": true,
+        "w": 107,
+        "x": 330,
+        "y": 206.39584350585935
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "导出",
+        "n": "32",
+        "selector": "[data-action=\"export\"]",
+        "visible": true,
+        "w": 61.33333587646485,
+        "x": 1057.3333740234375,
+        "y": 123.19792175292967
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1179,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1108,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "退回候选",
+        "n": "A7",
+        "selector": "[data-action=\"reject\"]",
+        "visible": true,
+        "w": 87.33333587646484,
+        "x": 967.6666870117188,
+        "y": 862.3125
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "09-report",
+    "title": "业务报告：21—23、32",
+    "file": "09-report.jpg",
+    "url": "http://127.0.0.1:9309/report.html?state=published",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=published\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"验证报告\" [active] [level=1]\n  - paragraph: 编辑工单 · R014 · 候选试运行 · 本轮已结束\n  - button \"导出\"\n  - link \"修复后复测\":\n    - /url: verify.html?state=replay-prepare\n  - generic \"报告内容\":\n    - button \"业务结果\"\n    - button \"候选资格 已发布\":\n      - text: 候选资格\n      - generic: 已发布\n  - complementary:\n    - heading \"结果摘要\" [level=2]\n    - generic: 业务结果\n    - generic: 业务失败\n    - generic: 模板资格\n    - generic: 已发布 · v1.0\n    - generic: 验证范围\n    - generic: 低负载字段保持\n    - status:\n      - strong: 目标负载未测\n      - paragraph: 先修复业务错误并通过复测。\n    - generic \"历史运行 ＋\"\n    - generic \"运行与版本 ＋\"\n    - button \"选择下一条流程\"\n  - heading \"修改标题时优先级被重置\" [level=2]\n  - generic: 业务失败\n  - generic: 预期\n  - strong: 优先级保持为高\n  - generic: 实际\n  - strong: 普通，被重置\n  - heading \"复现与证据\" [level=3]\n  - list:\n    - listitem: 用户甲创建高优先级工单 T201，保存操作前快照。\n    - listitem: 仅更新标题，再查询同一 ID 的完整结果。\n    - listitem: title 更新正确，priority 从 high 变为 normal；ownerId 未变化。\n  - generic \"请求、响应与断言 ＋\"\n  - button \"复制修复说明\"\n  - button \"完整证据\"\n  - status:\n    - strong: 实验有效，项目业务失败\n    - paragraph: 候选对照验证已通过；修复网站，不放宽规则。\n  - generic \"模板适用说明 ＋\"",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 41,
+        "label": "业务结果",
+        "n": "21",
+        "selector": "[data-action=\"business-evidence\"]",
+        "visible": true,
+        "w": 52,
+        "x": 250,
+        "y": 206.39584350585935
+      },
+      {
+        "enabled": true,
+        "h": 41,
+        "label": "候选资格\n已发布",
+        "n": "21",
+        "selector": "[data-action=\"review-tab\"]",
+        "visible": true,
+        "w": 107,
+        "x": 330,
+        "y": 206.39584350585935
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "复制修复说明",
+        "n": "22",
+        "selector": "[data-action=\"copy-fix\"]",
+        "visible": true,
+        "w": 113.33333587646484,
+        "x": 991.3333740234376,
+        "y": 694.5625
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "完整证据",
+        "n": "22",
+        "selector": "[data-action=\"proof\"]",
+        "visible": true,
+        "w": 87.33333587646484,
+        "x": 1116.666748046875,
+        "y": 694.5625
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "修复后复测",
+        "n": "23",
+        "selector": "a[href*=\"state=replay-prepare\"]",
+        "visible": true,
+        "w": 100.33333587646484,
+        "x": 1128.3333740234375,
+        "y": 123.19792175292967
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "导出",
+        "n": "32",
+        "selector": "[data-action=\"export\"]",
+        "visible": true,
+        "w": 61.33333587646485,
+        "x": 1055,
+        "y": 123.19792175292967
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1163.666748046875,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1092.666748046875,
+        "y": 18.61458396911621
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "10-repair",
+    "title": "复跑准备：24—26（下方确认需滚动）",
+    "file": "10-repair.jpg",
+    "url": "http://127.0.0.1:9309/verify.html?state=replay-prepare",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=published\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"修复后复跑\" [level=1]\n  - paragraph: 新记录关联 R014，原证据保留\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - heading \"修复后的项目\" [level=2]\n  - generic: 项目目录\n  - textbox \"项目目录\": C:\\demo\\ticket-app-fixed\n  - generic: 原代码版本\n  - generic: demo-1 · R014\n  - generic: 本次代码版本\n  - textbox \"本次代码版本\": demo-2\n  - generic: 本次变化\n  - combobox \"本次变化\":\n    - option \"业务修复，接口与字段未变\" [selected]\n    - option \"接口或查询字段变化，需重新接入\"\n  - paragraph: 沿用规则 v1.0 与数据基线 seed-v1。\n  - heading \"测试账号\" [level=2]\n  - generic: user_a 的测试密码\n  - textbox \"user_a 的测试密码\":\n    - /placeholder: 输入测试密码\n  - generic: user_b 的测试密码\n  - textbox \"user_b 的测试密码\":\n    - /placeholder: 输入测试密码\n  - generic: 仅本次会话使用，不进入验证包\n  - heading \"复跑前确认\" [level=2]\n  - checkbox \"确认修复项目、代码版本与变化范围\"\n  - generic: 确认修复项目、代码版本与变化范围\n  - checkbox \"确认测试副本、代码与配置符合本次复跑条件\"\n  - generic: 确认测试副本、代码与配置符合本次复跑条件\n  - checkbox \"确认旧写操作已停止或隔离\"\n  - generic: 确认旧写操作已停止或隔离\n  - checkbox \"恢复并核对 seed-v1，重新登录后从第一步执行\"\n  - generic: 恢复并核对 seed-v1，重新登录后从第一步执行\n  - generic \"版本与变化 ＋\"\n  - button \"准备完成，开始复跑\"\n  - generic \"执行与恢复原则 ＋\"\n  - complementary:\n    - heading \"运行条件\" [level=2]\n    - generic: 运行\n    - generic: R014 → R015\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 规则 / 映射\n    - generic: v1.0 / v1.3\n    - generic: 模板\n    - generic: 字段保持 v1.0\n    - generic: 环境 / 基线\n    - generic: 测试副本 / seed-v1\n    - generic: 取证\n    - generic: 完整 HTTP 查询\n    - status:\n      - strong: 无需重新分析\n      - paragraph: 规则、映射及模板有效时，无需模型重新分析。",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "业务修复，接口与字段未变\n接口或查询字段变化，需重新接入",
+        "n": "24",
+        "selector": "#repair-change",
+        "visible": true,
+        "w": 605.3333740234375,
+        "x": 274.66668701171875,
+        "y": 564.8541870117188
+      },
+      {
+        "enabled": true,
+        "h": 47.125,
+        "label": "replay-a",
+        "n": "25",
+        "selector": "#replay-a",
+        "visible": true,
+        "w": 294.16668701171875,
+        "x": 274.66668701171875,
+        "y": 795.875
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1163.666748046875,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1092.666748046875,
+        "y": 18.61458396911621
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "11-replay-running",
+    "title": "默认复跑停在运行中",
+    "file": "11-replay-running.jpg",
+    "url": "http://127.0.0.1:9309/verify.html?state=replay-running&flow=edit",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=published\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"正在复跑\" [active] [level=1]\n  - paragraph: R015 · 从实验第一步重新执行\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - heading \"正在查询最终结果\" [level=2]\n  - generic: 运行中\n  - strong: 字段保持\n  - paragraph: 复位基线 → 登录 → 操作 → 最终查询\n  - generic: 检查中\n  - button \"停止\"\n  - generic \"执行与恢复原则 ＋\"\n  - complementary:\n    - heading \"运行条件\" [level=2]\n    - generic: 运行\n    - generic: R015\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 规则 / 映射\n    - generic: v1.0 / v1.3\n    - generic: 模板\n    - generic: 字段保持 v1.0\n    - generic: 环境 / 基线\n    - generic: 测试副本 / seed-v1\n    - generic: 取证\n    - generic: 完整 HTTP 查询\n    - status:\n      - strong: 无需重新分析\n      - paragraph: 规则、映射及模板有效时，无需模型重新分析。",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1179,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1108,
+        "y": 18.61458396911621
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "12-load-plan",
+    "title": "目标负载：28—30",
+    "file": "12-load-plan.jpg",
+    "url": "http://127.0.0.1:9309/verify.html?state=load-plan",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=replayed\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"目标负载\" [level=1]\n  - paragraph: 编辑工单 · 业务复测已通过\n  - heading \"确认本次目标\" [level=2]\n  - generic: 每分钟编辑次数\n  - spinbutton \"每分钟编辑次数\": \"60\"\n  - generic: 持续时间（分钟）\n  - spinbutton \"持续时间（分钟）\": \"10\"\n  - generic: 95% 请求允许等待（毫秒）\n  - spinbutton \"95% 请求允许等待（毫秒）\": \"1500\"\n  - generic: 请求错误率上限（%）\n  - spinbutton \"请求错误率上限（%）\": \"1\"\n  - generic: 使用方式\n  - textbox \"使用方式\": 普通用户编辑各自的工单，100% 为标题更新，均匀到达。\n  - generic \"数据、停止与结算条件 ＋\"\n  - checkbox \"确认目标、数据分布、判定与停止条件\"\n  - generic: 确认目标、数据分布、判定与停止条件\n  - button \"不确定目标\"\n  - button \"开始目标负载\"\n  - complementary:\n    - heading \"本次覆盖\" [level=2]\n    - generic: 低负载业务\n    - generic: R015 · 通过\n    - generic: 已验证检查\n    - generic: 字段保持 v1.0\n    - generic: 环境\n    - generic: 本机测试副本\n    - generic: 目标\n    - generic: 只验证已确认负载\n    - status:\n      - strong: 结论有范围\n      - paragraph: 不寻找最大容量，不把虚拟用户数换算成真实在线人数。",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "不确定目标",
+        "n": "28",
+        "selector": "[data-action=\"load-guide\"]",
+        "visible": true,
+        "w": 100.33333587646484,
+        "x": 694.3333740234375,
+        "y": 785.9166870117188
+      },
+      {
+        "enabled": true,
+        "h": 16,
+        "label": "load-confirm",
+        "n": "29",
+        "selector": "#load-confirm",
+        "visible": true,
+        "w": 16,
+        "x": 274.66668701171875,
+        "y": 712.25
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "开始目标负载",
+        "n": "30",
+        "selector": "[data-action=\"load-start\"]",
+        "visible": true,
+        "w": 113.33333587646484,
+        "x": 806.6666870117188,
+        "y": 785.9166870117188
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1179,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1108,
+        "y": 18.61458396911621
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "13-package-valid",
+    "title": "替代版本 v1.1 加载有效",
+    "file": "13-package-valid.jpg",
+    "url": "http://127.0.0.1:9309/index.html?state=package-check&inspect=1",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: http://127.0.0.1:9309/index.html?inspect=1\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: http://127.0.0.1:9309/index.html?inspect=1\n    - link \"业务验证\":\n      - /url: http://127.0.0.1:9309/verify.html?inspect=1\n    - link \"验证报告\":\n      - /url: http://127.0.0.1:9309/report.html?state=published&tab=qualification&inspect=1\n  - link \"模型设置\":\n    - /url: http://127.0.0.1:9309/settings.html?inspect=1\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"检查状态\"\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"加载验证包\" [active] [level=1]\n  - paragraph: ticket-title-check · 来自运行 R014\n  - heading \"加载前检查\" [level=2]\n  - generic: 检查通过\n  - strong: 包格式与完整性\n  - generic: 通过\n  - strong: 引用路径与边界\n  - generic: 通过\n  - strong: 解释器与运行版本\n  - generic: 通过\n  - strong: 模板资格\n  - generic: 有效 · 字段保持 v1.1\n  - strong: 环境与数据要求\n  - generic: 待在复跑前确认\n  - status:\n    - strong: 可在本工具内复跑\n    - paragraph: 规则、映射和模板版本有效；重新输入测试密码并核对测试条件后运行。\n  - button \"继续复跑\"\n  - generic \"包内内容 ＋\"\n  - complementary:\n    - heading \"运行条件\" [level=2]\n    - generic: 运行\n    - generic: 本次复跑 · 来源 R014\n    - generic: 主流程\n    - generic: 编辑工单\n    - generic: 规则 / 映射\n    - generic: v1.0 / v1.3\n    - generic: 模板\n    - generic: 字段保持 v1.1\n    - generic: 环境 / 基线\n    - generic: 测试副本 / seed-v1\n    - generic: 取证\n    - generic: 完整 HTTP 查询\n    - generic \"范围 ＋\"",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1179,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "继续复跑",
+        "n": "38",
+        "selector": "[data-action=\"package-continue\"]",
+        "visible": true,
+        "w": 87.33333587646484,
+        "x": 832.6666870117188,
+        "y": 729.8854370117188
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1108,
+        "y": 18.61458396911621
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "14-version-conflict",
+    "title": "缺陷 F3：v1.1 同时显示已发布和已停用",
+    "file": "14-version-conflict.jpg",
+    "url": "http://127.0.0.1:9309/report.html?state=replayed&inspect=1&tab=qualification&case=replacement",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: http://127.0.0.1:9309/index.html?inspect=1\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: http://127.0.0.1:9309/index.html?inspect=1\n    - link \"业务验证\":\n      - /url: http://127.0.0.1:9309/verify.html?inspect=1\n    - link \"验证报告\":\n      - /url: http://127.0.0.1:9309/report.html?state=replayed&inspect=1&tab=qualification&case=replacement\n  - link \"模型设置\":\n    - /url: http://127.0.0.1:9309/settings.html?inspect=1\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"检查状态\"\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"验证报告\" [active] [level=1]\n  - paragraph: 编辑工单 · R015 · 修复后复跑 · 本轮已结束\n  - button \"导出\"\n  - link \"验证目标负载\":\n    - /url: http://127.0.0.1:9309/verify.html?state=load-plan&inspect=1\n  - generic \"报告内容\":\n    - button \"业务结果\"\n    - button \"候选资格 已发布\":\n      - text: 候选资格\n      - generic: 已发布\n  - complementary:\n    - heading \"结果摘要\" [level=2]\n    - generic: 业务结果\n    - generic: 通过\n    - generic: 模板资格\n    - generic: 已发布 · v1.1\n    - generic: 验证范围\n    - generic: 低负载字段保持\n    - status:\n      - strong: 业务复测通过\n      - paragraph: 可按确认的目标开展负载验证。\n    - generic \"历史运行 ＋\"\n    - generic \"运行与版本 ＋\"\n    - button \"选择下一条流程\"\n  - heading \"字段保持模板 v1.1\" [level=2]\n  - generic: 已停用\n  - status:\n    - strong: 已停止推荐与执行\n    - paragraph: 历史报告保留；请选择有效版本或生成修订候选。\n  - list:\n    - strong: 建立初始状态\n    - paragraph: 用户甲创建高优先级工单，查询并保存 id、priority、ownerId。\n    - strong: 只修改标题\n    - paragraph: 使用甲的身份更新同一张工单，确认请求被接受。\n    - strong: 查询最终结果\n    - paragraph: 标题等于新值；优先级等于操作前值；所有者严格等于原值。\n  - generic \"准入与版本 ＋\"\n  - button \"查看验证证据\"\n  - button \"生成修订候选\"\n  - generic \"模板适用说明 ＋\"",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "查看验证证据",
+        "n": "18",
+        "selector": "[data-action=\"review-proof\"]",
+        "visible": true,
+        "w": 113.33333587646484,
+        "x": 980.6666870117188,
+        "y": 750
+      },
+      {
+        "enabled": true,
+        "h": 41,
+        "label": "业务结果",
+        "n": "21",
+        "selector": "[data-action=\"business-evidence\"]",
+        "visible": true,
+        "w": 52,
+        "x": 250,
+        "y": 206.39584350585935
+      },
+      {
+        "enabled": true,
+        "h": 41,
+        "label": "候选资格\n已发布",
+        "n": "21",
+        "selector": "[data-action=\"review-tab\"]",
+        "visible": true,
+        "w": 107,
+        "x": 330,
+        "y": 206.39584350585935
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "验证目标负载",
+        "n": "27",
+        "selector": "a[href*=\"state=load-plan\"]",
+        "visible": true,
+        "w": 113.33333587646484,
+        "x": 1130.666748046875,
+        "y": 123.19792175292967
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "导出",
+        "n": "32",
+        "selector": "[data-action=\"export\"]",
+        "visible": true,
+        "w": 61.33333587646485,
+        "x": 1057.3333740234375,
+        "y": 123.19792175292967
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1179,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1108,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "生成修订候选",
+        "n": "45",
+        "selector": "[data-action=\"template-revise\"]",
+        "visible": true,
+        "w": 113.33333587646484,
+        "x": 1106,
+        "y": 750
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "15-submit-gaps",
+    "title": "缺口 F4/F5：工单提交结果",
+    "file": "15-submit-gaps.jpg",
+    "url": "http://127.0.0.1:9309/report.html?state=submit&flow=submit&case=repaired",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=submit&flow=submit&case=repaired\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"验证报告\" [level=1]\n  - paragraph: 工单提交 · 本轮已结束\n  - button \"导出\"\n  - link \"修复后复测\":\n    - /url: verify.html?state=replay-prepare&flow=submit\n  - heading \"已确认检查\" [level=2]\n  - strong: 保存结果\n  - paragraph: 已复位并重新执行，最终结果符合规则。\n  - generic: 通过\n  - status:\n    - strong: 业务复测通过\n    - paragraph: 新记录关联原运行，所选检查保持不变。\n  - link \"重新接入该流程\":\n    - /url: index.html?state=mapping\n  - button \"选择下一条流程\"\n  - complementary:\n    - heading \"执行范围\" [level=2]\n    - generic: 主流程\n    - generic: 工单提交\n    - generic: 已选检查\n    - generic: 1 项\n    - generic: 环境\n    - generic: 独立测试副本\n    - generic: 模板\n    - generic: 有效已发布版本\n    - generic \"未确认规则 ＋\"",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "修复后复测",
+        "n": "23",
+        "selector": "a[href*=\"state=replay-prepare\"]",
+        "visible": true,
+        "w": 100.33333587646484,
+        "x": 1143.666748046875,
+        "y": 123.19792175292967
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "导出",
+        "n": "32",
+        "selector": "[data-action=\"export\"]",
+        "visible": true,
+        "w": 61.33333587646485,
+        "x": 1070.3333740234375,
+        "y": 123.19792175292967
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1179,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1108,
+        "y": 18.61458396911621
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "16-export",
+    "title": "导出内容：33",
+    "file": "16-export.jpg",
+    "url": "http://127.0.0.1:9309/report.html?state=submit&flow=submit&case=repaired",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=submit&flow=submit&case=repaired\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"验证报告\" [level=1]\n  - paragraph: 工单提交 · 本轮已结束\n  - button \"导出\"\n  - link \"修复后复测\":\n    - /url: verify.html?state=replay-prepare&flow=submit\n  - heading \"已确认检查\" [level=2]\n  - strong: 保存结果\n  - paragraph: 已复位并重新执行，最终结果符合规则。\n  - generic: 通过\n  - status:\n    - strong: 业务复测通过\n    - paragraph: 新记录关联原运行，所选检查保持不变。\n  - link \"重新接入该流程\":\n    - /url: index.html?state=mapping\n  - button \"选择下一条流程\"\n  - complementary:\n    - heading \"执行范围\" [level=2]\n    - generic: 主流程\n    - generic: 工单提交\n    - generic: 已选检查\n    - generic: 1 项\n    - generic: 环境\n    - generic: 独立测试副本\n    - generic: 模板\n    - generic: 有效已发布版本\n    - generic \"未确认规则 ＋\"\n- dialog \"导出\":\n  - heading \"导出\" [level=2]\n  - button \"关闭对话框\" [active]: 关闭\n  - checkbox \"Markdown 报告\" [checked]\n  - generic: Markdown 报告\n  - checkbox \"证据文件\" [checked]\n  - generic: 证据文件\n  - checkbox \"验证包\" [checked]\n  - generic: 验证包\n  - paragraph: 包含当前运行的规则、版本和证据，不包含凭据。\n  - alert\n  - button \"导出所选内容\"",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "导出所选内容",
+        "n": "33",
+        "selector": "[data-action=\"export-selected\"]",
+        "visible": true,
+        "w": 113.33333587646484,
+        "x": 844,
+        "y": 611.90625
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "17-package-file",
+    "title": "加载验证包：35—36",
+    "file": "17-package-file.jpg",
+    "url": "http://127.0.0.1:9309/report.html?state=submit&flow=submit&case=repaired",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=submit&flow=submit&case=repaired\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"验证报告\" [level=1]\n  - paragraph: 工单提交 · 本轮已结束\n  - button \"导出\"\n  - link \"修复后复测\":\n    - /url: verify.html?state=replay-prepare&flow=submit\n  - heading \"已确认检查\" [level=2]\n  - strong: 保存结果\n  - paragraph: 已复位并重新执行，最终结果符合规则。\n  - generic: 通过\n  - status:\n    - strong: 业务复测通过\n    - paragraph: 新记录关联原运行，所选检查保持不变。\n  - link \"重新接入该流程\":\n    - /url: index.html?state=mapping\n  - button \"选择下一条流程\"\n  - complementary:\n    - heading \"执行范围\" [level=2]\n    - generic: 主流程\n    - generic: 工单提交\n    - generic: 已选检查\n    - generic: 1 项\n    - generic: 环境\n    - generic: 独立测试副本\n    - generic: 模板\n    - generic: 有效已发布版本\n    - generic \"未确认规则 ＋\"\n- dialog \"加载验证包\":\n  - heading \"加载验证包\" [level=2]\n  - button \"关闭对话框\" [active]: 关闭\n  - generic: 验证包文件\n  - button \"验证包文件\"\n  - alert\n  - button \"检查并加载\"",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.33333587646485,
+        "label": "package-file",
+        "n": "35",
+        "selector": "#package-file",
+        "visible": true,
+        "w": 634.6666870117188,
+        "x": 322.66668701171875,
+        "y": 468.9270935058594
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "检查并加载",
+        "n": "36",
+        "selector": "[data-action=\"package-select\"]",
+        "visible": true,
+        "w": 100.33333587646484,
+        "x": 857,
+        "y": 581.9271240234375
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "18-transfer",
+    "title": "项目迁移：42（旧 v1.0 仍被标为有效）",
+    "file": "18-transfer.jpg",
+    "url": "http://127.0.0.1:9309/index.html?state=transfer",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=submit&flow=submit&case=repaired\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: activity-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"接入第二个项目\" [level=1]\n  - paragraph: activity-app · 编辑报名信息\n  - heading \"复用字段保持 v1.0\" [level=2]\n  - generic: 待项目确认\n  - paragraph: 仅修改显示名称，报名类别和报名人必须保持不变。\n  - generic: 更新\n  - code: PATCH /api/registrations/:id\n  - generic: 查询\n  - code: GET /api/registrations/:id\n  - generic: 字段\n  - code:\n    - text: title → displayName\n    - text: priority → category\n    - text: ownerId → userId\n  - generic \"匹配理由与不适用条件 ＋\"\n  - checkbox \"确认新项目规则、字段语义、身份和查询范围\"\n  - generic: 确认新项目规则、字段语义、身份和查询范围\n  - button \"确认并试运行新映射\"\n  - complementary:\n    - heading \"复用边界\" [level=2]\n    - generic: 项目\n    - generic: activity-app-test\n    - generic: 模板\n    - generic: 字段保持 v1.0 · 有效\n    - generic: 新映射\n    - generic: registration-v1\n    - generic: 数据\n    - generic: 独立专用测试数据\n    - status:\n      - strong: 只改映射才算直接复用\n      - paragraph: 修改实验或断言需另记能力扩展，不混算复用。",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1179,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1108,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 16,
+        "label": "transfer-confirm",
+        "n": "42",
+        "selector": "#transfer-confirm",
+        "visible": true,
+        "w": 16,
+        "x": 274.66668701171875,
+        "y": 574.2916870117188
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "确认并试运行新映射",
+        "n": "42",
+        "selector": "[data-action=\"transfer-check\"]",
+        "visible": true,
+        "w": 152.33334350585938,
+        "x": 767.6666870117188,
+        "y": 647.9583740234375
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "19-transfer-result",
+    "title": "停用旧版本仍可获得迁移通过结果",
+    "file": "19-transfer-result.jpg",
+    "url": "http://127.0.0.1:9309/report.html?state=transfer",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=transfer\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: activity-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"验证报告\" [level=1]\n  - paragraph: activity-app · 编辑报名信息\n  - heading \"本项目字段保持检查通过\" [level=2]\n  - generic: 本次条件内通过\n  - paragraph: 显示名称更新正确，报名类别和报名人保持原值。新账号身份、同一对象及完整查询已核对，初始数据复位后可复跑。\n  - generic: 复用模板\n  - generic: 字段保持 v1.0 · 冻结版本\n  - generic: 调整内容\n  - generic: 登录、接口、字段、查询映射\n  - generic: 未改变\n  - generic: 参数化步骤与判定逻辑\n  - generic \"验证范围 －\"\n  - generic: 结论仅限当前项目、规则与映射；未继承旧项目的通过结论。\n  - button \"导出\"\n  - button \"选择下一条流程\"\n  - complementary:\n    - status:\n      - strong: 直接复用与能力扩展分开\n      - paragraph: 新增模板逻辑须重新验证与审核。",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "导出",
+        "n": "32",
+        "selector": "[data-action=\"export\"]",
+        "visible": true,
+        "w": 61.33333587646485,
+        "x": 720.3333740234375,
+        "y": 611.09375
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1179,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1108,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "验证报告",
+        "n": "43",
+        "selector": "a[href*=\"state=transfer\"]",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 224.875
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  },
+  {
+    "id": "20-reference",
+    "title": "可信对照分支：A5—A6",
+    "file": "20-reference.jpg",
+    "url": "http://127.0.0.1:9309/verify.html?state=waiting-reference",
+    "dom": "- link \"跳到内容\":\n  - /url: \"#content\"\n- complementary:\n  - link \"网站验证\":\n    - /url: index.html\n  - navigation \"主要导航\":\n    - link \"项目接入\":\n      - /url: index.html\n    - link \"业务验证\":\n      - /url: verify.html\n    - link \"验证报告\":\n      - /url: report.html?state=transfer\n  - link \"模型设置\":\n    - /url: settings.html\n- banner:\n  - generic: ticket-app\n  - generic: 测试副本\n  - button \"切换项目\"\n  - button \"加载验证包\"\n- main:\n  - heading \"编辑工单\" [level=1]\n  - button \"更换流程\"\n  - list \"候选模板阶段\":\n    - generic: \"01\"\n    - text: 规则确认\n    - generic: \"02\"\n    - text: 候选生成\n    - generic: \"03\"\n    - text: 分层验证\n    - generic: \"04\"\n    - text: 审核发布\n    - generic: \"05\"\n    - text: 复跑\n  - status:\n    - strong: 等待可信对照\n    - paragraph: 补齐经开发者审核的正常与缺陷对照后继续。补齐前不能发布。\n  - heading \"已保留的内容\" [level=2]\n  - generic: 规则\n  - generic: v1.0 · 不放宽\n  - generic: 候选\n  - generic: v0.2 · 待对照\n  - generic: 尝试次数\n  - generic: 2 / 3\n  - generic \"诊断记录 －\"\n  - generic: 缺少覆盖所有者变更的可信 HTTP 缺陷对照。\n  - button \"复制待补要求\"\n  - button \"补齐后重新检查\"\n  - complementary:\n    - heading \"验证层次\" [level=2]\n    - list:\n      - generic: 定义检查\n      - generic: 已完成\n      - generic: 独立样本\n      - generic: 已完成\n      - generic: 受控端到端\n      - generic: 当前\n      - generic: 项目试运行\n      - generic: 待执行\n    - paragraph: 每轮重新验证，标准与业务规则保持不变。",
+    "h": 980,
+    "markers": [
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "模型设置",
+        "n": "01",
+        "selector": "a.settings-link",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 900.2083740234375
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "更换流程",
+        "n": "09",
+        "selector": "[data-action=\"flow\"]",
+        "visible": true,
+        "w": 87.33333587646484,
+        "x": 1156.666748046875,
+        "y": 110
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "加载验证包",
+        "n": "34",
+        "selector": "[data-action=\"package\"]",
+        "visible": true,
+        "w": 65,
+        "x": 1179,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 36.09375,
+        "label": "切换项目",
+        "n": "40",
+        "selector": "[data-action=\"project-switch\"]",
+        "visible": true,
+        "w": 52,
+        "x": 1108,
+        "y": 18.61458396911621
+      },
+      {
+        "enabled": true,
+        "h": 49.79166793823242,
+        "label": "验证报告",
+        "n": "43",
+        "selector": "a[href*=\"state=transfer\"]",
+        "visible": true,
+        "w": 173.33334350585938,
+        "x": 20,
+        "y": 224.875
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "复制待补要求",
+        "n": "A5",
+        "selector": "[data-action=\"reference-note\"]",
+        "visible": true,
+        "w": 113.33333587646484,
+        "x": 668.3333740234375,
+        "y": 656.2291870117188
+      },
+      {
+        "enabled": true,
+        "h": 44,
+        "label": "补齐后重新检查",
+        "n": "A6",
+        "selector": "[data-action=\"reference-recheck\"]",
+        "visible": true,
+        "w": 126.33333587646484,
+        "x": 793.6666870117188,
+        "y": 656.2291870117188
+      }
+    ],
+    "scrollY": 0,
+    "w": 1280
+  }
+]

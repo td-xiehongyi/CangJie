@@ -1,0 +1,8 @@
+
+Running 1 test using 1 worker
+
+(node:49112) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\e2e\target-load.spec.ts:9:1 › T8 browser config, real k6, evidence and server restart @t8 (14.6s)
+
+  1 passed (16.3s)

@@ -1,0 +1,4 @@
+
+> website-verification@0.0.0 build:core
+> node scripts/build-core.mjs
+

@@ -1,0 +1,16 @@
+{
+  "schemaVersion":1,"name":"工单提交系统","start":{"argv":["src/server.ts"]},
+  "initialization":{"argv":["src/seed.ts"],"version":"ticket-seed-v1","source":"synthetic","databaseEnv":"TEST_DATABASE","localOnly":true,"externalServices":[]},
+  "healthPath":"/health","actors":[{"actorRef":"owner","role":"user"},{"actorRef":"other","role":"user"}],
+  "mapping":{
+    "id":"ticket-http","version":1,"authMode":"token","targetRef":"unbound","actorRefs":["owner","other"],
+    "auth":{"loginPath":"/login","usernameField":"username","passwordField":"password","tokenPath":["token"],"identityPath":"/me","idPath":["id"]},
+    "operations":[
+      {"operationId":"create","method":"POST","path":"/tickets","bodyBindings":{"title":"title","intentId":"intent","delayMs":"delayMs"}},
+      {"operationId":"update","method":"PATCH","path":"/tickets/:id","bodyBindings":{"title":"title"}},
+      {"operationId":"query","method":"GET","path":"/tickets","queryBindings":{"id":"id","intentId":"intent","limit":"limit"}}
+    ],
+    "resultBindings":{"create":{"id":["id"],"title":["title"]},"update":{"id":["id"],"title":["title"]},"query":{"id":["items","0","id"],"title":["items","0","title"],"items":["items"]}},
+    "queryCompleteness":{"query":{"itemsPath":["items"],"totalPath":["total"],"hasMorePath":["hasMore"],"completePath":["complete"]}}
+  }
+}

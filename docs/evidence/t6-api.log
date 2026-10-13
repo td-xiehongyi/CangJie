@@ -1,0 +1,10 @@
+✔ local workbench API guards mutations and preserves real empty state (390.2326ms)
+✔ scope changes retain project secrets; analysis budget survives retries (1293.8469ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1810.6652

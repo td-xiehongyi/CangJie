@@ -1,0 +1,3462 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-10-13T03:03:36.735Z",
+  "scope": "isolated deterministic test publications; not live AI or formal human approval",
+  "directory": "C:\\Users\\xie\\Desktop\\Project\\.local-data\\transfer\\fc3379fe-201f-4311-ad58-4c073190619b",
+  "files": {
+    "templates/saved-result.json": "d47dea3d54e6e81c92621f27f154843ae0f6e51b8a4a66f169b055f6bf447f9f",
+    "templates/duplicate-submit.json": "355f5760e6bc8bbde6454d8e874aa1c11b772f46ae88f66914e654aabb39978f",
+    "templates/permission-isolation.json": "40a575d819d495b6ef454cfc362a878c4ebf8f22040c6a322c5b31ce7ed32b6e",
+    "tests/fixtures/title-update.json": "b9a7b9f3c9ccc6861b58f0a8727b4163f056790fc2b369af6f99a8c31d1dda2a",
+    "tests/reference/suite-manifest.json": "74bd2ba7f828052eca0bf393b4eb627094c1999b18458d5acf3d1edeec0e11a4",
+    "tests/reference/suite-lock.json": "328dd63fa85591b3a1d0deebec644365a2677d09e2550f78c6eda2fadbaaaba0",
+    "apps/core/src/admission.cj": "7969734e99476f5e99d86e65d6b8881bf08150e31a7658c829a083e757ef94c1",
+    "apps/core/src/budget.cj": "d8e39dc5dd85007c44110f698d47902f2f424f5e08e6d841e79b00da77e18974",
+    "apps/core/src/contracts.cj": "7af973948d5b73393ea8d6cdde186e9802ca5e02416bc7f4c7e6096e361e57b2",
+    "apps/core/src/interpreter.cj": "4ec9f71db3cc5a89094afef69ad8abc2d690ffcafdf00ac2bc8e88a842f10e23",
+    "apps/core/src/main.cj": "6cdfc4d0d649e7d070595afa6577452f26f6fe56c1cb11f61cf95ddd104c4ea1",
+    "apps/core/src/protocol.cj": "8bc0f0d4157ca4ccc464d33c73974e5b047b90ecf5e374aea63c39ab8aadfdbf",
+    "apps/core/src/registry.cj": "06a339ca302e866504171e5fe583f72ca24b67b355485d5a7fdab146a362f3df",
+    "apps/core/src/scheduler.cj": "b9ec42bee5bef31b5fb4b5e99dd8dec65b0fc772e9eed98bf28fac6dac3fa1b7",
+    "apps/core/src/verdict.cj": "da518155050b29034ca936d34e5b65cb7363ecbc22bef67fe44ad42ad151375d"
+  },
+  "publications": [
+    {
+      "taskId": "24ef4b3b-27f5-439b-9e2b-74f13c9684d3",
+      "spec": {
+        "id": "save-result",
+        "revision": 1,
+        "ruleRef": {
+          "id": "save-rule",
+          "version": 1
+        },
+        "parameters": {
+          "title": "测试工单"
+        },
+        "requiredCapabilities": [
+          "create",
+          "query"
+        ],
+        "checks": [
+          "save"
+        ],
+        "steps": [
+          {
+            "stepId": "create",
+            "checkId": "save",
+            "operationId": "create",
+            "actorRef": "owner",
+            "bindings": {
+              "title": {
+                "op": "field",
+                "var": "params",
+                "path": [
+                  "title"
+                ]
+              }
+            },
+            "output": "created"
+          },
+          {
+            "stepId": "query",
+            "checkId": "save",
+            "operationId": "query",
+            "actorRef": "owner",
+            "bindings": {
+              "id": {
+                "op": "field",
+                "var": "created",
+                "path": [
+                  "id"
+                ]
+              }
+            },
+            "output": "saved"
+          }
+        ],
+        "assertions": [
+          {
+            "id": "saved-title",
+            "checkId": "save",
+            "expr": {
+              "op": "eq",
+              "args": [
+                {
+                  "op": "field",
+                  "var": "saved",
+                  "path": [
+                    "title"
+                  ]
+                },
+                {
+                  "op": "field",
+                  "var": "params",
+                  "path": [
+                    "title"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "evidenceRequirements": {
+          "identityVerified": true,
+          "queryComplete": true,
+          "acceptanceKnown": true,
+          "evidenceRefs": true
+        },
+        "limits": {
+          "maxActions": 16,
+          "actionTimeoutMs": 1500,
+          "runTimeoutMs": 10000
+        }
+      },
+      "rule": {
+        "id": "save-rule",
+        "version": 1,
+        "confirmation": "confirmed",
+        "source": "docs/superpowers/plans/2026-10-11-website-verification.md#T3; docs/superpowers/specs/2026-10-11-candidate-template-lifecycle.md",
+        "preconditions": [
+          "two verified synthetic accounts",
+          "isolated baseline",
+          "HTTP object correlation"
+        ],
+        "expectedChanges": [
+          "submitted title persists"
+        ],
+        "invariants": [],
+        "completionDeadline": 10000
+      },
+      "capabilities": {
+        "operations": [
+          "create",
+          "query",
+          "update"
+        ],
+        "actorRefs": [
+          "owner",
+          "other"
+        ],
+        "expressions": [
+          "field",
+          "const",
+          "exists",
+          "eq",
+          "neq",
+          "count",
+          "contains",
+          "all",
+          "any",
+          "not"
+        ]
+      },
+      "candidateHash": "241997fa21c47fc17e18361e42ff707bc93d7825e09befda1dc62f2176ebb90c",
+      "ruleHash": "f1b840191625306e735961228b79355dca06ff32bbb10563ccf11eb8130d776a",
+      "validation": {
+        "scope": "template_validation",
+        "candidateHash": "241997fa21c47fc17e18361e42ff707bc93d7825e09befda1dc62f2176ebb90c",
+        "ruleHash": "f1b840191625306e735961228b79355dca06ff32bbb10563ccf11eb8130d776a",
+        "suiteHash": "f5a387e92be5f3d5d8c69cbfbc05ac16c2a82a1588a346460e0cbef1f438bbd0",
+        "interpreterVersion": "1.0.0",
+        "mappingHash": "cf3d9f8633599e58e76bf2f76f080d883a0448941cfbdb62e32ede6d4275e5bb",
+        "mappingDefinitionHash": "336bb529218f906a0ca88ec4d5f9e2098e716bbcf8e2e9ec71ced7fa519cbdf3",
+        "gateResults": {
+          "static": true,
+          "coverage": true,
+          "observation": true,
+          "http": true,
+          "admitted": true
+        },
+        "evidenceRefs": [
+          "observation:1399357b-4ee4-477c-9304-9b743898ef74:create",
+          "observation:1399357b-4ee4-477c-9304-9b743898ef74:query",
+          "reference:7968e05c-7628-4f2a-bd5b-55b2391b08f8:1f4413f808f2010e22d319c876eaeef7e87ab29076e353effce1d2921a6ec2b6.json",
+          "reference:7968e05c-7628-4f2a-bd5b-55b2391b08f8:1252495c5db832dae3069d5258132dae2f0b2e1436ce8df40da66e6bb495a499.json",
+          "observation:e484f0b0-09f6-401c-8673-bea5a8775f5a:create",
+          "observation:e484f0b0-09f6-401c-8673-bea5a8775f5a:query",
+          "reference:aeae0349-e2ab-494f-98ea-a5e5414bc0cc:e0fa19c791d7d010b134a7f674b00a9f9801261287ed0c38293ba63cf4020be6.json",
+          "reference:aeae0349-e2ab-494f-98ea-a5e5414bc0cc:c2c7eed6ef0f10d4df09326345ec703b9495c9884a3fdb528a96c9eb4d111a16.json",
+          "observation:c8f61d81-880d-45fa-aaa4-a574a5e265a6:create",
+          "observation:c8f61d81-880d-45fa-aaa4-a574a5e265a6:query",
+          "reference:4514d50a-b681-4460-8e90-38063bcf8ea0:cff8762ca40443b47e638e0bae5734abeeebd866802d9e295dee2b280a159749.json",
+          "reference:4514d50a-b681-4460-8e90-38063bcf8ea0:fe6f44cf07ac049232c1043ff50c10fbbe700078a7a58d91571722cfcd0717bc.json",
+          "observation:156437af-fcc7-4612-9089-cee807fcfbd5:create",
+          "observation:156437af-fcc7-4612-9089-cee807fcfbd5:query",
+          "reference:02340cfb-6ceb-42c4-a3bf-35653f3b077a:bedc3d76f347bda882fe1f48b39fbffe69fcabe0922b6994e3ae1cca5b0715d0.json",
+          "reference:02340cfb-6ceb-42c4-a3bf-35653f3b077a:bdd11f4fad6612a1dc61388adaa90441ab98ddd6dfa703b5f9833455d92c04d9.json",
+          "observation:aeb864b4-cf45-43de-bb21-ee48bc57d812:create",
+          "observation:aeb864b4-cf45-43de-bb21-ee48bc57d812:query",
+          "reference:a8c3a1c2-230c-433e-856c-df6facf28850:9f8c40706f6c953fcd80c43c7c663b576f624d30f353a999be05137b6cb89b92.json",
+          "reference:a8c3a1c2-230c-433e-856c-df6facf28850:6e8fc717685fb0e1080b4604995dbd5e244e79956b9f8e4be747a1b05f913ffd.json",
+          "observation:d7a6ce6b-e59a-4ccb-868b-386c34631633:create",
+          "observation:d7a6ce6b-e59a-4ccb-868b-386c34631633:query",
+          "reference:f668d14a-8bcf-4576-8f25-e26738f9e6ca:c8188ea2eab42df5794e550d43fb2d52a825304a509037bf180b3d16853f89a5.json",
+          "reference:f668d14a-8bcf-4576-8f25-e26738f9e6ca:c4f799fa5126383b16be8bec4ac539c6e2f72e09d67cba35b478fe414b05ec52.json"
+        ],
+        "cases": [
+          {
+            "caseId": "c001",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "save-rule",
+                  "version": 1
+                },
+                "assertionRef": "saved-title",
+                "checkId": "save",
+                "evidenceRefs": [
+                  "observation:1399357b-4ee4-477c-9304-9b743898ef74:create",
+                  "observation:1399357b-4ee4-477c-9304-9b743898ef74:query"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:1399357b-4ee4-477c-9304-9b743898ef74:create",
+              "observation:1399357b-4ee4-477c-9304-9b743898ef74:query"
+            ],
+            "effectiveCandidateHash": "9532b4d61367a178666d745af2af33cac8acbe594b71d075bbcb8eec715d47b9"
+          },
+          {
+            "caseId": "c001",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "save-rule",
+                  "version": 1
+                },
+                "assertionRef": "saved-title",
+                "checkId": "save",
+                "evidenceRefs": [
+                  "reference:7968e05c-7628-4f2a-bd5b-55b2391b08f8:1f4413f808f2010e22d319c876eaeef7e87ab29076e353effce1d2921a6ec2b6.json",
+                  "reference:7968e05c-7628-4f2a-bd5b-55b2391b08f8:1252495c5db832dae3069d5258132dae2f0b2e1436ce8df40da66e6bb495a499.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:7968e05c-7628-4f2a-bd5b-55b2391b08f8:1f4413f808f2010e22d319c876eaeef7e87ab29076e353effce1d2921a6ec2b6.json",
+              "reference:7968e05c-7628-4f2a-bd5b-55b2391b08f8:1252495c5db832dae3069d5258132dae2f0b2e1436ce8df40da66e6bb495a499.json"
+            ],
+            "copyId": "7968e05c-7628-4f2a-bd5b-55b2391b08f8",
+            "mappingHash": "4ca839c5a2a98ac6813bc7e6f04fe0c1aebda263d04eff18aeead8db81c00bf3",
+            "effectiveCandidateHash": "9532b4d61367a178666d745af2af33cac8acbe594b71d075bbcb8eec715d47b9"
+          },
+          {
+            "caseId": "c002",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "save-rule",
+                  "version": 1
+                },
+                "assertionRef": "saved-title",
+                "checkId": "save",
+                "evidenceRefs": [
+                  "observation:e484f0b0-09f6-401c-8673-bea5a8775f5a:create",
+                  "observation:e484f0b0-09f6-401c-8673-bea5a8775f5a:query"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:e484f0b0-09f6-401c-8673-bea5a8775f5a:create",
+              "observation:e484f0b0-09f6-401c-8673-bea5a8775f5a:query"
+            ],
+            "effectiveCandidateHash": "9532b4d61367a178666d745af2af33cac8acbe594b71d075bbcb8eec715d47b9"
+          },
+          {
+            "caseId": "c002",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "save-rule",
+                  "version": 1
+                },
+                "assertionRef": "saved-title",
+                "checkId": "save",
+                "evidenceRefs": [
+                  "reference:aeae0349-e2ab-494f-98ea-a5e5414bc0cc:e0fa19c791d7d010b134a7f674b00a9f9801261287ed0c38293ba63cf4020be6.json",
+                  "reference:aeae0349-e2ab-494f-98ea-a5e5414bc0cc:c2c7eed6ef0f10d4df09326345ec703b9495c9884a3fdb528a96c9eb4d111a16.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:aeae0349-e2ab-494f-98ea-a5e5414bc0cc:e0fa19c791d7d010b134a7f674b00a9f9801261287ed0c38293ba63cf4020be6.json",
+              "reference:aeae0349-e2ab-494f-98ea-a5e5414bc0cc:c2c7eed6ef0f10d4df09326345ec703b9495c9884a3fdb528a96c9eb4d111a16.json"
+            ],
+            "copyId": "aeae0349-e2ab-494f-98ea-a5e5414bc0cc",
+            "mappingHash": "62606de769d86fbe115a2484900ff49319256d3e4a489443024c1c31ebb1a306",
+            "effectiveCandidateHash": "9532b4d61367a178666d745af2af33cac8acbe594b71d075bbcb8eec715d47b9"
+          },
+          {
+            "caseId": "c003",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "save-rule",
+                  "version": 1
+                },
+                "assertionRef": "saved-title",
+                "checkId": "save",
+                "evidenceRefs": [
+                  "observation:c8f61d81-880d-45fa-aaa4-a574a5e265a6:create",
+                  "observation:c8f61d81-880d-45fa-aaa4-a574a5e265a6:query"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:c8f61d81-880d-45fa-aaa4-a574a5e265a6:create",
+              "observation:c8f61d81-880d-45fa-aaa4-a574a5e265a6:query"
+            ],
+            "effectiveCandidateHash": "9532b4d61367a178666d745af2af33cac8acbe594b71d075bbcb8eec715d47b9"
+          },
+          {
+            "caseId": "c003",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "save-rule",
+                  "version": 1
+                },
+                "assertionRef": "saved-title",
+                "checkId": "save",
+                "evidenceRefs": [
+                  "reference:4514d50a-b681-4460-8e90-38063bcf8ea0:cff8762ca40443b47e638e0bae5734abeeebd866802d9e295dee2b280a159749.json",
+                  "reference:4514d50a-b681-4460-8e90-38063bcf8ea0:fe6f44cf07ac049232c1043ff50c10fbbe700078a7a58d91571722cfcd0717bc.json"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:4514d50a-b681-4460-8e90-38063bcf8ea0:cff8762ca40443b47e638e0bae5734abeeebd866802d9e295dee2b280a159749.json",
+              "reference:4514d50a-b681-4460-8e90-38063bcf8ea0:fe6f44cf07ac049232c1043ff50c10fbbe700078a7a58d91571722cfcd0717bc.json"
+            ],
+            "copyId": "4514d50a-b681-4460-8e90-38063bcf8ea0",
+            "mappingHash": "4708a523c4cf36d845508cdf706d4536c53eb9074544de6e8763ef6029ef521e",
+            "effectiveCandidateHash": "9532b4d61367a178666d745af2af33cac8acbe594b71d075bbcb8eec715d47b9"
+          },
+          {
+            "caseId": "c004",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "save-rule",
+                  "version": 1
+                },
+                "assertionRef": "saved-title",
+                "checkId": "save",
+                "evidenceRefs": [
+                  "observation:156437af-fcc7-4612-9089-cee807fcfbd5:create",
+                  "observation:156437af-fcc7-4612-9089-cee807fcfbd5:query"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:156437af-fcc7-4612-9089-cee807fcfbd5:create",
+              "observation:156437af-fcc7-4612-9089-cee807fcfbd5:query"
+            ],
+            "effectiveCandidateHash": "09795942103859737bf82a650981c923cd5a01c4c964a17a428c87823ec32acc"
+          },
+          {
+            "caseId": "c004",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "save-rule",
+                  "version": 1
+                },
+                "assertionRef": "saved-title",
+                "checkId": "save",
+                "evidenceRefs": [
+                  "reference:02340cfb-6ceb-42c4-a3bf-35653f3b077a:bedc3d76f347bda882fe1f48b39fbffe69fcabe0922b6994e3ae1cca5b0715d0.json",
+                  "reference:02340cfb-6ceb-42c4-a3bf-35653f3b077a:bdd11f4fad6612a1dc61388adaa90441ab98ddd6dfa703b5f9833455d92c04d9.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:02340cfb-6ceb-42c4-a3bf-35653f3b077a:bedc3d76f347bda882fe1f48b39fbffe69fcabe0922b6994e3ae1cca5b0715d0.json",
+              "reference:02340cfb-6ceb-42c4-a3bf-35653f3b077a:bdd11f4fad6612a1dc61388adaa90441ab98ddd6dfa703b5f9833455d92c04d9.json"
+            ],
+            "copyId": "02340cfb-6ceb-42c4-a3bf-35653f3b077a",
+            "mappingHash": "cdd4b1e4f8bcc616e92ad7c775878e9775f7a6ad85a18e6addb6d9d6b316b474",
+            "effectiveCandidateHash": "09795942103859737bf82a650981c923cd5a01c4c964a17a428c87823ec32acc"
+          },
+          {
+            "caseId": "c005",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "save-rule",
+                  "version": 1
+                },
+                "assertionRef": "saved-title",
+                "checkId": "save",
+                "evidenceRefs": [
+                  "observation:aeb864b4-cf45-43de-bb21-ee48bc57d812:create",
+                  "observation:aeb864b4-cf45-43de-bb21-ee48bc57d812:query"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:aeb864b4-cf45-43de-bb21-ee48bc57d812:create",
+              "observation:aeb864b4-cf45-43de-bb21-ee48bc57d812:query"
+            ],
+            "effectiveCandidateHash": "09795942103859737bf82a650981c923cd5a01c4c964a17a428c87823ec32acc"
+          },
+          {
+            "caseId": "c005",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "save-rule",
+                  "version": 1
+                },
+                "assertionRef": "saved-title",
+                "checkId": "save",
+                "evidenceRefs": [
+                  "reference:a8c3a1c2-230c-433e-856c-df6facf28850:9f8c40706f6c953fcd80c43c7c663b576f624d30f353a999be05137b6cb89b92.json",
+                  "reference:a8c3a1c2-230c-433e-856c-df6facf28850:6e8fc717685fb0e1080b4604995dbd5e244e79956b9f8e4be747a1b05f913ffd.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:a8c3a1c2-230c-433e-856c-df6facf28850:9f8c40706f6c953fcd80c43c7c663b576f624d30f353a999be05137b6cb89b92.json",
+              "reference:a8c3a1c2-230c-433e-856c-df6facf28850:6e8fc717685fb0e1080b4604995dbd5e244e79956b9f8e4be747a1b05f913ffd.json"
+            ],
+            "copyId": "a8c3a1c2-230c-433e-856c-df6facf28850",
+            "mappingHash": "8fab22fafd14152d6193099c6787e705db87289956807b2a24ce9b55cd86ac3b",
+            "effectiveCandidateHash": "09795942103859737bf82a650981c923cd5a01c4c964a17a428c87823ec32acc"
+          },
+          {
+            "caseId": "c006",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "save-rule",
+                  "version": 1
+                },
+                "assertionRef": "saved-title",
+                "checkId": "save",
+                "evidenceRefs": [
+                  "observation:d7a6ce6b-e59a-4ccb-868b-386c34631633:create",
+                  "observation:d7a6ce6b-e59a-4ccb-868b-386c34631633:query"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:d7a6ce6b-e59a-4ccb-868b-386c34631633:create",
+              "observation:d7a6ce6b-e59a-4ccb-868b-386c34631633:query"
+            ],
+            "effectiveCandidateHash": "09795942103859737bf82a650981c923cd5a01c4c964a17a428c87823ec32acc"
+          },
+          {
+            "caseId": "c006",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "save-rule",
+                  "version": 1
+                },
+                "assertionRef": "saved-title",
+                "checkId": "save",
+                "evidenceRefs": [
+                  "reference:f668d14a-8bcf-4576-8f25-e26738f9e6ca:c8188ea2eab42df5794e550d43fb2d52a825304a509037bf180b3d16853f89a5.json",
+                  "reference:f668d14a-8bcf-4576-8f25-e26738f9e6ca:c4f799fa5126383b16be8bec4ac539c6e2f72e09d67cba35b478fe414b05ec52.json"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:f668d14a-8bcf-4576-8f25-e26738f9e6ca:c8188ea2eab42df5794e550d43fb2d52a825304a509037bf180b3d16853f89a5.json",
+              "reference:f668d14a-8bcf-4576-8f25-e26738f9e6ca:c4f799fa5126383b16be8bec4ac539c6e2f72e09d67cba35b478fe414b05ec52.json"
+            ],
+            "copyId": "f668d14a-8bcf-4576-8f25-e26738f9e6ca",
+            "mappingHash": "ec4f7c200815a2190417c3468e838d51a932866d83b3263e4a877fdde98fd602",
+            "effectiveCandidateHash": "09795942103859737bf82a650981c923cd5a01c4c964a17a428c87823ec32acc"
+          }
+        ],
+        "issues": [],
+        "recordRef": "validation:f08f4243-645d-4543-8c4f-4b7677fc551c"
+      },
+      "trial": {
+        "scope": "project_trial",
+        "projectId": "t6-fixture",
+        "copyId": "eeb83fa0-ff71-40fd-9701-6f010e3de5c3",
+        "candidateHash": "241997fa21c47fc17e18361e42ff707bc93d7825e09befda1dc62f2176ebb90c",
+        "ruleHash": "f1b840191625306e735961228b79355dca06ff32bbb10563ccf11eb8130d776a",
+        "suiteHash": "",
+        "interpreterVersion": "1.0.0",
+        "mappingHash": "9d4e96b44db75273d9827f5e023bf4e22277a4c3d6289c01b322082c0ca7362a",
+        "mappingDefinitionHash": "ee5423f4acaf89a18b46b114e825568693eed1dfd303d78b22cd98a675577ce8",
+        "gateResults": {
+          "completed": true,
+          "conclusive": true
+        },
+        "evidenceRefs": [
+          "target:eeb83fa0-ff71-40fd-9701-6f010e3de5c3:e47ebb5b60cb424938c82f0782e5325d33e6a6813d14a522bf50db0f1fe78b10.json",
+          "target:eeb83fa0-ff71-40fd-9701-6f010e3de5c3:d3ee99944bb8cfdc5f4982a9fb811c20212c8a7832034443d75f115cbaa8be3e.json"
+        ],
+        "completed": true,
+        "verdicts": [
+          {
+            "status": "pass",
+            "reasonCode": "ASSERTION_TRUE",
+            "ruleRef": {
+              "id": "save-rule",
+              "version": 1
+            },
+            "assertionRef": "saved-title",
+            "checkId": "save",
+            "evidenceRefs": [
+              "target:eeb83fa0-ff71-40fd-9701-6f010e3de5c3:e47ebb5b60cb424938c82f0782e5325d33e6a6813d14a522bf50db0f1fe78b10.json",
+              "target:eeb83fa0-ff71-40fd-9701-6f010e3de5c3:d3ee99944bb8cfdc5f4982a9fb811c20212c8a7832034443d75f115cbaa8be3e.json"
+            ],
+            "unknownReasons": [],
+            "scope": "observation_validation"
+          }
+        ]
+      },
+      "metadata": {
+        "version": "1.0.0",
+        "applicable": [
+          "Reviewed HTTP JSON rule"
+        ],
+        "excluded": [
+          "Other business semantics"
+        ],
+        "instructions": "Confirm new project mapping and reset the synthetic baseline."
+      },
+      "evidenceHash": "9b83439b0f12dfe20e22fb3202beea318232c838536a49999a6b5855ba7a73fc",
+      "draftHash": "8f95a7d7a07ba6383fd3712f83d5eb4961bb1db419c4b9df001e8aa84721a811",
+      "status": "published",
+      "ref": {
+        "id": "save-result",
+        "version": "1.0.0",
+        "hash": "8f95a7d7a07ba6383fd3712f83d5eb4961bb1db419c4b9df001e8aa84721a811"
+      },
+      "review": {
+        "scope": "8f95a7d7a07ba6383fd3712f83d5eb4961bb1db419c4b9df001e8aa84721a811",
+        "validationRef": "validation:f08f4243-645d-4543-8c4f-4b7677fc551c",
+        "decision": "approve",
+        "businessConfirmation": "fixture-business",
+        "technicalReviewer": "fixture-developer",
+        "time": "2026-10-13T03:03:08.658Z"
+      },
+      "publishedAt": "2026-10-13T03:03:08.741Z"
+    },
+    {
+      "taskId": "ca9b25cf-c481-4aa0-ba77-2982a2f8e7bb",
+      "spec": {
+        "id": "duplicate-submit",
+        "revision": 1,
+        "ruleRef": {
+          "id": "duplicate-rule",
+          "version": 1
+        },
+        "parameters": {
+          "title": "测试工单",
+          "intent": "same-intent"
+        },
+        "requiredCapabilities": [
+          "create",
+          "query"
+        ],
+        "checks": [
+          "duplicate"
+        ],
+        "steps": [
+          {
+            "stepId": "first",
+            "checkId": "duplicate",
+            "operationId": "create",
+            "actorRef": "owner",
+            "bindings": {
+              "intent": {
+                "op": "field",
+                "var": "params",
+                "path": [
+                  "intent"
+                ]
+              },
+              "title": {
+                "op": "field",
+                "var": "params",
+                "path": [
+                  "title"
+                ]
+              }
+            },
+            "output": "first"
+          },
+          {
+            "stepId": "retry",
+            "checkId": "duplicate",
+            "operationId": "create",
+            "actorRef": "owner",
+            "bindings": {
+              "intent": {
+                "op": "field",
+                "var": "params",
+                "path": [
+                  "intent"
+                ]
+              },
+              "title": {
+                "op": "field",
+                "var": "params",
+                "path": [
+                  "title"
+                ]
+              }
+            },
+            "output": "retry"
+          },
+          {
+            "stepId": "query",
+            "checkId": "duplicate",
+            "operationId": "query",
+            "actorRef": "owner",
+            "bindings": {
+              "intent": {
+                "op": "field",
+                "var": "params",
+                "path": [
+                  "intent"
+                ]
+              }
+            },
+            "output": "records"
+          }
+        ],
+        "assertions": [
+          {
+            "id": "one-result",
+            "checkId": "duplicate",
+            "expr": {
+              "op": "eq",
+              "args": [
+                {
+                  "op": "count",
+                  "arg": {
+                    "op": "field",
+                    "var": "records",
+                    "path": [
+                      "items"
+                    ]
+                  }
+                },
+                {
+                  "op": "const",
+                  "value": 1
+                }
+              ]
+            }
+          }
+        ],
+        "evidenceRequirements": {
+          "identityVerified": true,
+          "queryComplete": true,
+          "acceptanceKnown": true,
+          "evidenceRefs": true
+        },
+        "limits": {
+          "maxActions": 16,
+          "actionTimeoutMs": 1500,
+          "runTimeoutMs": 10000
+        }
+      },
+      "rule": {
+        "id": "duplicate-rule",
+        "version": 1,
+        "confirmation": "confirmed",
+        "source": "docs/superpowers/plans/2026-10-11-website-verification.md#T3; docs/superpowers/specs/2026-10-11-candidate-template-lifecycle.md",
+        "preconditions": [
+          "two verified synthetic accounts",
+          "isolated baseline",
+          "HTTP object correlation"
+        ],
+        "expectedChanges": [
+          "same business intent produces one record"
+        ],
+        "invariants": [],
+        "completionDeadline": 10000
+      },
+      "capabilities": {
+        "operations": [
+          "create",
+          "query",
+          "update"
+        ],
+        "actorRefs": [
+          "owner",
+          "other"
+        ],
+        "expressions": [
+          "field",
+          "const",
+          "exists",
+          "eq",
+          "neq",
+          "count",
+          "contains",
+          "all",
+          "any",
+          "not"
+        ]
+      },
+      "candidateHash": "12e77fbda9d91f934d6e414836931af48d528c1759bc8d5c4bde3596e1e90b14",
+      "ruleHash": "6f64d346253cd19ff9906e3005ad95808ef186ae23e1c3cf9a5e71eb20f1acec",
+      "validation": {
+        "scope": "template_validation",
+        "candidateHash": "12e77fbda9d91f934d6e414836931af48d528c1759bc8d5c4bde3596e1e90b14",
+        "ruleHash": "6f64d346253cd19ff9906e3005ad95808ef186ae23e1c3cf9a5e71eb20f1acec",
+        "suiteHash": "58e9d0f60cdfbbb805c621f3da4dcf0457ef7aecca53a4ed481eb734b0c14e70",
+        "interpreterVersion": "1.0.0",
+        "mappingHash": "5141f6597f43fb5539c662b567d429fc4d0369bcbb10ce77ba293117f1327c78",
+        "mappingDefinitionHash": "336bb529218f906a0ca88ec4d5f9e2098e716bbcf8e2e9ec71ced7fa519cbdf3",
+        "gateResults": {
+          "static": true,
+          "coverage": true,
+          "observation": true,
+          "http": true,
+          "admitted": true
+        },
+        "evidenceRefs": [
+          "observation:062d3a15-076a-4e6c-8304-db1ca19625f9:first",
+          "observation:062d3a15-076a-4e6c-8304-db1ca19625f9:retry",
+          "observation:062d3a15-076a-4e6c-8304-db1ca19625f9:query",
+          "reference:6c3d6c1d-1d7d-406e-863d-c25b589ccf74:26d28120627c069fc30a55a165fd257117c3255142aee01b5969dffaff535120.json",
+          "reference:6c3d6c1d-1d7d-406e-863d-c25b589ccf74:3e50275ce0037a387017472b621e70c4b4a6af2870627aee5d09d2d40488d7e3.json",
+          "reference:6c3d6c1d-1d7d-406e-863d-c25b589ccf74:3e61f8695a8f4329ad8ed874b8afd63c27c6b1ee2f9cf90bc15df7cc3f60be07.json",
+          "observation:bbd048be-06b3-44b0-8793-cce9952c5128:first",
+          "observation:bbd048be-06b3-44b0-8793-cce9952c5128:retry",
+          "observation:bbd048be-06b3-44b0-8793-cce9952c5128:query",
+          "reference:db7e8031-5240-4f3b-b5c7-c39180dd6f84:ae672238a025b653e49aa08a6223f36fa876f813cefdc5af91e7d075e9c71eae.json",
+          "reference:db7e8031-5240-4f3b-b5c7-c39180dd6f84:c5139fd32e152d76ccd998fa75803870048f58f21ef5f513524c08051f0a8a05.json",
+          "reference:db7e8031-5240-4f3b-b5c7-c39180dd6f84:692759f06af7ff78cf6a05c61dbe77455773fcc7f2a44d0fe89de3f5deaecdf5.json",
+          "observation:4b607a70-9aeb-4ef8-9151-467c98b190b4:first",
+          "observation:4b607a70-9aeb-4ef8-9151-467c98b190b4:retry",
+          "observation:4b607a70-9aeb-4ef8-9151-467c98b190b4:query",
+          "reference:31c55622-941d-427b-bdd1-79de2685b2f6:b278130fe8522866b5ad82a07066a0ea538e13bdfd7643b144797aefd4c0b077.json",
+          "reference:31c55622-941d-427b-bdd1-79de2685b2f6:552a79ded611bc6c9d6207c7c1d5569af29a82bca0dbffd1d842f4c64bc5db5a.json",
+          "reference:31c55622-941d-427b-bdd1-79de2685b2f6:8f7875ccec2755f6c79e990140b12afa786ca91d3fc3a06390d37800bafc5d9e.json",
+          "observation:03deff7e-a17f-4980-a203-3d9dc8a5e833:first",
+          "observation:03deff7e-a17f-4980-a203-3d9dc8a5e833:retry",
+          "observation:03deff7e-a17f-4980-a203-3d9dc8a5e833:query",
+          "reference:741ece11-27ed-421a-9c19-4a11eb042f17:6d26c4ccd0a917279c3eae4a84b876cc11abec88826d43113f197e1911e31069.json",
+          "reference:741ece11-27ed-421a-9c19-4a11eb042f17:6e0b9240031afc9980322144e26f3300862ca1887379068c4408ea1995fa513f.json",
+          "reference:741ece11-27ed-421a-9c19-4a11eb042f17:56b95a16bdf987ac1e6dadd41421eb7dcdbe00347e2083390014d990dac31a38.json",
+          "observation:73b461b1-34f5-47f7-99d2-bf5fe845f041:first",
+          "observation:73b461b1-34f5-47f7-99d2-bf5fe845f041:retry",
+          "observation:73b461b1-34f5-47f7-99d2-bf5fe845f041:query",
+          "reference:d58e202a-259b-472a-8bcc-cb07b882f5d3:fdd68395f41123cb64c648ed33e0d980799a120bf97b47f501b8f343f8049d9c.json",
+          "reference:d58e202a-259b-472a-8bcc-cb07b882f5d3:56f075977631b31c57d1b4643577bb54ed4921f0f7f02cdf1bd43e411c742806.json",
+          "reference:d58e202a-259b-472a-8bcc-cb07b882f5d3:815435f9da9b181a7d90c31fdb3da32d23ee18ff4362066a8c82baed2e2483b7.json",
+          "observation:8802b5b1-3dd4-406b-93d1-9bda2a49c0a9:first",
+          "observation:8802b5b1-3dd4-406b-93d1-9bda2a49c0a9:retry",
+          "observation:8802b5b1-3dd4-406b-93d1-9bda2a49c0a9:query",
+          "reference:4372d2a7-dd8b-4eb0-b32e-852aa70c3545:ff3deb3b9c669faa63bc639d4b50af803115e6804072108c6cde367bb9ce4be7.json",
+          "reference:4372d2a7-dd8b-4eb0-b32e-852aa70c3545:c479fbbc244f8749c972ad36a4ec4455f284152ac16c588e1abb484d0e6ddbae.json",
+          "reference:4372d2a7-dd8b-4eb0-b32e-852aa70c3545:08020c68aea91b9fecedfbd914bd44949133adc75db3e4465dd72df117391053.json"
+        ],
+        "cases": [
+          {
+            "caseId": "c007",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "duplicate-rule",
+                  "version": 1
+                },
+                "assertionRef": "one-result",
+                "checkId": "duplicate",
+                "evidenceRefs": [
+                  "observation:062d3a15-076a-4e6c-8304-db1ca19625f9:first",
+                  "observation:062d3a15-076a-4e6c-8304-db1ca19625f9:retry",
+                  "observation:062d3a15-076a-4e6c-8304-db1ca19625f9:query"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:062d3a15-076a-4e6c-8304-db1ca19625f9:first",
+              "observation:062d3a15-076a-4e6c-8304-db1ca19625f9:retry",
+              "observation:062d3a15-076a-4e6c-8304-db1ca19625f9:query"
+            ],
+            "effectiveCandidateHash": "2b2f161d17396efa697ca63815e169f975654b506c7071a90e1341a0b6ead98a"
+          },
+          {
+            "caseId": "c007",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "duplicate-rule",
+                  "version": 1
+                },
+                "assertionRef": "one-result",
+                "checkId": "duplicate",
+                "evidenceRefs": [
+                  "reference:6c3d6c1d-1d7d-406e-863d-c25b589ccf74:26d28120627c069fc30a55a165fd257117c3255142aee01b5969dffaff535120.json",
+                  "reference:6c3d6c1d-1d7d-406e-863d-c25b589ccf74:3e50275ce0037a387017472b621e70c4b4a6af2870627aee5d09d2d40488d7e3.json",
+                  "reference:6c3d6c1d-1d7d-406e-863d-c25b589ccf74:3e61f8695a8f4329ad8ed874b8afd63c27c6b1ee2f9cf90bc15df7cc3f60be07.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:6c3d6c1d-1d7d-406e-863d-c25b589ccf74:26d28120627c069fc30a55a165fd257117c3255142aee01b5969dffaff535120.json",
+              "reference:6c3d6c1d-1d7d-406e-863d-c25b589ccf74:3e50275ce0037a387017472b621e70c4b4a6af2870627aee5d09d2d40488d7e3.json",
+              "reference:6c3d6c1d-1d7d-406e-863d-c25b589ccf74:3e61f8695a8f4329ad8ed874b8afd63c27c6b1ee2f9cf90bc15df7cc3f60be07.json"
+            ],
+            "copyId": "6c3d6c1d-1d7d-406e-863d-c25b589ccf74",
+            "mappingHash": "ae1db35e2208eb944dbb9e2f3123dd9c1a2cbee857f73d91463d48d42f4f3a30",
+            "effectiveCandidateHash": "2b2f161d17396efa697ca63815e169f975654b506c7071a90e1341a0b6ead98a"
+          },
+          {
+            "caseId": "c008",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "duplicate-rule",
+                  "version": 1
+                },
+                "assertionRef": "one-result",
+                "checkId": "duplicate",
+                "evidenceRefs": [
+                  "observation:bbd048be-06b3-44b0-8793-cce9952c5128:first",
+                  "observation:bbd048be-06b3-44b0-8793-cce9952c5128:retry",
+                  "observation:bbd048be-06b3-44b0-8793-cce9952c5128:query"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:bbd048be-06b3-44b0-8793-cce9952c5128:first",
+              "observation:bbd048be-06b3-44b0-8793-cce9952c5128:retry",
+              "observation:bbd048be-06b3-44b0-8793-cce9952c5128:query"
+            ],
+            "effectiveCandidateHash": "2b2f161d17396efa697ca63815e169f975654b506c7071a90e1341a0b6ead98a"
+          },
+          {
+            "caseId": "c008",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "duplicate-rule",
+                  "version": 1
+                },
+                "assertionRef": "one-result",
+                "checkId": "duplicate",
+                "evidenceRefs": [
+                  "reference:db7e8031-5240-4f3b-b5c7-c39180dd6f84:ae672238a025b653e49aa08a6223f36fa876f813cefdc5af91e7d075e9c71eae.json",
+                  "reference:db7e8031-5240-4f3b-b5c7-c39180dd6f84:c5139fd32e152d76ccd998fa75803870048f58f21ef5f513524c08051f0a8a05.json",
+                  "reference:db7e8031-5240-4f3b-b5c7-c39180dd6f84:692759f06af7ff78cf6a05c61dbe77455773fcc7f2a44d0fe89de3f5deaecdf5.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:db7e8031-5240-4f3b-b5c7-c39180dd6f84:ae672238a025b653e49aa08a6223f36fa876f813cefdc5af91e7d075e9c71eae.json",
+              "reference:db7e8031-5240-4f3b-b5c7-c39180dd6f84:c5139fd32e152d76ccd998fa75803870048f58f21ef5f513524c08051f0a8a05.json",
+              "reference:db7e8031-5240-4f3b-b5c7-c39180dd6f84:692759f06af7ff78cf6a05c61dbe77455773fcc7f2a44d0fe89de3f5deaecdf5.json"
+            ],
+            "copyId": "db7e8031-5240-4f3b-b5c7-c39180dd6f84",
+            "mappingHash": "fff24c8ee4ac392b546f9100c654c838c00ea59c45391fa6f9ce7cc115d2ab0c",
+            "effectiveCandidateHash": "2b2f161d17396efa697ca63815e169f975654b506c7071a90e1341a0b6ead98a"
+          },
+          {
+            "caseId": "c009",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "duplicate-rule",
+                  "version": 1
+                },
+                "assertionRef": "one-result",
+                "checkId": "duplicate",
+                "evidenceRefs": [
+                  "observation:4b607a70-9aeb-4ef8-9151-467c98b190b4:first",
+                  "observation:4b607a70-9aeb-4ef8-9151-467c98b190b4:retry",
+                  "observation:4b607a70-9aeb-4ef8-9151-467c98b190b4:query"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:4b607a70-9aeb-4ef8-9151-467c98b190b4:first",
+              "observation:4b607a70-9aeb-4ef8-9151-467c98b190b4:retry",
+              "observation:4b607a70-9aeb-4ef8-9151-467c98b190b4:query"
+            ],
+            "effectiveCandidateHash": "2b2f161d17396efa697ca63815e169f975654b506c7071a90e1341a0b6ead98a"
+          },
+          {
+            "caseId": "c009",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "duplicate-rule",
+                  "version": 1
+                },
+                "assertionRef": "one-result",
+                "checkId": "duplicate",
+                "evidenceRefs": [
+                  "reference:31c55622-941d-427b-bdd1-79de2685b2f6:b278130fe8522866b5ad82a07066a0ea538e13bdfd7643b144797aefd4c0b077.json",
+                  "reference:31c55622-941d-427b-bdd1-79de2685b2f6:552a79ded611bc6c9d6207c7c1d5569af29a82bca0dbffd1d842f4c64bc5db5a.json",
+                  "reference:31c55622-941d-427b-bdd1-79de2685b2f6:8f7875ccec2755f6c79e990140b12afa786ca91d3fc3a06390d37800bafc5d9e.json"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:31c55622-941d-427b-bdd1-79de2685b2f6:b278130fe8522866b5ad82a07066a0ea538e13bdfd7643b144797aefd4c0b077.json",
+              "reference:31c55622-941d-427b-bdd1-79de2685b2f6:552a79ded611bc6c9d6207c7c1d5569af29a82bca0dbffd1d842f4c64bc5db5a.json",
+              "reference:31c55622-941d-427b-bdd1-79de2685b2f6:8f7875ccec2755f6c79e990140b12afa786ca91d3fc3a06390d37800bafc5d9e.json"
+            ],
+            "copyId": "31c55622-941d-427b-bdd1-79de2685b2f6",
+            "mappingHash": "aaf2c2dccc21da439e69cd40be14b845c06fba68f64d16ee029bc777b4a21e12",
+            "effectiveCandidateHash": "2b2f161d17396efa697ca63815e169f975654b506c7071a90e1341a0b6ead98a"
+          },
+          {
+            "caseId": "c010",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "duplicate-rule",
+                  "version": 1
+                },
+                "assertionRef": "one-result",
+                "checkId": "duplicate",
+                "evidenceRefs": [
+                  "observation:03deff7e-a17f-4980-a203-3d9dc8a5e833:first",
+                  "observation:03deff7e-a17f-4980-a203-3d9dc8a5e833:retry",
+                  "observation:03deff7e-a17f-4980-a203-3d9dc8a5e833:query"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:03deff7e-a17f-4980-a203-3d9dc8a5e833:first",
+              "observation:03deff7e-a17f-4980-a203-3d9dc8a5e833:retry",
+              "observation:03deff7e-a17f-4980-a203-3d9dc8a5e833:query"
+            ],
+            "effectiveCandidateHash": "59998dab9f3af75daf838567ba6e28c6fc85602a6f4fbb9e9e9d42ebec278b75"
+          },
+          {
+            "caseId": "c010",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "duplicate-rule",
+                  "version": 1
+                },
+                "assertionRef": "one-result",
+                "checkId": "duplicate",
+                "evidenceRefs": [
+                  "reference:741ece11-27ed-421a-9c19-4a11eb042f17:6d26c4ccd0a917279c3eae4a84b876cc11abec88826d43113f197e1911e31069.json",
+                  "reference:741ece11-27ed-421a-9c19-4a11eb042f17:6e0b9240031afc9980322144e26f3300862ca1887379068c4408ea1995fa513f.json",
+                  "reference:741ece11-27ed-421a-9c19-4a11eb042f17:56b95a16bdf987ac1e6dadd41421eb7dcdbe00347e2083390014d990dac31a38.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:741ece11-27ed-421a-9c19-4a11eb042f17:6d26c4ccd0a917279c3eae4a84b876cc11abec88826d43113f197e1911e31069.json",
+              "reference:741ece11-27ed-421a-9c19-4a11eb042f17:6e0b9240031afc9980322144e26f3300862ca1887379068c4408ea1995fa513f.json",
+              "reference:741ece11-27ed-421a-9c19-4a11eb042f17:56b95a16bdf987ac1e6dadd41421eb7dcdbe00347e2083390014d990dac31a38.json"
+            ],
+            "copyId": "741ece11-27ed-421a-9c19-4a11eb042f17",
+            "mappingHash": "a4a384f5ad2974e7773ad5b0e4474fc95707ea277ec94b815d9a98f665fa4934",
+            "effectiveCandidateHash": "59998dab9f3af75daf838567ba6e28c6fc85602a6f4fbb9e9e9d42ebec278b75"
+          },
+          {
+            "caseId": "c011",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "duplicate-rule",
+                  "version": 1
+                },
+                "assertionRef": "one-result",
+                "checkId": "duplicate",
+                "evidenceRefs": [
+                  "observation:73b461b1-34f5-47f7-99d2-bf5fe845f041:first",
+                  "observation:73b461b1-34f5-47f7-99d2-bf5fe845f041:retry",
+                  "observation:73b461b1-34f5-47f7-99d2-bf5fe845f041:query"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:73b461b1-34f5-47f7-99d2-bf5fe845f041:first",
+              "observation:73b461b1-34f5-47f7-99d2-bf5fe845f041:retry",
+              "observation:73b461b1-34f5-47f7-99d2-bf5fe845f041:query"
+            ],
+            "effectiveCandidateHash": "59998dab9f3af75daf838567ba6e28c6fc85602a6f4fbb9e9e9d42ebec278b75"
+          },
+          {
+            "caseId": "c011",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "duplicate-rule",
+                  "version": 1
+                },
+                "assertionRef": "one-result",
+                "checkId": "duplicate",
+                "evidenceRefs": [
+                  "reference:d58e202a-259b-472a-8bcc-cb07b882f5d3:fdd68395f41123cb64c648ed33e0d980799a120bf97b47f501b8f343f8049d9c.json",
+                  "reference:d58e202a-259b-472a-8bcc-cb07b882f5d3:56f075977631b31c57d1b4643577bb54ed4921f0f7f02cdf1bd43e411c742806.json",
+                  "reference:d58e202a-259b-472a-8bcc-cb07b882f5d3:815435f9da9b181a7d90c31fdb3da32d23ee18ff4362066a8c82baed2e2483b7.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:d58e202a-259b-472a-8bcc-cb07b882f5d3:fdd68395f41123cb64c648ed33e0d980799a120bf97b47f501b8f343f8049d9c.json",
+              "reference:d58e202a-259b-472a-8bcc-cb07b882f5d3:56f075977631b31c57d1b4643577bb54ed4921f0f7f02cdf1bd43e411c742806.json",
+              "reference:d58e202a-259b-472a-8bcc-cb07b882f5d3:815435f9da9b181a7d90c31fdb3da32d23ee18ff4362066a8c82baed2e2483b7.json"
+            ],
+            "copyId": "d58e202a-259b-472a-8bcc-cb07b882f5d3",
+            "mappingHash": "258080faf1c8c7fc99df5555ad40e8b570b9cce1d67405e2efb00ef23067c3a7",
+            "effectiveCandidateHash": "59998dab9f3af75daf838567ba6e28c6fc85602a6f4fbb9e9e9d42ebec278b75"
+          },
+          {
+            "caseId": "c012",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "duplicate-rule",
+                  "version": 1
+                },
+                "assertionRef": "one-result",
+                "checkId": "duplicate",
+                "evidenceRefs": [
+                  "observation:8802b5b1-3dd4-406b-93d1-9bda2a49c0a9:first",
+                  "observation:8802b5b1-3dd4-406b-93d1-9bda2a49c0a9:retry",
+                  "observation:8802b5b1-3dd4-406b-93d1-9bda2a49c0a9:query"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:8802b5b1-3dd4-406b-93d1-9bda2a49c0a9:first",
+              "observation:8802b5b1-3dd4-406b-93d1-9bda2a49c0a9:retry",
+              "observation:8802b5b1-3dd4-406b-93d1-9bda2a49c0a9:query"
+            ],
+            "effectiveCandidateHash": "59998dab9f3af75daf838567ba6e28c6fc85602a6f4fbb9e9e9d42ebec278b75"
+          },
+          {
+            "caseId": "c012",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "duplicate-rule",
+                  "version": 1
+                },
+                "assertionRef": "one-result",
+                "checkId": "duplicate",
+                "evidenceRefs": [
+                  "reference:4372d2a7-dd8b-4eb0-b32e-852aa70c3545:ff3deb3b9c669faa63bc639d4b50af803115e6804072108c6cde367bb9ce4be7.json",
+                  "reference:4372d2a7-dd8b-4eb0-b32e-852aa70c3545:c479fbbc244f8749c972ad36a4ec4455f284152ac16c588e1abb484d0e6ddbae.json",
+                  "reference:4372d2a7-dd8b-4eb0-b32e-852aa70c3545:08020c68aea91b9fecedfbd914bd44949133adc75db3e4465dd72df117391053.json"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:4372d2a7-dd8b-4eb0-b32e-852aa70c3545:ff3deb3b9c669faa63bc639d4b50af803115e6804072108c6cde367bb9ce4be7.json",
+              "reference:4372d2a7-dd8b-4eb0-b32e-852aa70c3545:c479fbbc244f8749c972ad36a4ec4455f284152ac16c588e1abb484d0e6ddbae.json",
+              "reference:4372d2a7-dd8b-4eb0-b32e-852aa70c3545:08020c68aea91b9fecedfbd914bd44949133adc75db3e4465dd72df117391053.json"
+            ],
+            "copyId": "4372d2a7-dd8b-4eb0-b32e-852aa70c3545",
+            "mappingHash": "2290ad2c51b91b04075292efebab91e184b2fec62df6ea9091ea5b4cdcbd6d0f",
+            "effectiveCandidateHash": "59998dab9f3af75daf838567ba6e28c6fc85602a6f4fbb9e9e9d42ebec278b75"
+          }
+        ],
+        "issues": [],
+        "recordRef": "validation:040d84ee-0694-4aa5-9805-e9258890f679"
+      },
+      "trial": {
+        "scope": "project_trial",
+        "projectId": "t6-fixture",
+        "copyId": "34b43781-b242-4f90-b18d-6c872766fbcf",
+        "candidateHash": "12e77fbda9d91f934d6e414836931af48d528c1759bc8d5c4bde3596e1e90b14",
+        "ruleHash": "6f64d346253cd19ff9906e3005ad95808ef186ae23e1c3cf9a5e71eb20f1acec",
+        "suiteHash": "",
+        "interpreterVersion": "1.0.0",
+        "mappingHash": "20a92677a900e60b113f4c0efe6e19818b4d60ef2492db89e589fcdcb4ec8500",
+        "mappingDefinitionHash": "ee5423f4acaf89a18b46b114e825568693eed1dfd303d78b22cd98a675577ce8",
+        "gateResults": {
+          "completed": true,
+          "conclusive": true
+        },
+        "evidenceRefs": [
+          "target:34b43781-b242-4f90-b18d-6c872766fbcf:fc04ca1f1b069552f25244dbc1323c2e9b0aa8c2f4bc067e3dde23b687c82aa0.json",
+          "target:34b43781-b242-4f90-b18d-6c872766fbcf:1841457d8f06e53ac8d16c6fbd114ebf293b059aade15d4689fe3b8f7c689ae6.json",
+          "target:34b43781-b242-4f90-b18d-6c872766fbcf:cbfa440ffe160fbba32ecb5985ea1c179806a4c87b30db07192b605fa9bab8a5.json"
+        ],
+        "completed": true,
+        "verdicts": [
+          {
+            "status": "pass",
+            "reasonCode": "ASSERTION_TRUE",
+            "ruleRef": {
+              "id": "duplicate-rule",
+              "version": 1
+            },
+            "assertionRef": "one-result",
+            "checkId": "duplicate",
+            "evidenceRefs": [
+              "target:34b43781-b242-4f90-b18d-6c872766fbcf:fc04ca1f1b069552f25244dbc1323c2e9b0aa8c2f4bc067e3dde23b687c82aa0.json",
+              "target:34b43781-b242-4f90-b18d-6c872766fbcf:1841457d8f06e53ac8d16c6fbd114ebf293b059aade15d4689fe3b8f7c689ae6.json",
+              "target:34b43781-b242-4f90-b18d-6c872766fbcf:cbfa440ffe160fbba32ecb5985ea1c179806a4c87b30db07192b605fa9bab8a5.json"
+            ],
+            "unknownReasons": [],
+            "scope": "observation_validation"
+          }
+        ]
+      },
+      "metadata": {
+        "version": "1.0.0",
+        "applicable": [
+          "Reviewed HTTP JSON rule"
+        ],
+        "excluded": [
+          "Other business semantics"
+        ],
+        "instructions": "Confirm new project mapping and reset the synthetic baseline."
+      },
+      "evidenceHash": "9b84b130fbc6313756839a9df7d15e5d5e72dd17bde7a9a245c59dd7de86c76e",
+      "draftHash": "53dad97177e47f54496d785726c7e0fd1fbebe6b0f59c150f589a660130f6bec",
+      "status": "published",
+      "ref": {
+        "id": "duplicate-submit",
+        "version": "1.0.0",
+        "hash": "53dad97177e47f54496d785726c7e0fd1fbebe6b0f59c150f589a660130f6bec"
+      },
+      "review": {
+        "scope": "53dad97177e47f54496d785726c7e0fd1fbebe6b0f59c150f589a660130f6bec",
+        "validationRef": "validation:040d84ee-0694-4aa5-9805-e9258890f679",
+        "decision": "approve",
+        "businessConfirmation": "fixture-business",
+        "technicalReviewer": "fixture-developer",
+        "time": "2026-10-13T03:03:16.796Z"
+      },
+      "publishedAt": "2026-10-13T03:03:16.888Z"
+    },
+    {
+      "taskId": "8a688df7-a3e0-4889-aa52-8237ac29c088",
+      "spec": {
+        "id": "permission-isolation",
+        "revision": 1,
+        "ruleRef": {
+          "id": "permission-rule",
+          "version": 1
+        },
+        "parameters": {
+          "title": "私有工单"
+        },
+        "requiredCapabilities": [
+          "create",
+          "query"
+        ],
+        "checks": [
+          "permission"
+        ],
+        "steps": [
+          {
+            "stepId": "create",
+            "checkId": "permission",
+            "operationId": "create",
+            "actorRef": "owner",
+            "bindings": {
+              "title": {
+                "op": "field",
+                "var": "params",
+                "path": [
+                  "title"
+                ]
+              }
+            },
+            "output": "created"
+          },
+          {
+            "stepId": "other-query",
+            "checkId": "permission",
+            "operationId": "query",
+            "actorRef": "other",
+            "bindings": {
+              "id": {
+                "op": "field",
+                "var": "created",
+                "path": [
+                  "id"
+                ]
+              }
+            },
+            "output": "visible"
+          }
+        ],
+        "assertions": [
+          {
+            "id": "not-visible",
+            "checkId": "permission",
+            "expr": {
+              "op": "eq",
+              "args": [
+                {
+                  "op": "count",
+                  "arg": {
+                    "op": "field",
+                    "var": "visible",
+                    "path": [
+                      "items"
+                    ]
+                  }
+                },
+                {
+                  "op": "const",
+                  "value": 0
+                }
+              ]
+            }
+          }
+        ],
+        "evidenceRequirements": {
+          "identityVerified": true,
+          "queryComplete": true,
+          "acceptanceKnown": true,
+          "evidenceRefs": true
+        },
+        "limits": {
+          "maxActions": 16,
+          "actionTimeoutMs": 1500,
+          "runTimeoutMs": 10000
+        }
+      },
+      "rule": {
+        "id": "permission-rule",
+        "version": 1,
+        "confirmation": "confirmed",
+        "source": "docs/superpowers/plans/2026-10-11-website-verification.md#T3; docs/superpowers/specs/2026-10-11-candidate-template-lifecycle.md",
+        "preconditions": [
+          "two verified synthetic accounts",
+          "isolated baseline",
+          "HTTP object correlation"
+        ],
+        "expectedChanges": [
+          "other account cannot view owner record"
+        ],
+        "invariants": [],
+        "completionDeadline": 10000
+      },
+      "capabilities": {
+        "operations": [
+          "create",
+          "query",
+          "update"
+        ],
+        "actorRefs": [
+          "owner",
+          "other"
+        ],
+        "expressions": [
+          "field",
+          "const",
+          "exists",
+          "eq",
+          "neq",
+          "count",
+          "contains",
+          "all",
+          "any",
+          "not"
+        ]
+      },
+      "candidateHash": "17f60f3d5301c176264f1aa5805d07cc7f03f074d8c7d7da2f19b58d41d495b2",
+      "ruleHash": "4814fb2efc18ae2bb12286bd6614a81348574422b55e17183e0d62aedf046989",
+      "validation": {
+        "scope": "template_validation",
+        "candidateHash": "17f60f3d5301c176264f1aa5805d07cc7f03f074d8c7d7da2f19b58d41d495b2",
+        "ruleHash": "4814fb2efc18ae2bb12286bd6614a81348574422b55e17183e0d62aedf046989",
+        "suiteHash": "0c6a0bad728f7297695ac85fd416f66b8d95cbc7032775c4311cc066126c93f3",
+        "interpreterVersion": "1.0.0",
+        "mappingHash": "9cb43a7ad31b619812f9f6ec91c914b0ac0ce0bf3404fc5ef32f34b82e6be8bf",
+        "mappingDefinitionHash": "336bb529218f906a0ca88ec4d5f9e2098e716bbcf8e2e9ec71ced7fa519cbdf3",
+        "gateResults": {
+          "static": true,
+          "coverage": true,
+          "observation": true,
+          "http": true,
+          "admitted": true
+        },
+        "evidenceRefs": [
+          "observation:7d58e612-6188-48db-b249-5e4f05e257a5:create",
+          "observation:7d58e612-6188-48db-b249-5e4f05e257a5:other-query",
+          "reference:62d9cda9-82fd-4079-af15-5653f3d9c2fd:8a0e23d34e9794d0f6104997c08f8bacf29a98e9c6306f5426d51de85bb4ea56.json",
+          "reference:62d9cda9-82fd-4079-af15-5653f3d9c2fd:1b65b847910fdbf34110edbc0ec174e1f21e7a3c15ac3e7238d77470c37f0119.json",
+          "observation:4405ad19-52c2-447c-ad32-4c7c6d5d6b16:create",
+          "observation:4405ad19-52c2-447c-ad32-4c7c6d5d6b16:other-query",
+          "reference:fd3fa56a-736e-4c7b-96e0-ef920a195c8c:6ac03175a0d2e5f5dd72f9cb790de11d8d3e7f5bfb2523a0214e68305df4bc0f.json",
+          "reference:fd3fa56a-736e-4c7b-96e0-ef920a195c8c:733db797c68c3a656d720776eaaf522aafb6ba9315a1e1177a3957a56d0e7486.json",
+          "observation:d7e5356f-60f4-4a46-a56d-1e87e6ad533f:create",
+          "observation:d7e5356f-60f4-4a46-a56d-1e87e6ad533f:other-query",
+          "reference:4c19aafb-010d-4703-8294-a2f6cbbcb2bd:2c2e65e30874469ffae0d11599462ef2c03314c3968c2cbc11949fc0325028a0.json",
+          "reference:4c19aafb-010d-4703-8294-a2f6cbbcb2bd:315b83b2404dffb57e056810da5277f0f9966dc3d730ea96b2c38851b67e0fe1.json",
+          "observation:bbfe0782-046b-44ed-8be9-2f73bf019c7f:create",
+          "observation:bbfe0782-046b-44ed-8be9-2f73bf019c7f:other-query",
+          "reference:d76027d4-2ca2-49f2-a421-3c16f4e49974:0af61fbcfb88ac83c56718024cff81ab4cf71f56c6f2271bb371bc8e8d7401a7.json",
+          "reference:d76027d4-2ca2-49f2-a421-3c16f4e49974:20f48a7b83d16857f87cfa55b83cd82f741871eb406ae66f00618c88df650e12.json",
+          "observation:388d5160-5137-4493-af9e-a4cf4b676410:create",
+          "observation:388d5160-5137-4493-af9e-a4cf4b676410:other-query",
+          "reference:72d7c85a-3c4d-4af6-aa15-4ab95e3dd794:0977c410bded3294ac9f22d494949a6a1fc4211c2f3045b224ce1b2ec22db5f9.json",
+          "reference:72d7c85a-3c4d-4af6-aa15-4ab95e3dd794:cfb186fd820d41871890262133fe9d78ae622b4d5061d1284b4a84945b039e3b.json",
+          "observation:c55d7cae-dff5-4e41-af26-69fbf0db03d2:create",
+          "observation:c55d7cae-dff5-4e41-af26-69fbf0db03d2:other-query",
+          "reference:92879310-77f8-4ce7-a643-69590c27bcd9:4523802dbda900a33218737624b7fb0a193012cb0f958071d858bef843ae878e.json",
+          "reference:92879310-77f8-4ce7-a643-69590c27bcd9:e4f04af16973b3d1160eb56f85750ec04fd052c446f1877db214172e898f90d7.json"
+        ],
+        "cases": [
+          {
+            "caseId": "c013",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "permission-rule",
+                  "version": 1
+                },
+                "assertionRef": "not-visible",
+                "checkId": "permission",
+                "evidenceRefs": [
+                  "observation:7d58e612-6188-48db-b249-5e4f05e257a5:create",
+                  "observation:7d58e612-6188-48db-b249-5e4f05e257a5:other-query"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:7d58e612-6188-48db-b249-5e4f05e257a5:create",
+              "observation:7d58e612-6188-48db-b249-5e4f05e257a5:other-query"
+            ],
+            "effectiveCandidateHash": "d6a142de755900457863e690955d0878eb1ee3540076f898a776d5e44d9c817c"
+          },
+          {
+            "caseId": "c013",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "permission-rule",
+                  "version": 1
+                },
+                "assertionRef": "not-visible",
+                "checkId": "permission",
+                "evidenceRefs": [
+                  "reference:62d9cda9-82fd-4079-af15-5653f3d9c2fd:8a0e23d34e9794d0f6104997c08f8bacf29a98e9c6306f5426d51de85bb4ea56.json",
+                  "reference:62d9cda9-82fd-4079-af15-5653f3d9c2fd:1b65b847910fdbf34110edbc0ec174e1f21e7a3c15ac3e7238d77470c37f0119.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:62d9cda9-82fd-4079-af15-5653f3d9c2fd:8a0e23d34e9794d0f6104997c08f8bacf29a98e9c6306f5426d51de85bb4ea56.json",
+              "reference:62d9cda9-82fd-4079-af15-5653f3d9c2fd:1b65b847910fdbf34110edbc0ec174e1f21e7a3c15ac3e7238d77470c37f0119.json"
+            ],
+            "copyId": "62d9cda9-82fd-4079-af15-5653f3d9c2fd",
+            "mappingHash": "d697a1510304ff4e00fcf07e3ab14729f26f011a0490e3cf93ef72361a92dca8",
+            "effectiveCandidateHash": "d6a142de755900457863e690955d0878eb1ee3540076f898a776d5e44d9c817c"
+          },
+          {
+            "caseId": "c014",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "permission-rule",
+                  "version": 1
+                },
+                "assertionRef": "not-visible",
+                "checkId": "permission",
+                "evidenceRefs": [
+                  "observation:4405ad19-52c2-447c-ad32-4c7c6d5d6b16:create",
+                  "observation:4405ad19-52c2-447c-ad32-4c7c6d5d6b16:other-query"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:4405ad19-52c2-447c-ad32-4c7c6d5d6b16:create",
+              "observation:4405ad19-52c2-447c-ad32-4c7c6d5d6b16:other-query"
+            ],
+            "effectiveCandidateHash": "d6a142de755900457863e690955d0878eb1ee3540076f898a776d5e44d9c817c"
+          },
+          {
+            "caseId": "c014",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "permission-rule",
+                  "version": 1
+                },
+                "assertionRef": "not-visible",
+                "checkId": "permission",
+                "evidenceRefs": [
+                  "reference:fd3fa56a-736e-4c7b-96e0-ef920a195c8c:6ac03175a0d2e5f5dd72f9cb790de11d8d3e7f5bfb2523a0214e68305df4bc0f.json",
+                  "reference:fd3fa56a-736e-4c7b-96e0-ef920a195c8c:733db797c68c3a656d720776eaaf522aafb6ba9315a1e1177a3957a56d0e7486.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:fd3fa56a-736e-4c7b-96e0-ef920a195c8c:6ac03175a0d2e5f5dd72f9cb790de11d8d3e7f5bfb2523a0214e68305df4bc0f.json",
+              "reference:fd3fa56a-736e-4c7b-96e0-ef920a195c8c:733db797c68c3a656d720776eaaf522aafb6ba9315a1e1177a3957a56d0e7486.json"
+            ],
+            "copyId": "fd3fa56a-736e-4c7b-96e0-ef920a195c8c",
+            "mappingHash": "28019ff7f9fd66f8ea8a7f7e43dd963465afdd8eced0601219e0ec50d3a85506",
+            "effectiveCandidateHash": "d6a142de755900457863e690955d0878eb1ee3540076f898a776d5e44d9c817c"
+          },
+          {
+            "caseId": "c015",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "permission-rule",
+                  "version": 1
+                },
+                "assertionRef": "not-visible",
+                "checkId": "permission",
+                "evidenceRefs": [
+                  "observation:d7e5356f-60f4-4a46-a56d-1e87e6ad533f:create",
+                  "observation:d7e5356f-60f4-4a46-a56d-1e87e6ad533f:other-query"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:d7e5356f-60f4-4a46-a56d-1e87e6ad533f:create",
+              "observation:d7e5356f-60f4-4a46-a56d-1e87e6ad533f:other-query"
+            ],
+            "effectiveCandidateHash": "d6a142de755900457863e690955d0878eb1ee3540076f898a776d5e44d9c817c"
+          },
+          {
+            "caseId": "c015",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "permission-rule",
+                  "version": 1
+                },
+                "assertionRef": "not-visible",
+                "checkId": "permission",
+                "evidenceRefs": [
+                  "reference:4c19aafb-010d-4703-8294-a2f6cbbcb2bd:2c2e65e30874469ffae0d11599462ef2c03314c3968c2cbc11949fc0325028a0.json",
+                  "reference:4c19aafb-010d-4703-8294-a2f6cbbcb2bd:315b83b2404dffb57e056810da5277f0f9966dc3d730ea96b2c38851b67e0fe1.json"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:4c19aafb-010d-4703-8294-a2f6cbbcb2bd:2c2e65e30874469ffae0d11599462ef2c03314c3968c2cbc11949fc0325028a0.json",
+              "reference:4c19aafb-010d-4703-8294-a2f6cbbcb2bd:315b83b2404dffb57e056810da5277f0f9966dc3d730ea96b2c38851b67e0fe1.json"
+            ],
+            "copyId": "4c19aafb-010d-4703-8294-a2f6cbbcb2bd",
+            "mappingHash": "83833eda3b554340bed963e5b897ff1dab751314da88eca88d1495eb73af8bd3",
+            "effectiveCandidateHash": "d6a142de755900457863e690955d0878eb1ee3540076f898a776d5e44d9c817c"
+          },
+          {
+            "caseId": "c016",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "permission-rule",
+                  "version": 1
+                },
+                "assertionRef": "not-visible",
+                "checkId": "permission",
+                "evidenceRefs": [
+                  "observation:bbfe0782-046b-44ed-8be9-2f73bf019c7f:create",
+                  "observation:bbfe0782-046b-44ed-8be9-2f73bf019c7f:other-query"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:bbfe0782-046b-44ed-8be9-2f73bf019c7f:create",
+              "observation:bbfe0782-046b-44ed-8be9-2f73bf019c7f:other-query"
+            ],
+            "effectiveCandidateHash": "341bf82eb49115e90bf5dcbbe6255093d961b325d7a10ba69a8cd1ac3ae0f88d"
+          },
+          {
+            "caseId": "c016",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "permission-rule",
+                  "version": 1
+                },
+                "assertionRef": "not-visible",
+                "checkId": "permission",
+                "evidenceRefs": [
+                  "reference:d76027d4-2ca2-49f2-a421-3c16f4e49974:0af61fbcfb88ac83c56718024cff81ab4cf71f56c6f2271bb371bc8e8d7401a7.json",
+                  "reference:d76027d4-2ca2-49f2-a421-3c16f4e49974:20f48a7b83d16857f87cfa55b83cd82f741871eb406ae66f00618c88df650e12.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:d76027d4-2ca2-49f2-a421-3c16f4e49974:0af61fbcfb88ac83c56718024cff81ab4cf71f56c6f2271bb371bc8e8d7401a7.json",
+              "reference:d76027d4-2ca2-49f2-a421-3c16f4e49974:20f48a7b83d16857f87cfa55b83cd82f741871eb406ae66f00618c88df650e12.json"
+            ],
+            "copyId": "d76027d4-2ca2-49f2-a421-3c16f4e49974",
+            "mappingHash": "4b72d75c50199adeb6e106f09c3fb048339adb34d30c65e4bebe68b261d89775",
+            "effectiveCandidateHash": "341bf82eb49115e90bf5dcbbe6255093d961b325d7a10ba69a8cd1ac3ae0f88d"
+          },
+          {
+            "caseId": "c017",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "permission-rule",
+                  "version": 1
+                },
+                "assertionRef": "not-visible",
+                "checkId": "permission",
+                "evidenceRefs": [
+                  "observation:388d5160-5137-4493-af9e-a4cf4b676410:create",
+                  "observation:388d5160-5137-4493-af9e-a4cf4b676410:other-query"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:388d5160-5137-4493-af9e-a4cf4b676410:create",
+              "observation:388d5160-5137-4493-af9e-a4cf4b676410:other-query"
+            ],
+            "effectiveCandidateHash": "341bf82eb49115e90bf5dcbbe6255093d961b325d7a10ba69a8cd1ac3ae0f88d"
+          },
+          {
+            "caseId": "c017",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "permission-rule",
+                  "version": 1
+                },
+                "assertionRef": "not-visible",
+                "checkId": "permission",
+                "evidenceRefs": [
+                  "reference:72d7c85a-3c4d-4af6-aa15-4ab95e3dd794:0977c410bded3294ac9f22d494949a6a1fc4211c2f3045b224ce1b2ec22db5f9.json",
+                  "reference:72d7c85a-3c4d-4af6-aa15-4ab95e3dd794:cfb186fd820d41871890262133fe9d78ae622b4d5061d1284b4a84945b039e3b.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:72d7c85a-3c4d-4af6-aa15-4ab95e3dd794:0977c410bded3294ac9f22d494949a6a1fc4211c2f3045b224ce1b2ec22db5f9.json",
+              "reference:72d7c85a-3c4d-4af6-aa15-4ab95e3dd794:cfb186fd820d41871890262133fe9d78ae622b4d5061d1284b4a84945b039e3b.json"
+            ],
+            "copyId": "72d7c85a-3c4d-4af6-aa15-4ab95e3dd794",
+            "mappingHash": "a63ec3b2731b80b19e6ea0da1dc575048a55ca342c6f085661deb305ea5e7db0",
+            "effectiveCandidateHash": "341bf82eb49115e90bf5dcbbe6255093d961b325d7a10ba69a8cd1ac3ae0f88d"
+          },
+          {
+            "caseId": "c018",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "permission-rule",
+                  "version": 1
+                },
+                "assertionRef": "not-visible",
+                "checkId": "permission",
+                "evidenceRefs": [
+                  "observation:c55d7cae-dff5-4e41-af26-69fbf0db03d2:create",
+                  "observation:c55d7cae-dff5-4e41-af26-69fbf0db03d2:other-query"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:c55d7cae-dff5-4e41-af26-69fbf0db03d2:create",
+              "observation:c55d7cae-dff5-4e41-af26-69fbf0db03d2:other-query"
+            ],
+            "effectiveCandidateHash": "341bf82eb49115e90bf5dcbbe6255093d961b325d7a10ba69a8cd1ac3ae0f88d"
+          },
+          {
+            "caseId": "c018",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "permission-rule",
+                  "version": 1
+                },
+                "assertionRef": "not-visible",
+                "checkId": "permission",
+                "evidenceRefs": [
+                  "reference:92879310-77f8-4ce7-a643-69590c27bcd9:4523802dbda900a33218737624b7fb0a193012cb0f958071d858bef843ae878e.json",
+                  "reference:92879310-77f8-4ce7-a643-69590c27bcd9:e4f04af16973b3d1160eb56f85750ec04fd052c446f1877db214172e898f90d7.json"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:92879310-77f8-4ce7-a643-69590c27bcd9:4523802dbda900a33218737624b7fb0a193012cb0f958071d858bef843ae878e.json",
+              "reference:92879310-77f8-4ce7-a643-69590c27bcd9:e4f04af16973b3d1160eb56f85750ec04fd052c446f1877db214172e898f90d7.json"
+            ],
+            "copyId": "92879310-77f8-4ce7-a643-69590c27bcd9",
+            "mappingHash": "36e2cb251052a1c1f0eaebfca1965aed8380de071bce67a184919199902b8aa6",
+            "effectiveCandidateHash": "341bf82eb49115e90bf5dcbbe6255093d961b325d7a10ba69a8cd1ac3ae0f88d"
+          }
+        ],
+        "issues": [],
+        "recordRef": "validation:53e47bcb-f6d1-49d9-ad7f-3b129811b9aa"
+      },
+      "trial": {
+        "scope": "project_trial",
+        "projectId": "t6-fixture",
+        "copyId": "93929117-dfe3-41b6-885f-c0ed57eb2f38",
+        "candidateHash": "17f60f3d5301c176264f1aa5805d07cc7f03f074d8c7d7da2f19b58d41d495b2",
+        "ruleHash": "4814fb2efc18ae2bb12286bd6614a81348574422b55e17183e0d62aedf046989",
+        "suiteHash": "",
+        "interpreterVersion": "1.0.0",
+        "mappingHash": "a7e72033324e72fcf40f2c1a5ab1d5be61af045d39c8fd8cb040b877b7db724a",
+        "mappingDefinitionHash": "ee5423f4acaf89a18b46b114e825568693eed1dfd303d78b22cd98a675577ce8",
+        "gateResults": {
+          "completed": true,
+          "conclusive": true
+        },
+        "evidenceRefs": [
+          "target:93929117-dfe3-41b6-885f-c0ed57eb2f38:46b33cb1d23cefabd0573e0fe93979441e19336684437323b8c574c277539756.json",
+          "target:93929117-dfe3-41b6-885f-c0ed57eb2f38:6b226f3232d98ccecb82727616b21056129b1e97eb79752c1fbd2f45601395d8.json"
+        ],
+        "completed": true,
+        "verdicts": [
+          {
+            "status": "pass",
+            "reasonCode": "ASSERTION_TRUE",
+            "ruleRef": {
+              "id": "permission-rule",
+              "version": 1
+            },
+            "assertionRef": "not-visible",
+            "checkId": "permission",
+            "evidenceRefs": [
+              "target:93929117-dfe3-41b6-885f-c0ed57eb2f38:46b33cb1d23cefabd0573e0fe93979441e19336684437323b8c574c277539756.json",
+              "target:93929117-dfe3-41b6-885f-c0ed57eb2f38:6b226f3232d98ccecb82727616b21056129b1e97eb79752c1fbd2f45601395d8.json"
+            ],
+            "unknownReasons": [],
+            "scope": "observation_validation"
+          }
+        ]
+      },
+      "metadata": {
+        "version": "1.0.0",
+        "applicable": [
+          "Reviewed HTTP JSON rule"
+        ],
+        "excluded": [
+          "Other business semantics"
+        ],
+        "instructions": "Confirm new project mapping and reset the synthetic baseline."
+      },
+      "evidenceHash": "ae4208bd0af4dc03f979bc1ffca4824628b76d57b5d1daad861caa024c691b66",
+      "draftHash": "635d27efe3b9dc1e1a1c0c7bd7c83b17de566c3bb38126e309c4e0a282c3b8ea",
+      "status": "published",
+      "ref": {
+        "id": "permission-isolation",
+        "version": "1.0.0",
+        "hash": "635d27efe3b9dc1e1a1c0c7bd7c83b17de566c3bb38126e309c4e0a282c3b8ea"
+      },
+      "review": {
+        "scope": "635d27efe3b9dc1e1a1c0c7bd7c83b17de566c3bb38126e309c4e0a282c3b8ea",
+        "validationRef": "validation:53e47bcb-f6d1-49d9-ad7f-3b129811b9aa",
+        "decision": "approve",
+        "businessConfirmation": "fixture-business",
+        "technicalReviewer": "fixture-developer",
+        "time": "2026-10-13T03:03:25.904Z"
+      },
+      "publishedAt": "2026-10-13T03:03:25.995Z"
+    },
+    {
+      "taskId": "5c12c54e-d58d-450b-ad06-ae7718c68bf1",
+      "spec": {
+        "id": "title-update-test-probe",
+        "revision": 1,
+        "ruleRef": {
+          "id": "title-update-rule",
+          "version": 1
+        },
+        "parameters": {
+          "title": "初始标题",
+          "newTitle": "更新标题"
+        },
+        "requiredCapabilities": [
+          "create",
+          "query",
+          "update"
+        ],
+        "checks": [
+          "edit"
+        ],
+        "steps": [
+          {
+            "stepId": "create",
+            "checkId": "edit",
+            "operationId": "create",
+            "actorRef": "owner",
+            "bindings": {
+              "title": {
+                "op": "field",
+                "var": "params",
+                "path": [
+                  "title"
+                ]
+              }
+            },
+            "output": "created"
+          },
+          {
+            "stepId": "before",
+            "checkId": "edit",
+            "operationId": "query",
+            "actorRef": "owner",
+            "bindings": {
+              "id": {
+                "op": "field",
+                "var": "created",
+                "path": [
+                  "id"
+                ]
+              }
+            },
+            "output": "before"
+          },
+          {
+            "stepId": "update",
+            "checkId": "edit",
+            "operationId": "update",
+            "actorRef": "owner",
+            "bindings": {
+              "id": {
+                "op": "field",
+                "var": "created",
+                "path": [
+                  "id"
+                ]
+              },
+              "title": {
+                "op": "field",
+                "var": "params",
+                "path": [
+                  "newTitle"
+                ]
+              }
+            },
+            "output": "updated"
+          },
+          {
+            "stepId": "after",
+            "checkId": "edit",
+            "operationId": "query",
+            "actorRef": "owner",
+            "bindings": {
+              "id": {
+                "op": "field",
+                "var": "created",
+                "path": [
+                  "id"
+                ]
+              }
+            },
+            "output": "after"
+          }
+        ],
+        "assertions": [
+          {
+            "id": "updated-title",
+            "checkId": "edit",
+            "expr": {
+              "op": "eq",
+              "args": [
+                {
+                  "op": "field",
+                  "var": "after",
+                  "path": [
+                    "title"
+                  ]
+                },
+                {
+                  "op": "field",
+                  "var": "params",
+                  "path": [
+                    "newTitle"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "id": "unchanged-priority",
+            "checkId": "edit",
+            "expr": {
+              "op": "eq",
+              "args": [
+                {
+                  "op": "field",
+                  "var": "after",
+                  "path": [
+                    "priority"
+                  ]
+                },
+                {
+                  "op": "field",
+                  "var": "before",
+                  "path": [
+                    "priority"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "id": "unchanged-owner",
+            "checkId": "edit",
+            "expr": {
+              "op": "eq",
+              "args": [
+                {
+                  "op": "field",
+                  "var": "after",
+                  "path": [
+                    "ownerId"
+                  ]
+                },
+                {
+                  "op": "field",
+                  "var": "before",
+                  "path": [
+                    "ownerId"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "evidenceRequirements": {
+          "identityVerified": true,
+          "queryComplete": true,
+          "acceptanceKnown": true,
+          "evidenceRefs": true
+        },
+        "limits": {
+          "maxActions": 16,
+          "actionTimeoutMs": 1500,
+          "runTimeoutMs": 10000
+        }
+      },
+      "rule": {
+        "id": "title-update-rule",
+        "version": 1,
+        "confirmation": "confirmed",
+        "source": "docs/superpowers/specs/2026-10-11-candidate-template-lifecycle.md#业务示例; 用户已确认只改标题，优先级和所有者保持不变",
+        "preconditions": [
+          "owner creates and reads record before update"
+        ],
+        "expectedChanges": [
+          "only title changes to requested value"
+        ],
+        "invariants": [
+          "priority unchanged",
+          "ownerId unchanged"
+        ],
+        "completionDeadline": 10000
+      },
+      "capabilities": {
+        "operations": [
+          "create",
+          "query",
+          "update"
+        ],
+        "actorRefs": [
+          "owner",
+          "other"
+        ],
+        "expressions": [
+          "field",
+          "const",
+          "exists",
+          "eq",
+          "neq",
+          "count",
+          "contains",
+          "all",
+          "any",
+          "not"
+        ]
+      },
+      "candidateHash": "b7a89c92f0e844f08cc3baa98738d00efbd6d4a683aa5460d5b28dc0a6978009",
+      "ruleHash": "d7f9e045dcfa7ee1e16a5fcdf0e7333f08fd0e661d986aa94c4a076a962f9c0b",
+      "validation": {
+        "scope": "template_validation",
+        "candidateHash": "b7a89c92f0e844f08cc3baa98738d00efbd6d4a683aa5460d5b28dc0a6978009",
+        "ruleHash": "d7f9e045dcfa7ee1e16a5fcdf0e7333f08fd0e661d986aa94c4a076a962f9c0b",
+        "suiteHash": "255eac35b63f2a672f7dda63b26fad365021b74e02290698daf48bc61d2e512d",
+        "interpreterVersion": "1.0.0",
+        "mappingHash": "9330c66d94ccea72bbcc5f51e4071f4e25989126022dd5af47c0404d426eb996",
+        "mappingDefinitionHash": "336bb529218f906a0ca88ec4d5f9e2098e716bbcf8e2e9ec71ced7fa519cbdf3",
+        "gateResults": {
+          "static": true,
+          "coverage": true,
+          "observation": true,
+          "http": true,
+          "admitted": true
+        },
+        "evidenceRefs": [
+          "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:create",
+          "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:before",
+          "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:update",
+          "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:after",
+          "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:170045718d7fa5a3090157c5c9ca8e36a452ca4c0ca38de04cd9d8f0708caf75.json",
+          "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:c6292681ac08bd38f14273ffa37ce884853cdc2e0c3c67a3ec7f109eb2ba82f3.json",
+          "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:34b75d3f6a6f04a44e6102f965030b4aef02a0153a0ab31ab1fa33efe75d03d3.json",
+          "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:382670b18ccf7957b828168f2be7c5af66f708310f511001436f2fb2f9c67c7b.json",
+          "observation:63462a78-7449-45d6-aaa5-96605d2e014d:create",
+          "observation:63462a78-7449-45d6-aaa5-96605d2e014d:before",
+          "observation:63462a78-7449-45d6-aaa5-96605d2e014d:update",
+          "observation:63462a78-7449-45d6-aaa5-96605d2e014d:after",
+          "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:e9d82e8c54eef9328f866b70e6a7e798b4a4e9c77c6322e94f0569abe2e1431c.json",
+          "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:4e56cc5227fd06d22013f4f61ca036419a0882802d2ae7ed5d42274a0fc138a7.json",
+          "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:1489f793f07aa0ab9b2da22956d35699d4773e2773a2357377c5a3a367930888.json",
+          "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:a3c17da84b075d61dedb3e5868497f3d394d6c08b14242f6deab253a594a9a43.json",
+          "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:create",
+          "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:before",
+          "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:update",
+          "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:after",
+          "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:d8c40d20703214b46abe4b68f35bbe417baf916b95c0395ee57ecf2977981855.json",
+          "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:5ff180547a9368d3102382b3fa4019e0d594645aa6efb9846ea1e6d1e7629242.json",
+          "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:ac1fd173bc6e4ff96cbf07fac911c75b823ebcada864c34b86e69251370d5a5f.json",
+          "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:1aec6cd1e77cc683c6ec65beac51143e94f30d7f074ea497612ed10038b97457.json",
+          "observation:ec722aef-8094-4251-94e0-dd54c76321c9:create",
+          "observation:ec722aef-8094-4251-94e0-dd54c76321c9:before",
+          "observation:ec722aef-8094-4251-94e0-dd54c76321c9:update",
+          "observation:ec722aef-8094-4251-94e0-dd54c76321c9:after",
+          "reference:8d55d4a4-9cc8-4ea4-bc9a-c3fd1ea0810a:8ba58788e89f2bea9c99b566c98a772935f441e65cece60d0d6b5e35d02da34d.json",
+          "reference:8d55d4a4-9cc8-4ea4-bc9a-c3fd1ea0810a:c79ac904e00502c82d9097536cccd2fd10c57c21ef22ff0d9fcf0b7e26753a26.json",
+          "observation:ae91b315-0a89-4005-9154-eeff84746081:create",
+          "observation:ae91b315-0a89-4005-9154-eeff84746081:before",
+          "observation:ae91b315-0a89-4005-9154-eeff84746081:update",
+          "observation:ae91b315-0a89-4005-9154-eeff84746081:after",
+          "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:e5f9e303d7b96dac6e4e88c3096d16b654032e31214ab7bedfdb66d6a5f748e8.json",
+          "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:3a2addf28bdbc36acd647130684aa86068db3c77d475fbce46939a56152069fb.json",
+          "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:05e3be4f038876958c9c3bc299511c3dcada2bc0a8498408271be71c22b7c9cf.json",
+          "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:d01d20d52af9e33845878f751e85f4029f931718ead809e93c8b6bc4f597f317.json",
+          "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:create",
+          "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:before",
+          "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:update",
+          "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:after",
+          "reference:84c040de-71bb-434f-acae-b8532ad9c486:783679e19d296ede975bc5a1ef7962eb275f108bd5bb4967c3fae241806c37a6.json",
+          "reference:84c040de-71bb-434f-acae-b8532ad9c486:6cb7d123b9eb2d0f8af071dcc05ebcce2344907131d8d6d9f37232a031b7eb29.json",
+          "reference:84c040de-71bb-434f-acae-b8532ad9c486:7b8bcbaae6288fad460f5eaf923bd2a04a23f7a0e351a5dc7db36f2515fa7e8a.json",
+          "reference:84c040de-71bb-434f-acae-b8532ad9c486:e683c7ef1c450aac6e6197d1b90fde9379e511f0d9371c691d05b1cc0331712d.json",
+          "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:create",
+          "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:before",
+          "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:update",
+          "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:after",
+          "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:6d37865e285a5552aea0fffa65205f79c58b1fce3f557b2b7678a81800164a2e.json",
+          "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:d86dd3c06ab829448cc617f0761d9cf46dcd56fb713182e2097fcaa45c0e6de7.json",
+          "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:de579c8795963df13f2148cf4b78ca172412e59e1ea4fce1257cbd9857510152.json",
+          "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:60d69b30e92ed33cda9a5cdfdb0886518e73ab1d55625c997b0392ac5625e8db.json",
+          "observation:71e22044-ab48-43d4-af58-11a08a686f4f:create",
+          "observation:71e22044-ab48-43d4-af58-11a08a686f4f:before",
+          "observation:71e22044-ab48-43d4-af58-11a08a686f4f:update",
+          "observation:71e22044-ab48-43d4-af58-11a08a686f4f:after",
+          "reference:c40e01c5-01dc-4547-8523-77804d28f894:603cde6252f30a1434caa4de1e635ff7cba2614cc15ca823c06a368aa6abb7ff.json",
+          "reference:c40e01c5-01dc-4547-8523-77804d28f894:f888f495518a40509fe6bd86bbae82de77af7438c892542b8360034869e0004e.json"
+        ],
+        "cases": [
+          {
+            "caseId": "c019",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:create",
+                  "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:before",
+                  "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:update",
+                  "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:create",
+                  "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:before",
+                  "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:update",
+                  "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:create",
+                  "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:before",
+                  "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:update",
+                  "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:create",
+              "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:before",
+              "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:update",
+              "observation:628d41d0-41bd-4d97-970d-e23612bf8ffc:after"
+            ],
+            "effectiveCandidateHash": "71d34da5e11193ab45eb09ea02bbfcba60fb805cfb6911929466404bd68a42d7"
+          },
+          {
+            "caseId": "c019",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:170045718d7fa5a3090157c5c9ca8e36a452ca4c0ca38de04cd9d8f0708caf75.json",
+                  "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:c6292681ac08bd38f14273ffa37ce884853cdc2e0c3c67a3ec7f109eb2ba82f3.json",
+                  "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:34b75d3f6a6f04a44e6102f965030b4aef02a0153a0ab31ab1fa33efe75d03d3.json",
+                  "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:382670b18ccf7957b828168f2be7c5af66f708310f511001436f2fb2f9c67c7b.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:170045718d7fa5a3090157c5c9ca8e36a452ca4c0ca38de04cd9d8f0708caf75.json",
+                  "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:c6292681ac08bd38f14273ffa37ce884853cdc2e0c3c67a3ec7f109eb2ba82f3.json",
+                  "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:34b75d3f6a6f04a44e6102f965030b4aef02a0153a0ab31ab1fa33efe75d03d3.json",
+                  "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:382670b18ccf7957b828168f2be7c5af66f708310f511001436f2fb2f9c67c7b.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:170045718d7fa5a3090157c5c9ca8e36a452ca4c0ca38de04cd9d8f0708caf75.json",
+                  "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:c6292681ac08bd38f14273ffa37ce884853cdc2e0c3c67a3ec7f109eb2ba82f3.json",
+                  "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:34b75d3f6a6f04a44e6102f965030b4aef02a0153a0ab31ab1fa33efe75d03d3.json",
+                  "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:382670b18ccf7957b828168f2be7c5af66f708310f511001436f2fb2f9c67c7b.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:170045718d7fa5a3090157c5c9ca8e36a452ca4c0ca38de04cd9d8f0708caf75.json",
+              "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:c6292681ac08bd38f14273ffa37ce884853cdc2e0c3c67a3ec7f109eb2ba82f3.json",
+              "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:34b75d3f6a6f04a44e6102f965030b4aef02a0153a0ab31ab1fa33efe75d03d3.json",
+              "reference:d91e85bb-465f-4580-b9e0-232afb9d56cc:382670b18ccf7957b828168f2be7c5af66f708310f511001436f2fb2f9c67c7b.json"
+            ],
+            "copyId": "d91e85bb-465f-4580-b9e0-232afb9d56cc",
+            "mappingHash": "e1aa9cc2fcb5a5881d7829da96c0de4729ec61b2e16a7ab22112b3166afdaf97",
+            "effectiveCandidateHash": "71d34da5e11193ab45eb09ea02bbfcba60fb805cfb6911929466404bd68a42d7"
+          },
+          {
+            "caseId": "c020",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:63462a78-7449-45d6-aaa5-96605d2e014d:create",
+                  "observation:63462a78-7449-45d6-aaa5-96605d2e014d:before",
+                  "observation:63462a78-7449-45d6-aaa5-96605d2e014d:update",
+                  "observation:63462a78-7449-45d6-aaa5-96605d2e014d:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:63462a78-7449-45d6-aaa5-96605d2e014d:create",
+                  "observation:63462a78-7449-45d6-aaa5-96605d2e014d:before",
+                  "observation:63462a78-7449-45d6-aaa5-96605d2e014d:update",
+                  "observation:63462a78-7449-45d6-aaa5-96605d2e014d:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:63462a78-7449-45d6-aaa5-96605d2e014d:create",
+                  "observation:63462a78-7449-45d6-aaa5-96605d2e014d:before",
+                  "observation:63462a78-7449-45d6-aaa5-96605d2e014d:update",
+                  "observation:63462a78-7449-45d6-aaa5-96605d2e014d:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:63462a78-7449-45d6-aaa5-96605d2e014d:create",
+              "observation:63462a78-7449-45d6-aaa5-96605d2e014d:before",
+              "observation:63462a78-7449-45d6-aaa5-96605d2e014d:update",
+              "observation:63462a78-7449-45d6-aaa5-96605d2e014d:after"
+            ],
+            "effectiveCandidateHash": "71d34da5e11193ab45eb09ea02bbfcba60fb805cfb6911929466404bd68a42d7"
+          },
+          {
+            "caseId": "c020",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:e9d82e8c54eef9328f866b70e6a7e798b4a4e9c77c6322e94f0569abe2e1431c.json",
+                  "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:4e56cc5227fd06d22013f4f61ca036419a0882802d2ae7ed5d42274a0fc138a7.json",
+                  "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:1489f793f07aa0ab9b2da22956d35699d4773e2773a2357377c5a3a367930888.json",
+                  "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:a3c17da84b075d61dedb3e5868497f3d394d6c08b14242f6deab253a594a9a43.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:e9d82e8c54eef9328f866b70e6a7e798b4a4e9c77c6322e94f0569abe2e1431c.json",
+                  "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:4e56cc5227fd06d22013f4f61ca036419a0882802d2ae7ed5d42274a0fc138a7.json",
+                  "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:1489f793f07aa0ab9b2da22956d35699d4773e2773a2357377c5a3a367930888.json",
+                  "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:a3c17da84b075d61dedb3e5868497f3d394d6c08b14242f6deab253a594a9a43.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:e9d82e8c54eef9328f866b70e6a7e798b4a4e9c77c6322e94f0569abe2e1431c.json",
+                  "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:4e56cc5227fd06d22013f4f61ca036419a0882802d2ae7ed5d42274a0fc138a7.json",
+                  "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:1489f793f07aa0ab9b2da22956d35699d4773e2773a2357377c5a3a367930888.json",
+                  "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:a3c17da84b075d61dedb3e5868497f3d394d6c08b14242f6deab253a594a9a43.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:e9d82e8c54eef9328f866b70e6a7e798b4a4e9c77c6322e94f0569abe2e1431c.json",
+              "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:4e56cc5227fd06d22013f4f61ca036419a0882802d2ae7ed5d42274a0fc138a7.json",
+              "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:1489f793f07aa0ab9b2da22956d35699d4773e2773a2357377c5a3a367930888.json",
+              "reference:f7c82bf0-ec62-4e04-8213-627b03f2dcb8:a3c17da84b075d61dedb3e5868497f3d394d6c08b14242f6deab253a594a9a43.json"
+            ],
+            "copyId": "f7c82bf0-ec62-4e04-8213-627b03f2dcb8",
+            "mappingHash": "c2a262126e445b049e4c27156000f77141ebc5af8184b9d77fd41ce42926efe0",
+            "effectiveCandidateHash": "71d34da5e11193ab45eb09ea02bbfcba60fb805cfb6911929466404bd68a42d7"
+          },
+          {
+            "caseId": "c021",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:create",
+                  "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:before",
+                  "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:update",
+                  "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:create",
+                  "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:before",
+                  "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:update",
+                  "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:create",
+                  "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:before",
+                  "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:update",
+                  "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:create",
+              "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:before",
+              "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:update",
+              "observation:ac3a901b-23f9-4ddc-b77e-ae3384bacb91:after"
+            ],
+            "effectiveCandidateHash": "71d34da5e11193ab45eb09ea02bbfcba60fb805cfb6911929466404bd68a42d7"
+          },
+          {
+            "caseId": "c021",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:d8c40d20703214b46abe4b68f35bbe417baf916b95c0395ee57ecf2977981855.json",
+                  "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:5ff180547a9368d3102382b3fa4019e0d594645aa6efb9846ea1e6d1e7629242.json",
+                  "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:ac1fd173bc6e4ff96cbf07fac911c75b823ebcada864c34b86e69251370d5a5f.json",
+                  "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:1aec6cd1e77cc683c6ec65beac51143e94f30d7f074ea497612ed10038b97457.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:d8c40d20703214b46abe4b68f35bbe417baf916b95c0395ee57ecf2977981855.json",
+                  "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:5ff180547a9368d3102382b3fa4019e0d594645aa6efb9846ea1e6d1e7629242.json",
+                  "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:ac1fd173bc6e4ff96cbf07fac911c75b823ebcada864c34b86e69251370d5a5f.json",
+                  "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:1aec6cd1e77cc683c6ec65beac51143e94f30d7f074ea497612ed10038b97457.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:d8c40d20703214b46abe4b68f35bbe417baf916b95c0395ee57ecf2977981855.json",
+                  "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:5ff180547a9368d3102382b3fa4019e0d594645aa6efb9846ea1e6d1e7629242.json",
+                  "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:ac1fd173bc6e4ff96cbf07fac911c75b823ebcada864c34b86e69251370d5a5f.json",
+                  "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:1aec6cd1e77cc683c6ec65beac51143e94f30d7f074ea497612ed10038b97457.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:d8c40d20703214b46abe4b68f35bbe417baf916b95c0395ee57ecf2977981855.json",
+              "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:5ff180547a9368d3102382b3fa4019e0d594645aa6efb9846ea1e6d1e7629242.json",
+              "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:ac1fd173bc6e4ff96cbf07fac911c75b823ebcada864c34b86e69251370d5a5f.json",
+              "reference:60b6f434-c60a-4bf0-a3a4-89ae7176305d:1aec6cd1e77cc683c6ec65beac51143e94f30d7f074ea497612ed10038b97457.json"
+            ],
+            "copyId": "60b6f434-c60a-4bf0-a3a4-89ae7176305d",
+            "mappingHash": "85fa2910938d585fb32b32d0c82d1e6a02724d28b026b5950cae648961b0deb2",
+            "effectiveCandidateHash": "71d34da5e11193ab45eb09ea02bbfcba60fb805cfb6911929466404bd68a42d7"
+          },
+          {
+            "caseId": "c022",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:ec722aef-8094-4251-94e0-dd54c76321c9:create",
+                  "observation:ec722aef-8094-4251-94e0-dd54c76321c9:before",
+                  "observation:ec722aef-8094-4251-94e0-dd54c76321c9:update",
+                  "observation:ec722aef-8094-4251-94e0-dd54c76321c9:after"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:ec722aef-8094-4251-94e0-dd54c76321c9:create",
+                  "observation:ec722aef-8094-4251-94e0-dd54c76321c9:before",
+                  "observation:ec722aef-8094-4251-94e0-dd54c76321c9:update",
+                  "observation:ec722aef-8094-4251-94e0-dd54c76321c9:after"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:ec722aef-8094-4251-94e0-dd54c76321c9:create",
+                  "observation:ec722aef-8094-4251-94e0-dd54c76321c9:before",
+                  "observation:ec722aef-8094-4251-94e0-dd54c76321c9:update",
+                  "observation:ec722aef-8094-4251-94e0-dd54c76321c9:after"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:ec722aef-8094-4251-94e0-dd54c76321c9:create",
+              "observation:ec722aef-8094-4251-94e0-dd54c76321c9:before",
+              "observation:ec722aef-8094-4251-94e0-dd54c76321c9:update",
+              "observation:ec722aef-8094-4251-94e0-dd54c76321c9:after"
+            ],
+            "effectiveCandidateHash": "71d34da5e11193ab45eb09ea02bbfcba60fb805cfb6911929466404bd68a42d7"
+          },
+          {
+            "caseId": "c022",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:8d55d4a4-9cc8-4ea4-bc9a-c3fd1ea0810a:8ba58788e89f2bea9c99b566c98a772935f441e65cece60d0d6b5e35d02da34d.json",
+                  "reference:8d55d4a4-9cc8-4ea4-bc9a-c3fd1ea0810a:c79ac904e00502c82d9097536cccd2fd10c57c21ef22ff0d9fcf0b7e26753a26.json"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:8d55d4a4-9cc8-4ea4-bc9a-c3fd1ea0810a:8ba58788e89f2bea9c99b566c98a772935f441e65cece60d0d6b5e35d02da34d.json",
+                  "reference:8d55d4a4-9cc8-4ea4-bc9a-c3fd1ea0810a:c79ac904e00502c82d9097536cccd2fd10c57c21ef22ff0d9fcf0b7e26753a26.json"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:8d55d4a4-9cc8-4ea4-bc9a-c3fd1ea0810a:8ba58788e89f2bea9c99b566c98a772935f441e65cece60d0d6b5e35d02da34d.json",
+                  "reference:8d55d4a4-9cc8-4ea4-bc9a-c3fd1ea0810a:c79ac904e00502c82d9097536cccd2fd10c57c21ef22ff0d9fcf0b7e26753a26.json"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:8d55d4a4-9cc8-4ea4-bc9a-c3fd1ea0810a:8ba58788e89f2bea9c99b566c98a772935f441e65cece60d0d6b5e35d02da34d.json",
+              "reference:8d55d4a4-9cc8-4ea4-bc9a-c3fd1ea0810a:c79ac904e00502c82d9097536cccd2fd10c57c21ef22ff0d9fcf0b7e26753a26.json"
+            ],
+            "copyId": "8d55d4a4-9cc8-4ea4-bc9a-c3fd1ea0810a",
+            "mappingHash": "cb27f602e7af43880f69a1da02f22624d33612c3fdf0e31e900d31c417afcd9d",
+            "effectiveCandidateHash": "71d34da5e11193ab45eb09ea02bbfcba60fb805cfb6911929466404bd68a42d7"
+          },
+          {
+            "caseId": "c023",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:ae91b315-0a89-4005-9154-eeff84746081:create",
+                  "observation:ae91b315-0a89-4005-9154-eeff84746081:before",
+                  "observation:ae91b315-0a89-4005-9154-eeff84746081:update",
+                  "observation:ae91b315-0a89-4005-9154-eeff84746081:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:ae91b315-0a89-4005-9154-eeff84746081:create",
+                  "observation:ae91b315-0a89-4005-9154-eeff84746081:before",
+                  "observation:ae91b315-0a89-4005-9154-eeff84746081:update",
+                  "observation:ae91b315-0a89-4005-9154-eeff84746081:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:ae91b315-0a89-4005-9154-eeff84746081:create",
+                  "observation:ae91b315-0a89-4005-9154-eeff84746081:before",
+                  "observation:ae91b315-0a89-4005-9154-eeff84746081:update",
+                  "observation:ae91b315-0a89-4005-9154-eeff84746081:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:ae91b315-0a89-4005-9154-eeff84746081:create",
+              "observation:ae91b315-0a89-4005-9154-eeff84746081:before",
+              "observation:ae91b315-0a89-4005-9154-eeff84746081:update",
+              "observation:ae91b315-0a89-4005-9154-eeff84746081:after"
+            ],
+            "effectiveCandidateHash": "65e881b38298e9ebc053dfda58308956aacc70f41402feca0adf2a0858f5c79a"
+          },
+          {
+            "caseId": "c023",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:e5f9e303d7b96dac6e4e88c3096d16b654032e31214ab7bedfdb66d6a5f748e8.json",
+                  "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:3a2addf28bdbc36acd647130684aa86068db3c77d475fbce46939a56152069fb.json",
+                  "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:05e3be4f038876958c9c3bc299511c3dcada2bc0a8498408271be71c22b7c9cf.json",
+                  "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:d01d20d52af9e33845878f751e85f4029f931718ead809e93c8b6bc4f597f317.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:e5f9e303d7b96dac6e4e88c3096d16b654032e31214ab7bedfdb66d6a5f748e8.json",
+                  "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:3a2addf28bdbc36acd647130684aa86068db3c77d475fbce46939a56152069fb.json",
+                  "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:05e3be4f038876958c9c3bc299511c3dcada2bc0a8498408271be71c22b7c9cf.json",
+                  "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:d01d20d52af9e33845878f751e85f4029f931718ead809e93c8b6bc4f597f317.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:e5f9e303d7b96dac6e4e88c3096d16b654032e31214ab7bedfdb66d6a5f748e8.json",
+                  "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:3a2addf28bdbc36acd647130684aa86068db3c77d475fbce46939a56152069fb.json",
+                  "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:05e3be4f038876958c9c3bc299511c3dcada2bc0a8498408271be71c22b7c9cf.json",
+                  "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:d01d20d52af9e33845878f751e85f4029f931718ead809e93c8b6bc4f597f317.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:e5f9e303d7b96dac6e4e88c3096d16b654032e31214ab7bedfdb66d6a5f748e8.json",
+              "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:3a2addf28bdbc36acd647130684aa86068db3c77d475fbce46939a56152069fb.json",
+              "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:05e3be4f038876958c9c3bc299511c3dcada2bc0a8498408271be71c22b7c9cf.json",
+              "reference:2224c8cc-9368-4674-b098-5a09c8bb8ea9:d01d20d52af9e33845878f751e85f4029f931718ead809e93c8b6bc4f597f317.json"
+            ],
+            "copyId": "2224c8cc-9368-4674-b098-5a09c8bb8ea9",
+            "mappingHash": "472082534cad53370ef1c7519fd90e67b3953789c63f9aff609e80a1b6f90f32",
+            "effectiveCandidateHash": "65e881b38298e9ebc053dfda58308956aacc70f41402feca0adf2a0858f5c79a"
+          },
+          {
+            "caseId": "c024",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:create",
+                  "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:before",
+                  "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:update",
+                  "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:create",
+                  "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:before",
+                  "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:update",
+                  "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:create",
+                  "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:before",
+                  "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:update",
+                  "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:create",
+              "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:before",
+              "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:update",
+              "observation:c858ebba-ff65-47c5-b1e1-39b5c4925281:after"
+            ],
+            "effectiveCandidateHash": "65e881b38298e9ebc053dfda58308956aacc70f41402feca0adf2a0858f5c79a"
+          },
+          {
+            "caseId": "c024",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:84c040de-71bb-434f-acae-b8532ad9c486:783679e19d296ede975bc5a1ef7962eb275f108bd5bb4967c3fae241806c37a6.json",
+                  "reference:84c040de-71bb-434f-acae-b8532ad9c486:6cb7d123b9eb2d0f8af071dcc05ebcce2344907131d8d6d9f37232a031b7eb29.json",
+                  "reference:84c040de-71bb-434f-acae-b8532ad9c486:7b8bcbaae6288fad460f5eaf923bd2a04a23f7a0e351a5dc7db36f2515fa7e8a.json",
+                  "reference:84c040de-71bb-434f-acae-b8532ad9c486:e683c7ef1c450aac6e6197d1b90fde9379e511f0d9371c691d05b1cc0331712d.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:84c040de-71bb-434f-acae-b8532ad9c486:783679e19d296ede975bc5a1ef7962eb275f108bd5bb4967c3fae241806c37a6.json",
+                  "reference:84c040de-71bb-434f-acae-b8532ad9c486:6cb7d123b9eb2d0f8af071dcc05ebcce2344907131d8d6d9f37232a031b7eb29.json",
+                  "reference:84c040de-71bb-434f-acae-b8532ad9c486:7b8bcbaae6288fad460f5eaf923bd2a04a23f7a0e351a5dc7db36f2515fa7e8a.json",
+                  "reference:84c040de-71bb-434f-acae-b8532ad9c486:e683c7ef1c450aac6e6197d1b90fde9379e511f0d9371c691d05b1cc0331712d.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:84c040de-71bb-434f-acae-b8532ad9c486:783679e19d296ede975bc5a1ef7962eb275f108bd5bb4967c3fae241806c37a6.json",
+                  "reference:84c040de-71bb-434f-acae-b8532ad9c486:6cb7d123b9eb2d0f8af071dcc05ebcce2344907131d8d6d9f37232a031b7eb29.json",
+                  "reference:84c040de-71bb-434f-acae-b8532ad9c486:7b8bcbaae6288fad460f5eaf923bd2a04a23f7a0e351a5dc7db36f2515fa7e8a.json",
+                  "reference:84c040de-71bb-434f-acae-b8532ad9c486:e683c7ef1c450aac6e6197d1b90fde9379e511f0d9371c691d05b1cc0331712d.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:84c040de-71bb-434f-acae-b8532ad9c486:783679e19d296ede975bc5a1ef7962eb275f108bd5bb4967c3fae241806c37a6.json",
+              "reference:84c040de-71bb-434f-acae-b8532ad9c486:6cb7d123b9eb2d0f8af071dcc05ebcce2344907131d8d6d9f37232a031b7eb29.json",
+              "reference:84c040de-71bb-434f-acae-b8532ad9c486:7b8bcbaae6288fad460f5eaf923bd2a04a23f7a0e351a5dc7db36f2515fa7e8a.json",
+              "reference:84c040de-71bb-434f-acae-b8532ad9c486:e683c7ef1c450aac6e6197d1b90fde9379e511f0d9371c691d05b1cc0331712d.json"
+            ],
+            "copyId": "84c040de-71bb-434f-acae-b8532ad9c486",
+            "mappingHash": "1a3ef4dacc72be63c67024b0928e00f00e32cdb99dca5def118ee398434b6cb0",
+            "effectiveCandidateHash": "65e881b38298e9ebc053dfda58308956aacc70f41402feca0adf2a0858f5c79a"
+          },
+          {
+            "caseId": "c025",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:create",
+                  "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:before",
+                  "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:update",
+                  "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:create",
+                  "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:before",
+                  "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:update",
+                  "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:create",
+                  "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:before",
+                  "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:update",
+                  "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:after"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:create",
+              "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:before",
+              "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:update",
+              "observation:fc43bf7b-8555-4b58-887e-e832996a5d2e:after"
+            ],
+            "effectiveCandidateHash": "65e881b38298e9ebc053dfda58308956aacc70f41402feca0adf2a0858f5c79a"
+          },
+          {
+            "caseId": "c025",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:6d37865e285a5552aea0fffa65205f79c58b1fce3f557b2b7678a81800164a2e.json",
+                  "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:d86dd3c06ab829448cc617f0761d9cf46dcd56fb713182e2097fcaa45c0e6de7.json",
+                  "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:de579c8795963df13f2148cf4b78ca172412e59e1ea4fce1257cbd9857510152.json",
+                  "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:60d69b30e92ed33cda9a5cdfdb0886518e73ab1d55625c997b0392ac5625e8db.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "pass",
+                "reasonCode": "ASSERTION_TRUE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:6d37865e285a5552aea0fffa65205f79c58b1fce3f557b2b7678a81800164a2e.json",
+                  "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:d86dd3c06ab829448cc617f0761d9cf46dcd56fb713182e2097fcaa45c0e6de7.json",
+                  "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:de579c8795963df13f2148cf4b78ca172412e59e1ea4fce1257cbd9857510152.json",
+                  "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:60d69b30e92ed33cda9a5cdfdb0886518e73ab1d55625c997b0392ac5625e8db.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "fail",
+                "reasonCode": "ASSERTION_FALSE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:6d37865e285a5552aea0fffa65205f79c58b1fce3f557b2b7678a81800164a2e.json",
+                  "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:d86dd3c06ab829448cc617f0761d9cf46dcd56fb713182e2097fcaa45c0e6de7.json",
+                  "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:de579c8795963df13f2148cf4b78ca172412e59e1ea4fce1257cbd9857510152.json",
+                  "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:60d69b30e92ed33cda9a5cdfdb0886518e73ab1d55625c997b0392ac5625e8db.json"
+                ],
+                "unknownReasons": [],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:6d37865e285a5552aea0fffa65205f79c58b1fce3f557b2b7678a81800164a2e.json",
+              "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:d86dd3c06ab829448cc617f0761d9cf46dcd56fb713182e2097fcaa45c0e6de7.json",
+              "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:de579c8795963df13f2148cf4b78ca172412e59e1ea4fce1257cbd9857510152.json",
+              "reference:8729a84d-3f06-4909-a137-f3e398a72ce1:60d69b30e92ed33cda9a5cdfdb0886518e73ab1d55625c997b0392ac5625e8db.json"
+            ],
+            "copyId": "8729a84d-3f06-4909-a137-f3e398a72ce1",
+            "mappingHash": "04069198c571e1c34ba18e20a6b6507f86f25e64373802d974f341bf5e0e4540",
+            "effectiveCandidateHash": "65e881b38298e9ebc053dfda58308956aacc70f41402feca0adf2a0858f5c79a"
+          },
+          {
+            "caseId": "c026",
+            "phase": "observation",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:71e22044-ab48-43d4-af58-11a08a686f4f:create",
+                  "observation:71e22044-ab48-43d4-af58-11a08a686f4f:before",
+                  "observation:71e22044-ab48-43d4-af58-11a08a686f4f:update",
+                  "observation:71e22044-ab48-43d4-af58-11a08a686f4f:after"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:71e22044-ab48-43d4-af58-11a08a686f4f:create",
+                  "observation:71e22044-ab48-43d4-af58-11a08a686f4f:before",
+                  "observation:71e22044-ab48-43d4-af58-11a08a686f4f:update",
+                  "observation:71e22044-ab48-43d4-af58-11a08a686f4f:after"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "observation:71e22044-ab48-43d4-af58-11a08a686f4f:create",
+                  "observation:71e22044-ab48-43d4-af58-11a08a686f4f:before",
+                  "observation:71e22044-ab48-43d4-af58-11a08a686f4f:update",
+                  "observation:71e22044-ab48-43d4-af58-11a08a686f4f:after"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "observation:71e22044-ab48-43d4-af58-11a08a686f4f:create",
+              "observation:71e22044-ab48-43d4-af58-11a08a686f4f:before",
+              "observation:71e22044-ab48-43d4-af58-11a08a686f4f:update",
+              "observation:71e22044-ab48-43d4-af58-11a08a686f4f:after"
+            ],
+            "effectiveCandidateHash": "65e881b38298e9ebc053dfda58308956aacc70f41402feca0adf2a0858f5c79a"
+          },
+          {
+            "caseId": "c026",
+            "phase": "http",
+            "completed": true,
+            "matched": true,
+            "verdicts": [
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "updated-title",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:c40e01c5-01dc-4547-8523-77804d28f894:603cde6252f30a1434caa4de1e635ff7cba2614cc15ca823c06a368aa6abb7ff.json",
+                  "reference:c40e01c5-01dc-4547-8523-77804d28f894:f888f495518a40509fe6bd86bbae82de77af7438c892542b8360034869e0004e.json"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-priority",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:c40e01c5-01dc-4547-8523-77804d28f894:603cde6252f30a1434caa4de1e635ff7cba2614cc15ca823c06a368aa6abb7ff.json",
+                  "reference:c40e01c5-01dc-4547-8523-77804d28f894:f888f495518a40509fe6bd86bbae82de77af7438c892542b8360034869e0004e.json"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              },
+              {
+                "status": "inconclusive",
+                "reasonCode": "INSUFFICIENT_EVIDENCE",
+                "ruleRef": {
+                  "id": "title-update-rule",
+                  "version": 1
+                },
+                "assertionRef": "unchanged-owner",
+                "checkId": "edit",
+                "evidenceRefs": [
+                  "reference:c40e01c5-01dc-4547-8523-77804d28f894:603cde6252f30a1434caa4de1e635ff7cba2614cc15ca823c06a368aa6abb7ff.json",
+                  "reference:c40e01c5-01dc-4547-8523-77804d28f894:f888f495518a40509fe6bd86bbae82de77af7438c892542b8360034869e0004e.json"
+                ],
+                "unknownReasons": [
+                  "INSUFFICIENT_EVIDENCE"
+                ],
+                "scope": "observation_validation"
+              }
+            ],
+            "evidenceRefs": [
+              "reference:c40e01c5-01dc-4547-8523-77804d28f894:603cde6252f30a1434caa4de1e635ff7cba2614cc15ca823c06a368aa6abb7ff.json",
+              "reference:c40e01c5-01dc-4547-8523-77804d28f894:f888f495518a40509fe6bd86bbae82de77af7438c892542b8360034869e0004e.json"
+            ],
+            "copyId": "c40e01c5-01dc-4547-8523-77804d28f894",
+            "mappingHash": "e9f2e3b326febcbf4f2994e977eaa670c47551f3411bf887039bbd4fdf48398e",
+            "effectiveCandidateHash": "65e881b38298e9ebc053dfda58308956aacc70f41402feca0adf2a0858f5c79a"
+          }
+        ],
+        "issues": [],
+        "recordRef": "validation:3924dbe7-6578-41b9-8627-49e384ba87d6"
+      },
+      "trial": {
+        "scope": "project_trial",
+        "projectId": "t6-fixture",
+        "copyId": "511052de-650f-45d6-aa7b-ba9f491990d6",
+        "candidateHash": "b7a89c92f0e844f08cc3baa98738d00efbd6d4a683aa5460d5b28dc0a6978009",
+        "ruleHash": "d7f9e045dcfa7ee1e16a5fcdf0e7333f08fd0e661d986aa94c4a076a962f9c0b",
+        "suiteHash": "",
+        "interpreterVersion": "1.0.0",
+        "mappingHash": "b07d541b353a71cb26376b9ecf06acd5f09682d6e2e69dd9b49a4b5f30dcec67",
+        "mappingDefinitionHash": "ee5423f4acaf89a18b46b114e825568693eed1dfd303d78b22cd98a675577ce8",
+        "gateResults": {
+          "completed": true,
+          "conclusive": true
+        },
+        "evidenceRefs": [
+          "target:511052de-650f-45d6-aa7b-ba9f491990d6:6fbf06724ce577389afddbc4f0df39ca65f340e81332a367068c630db5ee6aa9.json",
+          "target:511052de-650f-45d6-aa7b-ba9f491990d6:4273a0a1c72ffe133af6de71fd1c40a1be5c6b974a5e778d954c284a0e9126fd.json",
+          "target:511052de-650f-45d6-aa7b-ba9f491990d6:6bc0033b76d99194af6c3e83f74c993d7f464b8a706852f84c68d3a7a1211cee.json",
+          "target:511052de-650f-45d6-aa7b-ba9f491990d6:d730ecbef29deef21ff13e4f57c5ace32f88a2ed5713e3b4e7e3d713a8c28117.json"
+        ],
+        "completed": true,
+        "verdicts": [
+          {
+            "status": "pass",
+            "reasonCode": "ASSERTION_TRUE",
+            "ruleRef": {
+              "id": "title-update-rule",
+              "version": 1
+            },
+            "assertionRef": "updated-title",
+            "checkId": "edit",
+            "evidenceRefs": [
+              "target:511052de-650f-45d6-aa7b-ba9f491990d6:6fbf06724ce577389afddbc4f0df39ca65f340e81332a367068c630db5ee6aa9.json",
+              "target:511052de-650f-45d6-aa7b-ba9f491990d6:4273a0a1c72ffe133af6de71fd1c40a1be5c6b974a5e778d954c284a0e9126fd.json",
+              "target:511052de-650f-45d6-aa7b-ba9f491990d6:6bc0033b76d99194af6c3e83f74c993d7f464b8a706852f84c68d3a7a1211cee.json",
+              "target:511052de-650f-45d6-aa7b-ba9f491990d6:d730ecbef29deef21ff13e4f57c5ace32f88a2ed5713e3b4e7e3d713a8c28117.json"
+            ],
+            "unknownReasons": [],
+            "scope": "observation_validation"
+          },
+          {
+            "status": "pass",
+            "reasonCode": "ASSERTION_TRUE",
+            "ruleRef": {
+              "id": "title-update-rule",
+              "version": 1
+            },
+            "assertionRef": "unchanged-priority",
+            "checkId": "edit",
+            "evidenceRefs": [
+              "target:511052de-650f-45d6-aa7b-ba9f491990d6:6fbf06724ce577389afddbc4f0df39ca65f340e81332a367068c630db5ee6aa9.json",
+              "target:511052de-650f-45d6-aa7b-ba9f491990d6:4273a0a1c72ffe133af6de71fd1c40a1be5c6b974a5e778d954c284a0e9126fd.json",
+              "target:511052de-650f-45d6-aa7b-ba9f491990d6:6bc0033b76d99194af6c3e83f74c993d7f464b8a706852f84c68d3a7a1211cee.json",
+              "target:511052de-650f-45d6-aa7b-ba9f491990d6:d730ecbef29deef21ff13e4f57c5ace32f88a2ed5713e3b4e7e3d713a8c28117.json"
+            ],
+            "unknownReasons": [],
+            "scope": "observation_validation"
+          },
+          {
+            "status": "pass",
+            "reasonCode": "ASSERTION_TRUE",
+            "ruleRef": {
+              "id": "title-update-rule",
+              "version": 1
+            },
+            "assertionRef": "unchanged-owner",
+            "checkId": "edit",
+            "evidenceRefs": [
+              "target:511052de-650f-45d6-aa7b-ba9f491990d6:6fbf06724ce577389afddbc4f0df39ca65f340e81332a367068c630db5ee6aa9.json",
+              "target:511052de-650f-45d6-aa7b-ba9f491990d6:4273a0a1c72ffe133af6de71fd1c40a1be5c6b974a5e778d954c284a0e9126fd.json",
+              "target:511052de-650f-45d6-aa7b-ba9f491990d6:6bc0033b76d99194af6c3e83f74c993d7f464b8a706852f84c68d3a7a1211cee.json",
+              "target:511052de-650f-45d6-aa7b-ba9f491990d6:d730ecbef29deef21ff13e4f57c5ace32f88a2ed5713e3b4e7e3d713a8c28117.json"
+            ],
+            "unknownReasons": [],
+            "scope": "observation_validation"
+          }
+        ]
+      },
+      "metadata": {
+        "version": "1.0.0",
+        "applicable": [
+          "Reviewed HTTP JSON rule"
+        ],
+        "excluded": [
+          "Other business semantics"
+        ],
+        "instructions": "Confirm new project mapping and reset the synthetic baseline."
+      },
+      "evidenceHash": "2952cb10f95214bad5c38d6ef31cc61905f4f773cccb35a8d224c90260300499",
+      "draftHash": "a5a85e02dc2ca1320635ff17baebbae32cddfa5bb59c31afd97c807cb5845ec2",
+      "status": "published",
+      "ref": {
+        "id": "title-update-test-probe",
+        "version": "1.0.0",
+        "hash": "a5a85e02dc2ca1320635ff17baebbae32cddfa5bb59c31afd97c807cb5845ec2"
+      },
+      "review": {
+        "scope": "a5a85e02dc2ca1320635ff17baebbae32cddfa5bb59c31afd97c807cb5845ec2",
+        "validationRef": "validation:3924dbe7-6578-41b9-8627-49e384ba87d6",
+        "decision": "approve",
+        "businessConfirmation": "fixture-business",
+        "technicalReviewer": "fixture-developer",
+        "time": "2026-10-13T03:03:36.624Z"
+      },
+      "publishedAt": "2026-10-13T03:03:36.725Z"
+    }
+  ]
+}

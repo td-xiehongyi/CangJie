@@ -1,0 +1,11 @@
+✔ SQLite destructuring and re-export aliases are unproven initialization targets (675.3798ms)
+✔ crash-torn final event is preserved while complete attempts can be restored twice (1386.5137ms)
+✔ recording failure still stops website and clears tokens; tool shutdown can be retried (928.9975ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3094.6732

@@ -1,0 +1,26 @@
+
+> website-verification@0.0.0 test
+> node scripts/verify.mjs protocol
+
+✔ protocol_utf8_roundtrip: real core preserves Chinese, spaces and nested JSON (325.2577ms)
+✔ reject_version: core rejects unknown version and remains usable (42.957ms)
+✔ cancel_and_exit: pending run cancels with terminal events (40.2265ms)
+✔ core exit rejects pending request without hanging (14.1954ms)
+✔ timeout terminates unresponsive core and settles pending request (320.6072ms)
+✔ stdout logs are protocol errors, stderr logs are separate (121.8801ms)
+✔ executable and cwd with Chinese and spaces work without shell quoting (61.374ms)
+✔ unexpected process exit and missing executable settle promises (87.7067ms)
+✔ unknown kind and operation do not execute (40.2131ms)
+✔ JSONL chunking preserves correlation and rejects wrong run identity (210.1446ms)
+✔ near-limit real echo survives response envelope and JSON escaping overhead (86.9906ms)
+✔ oversized input is rejected without closing the usable core (39.7052ms)
+✔ oversized output terminates the peer and settles pending requests (409.3931ms)
+✔ multiple large valid event frames are processed independently (589.3474ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2480.6447

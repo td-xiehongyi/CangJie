@@ -1,0 +1,18 @@
+
+> website-verification@0.0.0 build:ui
+> npm run build --workspace apps/ui
+
+
+> @website-verification/ui@0.0.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 22 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.36 kB │ gzip:  0.29 kB
+dist/assets/index-5jx4FUoj.css    8.03 kB │ gzip:  2.36 kB
+dist/assets/index-Cp1zZ8wX.js   253.49 kB │ gzip: 78.67 kB
+
+✓ built in 104ms

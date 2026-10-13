@@ -1,0 +1,268 @@
+[
+  {
+    "scene": "首次接入",
+    "heading": "项目接入",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "初始化受阻",
+    "heading": "需要补齐测试数据",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "映射待确认",
+    "heading": "确认当前项目映射",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "模型输出不兼容",
+    "heading": "模型设置",
+    "scroll": 1425,
+    "unexpanded": false,
+    "width": 1425
+  },
+  {
+    "scene": "第二项目映射复用",
+    "heading": "接入第二个项目",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "凭据存储不可用",
+    "heading": "模型设置",
+    "scroll": 1425,
+    "unexpanded": false,
+    "width": 1425
+  },
+  {
+    "scene": "确认新规则",
+    "heading": "编辑工单",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "缺实验，可生成",
+    "heading": "编辑工单",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "候选草稿",
+    "heading": "编辑工单",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "首次漏检",
+    "heading": "编辑工单",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "修订后样本通过",
+    "heading": "编辑工单",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "受控端到端",
+    "heading": "编辑工单",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "项目业务失败",
+    "heading": "编辑工单",
+    "scroll": 1425,
+    "unexpanded": false,
+    "width": 1425
+  },
+  {
+    "scene": "等待审核",
+    "heading": "验证报告",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "已发布",
+    "heading": "验证报告",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "修复后复跑通过",
+    "heading": "验证报告",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "只缺映射",
+    "heading": "编辑工单",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "底层能力不足",
+    "heading": "编辑工单",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "规则待定",
+    "heading": "编辑工单",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "缺可信对照",
+    "heading": "编辑工单",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "尝试次数耗尽",
+    "heading": "编辑工单",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "实验中断",
+    "heading": "实验已中断",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "模型中途不可用",
+    "heading": "模型分析已暂停",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "内部预算耗尽",
+    "heading": "已达到内部预算上限",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "无法取得证据",
+    "heading": "验证报告",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "已有模板流程",
+    "heading": "工单提交",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "目标确认",
+    "heading": "目标负载",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "负载运行",
+    "heading": "目标负载运行中",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "违规停止",
+    "heading": "发现业务违规",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "性能超标停止",
+    "heading": "性能持续超标",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "资源上限停止",
+    "heading": "达到资源上限",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "在途结算",
+    "heading": "结算在途操作",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "结算后通过",
+    "heading": "验证报告",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "结算未知",
+    "heading": "验证报告",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "包检查通过",
+    "heading": "加载验证包",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "模板停用",
+    "heading": "加载验证包",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "包被改动",
+    "heading": "加载验证包",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  },
+  {
+    "scene": "版本不兼容",
+    "heading": "加载验证包",
+    "scroll": 1440,
+    "unexpanded": false,
+    "width": 1440
+  }
+]

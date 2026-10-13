@@ -1,0 +1,10 @@
+[package]
+  cjc-version = "1.0.5"
+  name = "verification_core"
+  version = "0.0.0"
+  output-type = "executable"
+  src-dir = "src"
+  target-dir = "target"
+  description = "Versioned JSONL transport and constrained business experiment interpreter"
+
+# The supported build entry is npm run build:core; it resolves local SDK/stdx paths.

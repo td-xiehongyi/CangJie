@@ -1,0 +1,91 @@
+✖ suite parameters cannot repair a candidate with missing required parameter declarations (5936.0674ms)
+✖ semantically equivalent renamed step IDs use independent operation trace (48.2451ms)
+✖ unsupported observation trace produces an incomplete persisted validation record (49.3018ms)
+✖ save-drop frozen samples describe the same object and consistent persisted row (1.255ms)
+✖ each HTTP case retains its actual bound mapping hash and copy identity (942.2862ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7077.8509
+
+✖ failing tests:
+
+test at tests\integration\validation-harness.test.mjs:35:1
+✖ suite parameters cannot repair a candidate with missing required parameter declarations (5936.0674ms)
+  AssertionError [ERR_ASSERTION]: suite must not supply undeclared required parameters
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:38:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\integration\validation-harness.test.mjs:40:1
+✖ semantically equivalent renamed step IDs use independent operation trace (48.2451ms)
+  Error: SAMPLE_STEP_MISSING
+      at validateObservations (file:///C:/Users/xie/Desktop/Project/apps/host/dist/validation/observations.js:28:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Module.validateAgainstSuite (file:///C:/Users/xie/Desktop/Project/apps/host/dist/validation/reference-runner.js:122:33)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:42:11)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests\integration\validation-harness.test.mjs:45:1
+✖ unsupported observation trace produces an incomplete persisted validation record (49.3018ms)
+  Error: SAMPLE_STEP_MISSING
+      at validateObservations (file:///C:/Users/xie/Desktop/Project/apps/host/dist/validation/observations.js:28:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Module.validateAgainstSuite (file:///C:/Users/xie/Desktop/Project/apps/host/dist/validation/reference-runner.js:122:33)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:48:11)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests\integration\validation-harness.test.mjs:51:1
+✖ save-drop frozen samples describe the same object and consistent persisted row (1.255ms)
+  AssertionError [ERR_ASSERTION]: persistence negative must retain bound object
+  + actual - expected
+  
+  + 'object-b'
+  - 'object-a'
+            ^
+  
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:54:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'object-b',
+    expected: 'object-a',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\integration\validation-harness.test.mjs:58:1
+✖ each HTTP case retains its actual bound mapping hash and copy identity (942.2862ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(r.copyId)
+  
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:60:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

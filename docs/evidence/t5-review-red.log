@@ -1,0 +1,53 @@
+▶ T5 registry: real validation, review binding, immutable publication and version qualification
+  ✔ drafts cannot publish or match (4.1662ms)
+  ✔ native core independently rejects failed gates, stale hashes, missing review and incomplete trial (365.9863ms)
+  ✔ missing_review_blocks (4.4783ms)
+  ✔ changed_candidate_needs_revalidation (0.9504ms)
+  ✔ changed_rule_invalidates_ticket (1.0895ms)
+  ✔ changed validation gates or review scope cannot be borrowed (1.623ms)
+  ✔ changed or missing evidence after review blocks publication (67.736ms)
+  ✔ metadata change needs a fresh review (84.7831ms)
+  ✔ core-approved immutable version retains target business fail (122.624ms)
+  ✔ rule mismatch and missing capabilities never match (646.135ms)
+  ✔ concurrent publication cannot overwrite one fixed version (0.3702ms)
+  ✔ qualification_is_version_scoped; stale objects do not bypass disable (563.211ms)
+  ✖ disabled historical evidence failure does not poison a valid independent version (67.6939ms)
+  ✖ an active version with changed evidence is excluded with a qualification reason (170.1135ms)
+  ✔ tampered stored publication is rejected (3.9092ms)
+  ✔ exact version hash and path safety enforced (0.9139ms)
+  ✔ summary separates reuse, new publication and unresolved gaps (250.5886ms)
+✖ T5 registry: real validation, review binding, immutable publication and version qualification (22188.4668ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 15
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22307.2974
+
+✖ failing tests:
+
+test at tests\integration\registry.test.mjs:69:11
+✖ disabled historical evidence failure does not poison a valid independent version (67.6939ms)
+  Error: STALE_EVIDENCE
+      at TemplateRegistry.current (file:///C:/Users/xie/Desktop/Project/apps/host/dist/templates/store.js:74:19)
+      at async TemplateRegistry.assertQualified (file:///C:/Users/xie/Desktop/Project/apps/host/dist/templates/store.js:115:9)
+      at async TemplateRegistry.matchTemplates (file:///C:/Users/xie/Desktop/Project/apps/host/dist/templates/store.js:155:17)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/registry.test.mjs:71:58)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/registry.test.mjs:69:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests\integration\registry.test.mjs:73:11
+✖ an active version with changed evidence is excluded with a qualification reason (170.1135ms)
+  Error: STALE_EVIDENCE
+      at TemplateRegistry.current (file:///C:/Users/xie/Desktop/Project/apps/host/dist/templates/store.js:74:19)
+      at async TemplateRegistry.assertQualified (file:///C:/Users/xie/Desktop/Project/apps/host/dist/templates/store.js:115:9)
+      at async TemplateRegistry.matchTemplates (file:///C:/Users/xie/Desktop/Project/apps/host/dist/templates/store.js:155:17)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/registry.test.mjs:75:61)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/registry.test.mjs:73:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)

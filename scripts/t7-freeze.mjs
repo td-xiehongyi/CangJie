@@ -1,0 +1,17 @@
+import {readFile,writeFile,mkdir,readdir} from 'node:fs/promises';
+import {join} from 'node:path';
+import {randomUUID,createHash} from 'node:crypto';
+import {TemplateRegistry} from '../apps/host/dist/templates/store.js';
+import {publishedFixture} from '../tests/support/published.mjs';
+import {existsSync} from 'node:fs';
+if(existsSync('docs/evidence/t7-freeze.json'))throw new Error('T7_FREEZE_ALREADY_EXISTS: preserve the original freeze; do not overwrite migration history');
+const root=process.cwd(),directory=join(root,'.local-data/transfer',randomUUID());
+await mkdir(directory,{recursive:true});
+const registry=new TemplateRegistry(join(directory,'registry')),publications=[];
+for(const [path,rule] of [['templates/saved-result.json','save-rule'],['templates/duplicate-submit.json','duplicate-rule'],['templates/permission-isolation.json','permission-rule'],['tests/fixtures/title-update.json','title-update-rule']])publications.push(await publishedFixture(directory,registry,path,rule));
+const paths=['templates/saved-result.json','templates/duplicate-submit.json','templates/permission-isolation.json','tests/fixtures/title-update.json','tests/reference/suite-manifest.json','tests/reference/suite-lock.json',...(await readdir('apps/core/src')).filter(p=>p.endsWith('.cj')).map(p=>'apps/core/src/'+p)];
+const files={};for(const path of paths)files[path]=createHash('sha256').update(await readFile(path)).digest('hex');
+const freeze={schemaVersion:1,frozenAt:new Date().toISOString(),scope:'isolated deterministic test publications; not live AI or formal human approval',directory,files,publications};
+await writeFile(join(directory,'freeze.json'),JSON.stringify(freeze,null,2));
+await writeFile('docs/evidence/t7-freeze.json',JSON.stringify(freeze,null,2));
+console.log(JSON.stringify({directory,count:publications.length,frozenAt:freeze.frozenAt}));

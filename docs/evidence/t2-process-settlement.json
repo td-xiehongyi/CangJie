@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-10-12T16:34:42.236Z",
+  "staleMarkers": [
+    {
+      "instanceId": "10e50397-4f98-4035-81c0-238d6de410dd",
+      "website": false,
+      "supervisor": false
+    },
+    {
+      "instanceId": "586fc52b-9c76-46e0-baf6-5d9f152e5255",
+      "website": false,
+      "supervisor": false
+    },
+    {
+      "instanceId": "6e8496c4-1569-41bc-ab6d-f4b250d07344",
+      "website": false,
+      "supervisor": false
+    },
+    {
+      "instanceId": "899e0feb-d413-4242-be03-a9536a83bb64",
+      "website": false,
+      "supervisor": false
+    }
+  ],
+  "liveUnsettled": 0,
+  "method": "signal-0 probes only; no processes killed"
+}

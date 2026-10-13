@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-12",
+  "v4_source_unchanged": {
+    "index.html": true,
+    "verify.html": true,
+    "report.html": true,
+    "settings.html": true,
+    "styles.css": true,
+    "themes.css": true,
+    "preview.js": true
+  },
+  "business_html": [
+    "index.html",
+    "report.html",
+    "settings.html",
+    "verify.html"
+  ],
+  "layout_checks": 16,
+  "js_syntax": "node --check passed",
+  "browser_error_logs": [],
+  "scope": "static preview only"
+}

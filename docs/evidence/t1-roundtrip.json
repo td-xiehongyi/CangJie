@@ -1,0 +1,24 @@
+{
+  "runId": "run",
+  "state": "completed",
+  "code": "COMPLETED",
+  "actions": [],
+  "verdicts": [
+    {
+      "status": "pass",
+      "reasonCode": "ASSERTION_TRUE",
+      "ruleRef": {
+        "id": "save-rule",
+        "version": 1
+      },
+      "assertionRef": "saved-title",
+      "checkId": "save",
+      "evidenceRefs": [
+        "fixture:observed",
+        "fixture:observed"
+      ],
+      "unknownReasons": [],
+      "scope": "observation_validation"
+    }
+  ]
+}

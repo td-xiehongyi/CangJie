@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-10-13T01:20:41.148Z",
+  "sources": [
+    {
+      "file": "index.html",
+      "expected": "b1d6f5aed4071cdbe3f3abee335c80e404961b55aa38aef36eb1606a5f3bd5a4",
+      "actual": "b1d6f5aed4071cdbe3f3abee335c80e404961b55aa38aef36eb1606a5f3bd5a4",
+      "matches": true
+    },
+    {
+      "file": "verify.html",
+      "expected": "31d330013d3ba2cd63d1b707f4bbd0989370b0c32c5bef25d5b78f2c75e939e0",
+      "actual": "31d330013d3ba2cd63d1b707f4bbd0989370b0c32c5bef25d5b78f2c75e939e0",
+      "matches": true
+    },
+    {
+      "file": "report.html",
+      "expected": "9ab6bb02e9aeaeaaf96321f0791993b1507cc752ac6598692a76b0dcd6f8208a",
+      "actual": "9ab6bb02e9aeaeaaf96321f0791993b1507cc752ac6598692a76b0dcd6f8208a",
+      "matches": true
+    },
+    {
+      "file": "settings.html",
+      "expected": "038a4aeefcba3644d0a948dd5d2a6a4983b3bda4920ae1d6537da926c6e7dc3b",
+      "actual": "038a4aeefcba3644d0a948dd5d2a6a4983b3bda4920ae1d6537da926c6e7dc3b",
+      "matches": true
+    },
+    {
+      "file": "preview.js",
+      "expected": "2b3505e05d4fdf59e71797eb07218056964598bdef615415181dd889447f6183",
+      "actual": "2b3505e05d4fdf59e71797eb07218056964598bdef615415181dd889447f6183",
+      "matches": true
+    },
+    {
+      "file": "styles.css",
+      "expected": "7e333b85e9e22f8e99392cde989a495d6e712eeb3e214b5d3acac2422591b57c",
+      "actual": "7e333b85e9e22f8e99392cde989a495d6e712eeb3e214b5d3acac2422591b57c",
+      "matches": true
+    }
+  ]
+}

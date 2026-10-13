@@ -1,0 +1,228 @@
+✖ saved-result: real Cangjie observation and HTTP normal/defect/unknown controls (1.5334ms)
+✖ duplicate-submit: real Cangjie observation and HTTP normal/defect/unknown controls (0.2173ms)
+✖ permission-isolation: real Cangjie observation and HTTP normal/defect/unknown controls (0.1529ms)
+✖ title update controls detect priority reset and owner change at the corresponding assertion (0.5429ms)
+✖ always_pass_rejected (0.271ms)
+✖ always_fail_rejected (0.215ms)
+✖ status_only_rejected (0.1803ms)
+✖ crash_is_not_detection and timeout are incomplete, never negative-control detection (0.2217ms)
+✖ untrusted suites, changed labels, and rules without reference controls stay unsupported (0.2238ms)
+✖ candidate cannot access labels or unknown operation through validation harness (0.2937ms)
+✖ validation record retains replayable sanitized HTTP evidence and frozen provenance (0.2277ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 0
+ℹ fail 11
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 87.8779
+
+✖ failing tests:
+
+test at tests\integration\validation-harness.test.mjs:10:3
+✖ saved-result: real Cangjie observation and HTTP normal/defect/unknown controls (1.5334ms)
+  AssertionError [ERR_ASSERTION]: T3 independent validation runner must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:7:29)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:11:19)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\validation-harness.test.mjs:10:3
+✖ duplicate-submit: real Cangjie observation and HTTP normal/defect/unknown controls (0.2173ms)
+  AssertionError [ERR_ASSERTION]: T3 independent validation runner must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:7:29)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:11:19)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\validation-harness.test.mjs:10:3
+✖ permission-isolation: real Cangjie observation and HTTP normal/defect/unknown controls (0.1529ms)
+  AssertionError [ERR_ASSERTION]: T3 independent validation runner must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:7:29)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:11:19)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\validation-harness.test.mjs:21:1
+✖ title update controls detect priority reset and owner change at the corresponding assertion (0.5429ms)
+  AssertionError [ERR_ASSERTION]: T3 independent validation runner must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:7:29)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:22:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\validation-harness.test.mjs:29:90
+✖ always_pass_rejected (0.271ms)
+  AssertionError [ERR_ASSERTION]: T3 independent validation runner must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:7:29)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:30:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\validation-harness.test.mjs:29:90
+✖ always_fail_rejected (0.215ms)
+  AssertionError [ERR_ASSERTION]: T3 independent validation runner must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:7:29)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:30:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\validation-harness.test.mjs:29:90
+✖ status_only_rejected (0.1803ms)
+  AssertionError [ERR_ASSERTION]: T3 independent validation runner must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:7:29)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:30:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\validation-harness.test.mjs:37:1
+✖ crash_is_not_detection and timeout are incomplete, never negative-control detection (0.2217ms)
+  AssertionError [ERR_ASSERTION]: T3 independent validation runner must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:7:29)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:38:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\validation-harness.test.mjs:45:1
+✖ untrusted suites, changed labels, and rules without reference controls stay unsupported (0.2238ms)
+  AssertionError [ERR_ASSERTION]: T3 independent validation runner must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:7:29)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:46:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\validation-harness.test.mjs:50:1
+✖ candidate cannot access labels or unknown operation through validation harness (0.2937ms)
+  AssertionError [ERR_ASSERTION]: T3 independent validation runner must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:7:29)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:51:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\validation-harness.test.mjs:54:1
+✖ validation record retains replayable sanitized HTTP evidence and frozen provenance (0.2277ms)
+  AssertionError [ERR_ASSERTION]: T3 independent validation runner must exist
+      at api (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:7:29)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/validation-harness.test.mjs:55:17)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

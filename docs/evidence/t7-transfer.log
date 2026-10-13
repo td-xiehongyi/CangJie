@@ -1,0 +1,25 @@
+
+> website-verification@0.0.0 verify
+> node scripts/verify.mjs transfer
+
+✔ T7 frozen publications restore in an empty directory without republishing (504.9624ms)
+✔ T7 fixture rejects tampered bytes and escaping paths before any restore (181.1405ms)
+▶ T7 frozen templates execute against registration with new evidence
+  ✔ three seeds and field-preservation candidate pass with registration HTTP evidence (4840.8491ms)
+  ✔ invalid registration baseline wrong-count blocks before HTTP actions (850.4152ms)
+  ✔ invalid registration baseline conflicting-alias blocks before HTTP actions (806.8507ms)
+  ✔ missing preserved field produces unknown rather than inherited success (1440.0183ms)
+  ✔ registration track-reset is detected by the frozen candidate (1582.5176ms)
+  ✔ registration owner-change is detected by the frozen candidate (1512.4116ms)
+  ✔ changed business semantics are rejected before any project execution (928.8439ms)
+  ✔ same publications remain qualified and unchanged without republication (401.1072ms)
+T7 evidence: C:\Users\xie\Desktop\Project\.local-data\transfer-runs\1b086621-30f3-4de5-8c12-47fd5a720e4b
+✔ T7 frozen templates execute against registration with new evidence (12664.7711ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13558.9333

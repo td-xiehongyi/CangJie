@@ -1,0 +1,44 @@
+✖ original_unchanged and original database/secrets excluded from copy (5234.8727ms)
+✔ database path alias, object config and constructor alias cannot bypass test target proof (593.0793ms)
+✖ wrong business intent write response is unknown with inspectable HTTP evidence (6907.9947ms)
+✖ host crash disconnects old website; reopened environment requires new passwords and linked full rerun (4026.6808ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 1
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16881.7031
+
+✖ failing tests:
+
+test at tests\integration\access.test.mjs:24:1
+✖ original_unchanged and original database/secrets excluded from copy (5234.8727ms)
+  Error: OLD_PROCESS_NOT_ISOLATED
+      at OwnedProcess.stop (file:///C:/Users/xie/Desktop/Project/apps/host/dist/projects/start.js:56:15)
+      at async TestEnvironment.isolate (file:///C:/Users/xie/Desktop/Project/apps/host/dist/projects/reset.js:253:9)
+      at async TestEnvironment.interrupt (file:///C:/Users/xie/Desktop/Project/apps/host/dist/projects/reset.js:259:31)
+      at async TestEnvironment.close (file:///C:/Users/xie/Desktop/Project/apps/host/dist/projects/reset.js:268:17)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:24:665)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests\integration\access.test.mjs:51:1
+✖ wrong business intent write response is unknown with inspectable HTTP evidence (6907.9947ms)
+  Error: OLD_PROCESS_NOT_ISOLATED
+      at OwnedProcess.stop (file:///C:/Users/xie/Desktop/Project/apps/host/dist/projects/start.js:56:15)
+      at async TestEnvironment.uncertainWrite (file:///C:/Users/xie/Desktop/Project/apps/host/dist/projects/reset.js:248:9)
+      at async file:///C:/Users/xie/Desktop/Project/apps/host/dist/execution/http.js:128:17
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:51:374)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests\integration\access.test.mjs:52:1
+✖ host crash disconnects old website; reopened environment requires new passwords and linked full rerun (4026.6808ms)
+  Error: OLD_PROCESS_NOT_ISOLATED
+      at TestEnvironment.ensureOldProcessesStopped (file:///C:/Users/xie/Desktop/Project/apps/host/dist/projects/reset.js:100:15)
+      at async TestEnvironment.prepare (file:///C:/Users/xie/Desktop/Project/apps/host/dist/projects/reset.js:135:13)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:52:1462)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

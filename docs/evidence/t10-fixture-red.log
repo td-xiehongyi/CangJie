@@ -1,0 +1,26 @@
+✖ T10 frozen projects preserve originals and reproduce the intended difference over HTTP (2.7791ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 100.9886
+
+✖ failing tests:
+
+test at tests\integration\comparison-fixture.test.mjs:15:1
+✖ T10 frozen projects preserve originals and reproduce the intended difference over HTTP (2.7791ms)
+  Error: ENOENT: no such file or directory, open 'C:\Users\xie\Desktop\Project\output\t10-comparison\private-manifest.json'
+      at async open (node:internal/fs/promises:697:25)
+      at async readFile (node:internal/fs/promises:1348:14)
+      at async load (file:///C:/Users/xie/Desktop/Project/tests/integration/comparison-fixture.test.mjs:13:32)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/comparison-fixture.test.mjs:16:18)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    errno: -4058,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: 'C:\\Users\\xie\\Desktop\\Project\\output\\t10-comparison\\private-manifest.json'
+  }

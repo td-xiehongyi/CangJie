@@ -1,0 +1,24 @@
+TAP version 13
+# Subtest: workbench state save survives a transient Windows reader lock without losing config
+not ok 1 - workbench state save survives a transient Windows reader lock without losing config
+  ---
+  duration_ms: 555.8686
+  type: 'test'
+  location: 'C:\\Users\\xie\\Desktop\\Project\\tests\\integration\\workbench-state.test.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    {"error":"EPERM: operation not permitted, rename 'C:\\Users\\xie\\Desktop\\Project\\.local-data\\workbench-lock-tests\\9126f123-2c67-4e0b-b0b6-d28310a01537\\b7ceced8-d115-4412-8d5b-95ec52dde36f.tmp' -> 'C:\\Users\\xie\\Desktop\\Project\\.local-data\\workbench-lock-tests\\9126f123-2c67-4e0b-b0b6-d28310a01537\\state.json'"}
+    
+    400 !== 200
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 200
+  actual: 400
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/workbench-state.test.mjs:21:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...

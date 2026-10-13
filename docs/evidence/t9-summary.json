@@ -1,0 +1,52 @@
+{
+  "decisions": [
+    "Separate developer validation resource pack approved by user",
+    "No old state or original credentials reused",
+    "No Git initialization, commit, push or publication",
+    "Whole-suite harness cap 900 seconds; individual/product budgets unchanged"
+  ],
+  "deferredMinor": "Manifest does not separately list interpreter version; runtime records expose 1.0.0",
+  "evidence": {
+    "sourceBuild": "t9-source-build.log",
+    "startup": "t9-startup.json",
+    "releaseTests": "t9-release.log",
+    "review": "t9-review.md",
+    "delivery": "t9-delivery.json",
+    "allTests": "t9-all.log",
+    "environment": "t9-environment.json",
+    "freshRun": "t9-latest.json"
+  },
+  "date": "2026-10-13",
+  "checks": {
+    "zipFilesVerified": [
+      175,
+      9
+    ],
+    "releaseSuite": 7,
+    "fullSuite": 242,
+    "fullPassed": 242,
+    "entryStartup": "passed",
+    "releasePassed": 7,
+    "runtimeMatchesAcceptedPackage": true,
+    "originalBuild": "passed",
+    "documentationOnlyChanges": [
+      "docs/release-check.md"
+    ],
+    "deliverySourceBuild": "passed",
+    "edgeWidths": [
+      1280,
+      768,
+      390
+    ]
+  },
+  "schemaVersion": 1,
+  "open": [
+    "Actual model API configuration supplied locally by user",
+    "Real model candidate generation and actual human review/publication",
+    "Other computer compatibility unverified",
+    "Video and final competition materials not produced; outline only",
+    "T10 not started"
+  ],
+  "phase": "T9 development delivery",
+  "status": "development_complete_formal_acceptance_open"
+}

@@ -1,0 +1,132 @@
+{
+  "id": "reviewed-reference-http",
+  "version": 1,
+  "authMode": "token",
+  "targetRef": "unbound",
+  "actorRefs": [
+    "owner",
+    "other"
+  ],
+  "auth": {
+    "loginPath": "/login",
+    "usernameField": "username",
+    "passwordField": "password",
+    "tokenPath": [
+      "token"
+    ],
+    "identityPath": "/me",
+    "idPath": [
+      "id"
+    ]
+  },
+  "operations": [
+    {
+      "operationId": "create",
+      "method": "POST",
+      "path": "/tickets",
+      "bodyBindings": {
+        "title": "title",
+        "intentId": "intent",
+        "delayMs": "delayMs"
+      }
+    },
+    {
+      "operationId": "update",
+      "method": "PATCH",
+      "path": "/tickets/:id",
+      "bodyBindings": {
+        "title": "title"
+      }
+    },
+    {
+      "operationId": "query",
+      "method": "GET",
+      "path": "/tickets",
+      "queryBindings": {
+        "id": "id",
+        "intentId": "intent",
+        "limit": "limit"
+      }
+    }
+  ],
+  "resultBindings": {
+    "create": {
+      "id": [
+        "id"
+      ],
+      "title": [
+        "title"
+      ],
+      "ownerId": [
+        "ownerId"
+      ],
+      "priority": [
+        "priority"
+      ],
+      "status": [
+        "status"
+      ]
+    },
+    "update": {
+      "id": [
+        "id"
+      ],
+      "title": [
+        "title"
+      ],
+      "ownerId": [
+        "ownerId"
+      ],
+      "priority": [
+        "priority"
+      ],
+      "status": [
+        "status"
+      ]
+    },
+    "query": {
+      "id": [
+        "items",
+        "0",
+        "id"
+      ],
+      "title": [
+        "items",
+        "0",
+        "title"
+      ],
+      "items": [
+        "items"
+      ],
+      "ownerId": [
+        "items",
+        "0",
+        "ownerId"
+      ],
+      "priority": [
+        "items",
+        "0",
+        "priority"
+      ],
+      "status": [
+        "status"
+      ]
+    }
+  },
+  "queryCompleteness": {
+    "query": {
+      "itemsPath": [
+        "items"
+      ],
+      "totalPath": [
+        "total"
+      ],
+      "hasMorePath": [
+        "hasMore"
+      ],
+      "completePath": [
+        "complete"
+      ]
+    }
+  }
+}

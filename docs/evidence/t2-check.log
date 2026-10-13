@@ -1,0 +1,20 @@
+
+> website-verification@0.0.0 check
+> npm run build:contracts && npm run build:host && npm run build:sample && npm run build:core
+
+
+> website-verification@0.0.0 build:contracts
+> tsc -p packages/contracts/tsconfig.json
+
+
+> website-verification@0.0.0 build:host
+> tsc -p apps/host/tsconfig.json
+
+
+> website-verification@0.0.0 build:sample
+> tsc -p samples/ticket/tsconfig.json
+
+
+> website-verification@0.0.0 build:core
+> node scripts/build-core.mjs
+

@@ -1,0 +1,190 @@
+✖ shared TS schema rejects malformed fixtures before core execution (1.6948ms)
+✖ seed save-result normal (0.5372ms)
+✖ seed save-result business-defect (0.369ms)
+✖ seed save-result insufficient (0.3436ms)
+✖ seed duplicate-submit normal (0.3226ms)
+✖ seed duplicate-submit business-defect (0.3569ms)
+✖ seed duplicate-submit insufficient (0.4081ms)
+✖ seed permission-isolation normal (0.3576ms)
+✖ seed permission-isolation business-defect (0.3297ms)
+✖ seed permission-isolation insufficient (0.3319ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 0
+ℹ fail 10
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 97.3582
+
+✖ failing tests:
+
+test at tests\contracts\interpreter.test.mjs:62:1
+✖ shared TS schema rejects malformed fixtures before core execution (1.6948ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\xie\Desktop\Project\packages\contracts\dist\validate.js' imported from C:\Users\xie\Desktop\Project\tests\contracts\interpreter.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///C:/Users/xie/Desktop/Project/packages/contracts/dist/validate.js'
+  }
+
+test at tests\contracts\interpreter.test.mjs:68:171
+✖ seed save-result normal (0.5372ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\xie\Desktop\Project\packages\contracts\dist\validate.js' imported from C:\Users\xie\Desktop\Project\tests\contracts\interpreter.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///C:/Users/xie/Desktop/Project/packages/contracts/dist/validate.js'
+  }
+
+test at tests\contracts\interpreter.test.mjs:68:171
+✖ seed save-result business-defect (0.369ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\xie\Desktop\Project\packages\contracts\dist\validate.js' imported from C:\Users\xie\Desktop\Project\tests\contracts\interpreter.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///C:/Users/xie/Desktop/Project/packages/contracts/dist/validate.js'
+  }
+
+test at tests\contracts\interpreter.test.mjs:68:171
+✖ seed save-result insufficient (0.3436ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\xie\Desktop\Project\packages\contracts\dist\validate.js' imported from C:\Users\xie\Desktop\Project\tests\contracts\interpreter.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///C:/Users/xie/Desktop/Project/packages/contracts/dist/validate.js'
+  }
+
+test at tests\contracts\interpreter.test.mjs:68:171
+✖ seed duplicate-submit normal (0.3226ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\xie\Desktop\Project\packages\contracts\dist\validate.js' imported from C:\Users\xie\Desktop\Project\tests\contracts\interpreter.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///C:/Users/xie/Desktop/Project/packages/contracts/dist/validate.js'
+  }
+
+test at tests\contracts\interpreter.test.mjs:68:171
+✖ seed duplicate-submit business-defect (0.3569ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\xie\Desktop\Project\packages\contracts\dist\validate.js' imported from C:\Users\xie\Desktop\Project\tests\contracts\interpreter.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///C:/Users/xie/Desktop/Project/packages/contracts/dist/validate.js'
+  }
+
+test at tests\contracts\interpreter.test.mjs:68:171
+✖ seed duplicate-submit insufficient (0.4081ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\xie\Desktop\Project\packages\contracts\dist\validate.js' imported from C:\Users\xie\Desktop\Project\tests\contracts\interpreter.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///C:/Users/xie/Desktop/Project/packages/contracts/dist/validate.js'
+  }
+
+test at tests\contracts\interpreter.test.mjs:68:171
+✖ seed permission-isolation normal (0.3576ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\xie\Desktop\Project\packages\contracts\dist\validate.js' imported from C:\Users\xie\Desktop\Project\tests\contracts\interpreter.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///C:/Users/xie/Desktop/Project/packages/contracts/dist/validate.js'
+  }
+
+test at tests\contracts\interpreter.test.mjs:68:171
+✖ seed permission-isolation business-defect (0.3297ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\xie\Desktop\Project\packages\contracts\dist\validate.js' imported from C:\Users\xie\Desktop\Project\tests\contracts\interpreter.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///C:/Users/xie/Desktop/Project/packages/contracts/dist/validate.js'
+  }
+
+test at tests\contracts\interpreter.test.mjs:68:171
+✖ seed permission-isolation insufficient (0.3319ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\xie\Desktop\Project\packages\contracts\dist\validate.js' imported from C:\Users\xie\Desktop\Project\tests\contracts\interpreter.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///C:/Users/xie/Desktop/Project/packages/contracts/dist/validate.js'
+  }

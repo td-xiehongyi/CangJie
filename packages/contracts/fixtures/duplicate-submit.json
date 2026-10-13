@@ -1,0 +1,11 @@
+{
+  "id":"duplicate-submit","revision":1,"ruleRef":{"id":"duplicate-rule","version":1},
+  "parameters":{"title":"测试工单","intent":"same-intent"},"requiredCapabilities":["create","query"],"checks":["duplicate"],
+  "steps":[
+    {"stepId":"first","checkId":"duplicate","operationId":"create","actorRef":"owner","bindings":{"intent":{"op":"field","var":"params","path":["intent"]}},"output":"first"},
+    {"stepId":"retry","checkId":"duplicate","operationId":"create","actorRef":"owner","bindings":{"intent":{"op":"field","var":"params","path":["intent"]}},"output":"retry"},
+    {"stepId":"query","checkId":"duplicate","operationId":"query","actorRef":"owner","bindings":{"intent":{"op":"field","var":"params","path":["intent"]}},"output":"records"}
+  ],
+  "assertions":[{"id":"one-result","checkId":"duplicate","expr":{"op":"eq","args":[{"op":"count","arg":{"op":"field","var":"records","path":["items"]}},{"op":"const","value":1}]}}],
+  "evidenceRequirements":{"identityVerified":true,"queryComplete":true,"acceptanceKnown":true,"evidenceRefs":true},"limits":{"maxActions":16,"actionTimeoutMs":1000,"runTimeoutMs":10000}
+}

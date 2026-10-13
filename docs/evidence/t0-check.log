@@ -1,0 +1,12 @@
+
+> website-verification@0.0.0 check
+> npm run build:host && npm run build:core
+
+
+> website-verification@0.0.0 build:host
+> tsc -p apps/host/tsconfig.json
+
+
+> website-verification@0.0.0 build:core
+> node scripts/build-core.mjs
+

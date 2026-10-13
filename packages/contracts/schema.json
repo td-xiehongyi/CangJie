@@ -1,0 +1,1084 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:website-verification:contracts:v1",
+  "$ref": "#/$defs/TemplateSpec",
+  "$defs": {
+    "Id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "Version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "Strings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "RuleRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "version": {
+          "$ref": "#/$defs/Version"
+        }
+      }
+    },
+    "Expr": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "var",
+            "path"
+          ],
+          "properties": {
+            "op": {
+              "const": "field"
+            },
+            "var": {
+              "$ref": "#/$defs/Id"
+            },
+            "path": {
+              "type": "array",
+              "maxItems": 12,
+              "items": {
+                "$ref": "#/$defs/Id"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "value"
+          ],
+          "properties": {
+            "op": {
+              "const": "const"
+            },
+            "value": {}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "arg"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "count",
+                "not"
+              ]
+            },
+            "arg": {
+              "$ref": "#/$defs/Expr"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "args"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "eq",
+                "neq",
+                "contains"
+              ]
+            },
+            "args": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "$ref": "#/$defs/Expr"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "args"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "all",
+                "any"
+              ]
+            },
+            "args": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 32,
+              "items": {
+                "$ref": "#/$defs/Expr"
+              }
+            }
+          }
+        },
+        {
+          "additionalProperties": false,
+          "type": "object",
+          "required": [
+            "op",
+            "arg"
+          ],
+          "properties": {
+            "arg": {
+              "$ref": "#/$defs/FieldExpr"
+            },
+            "op": {
+              "const": "exists"
+            }
+          }
+        }
+      ]
+    },
+    "Step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stepId",
+        "checkId",
+        "operationId",
+        "actorRef",
+        "bindings",
+        "output"
+      ],
+      "properties": {
+        "stepId": {
+          "$ref": "#/$defs/Id"
+        },
+        "checkId": {
+          "$ref": "#/$defs/Id"
+        },
+        "operationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "actorRef": {
+          "$ref": "#/$defs/Id"
+        },
+        "bindings": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/Expr"
+          }
+        },
+        "output": {
+          "$ref": "#/$defs/Id"
+        },
+        "expectedAcceptance": {
+          "enum": [
+            "accepted",
+            "rejected"
+          ]
+        }
+      }
+    },
+    "Assertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "checkId",
+        "expr"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "checkId": {
+          "$ref": "#/$defs/Id"
+        },
+        "expr": {
+          "$ref": "#/$defs/Expr"
+        }
+      }
+    },
+    "EvidenceRequirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identityVerified",
+        "queryComplete",
+        "acceptanceKnown",
+        "evidenceRefs"
+      ],
+      "properties": {
+        "identityVerified": {
+          "const": true
+        },
+        "queryComplete": {
+          "const": true
+        },
+        "acceptanceKnown": {
+          "const": true
+        },
+        "evidenceRefs": {
+          "const": true
+        }
+      }
+    },
+    "Limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maxActions",
+        "actionTimeoutMs",
+        "runTimeoutMs"
+      ],
+      "properties": {
+        "maxActions": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "actionTimeoutMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30000
+        },
+        "runTimeoutMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300000
+        }
+      }
+    },
+    "TemplateSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "revision",
+        "ruleRef",
+        "parameters",
+        "requiredCapabilities",
+        "checks",
+        "steps",
+        "assertions",
+        "evidenceRequirements",
+        "limits"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "revision": {
+          "$ref": "#/$defs/Version"
+        },
+        "ruleRef": {
+          "$ref": "#/$defs/RuleRef"
+        },
+        "parameters": {
+          "type": "object"
+        },
+        "requiredCapabilities": {
+          "$ref": "#/$defs/Strings"
+        },
+        "checks": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/Id"
+          }
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/Step"
+          }
+        },
+        "assertions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/Assertion"
+          }
+        },
+        "evidenceRequirements": {
+          "$ref": "#/$defs/EvidenceRequirements"
+        },
+        "limits": {
+          "$ref": "#/$defs/Limits"
+        }
+      }
+    },
+    "CapabilitySet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operations",
+        "actorRefs",
+        "expressions"
+      ],
+      "properties": {
+        "operations": {
+          "$ref": "#/$defs/Strings"
+        },
+        "actorRefs": {
+          "$ref": "#/$defs/Strings"
+        },
+        "expressions": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "field",
+              "const",
+              "exists",
+              "eq",
+              "neq",
+              "count",
+              "contains",
+              "all",
+              "any",
+              "not"
+            ]
+          }
+        }
+      }
+    },
+    "RuleContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "confirmation",
+        "source",
+        "preconditions",
+        "expectedChanges",
+        "invariants",
+        "completionDeadline"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "version": {
+          "$ref": "#/$defs/Version"
+        },
+        "confirmation": {
+          "enum": [
+            "confirmed",
+            "pending"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preconditions": {
+          "$ref": "#/$defs/Strings"
+        },
+        "expectedChanges": {
+          "$ref": "#/$defs/Strings"
+        },
+        "invariants": {
+          "$ref": "#/$defs/Strings"
+        },
+        "completionDeadline": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300000
+        }
+      }
+    },
+    "ToolAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actionId",
+        "operationId",
+        "actorRef",
+        "intentId",
+        "attemptId",
+        "checkId",
+        "stepId",
+        "bindings",
+        "deadline",
+        "isolationKey",
+        "requiresBaseline"
+      ],
+      "properties": {
+        "actionId": {
+          "type": "string"
+        },
+        "operationId": {
+          "$ref": "#/$defs/Id"
+        },
+        "actorRef": {
+          "$ref": "#/$defs/Id"
+        },
+        "intentId": {
+          "type": "string"
+        },
+        "attemptId": {
+          "type": "string"
+        },
+        "checkId": {
+          "$ref": "#/$defs/Id"
+        },
+        "stepId": {
+          "$ref": "#/$defs/Id"
+        },
+        "bindings": {
+          "type": "object"
+        },
+        "deadline": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30000
+        },
+        "isolationKey": {
+          "type": "string"
+        },
+        "requiresBaseline": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actionId",
+        "intentId",
+        "attemptId",
+        "transportStatus",
+        "identityVerified",
+        "acceptance",
+        "result",
+        "queryComplete",
+        "evidenceRefs"
+      ],
+      "properties": {
+        "actionId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intentId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attemptId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transportStatus": {
+          "enum": [
+            "ok",
+            "timeout",
+            "error"
+          ]
+        },
+        "identityVerified": {
+          "type": "boolean"
+        },
+        "acceptance": {
+          "enum": [
+            "accepted",
+            "rejected",
+            "unknown"
+          ]
+        },
+        "result": {},
+        "queryComplete": {
+          "type": "boolean"
+        },
+        "evidenceRefs": {
+          "$ref": "#/$defs/Strings"
+        }
+      }
+    },
+    "Verdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reasonCode",
+        "ruleRef",
+        "assertionRef",
+        "checkId",
+        "evidenceRefs",
+        "scope",
+        "unknownReasons"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "pass",
+            "fail",
+            "inconclusive"
+          ]
+        },
+        "reasonCode": {
+          "type": "string"
+        },
+        "ruleRef": {
+          "$ref": "#/$defs/RuleRef"
+        },
+        "assertionRef": {
+          "$ref": "#/$defs/Id"
+        },
+        "checkId": {
+          "$ref": "#/$defs/Id"
+        },
+        "evidenceRefs": {
+          "$ref": "#/$defs/Strings"
+        },
+        "scope": {
+          "enum": ["observation_validation", "published_template"]
+        },
+        "unknownReasons": {
+          "$ref": "#/$defs/Strings"
+        }
+      }
+    },
+    "Transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runId",
+        "state",
+        "code",
+        "actions",
+        "verdicts"
+      ],
+      "properties": {
+        "runId": {
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "draft",
+            "awaiting_confirmation",
+            "ready",
+            "running",
+            "paused",
+            "blocked",
+            "completed",
+            "cancelled"
+          ]
+        },
+        "code": {
+          "type": "string"
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ToolAction"
+          }
+        },
+        "verdicts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Verdict"
+          }
+        }
+      }
+    },
+    "Envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "messageId",
+        "runId",
+        "kind",
+        "payload"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "messageId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "start",
+            "action",
+            "observation",
+            "cancel",
+            "event"
+          ]
+        },
+        "payload": {
+          "type": "object"
+        }
+      }
+    },
+    "MappingSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "authMode",
+        "operations",
+        "actorRefs",
+        "targetRef",
+        "resultBindings",
+        "queryCompleteness",
+        "auth"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "version": {
+          "$ref": "#/$defs/Version"
+        },
+        "authMode": {
+          "const": "token"
+        },
+        "operations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "operationId",
+              "method",
+              "path"
+            ],
+            "properties": {
+              "operationId": {
+                "$ref": "#/$defs/Id"
+              },
+              "method": {
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PATCH",
+                  "PUT",
+                  "DELETE"
+                ]
+              },
+              "path": {
+                "type": "string"
+              },
+              "bodyBindings": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "queryBindings": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        },
+        "actorRefs": {
+          "$ref": "#/$defs/Strings"
+        },
+        "targetRef": {
+          "type": "string"
+        },
+        "resultBindings": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 12,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9_-]+$"
+              }
+            }
+          }
+        },
+        "queryCompleteness": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "itemsPath",
+              "totalPath",
+              "hasMorePath",
+              "completePath"
+            ],
+            "properties": {
+              "itemsPath": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 12,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9_-]+$"
+                }
+              },
+              "totalPath": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 12,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9_-]+$"
+                }
+              },
+              "hasMorePath": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 12,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9_-]+$"
+                }
+              },
+              "completePath": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 12,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9_-]+$"
+                }
+              }
+            }
+          }
+        },
+        "auth": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "loginPath",
+            "usernameField",
+            "passwordField",
+            "tokenPath",
+            "identityPath",
+            "idPath"
+          ],
+          "properties": {
+            "loginPath": {
+              "type": "string"
+            },
+            "usernameField": {
+              "type": "string"
+            },
+            "passwordField": {
+              "type": "string"
+            },
+            "tokenPath": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 12,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9_-]+$"
+              }
+            },
+            "identityPath": {
+              "type": "string"
+            },
+            "idPath": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 12,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9_-]+$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ValidationRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope",
+        "candidateHash",
+        "ruleHash",
+        "interpreterVersion",
+        "suiteHash",
+        "mappingHash",
+        "gateResults",
+        "evidenceRefs"
+      ],
+      "properties": {
+        "scope": {
+          "enum": [
+            "template_validation",
+            "project_trial"
+          ]
+        },
+        "candidateHash": {
+          "type": "string"
+        },
+        "ruleHash": {
+          "type": "string"
+        },
+        "interpreterVersion": {
+          "type": "string"
+        },
+        "suiteHash": {
+          "type": "string"
+        },
+        "mappingHash": {
+          "type": "string"
+        },
+        "gateResults": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "boolean"
+          }
+        },
+        "evidenceRefs": {
+          "$ref": "#/$defs/Strings"
+        },
+        "projectId": {
+          "type": "string"
+        },
+        "mappingDefinitionHash": {
+          "type": "string"
+        },
+        "recordRef": {
+          "type": "string"
+        },
+        "copyId": {
+          "type": "string"
+        },
+        "completed": {
+          "type": "boolean"
+        },
+        "verdicts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Verdict" }
+        },
+        "issues": {
+          "$ref": "#/$defs/Strings"
+        },
+        "cases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ValidationCaseResult"
+          }
+        }
+      }
+    },
+    "ReviewRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "validationRef",
+        "businessConfirmation",
+        "technicalReviewer",
+        "decision",
+        "time",
+        "scope"
+      ],
+      "properties": {
+        "validationRef": {
+          "type": "string"
+        },
+        "businessConfirmation": {
+          "type": "string"
+        },
+        "technicalReviewer": {
+          "type": "string"
+        },
+        "decision": {
+          "enum": [
+            "approve",
+            "reject"
+          ]
+        },
+        "time": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        }
+      }
+    },
+    "TargetLoadPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "flowRef",
+        "targetRate",
+        "duration",
+        "operationMix",
+        "dataScale",
+        "latencyThreshold",
+        "errorThreshold",
+        "window",
+        "maxOperations",
+        "settlementDeadline"
+      ],
+      "properties": {
+        "flowRef": {
+          "type": "string"
+        },
+        "targetRate": {
+          "type": "number",
+          "minimum": 0
+        },
+        "duration": {
+          "type": "number",
+          "minimum": 0
+        },
+        "operationMix": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "dataScale": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "latencyThreshold": {
+          "type": "number",
+          "minimum": 0
+        },
+        "errorThreshold": {
+          "type": "number",
+          "minimum": 0
+        },
+        "window": {
+          "type": "number",
+          "minimum": 0
+        },
+        "maxOperations": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "settlementDeadline": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "FieldExpr": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "op",
+        "var",
+        "path"
+      ],
+      "properties": {
+        "op": {
+          "const": "field"
+        },
+        "var": {
+          "$ref": "#/$defs/Id"
+        },
+        "path": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "$ref": "#/$defs/Id"
+          }
+        }
+      }
+    },
+    "ValidationCaseResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "caseId",
+        "phase",
+        "completed",
+        "matched",
+        "verdicts",
+        "evidenceRefs"
+      ],
+      "properties": {
+        "caseId": {
+          "type": "string"
+        },
+        "phase": {
+          "enum": [
+            "observation",
+            "http"
+          ]
+        },
+        "completed": {
+          "type": "boolean"
+        },
+        "matched": {
+          "type": "boolean"
+        },
+        "verdicts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Verdict"
+          }
+        },
+        "evidenceRefs": {
+          "$ref": "#/$defs/Strings"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "copyId": {
+          "type": "string"
+        },
+        "mappingHash": {
+          "type": "string"
+        },
+        "effectiveCandidateHash": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

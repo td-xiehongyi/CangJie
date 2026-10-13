@@ -1,0 +1,130 @@
+[
+  {
+    "route": "index.html",
+    "body": "项目接入\n模型尚未配置\n\n首次分析前需填写模型并检查输出。前往模型设置\n\n项目信息\n项目目录\n选择目录\n网站用途\n测试账号\n两个普通用户\n用户甲\n测试密码\n用户乙\n测试密码\n密码仅本次会话使用\n开始分析\n发送范围\n调整\n模型服务\napi.deepseek.com\n所选文件\nsrc/routes/tickets.ts\nsrc/auth.ts · package.json\n\n仅相关摘要与源码片段，排除凭据、环境文件和数据库。\n\n同意发送以上内容\n测试环境\n源码副本\nticket-app-test\n独立数据库\nticket-test.sqlite\n数据来源\n已有测试初始化入口\n确认测试副本与专用测试数据",
+    "simulation": false,
+    "theme": "blue",
+    "title": "项目接入",
+    "pass": true
+  },
+  {
+    "route": "settings.html",
+    "body": "模型设置\n模型服务\n服务\nDeepSeek 官方\n自定义地址\n接口地址\n模型名称\nAPI Key\n记住 API Key\n存储与兼容范围\n清除已存密钥\n检查连接\n保存",
+    "simulation": false,
+    "theme": "blue",
+    "title": "模型设置",
+    "pass": true
+  },
+  {
+    "route": "verify.html?state=rules",
+    "body": "编辑工单\n更换流程\n01\n规则确认\n02\n候选生成\n03\n分层验证\n04\n审核发布\n05\n复跑\n确认业务规则\n0/1 已确认\n只修改标题时，优先级和所有者保持不变\n无适用模板\n待确认\n编辑\n\n待定规则仅保留观察，不参与对错判定。\n\n确认并检查能力\n执行范围\n1 条流程\n主流程\n编辑工单\n测试身份\nuser_a / user_b\n测试环境\n独立副本 · seed-v1\n最终取证\nHTTP 查询\n接口映射与取证\n规则与适用条件",
+    "simulation": false,
+    "theme": "blue",
+    "title": "编辑工单",
+    "pass": true
+  },
+  {
+    "route": "report.html?state=published",
+    "body": "验证报告\n\n编辑工单 · R014 · 候选试运行 · 本轮已结束\n\n导出\n修复后复测\n业务结果\n候选资格\n已发布\n结果摘要\n业务结果\n业务失败\n模板资格\n已发布 · v1.0\n验证范围\n低负载字段保持\n目标负载未测\n\n先修复业务错误并通过复测。\n\n历史运行\n运行与版本\n选择下一条流程\n修改标题时优先级被重置\n业务失败\n预期\n优先级保持为高\n实际\n普通，被重置\n复现与证据\n用户甲创建高优先级工单 T201，保存操作前快照。\n仅更新标题，再查询同一 ID 的完整结果。\ntitle 更新正确，priority 从 high 变为 normal；ownerId 未变化。\n请求、响应与断言\n复制修复说明\n完整证据\n实验有效，项目业务失败\n\n候选对照验证已通过；修复网站，不放宽规则。\n\n模板适用说明",
+    "simulation": false,
+    "theme": "blue",
+    "title": "验证报告",
+    "pass": true
+  },
+  {
+    "route": "verify.html?state=generated",
+    "body": "编辑工单\n更换流程\n01\n规则确认\n02\n候选生成\n03\n分层验证\n04\n审核发布\n05\n复跑\n字段保持实验\n候选 v0.1 · 草稿\n建立初始状态\n\n用户甲创建高优先级工单，查询并保存 id、priority、ownerId。\n\n只修改标题\n\n使用甲的身份更新同一张工单，确认请求被接受。\n\n查询最终结果\n\n标题等于新值；优先级等于操作前值；所有者按候选包含关系检查（待验证）。\n\n断言与执行限制\n首次生成后最多自动修订 2 轮\n开始验证候选\n验证层次\n定义检查\n当前\n独立样本\n待执行\n受控端到端\n待执行\n项目试运行\n待执行\n\n每轮重新验证，标准与业务规则保持不变。\n\n版本与依据",
+    "simulation": false,
+    "theme": "blue",
+    "title": "编辑工单",
+    "pass": true
+  },
+  {
+    "route": "verify.html?state=replay-prepare&flow=submit",
+    "body": "修复后复跑\n\n新记录关联 S014，原证据保留\n\n修复后的项目\n项目目录\n原代码版本\ndemo-1 · S014\n本次代码版本\n本次变化\n业务修复，接口与字段未变\n接口或查询字段变化，需重新接入\n\n沿用规则 v1.0 与数据基线 seed-v1。\n\n测试账号\nuser_a 的测试密码\nuser_b 的测试密码\n仅本次会话使用，不进入验证包\n复跑前确认\n确认修复项目、代码版本与变化范围\n确认测试副本、代码与配置符合本次复跑条件\n确认旧写操作已停止或隔离\n恢复并核对 seed-v1，重新登录后从第一步执行\n版本与变化\n准备完成，开始复跑\n执行与恢复原则\n运行条件\n运行\nS014 → S015\n主流程\n工单提交\n规则 / 映射\nv1.0 / v1.3\n模板\n保存结果 v1.0、重复提交 v1.0、权限隔离 v1.0\n环境 / 基线\n测试副本 / seed-v1\n取证\n完整 HTTP 查询\n无需重新分析\n\n规则、映射及模板有效时，无需模型重新分析。",
+    "simulation": false,
+    "theme": "blue",
+    "title": "修复后复跑",
+    "pass": true
+  },
+  {
+    "route": "report.html?state=submit&flow=submit",
+    "body": "验证报告\n\n工单提交 · S014 · 业务检查\n\n导出\n修复后复测\n已确认检查\n业务失败\n保存结果\n通过\n保存结果 · 请求与断言\n重复提交\n业务失败\n重复提交 · 请求与断言\n权限隔离\n无法验证\n权限隔离 · 请求与断言\n目标负载尚未开放\n\n先修复业务失败或补齐证据，通过全部所选检查后再验证目标。\n\n完整证据\n复制修复说明\n选择下一条流程\n执行范围\n主流程\n工单提交\n已确认检查\n3 项\n模板\n保存结果 v1.0、重复提交 v1.0、权限隔离 v1.0\n环境 / 基线\n独立副本 / seed-v1\n代码 / 映射\ndemo-1 / v1.3\n原运行\n—\n历史运行",
+    "simulation": false,
+    "theme": "blue",
+    "title": "验证报告",
+    "pass": true
+  },
+  {
+    "route": "report.html?state=load-passed&flow=submit",
+    "body": "验证报告\n\n工单提交 · SL016 · 来源 S015\n\n导出\n查看业务检查\n目标负载结果\n目标通过\n业务意图\n600\nP95 等待\n820 ms\n未结算\n0\n业务意图\t请求尝试\t接受意图\t最终记录\n600\t612\t600\t600\n保存结果 v1.0\n已观察结果符合规则\n重复提交 v1.0\n已观察结果符合规则\n权限隔离 v1.0\n已观察结果符合规则\n业务与性能条件共同满足\n\n仅限所选检查及当前目标、数据与环境。\n\n账本与证据\n本次目标\n操作率 / 时长\n60 次/分钟 / 10 分钟\nP95 / 错误率\n1500 ms / 1%\n已确认检查\n保存结果 v1.0、重复提交 v1.0、权限隔离 v1.0\n低负载来源\nS015\n环境\n本机副本 / seed-v1\n结论范围",
+    "simulation": false,
+    "theme": "blue",
+    "title": "验证报告",
+    "pass": true
+  },
+  {
+    "route": "index.html?state=package-check&case=damaged",
+    "body": "加载验证包\n\n编辑工单 · 来自 R014\n\n加载前检查\n已阻止执行\n包格式与完整性\n不通过\n引用路径与边界\n通过\n解释器与运行版本\n通过\n固定模板\n字段保持 v1.0 · 有效\n已确认规则\n字段保持\n环境与数据\n复跑前重新确认\n验证包完整性不通过\n\n证据引用摘要与清单不一致。\n\n选择其他验证包\n返回项目接入\n包内范围\n运行条件\n运行\nR014\n主流程\n编辑工单\n规则 / 映射\nv1.0 / v1.3\n模板\n字段保持 v1.0\n环境 / 基线\n测试副本 / seed-v1\n取证\n完整 HTTP 查询\n历史版本保留\n\n替换模板须重新确认，不改写旧运行。",
+    "simulation": false,
+    "theme": "blue",
+    "title": "加载验证包",
+    "pass": true
+  },
+  {
+    "route": "index.html?state=package-check&case=version",
+    "body": "加载验证包\n\n编辑工单 · 来自 R014\n\n加载前检查\n已阻止执行\n包格式与完整性\n通过\n引用路径与边界\n通过\n解释器与运行版本\n不兼容\n固定模板\n字段保持 v1.0 · 有效\n已确认规则\n字段保持\n环境与数据\n复跑前重新确认\n运行版本不兼容\n\n要求解释器 v2，当前为 v1。\n\n选择其他验证包\n返回项目接入\n包内范围\n运行条件\n运行\nR014\n主流程\n编辑工单\n规则 / 映射\nv1.0 / v1.3\n模板\n字段保持 v1.0\n环境 / 基线\n测试副本 / seed-v1\n取证\n完整 HTTP 查询\n历史版本保留\n\n替换模板须重新确认，不改写旧运行。",
+    "simulation": false,
+    "theme": "blue",
+    "title": "加载验证包",
+    "pass": true
+  },
+  {
+    "route": "verify.html?state=reset-blocked",
+    "body": "数据复位失败\n实验尚未开始\n\n无法恢复 seed-v1。修复初始化或隔离条件后重试。\n\n保留状态\n原运行\nR014 · 未完成\n本次判定\n尚未验证\n处理要求\n核对测试副本、初始化入口和旧写操作；复位成功后从实验第一步执行。\n重新核对复跑条件\n运行条件\n运行\nR014\n主流程\n编辑工单\n规则 / 映射\nv1.0 / v1.3\n模板\n字段保持 v1.0\n环境 / 基线\n测试副本 / seed-v1\n取证\n完整 HTTP 查询",
+    "simulation": false,
+    "theme": "blue",
+    "title": "数据复位失败",
+    "pass": true
+  },
+  {
+    "route": "index.html?state=service-blocked",
+    "body": "需要配置测试服务\n外部服务检查已暂停\n\n请配置测试服务；其他独立检查可继续。\n\n测试服务地址\n测试配置说明\n确认仅调用测试服务\n重新检查接入\n运行条件\n运行\n待补充\n主流程\n编辑工单\n规则 / 映射\nv1.0 / v1.3\n模板\n字段保持 v1.0\n环境 / 基线\n测试副本 / seed-v1\n取证\n完整 HTTP 查询\n受影响检查",
+    "simulation": false,
+    "theme": "blue",
+    "title": "需要配置测试服务",
+    "pass": true
+  },
+  {
+    "route": "index.html?state=evidence-input",
+    "body": "补充取证信息\n最终结果查询不完整\n\n补充同一对象的完整查询入口。\n\nHTTP 查询入口\n接口说明或查询页面线索\n确认查询对象、身份和完整字段\n重新检查接入\n运行条件\n运行\n待补充\n主流程\n编辑工单\n规则 / 映射\nv1.0 / v1.3\n模板\n字段保持 v1.0\n环境 / 基线\n测试副本 / seed-v1\n取证\n完整 HTTP 查询\n受影响检查",
+    "simulation": false,
+    "theme": "blue",
+    "title": "补充取证信息",
+    "pass": true
+  },
+  {
+    "route": "verify.html?state=gap&case=capability",
+    "body": "编辑工单\n更换流程\n01\n规则确认\n02\n候选生成\n03\n分层验证\n04\n审核发布\n05\n复跑\n缺少底层执行能力\n需要补充\n\n此业务依赖首版不支持的浏览器操作或协议，不能用生成代码绕过。\n\n登录\n创建\n更新\n查询\n字段比较\n模板匹配依据\n只暂停受影响的检查\n\n本流程内其他独立检查可继续。\n\n查看补充要求\n执行范围\n1 条流程\n主流程\n编辑工单\n测试身份\nuser_a / user_b\n测试环境\n独立副本 · seed-v1\n最终取证\nHTTP 查询\n接口映射与取证\n规则与适用条件",
+    "simulation": false,
+    "theme": "blue",
+    "title": "编辑工单",
+    "pass": true
+  },
+  {
+    "route": "verify.html?state=model-paused",
+    "body": "模型分析已暂停\n\n编辑工单 · 已保留进度与证据\n\n模型服务暂不可用\n\n依赖 AI 的候选分析暂停。已确认且无需 AI 的有效固定实验仍可执行；不会绕过候选准入。\n\n保留的状态\n业务规则\nv1.0 · 已确认\n候选任务\n第 2 次尝试 · 未发布\n执行记录\n已保存，不计为通过\n暂停原因\n模型恢复后继续候选验证\n复跑已确认实验\n运行条件\n运行\nR014 · 已保留\n主流程\n编辑工单\n规则 / 映射\nv1.0 / v1.3\n模板\n字段保持 v1.0\n环境 / 基线\n测试副本 / seed-v1\n取证\n完整 HTTP 查询",
+    "simulation": false,
+    "theme": "blue",
+    "title": "模型分析已暂停",
+    "pass": true
+  },
+  {
+    "route": "verify.html?state=budget-paused",
+    "body": "已达到内部预算上限\n\n编辑工单 · 已保留进度与证据\n\n停止新增调用与步骤\n\n候选轮数与累计使用量保留，不自动提高预算或重新计数。\n\n保留的状态\n业务规则\nv1.0 · 已确认\n候选任务\n第 2 次尝试 · 未发布\n执行记录\n已保存，不计为通过\n暂停原因\n查看已保留证据\n运行条件\n运行\nR014 · 已保留\n主流程\n编辑工单\n规则 / 映射\nv1.0 / v1.3\n模板\n字段保持 v1.0\n环境 / 基线\n测试副本 / seed-v1\n取证\n完整 HTTP 查询",
+    "simulation": false,
+    "theme": "blue",
+    "title": "已达到内部预算上限",
+    "pass": true
+  }
+]

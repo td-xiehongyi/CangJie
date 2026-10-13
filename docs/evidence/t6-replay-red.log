@@ -1,0 +1,105 @@
+✔ T6 durable records, package integrity and single-flow confirmation (154.5341ms)
+▶ T6 actual published execution and model-free replay
+  ✖ progress_uses_real_events and formal scope (0.8543ms)
+  ✖ replay_without_model and reset_makes_runs_comparable (223.6267ms)
+  ✖ pending_rules_are_observations (1270.9005ms)
+  ✔ stopped work never becomes success (300.0943ms)
+  ✖ disabled exact version blocks package and new runs (180.042ms)
+✖ T6 actual published execution and model-free replay (13924.3109ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 2
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14190.5075
+
+✖ failing tests:
+
+test at tests\integration\replay.test.mjs:40:11
+✖ progress_uses_real_events and formal scope (0.8543ms)
+  AssertionError [ERR_ASSERTION]: ["只覆盖本轮已选规则、测试副本及数据条件；不证明所有业务或容量。","ADMISSION_REQUIRED"]
+  + actual - expected
+  
+  + 'blocked'
+  - 'completed'
+  
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/replay.test.mjs:40:73)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at TestContext.test (node:internal/test_runner/test:394:20)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/replay.test.mjs:40:11)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'completed',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\integration\replay.test.mjs:42:11
+✖ replay_without_model and reset_makes_runs_comparable (223.6267ms)
+  Error: INVALID_MAPPING
+      at validateMapping (file:///C:/Users/xie/Desktop/Project/apps/host/dist/execution/mapping.js:24:15)
+      at confirmPlan (file:///C:/Users/xie/Desktop/Project/apps/host/dist/replay.js:26:5)
+      at qualifyPlan (file:///C:/Users/xie/Desktop/Project/apps/host/dist/replay.js:33:21)
+      at loadReplay (file:///C:/Users/xie/Desktop/Project/apps/host/dist/replay.js:54:11)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/replay.test.mjs:42:94)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/replay.test.mjs:42:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests\integration\replay.test.mjs:43:11
+✖ pending_rules_are_observations (1270.9005ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'blocked'
+  - 'completed'
+  
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/replay.test.mjs:43:268)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/replay.test.mjs:43:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'completed',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\integration\replay.test.mjs:45:11
+✖ disabled exact version blocks package and new runs (180.042ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /VERSION_DISABLED/. Input:
+  
+  'Error: INVALID_MAPPING'
+  
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/replay.test.mjs:45:133)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/replay.test.mjs:45:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: INVALID_MAPPING
+        at validateMapping (file:///C:/Users/xie/Desktop/Project/apps/host/dist/execution/mapping.js:24:15)
+        at confirmPlan (file:///C:/Users/xie/Desktop/Project/apps/host/dist/replay.js:26:5)
+        at qualifyPlan (file:///C:/Users/xie/Desktop/Project/apps/host/dist/replay.js:33:21)
+        at loadReplay (file:///C:/Users/xie/Desktop/Project/apps/host/dist/replay.js:54:11)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/replay.test.mjs:45:133)
+        at async Test.run (node:internal/test_runner/test:1389:7)
+        at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/replay.test.mjs:45:3)
+        at async Test.run (node:internal/test_runner/test:1389:7),
+    expected: /VERSION_DISABLED/,
+    operator: 'rejects',
+    diff: 'simple'
+  }

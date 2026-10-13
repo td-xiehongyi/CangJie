@@ -1,0 +1,12 @@
+{
+  "id": "save-result", "revision": 1, "ruleRef": {"id": "save-rule", "version": 1},
+  "parameters": {"title": "测试工单"}, "requiredCapabilities": ["create", "query"],
+  "checks": ["save"],
+  "steps": [
+    {"stepId":"create","checkId":"save","operationId":"create","actorRef":"owner","bindings":{"title":{"op":"field","var":"params","path":["title"]}},"output":"created"},
+    {"stepId":"query","checkId":"save","operationId":"query","actorRef":"owner","bindings":{"id":{"op":"field","var":"created","path":["id"]}},"output":"saved"}
+  ],
+  "assertions": [{"id":"saved-title","checkId":"save","expr":{"op":"eq","args":[{"op":"field","var":"saved","path":["title"]},{"op":"field","var":"params","path":["title"]}]}}],
+  "evidenceRequirements": {"identityVerified":true,"queryComplete":true,"acceptanceKnown":true,"evidenceRefs":true},
+  "limits": {"maxActions":16,"actionTimeoutMs":1000,"runTimeoutMs":10000}
+}

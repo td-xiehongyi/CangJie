@@ -1,0 +1,21 @@
+node_modules/
+dist/
+.local-tools/
+.local-data/
+apps/core/target/
+.superpowers/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.pfx
+
+# Generated deliveries, browser evidence and local acceptance sessions
+output/delivery/
+output/t9-live-*/
+output/t6-workbench/
+output/t8-load/

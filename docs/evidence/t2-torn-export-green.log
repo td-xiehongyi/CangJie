@@ -1,0 +1,10 @@
+✔ crash-torn final event is preserved while complete attempts can be restored twice (1488.8065ms)
+✔ middle event corruption blocks recovery instead of accepting a damaged history (1106.5018ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2696.9858

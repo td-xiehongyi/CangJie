@@ -1,0 +1,14 @@
+{
+  "business_pages": [
+    "index.html",
+    "report.html",
+    "settings.html",
+    "verify.html"
+  ],
+  "styles_unchanged": true,
+  "current_screens": 11,
+  "before_screens": 4,
+  "dom_route_checks": 41,
+  "layout_checks": 24,
+  "scope": "static preview; three coverage gaps remain"
+}

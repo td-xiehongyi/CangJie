@@ -1,0 +1,86 @@
+[
+  {
+    "viewport": 390,
+    "scene": "首次接入",
+    "heading": "项目接入",
+    "scroll": 375,
+    "width": 375
+  },
+  {
+    "viewport": 390,
+    "scene": "首次漏检",
+    "heading": "编辑工单",
+    "scroll": 375,
+    "width": 375
+  },
+  {
+    "viewport": 390,
+    "scene": "等待审核",
+    "heading": "验证报告",
+    "scroll": 375,
+    "width": 375
+  },
+  {
+    "viewport": 390,
+    "scene": "目标确认",
+    "heading": "目标负载",
+    "scroll": 375,
+    "width": 375
+  },
+  {
+    "viewport": 390,
+    "scene": "包检查通过",
+    "heading": "加载验证包",
+    "scroll": 375,
+    "width": 375
+  },
+  {
+    "viewport": 390,
+    "scene": "模型输出不兼容",
+    "heading": "模型设置",
+    "scroll": 375,
+    "width": 375
+  },
+  {
+    "viewport": 768,
+    "scene": "首次接入",
+    "heading": "项目接入",
+    "scroll": 753,
+    "width": 753
+  },
+  {
+    "viewport": 768,
+    "scene": "首次漏检",
+    "heading": "编辑工单",
+    "scroll": 753,
+    "width": 753
+  },
+  {
+    "viewport": 768,
+    "scene": "等待审核",
+    "heading": "验证报告",
+    "scroll": 753,
+    "width": 753
+  },
+  {
+    "viewport": 768,
+    "scene": "目标确认",
+    "heading": "目标负载",
+    "scroll": 753,
+    "width": 753
+  },
+  {
+    "viewport": 768,
+    "scene": "包检查通过",
+    "heading": "加载验证包",
+    "scroll": 753,
+    "width": 753
+  },
+  {
+    "viewport": 768,
+    "scene": "模型输出不兼容",
+    "heading": "模型设置",
+    "scroll": 753,
+    "width": 753
+  }
+]

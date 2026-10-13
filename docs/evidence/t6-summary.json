@@ -1,0 +1,187 @@
+{
+  "date": "2026-10-13",
+  "phase": "T6 development acceptance",
+  "allTests": {
+    "passed": 207,
+    "failed": 0,
+    "command": "npm test"
+  },
+  "replay": {
+    "passed": 13,
+    "failed": 0,
+    "command": "npm run verify -- replay"
+  },
+  "workbench": {
+    "passed": 5,
+    "failed": 0,
+    "command": "npm run verify -- workbench",
+    "browser": "installed Microsoft Edge",
+    "viewports": [
+      1280,
+      768,
+      390
+    ]
+  },
+  "build": "npm run check passed",
+  "screenshots": [
+    {
+      "path": "output/t6-workbench/screenshots/candidate-review-1280.png",
+      "sha256": "2c8a7870a859ad53df76d14503c8e93d30fe0176dd3cabcef050d6556171b147"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/candidate-review-390.png",
+      "sha256": "e1473d89fe4bf38b3cb3a9f74dc83c9bd30decde9a90a72d746820c908bf67c0"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/candidate-review-768.png",
+      "sha256": "56d8b67ebd39452ae3f79492664b7bcb0080453455bb027693424de2a37f068e"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/disabled-version-1280.png",
+      "sha256": "1c743ce7228eb87968d06023fa6a5633e2c89159fbaa50a7c804d33b1993c1e2"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/disabled-version-390.png",
+      "sha256": "187c729a58bb46e4b7d8b9ef7b706bd8c964fb1c33a96b30d2e9af3a178707a5"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/disabled-version-768.png",
+      "sha256": "4260c414a4aea08009d504b25afbe14b8a7dce7fcd4372709302c6229817144d"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/package-preparation-1280.png",
+      "sha256": "04f8a23031305505aa340c3ebe209652bc0330b0e2b9a6d051dde010ce80220f"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/package-preparation-390.png",
+      "sha256": "531f70a50f04d946701617dff8832f095f7eb80e8b21658279306c955896133a"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/package-preparation-768.png",
+      "sha256": "2446ea0764e64e7a128e445ec9625cbc77c97d20c3b72c9d5b2a3f56d2575ab3"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/project-1280.png",
+      "sha256": "6c3100a01bd0f1abd5d7208733dccad0795219d382da73fc53843d193c7d0211"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/project-390.png",
+      "sha256": "af3aa4cb17c92ea4cd15201e4bd497579148e5efe7d42c9af614d2a2cf1e964f"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/project-768.png",
+      "sha256": "202c71d108ea136e93685b51a5de61ee99271410d99777f865c3f54dfaa79b79"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/report-1280.png",
+      "sha256": "7a11d5b9074a9017cd548c81a9f0a42c7dc32753b991a396d87938661a288653"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/report-390.png",
+      "sha256": "7d6dcc6264f0237ff925774934ec474ba895a08e7a0282c72603ac1d8569b3c9"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/report-768.png",
+      "sha256": "7d558db5d483c291a899975d5edc44a3db242467ef6b14c7dfe2536ee5d44f17"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/report-actual-pass.png",
+      "sha256": "d385e3d12dc1737637b8728f35c0415b669e8ff397970a2938b8be8f16fc57eb"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/report-fail-1280.png",
+      "sha256": "cbbee17b63d95f24073732d68989f4148c44ea0e788ebcff973658d3d05e8459"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/report-fail-390.png",
+      "sha256": "7517a8a320fdb2c162b95aed58aa1d27be02a901d9a415270d2557c5094c468a"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/report-fail-768.png",
+      "sha256": "7e13f896b4f9b7d03c37289136b5ab90cd3e668b53a98f3db307b7bd6c83ba1a"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/report-inconclusive-1280.png",
+      "sha256": "0077b76d18593e23e0ded72d5c24771f00354ac89638bf91b0878bf77ab58cb2"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/report-inconclusive-390.png",
+      "sha256": "538cdeab48d7c779e715f8485dba4ee80baaa51afa91f0c668c36e9b4880d11b"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/report-inconclusive-768.png",
+      "sha256": "585175152545a7ec363abf9fcaaf56898c441a7170250ddad2f3c11bc9bbd84c"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/settings-1280.png",
+      "sha256": "a515eb5423ac7795712eb14593582272154a92fdd6c0551b79651d8946f7fa77"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/settings-390.png",
+      "sha256": "e33c4c7e60bc7a7b1463d9bcdeac9a90bed415de9ba55914bf83066532aa771a"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/settings-768.png",
+      "sha256": "540dfcfdd1219853491c602fcab3bc966c7f88add328b3d97eac0a37789be08f"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/settings-failure.png",
+      "sha256": "4725908d0116f1498cf29e06f6d193ebd6f7e2d1bf3f8cda5a0ad782df8bfffb"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/verify-1280.png",
+      "sha256": "fc2a699d93fd6fbdc695e4d05cd36aa72d56f66903a2448b3f4231e8be23b1d3"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/verify-390.png",
+      "sha256": "7ad6a1341a37f0adbe16d6e36d6ff05b18e244bb844c8fcd4cdc61928d2fdc56"
+    },
+    {
+      "path": "output/t6-workbench/screenshots/verify-768.png",
+      "sha256": "3228d3709c51aae72538fd2747c8a004f3f62b06af62344c75a1bb97177ae9b8"
+    }
+  ],
+  "previewSources": [
+    {
+      "file": "index.html",
+      "sha256": "b1d6f5aed4071cdbe3f3abee335c80e404961b55aa38aef36eb1606a5f3bd5a4",
+      "unchanged": true
+    },
+    {
+      "file": "verify.html",
+      "sha256": "31d330013d3ba2cd63d1b707f4bbd0989370b0c32c5bef25d5b78f2c75e939e0",
+      "unchanged": true
+    },
+    {
+      "file": "report.html",
+      "sha256": "9ab6bb02e9aeaeaaf96321f0791993b1507cc752ac6598692a76b0dcd6f8208a",
+      "unchanged": true
+    },
+    {
+      "file": "settings.html",
+      "sha256": "038a4aeefcba3644d0a948dd5d2a6a4983b3bda4920ae1d6537da926c6e7dc3b",
+      "unchanged": true
+    },
+    {
+      "file": "preview.js",
+      "sha256": "2b3505e05d4fdf59e71797eb07218056964598bdef615415181dd889447f6183",
+      "unchanged": true
+    },
+    {
+      "file": "styles.css",
+      "sha256": "7e333b85e9e22f8e99392cde989a495d6e712eeb3e214b5d3acac2422591b57c",
+      "unchanged": true
+    }
+  ],
+  "formalPublications": 0,
+  "liveModelCalls": 0,
+  "openGates": [
+    "T4 real DeepSeek candidate",
+    "actual business confirmation and developer review for formal publication",
+    "T7 transfer",
+    "T8 target load",
+    "T10 delivery reproduction"
+  ],
+  "review": "No remaining Important in final scoped independent static review",
+  "gitInitialized": false
+}

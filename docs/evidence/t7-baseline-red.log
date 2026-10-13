@@ -1,0 +1,111 @@
+
+> website-verification@0.0.0 verify
+> node scripts/verify.mjs transfer
+
+▶ T7 frozen templates execute against registration with new evidence
+  ✖ three seeds and field-preservation candidate pass with registration HTTP evidence (1498.5875ms)
+  ✖ missing preserved field produces unknown rather than inherited success (827.3048ms)
+  ✖ registration track-reset is detected by the frozen candidate (843.3839ms)
+  ✖ registration owner-change is detected by the frozen candidate (825.4334ms)
+  ✔ changed business semantics are rejected before any project execution (760.241ms)
+  ✔ same publications remain qualified and unchanged without republication (377.5386ms)
+T7 evidence: C:\Users\xie\Desktop\Project\.local-data\transfer-runs\daecd494-9ae5-4c8c-ab5d-418c31048157
+✖ T7 frozen templates execute against registration with new evidence (5304.3928ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 2
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5411.7296
+
+✖ failing tests:
+
+test at tests\integration\transfer.test.mjs:34:11
+✖ three seeds and field-preservation candidate pass with registration HTTP evidence (1498.5875ms)
+  AssertionError [ERR_ASSERTION]: ["只覆盖本轮已选规则、测试副本及数据条件；不证明所有业务或容量。","BASELINE_MISMATCH"]
+  + actual - expected
+  
+  + 'blocked'
+  - 'completed'
+  
+      at run (file:///C:/Users/xie/Desktop/Project/tests/integration/transfer.test.mjs:31:12)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/transfer.test.mjs:35:18)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/transfer.test.mjs:34:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'completed',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\integration\transfer.test.mjs:42:11
+✖ missing preserved field produces unknown rather than inherited success (827.3048ms)
+  AssertionError [ERR_ASSERTION]: ["只覆盖本轮已选规则、测试副本及数据条件；不证明所有业务或容量。","BASELINE_MISMATCH"]
+  + actual - expected
+  
+  + 'blocked'
+  - 'completed'
+  
+      at run (file:///C:/Users/xie/Desktop/Project/tests/integration/transfer.test.mjs:31:12)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/transfer.test.mjs:43:18)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/transfer.test.mjs:42:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'completed',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\integration\transfer.test.mjs:50:13
+✖ registration track-reset is detected by the frozen candidate (843.3839ms)
+  AssertionError [ERR_ASSERTION]: ["只覆盖本轮已选规则、测试副本及数据条件；不证明所有业务或容量。","BASELINE_MISMATCH"]
+  + actual - expected
+  
+  + 'blocked'
+  - 'completed'
+  
+      at run (file:///C:/Users/xie/Desktop/Project/tests/integration/transfer.test.mjs:31:12)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/transfer.test.mjs:56:18)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/transfer.test.mjs:50:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'completed',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\integration\transfer.test.mjs:50:13
+✖ registration owner-change is detected by the frozen candidate (825.4334ms)
+  AssertionError [ERR_ASSERTION]: ["只覆盖本轮已选规则、测试副本及数据条件；不证明所有业务或容量。","BASELINE_MISMATCH"]
+  + actual - expected
+  
+  + 'blocked'
+  - 'completed'
+  
+      at run (file:///C:/Users/xie/Desktop/Project/tests/integration/transfer.test.mjs:31:12)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/transfer.test.mjs:56:18)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/transfer.test.mjs:50:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'completed',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

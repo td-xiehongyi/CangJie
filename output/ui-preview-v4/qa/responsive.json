@@ -1,0 +1,266 @@
+[
+  {
+    "background": "rgb(244, 246, 250)",
+    "scrollWidth": 1265,
+    "theme": "blue",
+    "title": "项目接入",
+    "width": 1280,
+    "breakpoint": "desktop"
+  },
+  {
+    "background": "rgb(244, 246, 250)",
+    "scrollWidth": 1280,
+    "theme": "blue",
+    "title": "编辑工单",
+    "width": 1280,
+    "breakpoint": "desktop"
+  },
+  {
+    "background": "rgb(244, 246, 250)",
+    "scrollWidth": 1265,
+    "theme": "blue",
+    "title": "验证报告",
+    "width": 1280,
+    "breakpoint": "desktop"
+  },
+  {
+    "background": "rgb(244, 246, 250)",
+    "scrollWidth": 1265,
+    "theme": "blue",
+    "title": "模型设置",
+    "width": 1280,
+    "breakpoint": "desktop"
+  },
+  {
+    "background": "rgb(242, 239, 233)",
+    "scrollWidth": 1265,
+    "theme": "paper",
+    "title": "项目接入",
+    "width": 1280,
+    "breakpoint": "desktop"
+  },
+  {
+    "background": "rgb(242, 239, 233)",
+    "scrollWidth": 1265,
+    "theme": "paper",
+    "title": "编辑工单",
+    "width": 1280,
+    "breakpoint": "desktop"
+  },
+  {
+    "background": "rgb(242, 239, 233)",
+    "scrollWidth": 1265,
+    "theme": "paper",
+    "title": "验证报告",
+    "width": 1280,
+    "breakpoint": "desktop"
+  },
+  {
+    "background": "rgb(242, 239, 233)",
+    "scrollWidth": 1265,
+    "theme": "paper",
+    "title": "模型设置",
+    "width": 1280,
+    "breakpoint": "desktop"
+  },
+  {
+    "background": "rgb(14, 19, 30)",
+    "scrollWidth": 1265,
+    "theme": "dark",
+    "title": "项目接入",
+    "width": 1280,
+    "breakpoint": "desktop"
+  },
+  {
+    "background": "rgb(14, 19, 30)",
+    "scrollWidth": 1280,
+    "theme": "dark",
+    "title": "编辑工单",
+    "width": 1280,
+    "breakpoint": "desktop"
+  },
+  {
+    "background": "rgb(14, 19, 30)",
+    "scrollWidth": 1265,
+    "theme": "dark",
+    "title": "验证报告",
+    "width": 1280,
+    "breakpoint": "desktop"
+  },
+  {
+    "background": "rgb(14, 19, 30)",
+    "scrollWidth": 1265,
+    "theme": "dark",
+    "title": "模型设置",
+    "width": 1280,
+    "breakpoint": "desktop"
+  },
+  {
+    "scrollWidth": 375,
+    "theme": "blue",
+    "title": "项目接入",
+    "width": 390,
+    "breakpoint": "390"
+  },
+  {
+    "scrollWidth": 375,
+    "theme": "blue",
+    "title": "编辑工单",
+    "width": 390,
+    "breakpoint": "390"
+  },
+  {
+    "scrollWidth": 375,
+    "theme": "blue",
+    "title": "验证报告",
+    "width": 390,
+    "breakpoint": "390"
+  },
+  {
+    "scrollWidth": 375,
+    "theme": "blue",
+    "title": "模型设置",
+    "width": 390,
+    "breakpoint": "390"
+  },
+  {
+    "scrollWidth": 375,
+    "theme": "paper",
+    "title": "项目接入",
+    "width": 390,
+    "breakpoint": "390"
+  },
+  {
+    "scrollWidth": 375,
+    "theme": "paper",
+    "title": "编辑工单",
+    "width": 390,
+    "breakpoint": "390"
+  },
+  {
+    "scrollWidth": 375,
+    "theme": "paper",
+    "title": "验证报告",
+    "width": 390,
+    "breakpoint": "390"
+  },
+  {
+    "scrollWidth": 375,
+    "theme": "paper",
+    "title": "模型设置",
+    "width": 390,
+    "breakpoint": "390"
+  },
+  {
+    "scrollWidth": 375,
+    "theme": "dark",
+    "title": "项目接入",
+    "width": 390,
+    "breakpoint": "390"
+  },
+  {
+    "scrollWidth": 375,
+    "theme": "dark",
+    "title": "编辑工单",
+    "width": 390,
+    "breakpoint": "390"
+  },
+  {
+    "scrollWidth": 375,
+    "theme": "dark",
+    "title": "验证报告",
+    "width": 390,
+    "breakpoint": "390"
+  },
+  {
+    "scrollWidth": 375,
+    "theme": "dark",
+    "title": "模型设置",
+    "width": 390,
+    "breakpoint": "390"
+  },
+  {
+    "scrollWidth": 753,
+    "theme": "blue",
+    "title": "项目接入",
+    "width": 768,
+    "breakpoint": "768"
+  },
+  {
+    "scrollWidth": 753,
+    "theme": "blue",
+    "title": "编辑工单",
+    "width": 768,
+    "breakpoint": "768"
+  },
+  {
+    "scrollWidth": 753,
+    "theme": "blue",
+    "title": "验证报告",
+    "width": 768,
+    "breakpoint": "768"
+  },
+  {
+    "scrollWidth": 753,
+    "theme": "blue",
+    "title": "模型设置",
+    "width": 768,
+    "breakpoint": "768"
+  },
+  {
+    "scrollWidth": 753,
+    "theme": "paper",
+    "title": "项目接入",
+    "width": 768,
+    "breakpoint": "768"
+  },
+  {
+    "scrollWidth": 753,
+    "theme": "paper",
+    "title": "编辑工单",
+    "width": 768,
+    "breakpoint": "768"
+  },
+  {
+    "scrollWidth": 753,
+    "theme": "paper",
+    "title": "验证报告",
+    "width": 768,
+    "breakpoint": "768"
+  },
+  {
+    "scrollWidth": 753,
+    "theme": "paper",
+    "title": "模型设置",
+    "width": 768,
+    "breakpoint": "768"
+  },
+  {
+    "scrollWidth": 753,
+    "theme": "dark",
+    "title": "项目接入",
+    "width": 768,
+    "breakpoint": "768"
+  },
+  {
+    "scrollWidth": 753,
+    "theme": "dark",
+    "title": "编辑工单",
+    "width": 768,
+    "breakpoint": "768"
+  },
+  {
+    "scrollWidth": 753,
+    "theme": "dark",
+    "title": "验证报告",
+    "width": 768,
+    "breakpoint": "768"
+  },
+  {
+    "scrollWidth": 753,
+    "theme": "dark",
+    "title": "模型设置",
+    "width": 768,
+    "breakpoint": "768"
+  }
+]

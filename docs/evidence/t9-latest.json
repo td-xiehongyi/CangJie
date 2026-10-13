@@ -1,0 +1,19 @@
+{
+  "directory": "C:\\Users\\xie\\Desktop\\Project\\output\\delivery\\fresh directory 空白-GAAI0h",
+  "packed": "C:\\Users\\xie\\Desktop\\Project\\output\\delivery\\website-verification-CAZOnC",
+  "recordedAt": "2026-10-13T04:44:26.486Z",
+  "node": "v24.19.0",
+  "phases": [
+    "probe",
+    "run",
+    "replay"
+  ],
+  "realModel": false,
+  "formalHumanReview": false,
+  "otherComputerCompatibility": "unverified",
+  "dependencyInstall": "npm ci --omit=dev --ignore-scripts (project-local cache)",
+  "sdk": "C:\\Users\\xie\\Desktop\\Project\\.local-tools\\cangjie",
+  "stdx": "C:\\Users\\xie\\Desktop\\Project\\.local-tools\\stdx\\windows_x86_64_cjnative",
+  "modelSendingBoundary": true,
+  "secretScan": true
+}

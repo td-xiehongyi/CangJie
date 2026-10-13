@@ -1,0 +1,32 @@
+
+> website-verification@0.0.0 verify
+> node scripts/verify.mjs validation-harness
+
+✔ saved-result: real Cangjie observation and HTTP normal/defect/unknown controls (6240.8258ms)
+✔ duplicate-submit: real Cangjie observation and HTTP normal/defect/unknown controls (5978.9838ms)
+✔ permission-isolation: real Cangjie observation and HTTP normal/defect/unknown controls (6163.1448ms)
+✔ title update controls detect priority reset and owner change at the corresponding assertion (8131.633ms)
+✔ hardcoded owner and priority cannot pass held-out normal variants (8108.6785ms)
+✔ suite parameters cannot repair a candidate with missing required parameter declarations (5712.6523ms)
+✔ semantically equivalent renamed step IDs use independent operation trace (5938.6566ms)
+✔ unsupported observation trace produces an incomplete persisted validation record (6387.163ms)
+✔ save-drop frozen samples describe the same object and consistent persisted row (0.6723ms)
+✔ each HTTP case retains its actual bound mapping hash and copy identity (994.4194ms)
+✔ persisted validation record satisfies the shared contract used by later admission stages (50.1299ms)
+✔ always_pass_rejected (54.5415ms)
+✔ always_fail_rejected (6195.2236ms)
+✔ status_only_rejected (5976.559ms)
+✔ crash_is_not_detection and timeout are incomplete, never negative-control detection (3454.3472ms)
+✔ unrelated object cannot pass correlation after owner mismatch becomes business evidence (978.2155ms)
+✔ missing field is inconclusive even with HTTP 200 and complete pagination (976.3608ms)
+✔ untrusted suites, changed labels, and rules without reference controls stay unsupported (8.9789ms)
+✔ candidate cannot access labels or unknown operation through validation harness (54.1787ms)
+✔ validation record retains replayable sanitized HTTP evidence and frozen provenance (25.0606ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 71540.6121

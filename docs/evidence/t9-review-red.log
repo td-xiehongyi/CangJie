@@ -1,0 +1,86 @@
+✖ ordinary delivery excludes compiled candidate examples (537.3625ms)
+✖ resource builder rejects a lock path before any escaping write (18.1178ms)
+✖ root junction and installation ancestor junction are rejected (27.5123ms)
+✖ parent cleanup removes only the failed acceptance credential and verifies deletion (0.8072ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 677.9215
+
+✖ failing tests:
+
+test at tests\integration\release-security.test.mjs:11:1
+✖ ordinary delivery excludes compiled candidate examples (537.3625ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(manifest.files.every(f=>!f.path.includes('/fixtures/')))
+  
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/release-security.test.mjs:13:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\release-security.test.mjs:15:1
+✖ resource builder rejects a lock path before any escaping write (18.1178ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /INVALID_RESOURCE_FILES/. Input:
+  
+  'Error: INVALID_MANIFEST_PATH'
+  
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/release-security.test.mjs:21:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: INVALID_MANIFEST_PATH
+        at verifyPackage (file:///C:/Users/xie/Desktop/Project/output/delivery/security-La0a7p/workspace/scripts/package.mjs:37:198)
+        at async Module.buildDeveloperResources (file:///C:/Users/xie/Desktop/Project/output/delivery/security-La0a7p/workspace/scripts/package.mjs:99:3)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/release-security.test.mjs:21:3)
+        at async Test.run (node:internal/test_runner/test:1389:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:960:7),
+    expected: /INVALID_RESOURCE_FILES/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests\integration\release-security.test.mjs:25:1
+✖ root junction and installation ancestor junction are rejected (27.5123ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/release-security.test.mjs:28:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /SYMLINK_REJECTED/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests\integration\release-security.test.mjs:33:1
+✖ parent cleanup removes only the failed acceptance credential and verifies deletion (0.8072ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\xie\Desktop\Project\tests\support\release-cleanup.mjs' imported from C:\Users\xie\Desktop\Project\tests\integration\release-security.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///C:/Users/xie/Desktop/Project/tests/support/release-cleanup.mjs'
+  }

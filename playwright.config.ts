@@ -1,0 +1,2 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'tests/e2e',timeout:90000,expect:{timeout:12000},workers:1,fullyParallel:false,use:{browserName:'chromium',channel:'msedge',headless:true,viewport:{width:1280,height:900},trace:'retain-on-failure'},outputDir:'output/t6-workbench/test-results',reporter:[['list'],['json',{outputFile:'docs/evidence/t6-workbench.json'}]]});

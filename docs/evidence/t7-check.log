@@ -1,0 +1,42 @@
+
+> website-verification@0.0.0 check
+> npm run build:contracts && npm run build:host && npm run build:sample && npm run check:reference && npm run build:core && npm run build:ui
+
+
+> website-verification@0.0.0 build:contracts
+> tsc -p packages/contracts/tsconfig.json
+
+
+> website-verification@0.0.0 build:host
+> tsc -p apps/host/tsconfig.json
+
+
+> website-verification@0.0.0 build:sample
+> tsc -p samples/ticket/tsconfig.json && tsc -p samples/registration/tsconfig.json
+
+
+> website-verification@0.0.0 check:reference
+> tsc -p tests/reference/tsconfig.json
+
+
+> website-verification@0.0.0 build:core
+> node scripts/build-core.mjs
+
+
+> website-verification@0.0.0 build:ui
+> npm run build --workspace apps/ui
+
+
+> @website-verification/ui@0.0.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 22 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.36 kB │ gzip:  0.29 kB
+dist/assets/index-5jx4FUoj.css    8.03 kB │ gzip:  2.36 kB
+dist/assets/index-Cp1zZ8wX.js   253.49 kB │ gzip: 78.67 kB
+
+✓ built in 117ms

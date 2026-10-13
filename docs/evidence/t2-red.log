@@ -1,0 +1,413 @@
+✖ ticket project exposes supported initialization and two test actors (1.6207ms)
+✖ original_unchanged and original database/secrets excluded from copy (0.2658ms)
+✖ path_escape_rejected (0.194ms)
+✖ port_conflict prevents website startup without touching occupant (15.4337ms)
+✖ missing initialization produces specific redacted gap and cannot run (0.2857ms)
+✖ hardcoded original database or external init target is blocked (0.2195ms)
+✖ gap explanation is not initialization; reinspection required after repair (0.2235ms)
+✖ unconfirmed data does not initialize or dispatch (0.7812ms)
+✖ real login/create/query/update preserve actor and business identity (0.3878ms)
+✖ login_200_is_not_identity (0.3061ms)
+✖ incomplete_page never supplies complete evidence (0.2263ms)
+✖ old_record_excluded from current intent/attempt evidence (0.2004ms)
+✖ external_service_blocked before HTTP request or token transmission (0.1936ms)
+✖ passwords/tokens never enter evidence, metadata or exports; session end clears (0.1937ms)
+✖ independent experiments reset while dependent steps retain data (0.1771ms)
+✖ reset failure blocks environment and preserves earlier evidence (0.1753ms)
+✖ interrupted write is not retried; explicit resume isolates old process and starts new attempt (0.1953ms)
+✖ changed recovery conditions require renewed confirmation (0.1854ms)
+✖ unregistered operation, action replay and wrong attempt cannot cause writes (0.1903ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 0
+ℹ fail 19
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 119.7224
+
+✖ failing tests:
+
+test at tests\integration\access.test.mjs:22:1
+✖ ticket project exposes supported initialization and two test actors (1.6207ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:22:100)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:23:1
+✖ original_unchanged and original database/secrets excluded from copy (0.2658ms)
+  AssertionError [ERR_ASSERTION]: T2 ticket sample must exist
+      at source (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:14:32)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:23:102)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:25:1
+✖ path_escape_rejected (0.194ms)
+  AssertionError [ERR_ASSERTION]: T2 ticket sample must exist
+      at source (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:14:32)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:25:55)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:26:1
+✖ port_conflict prevents website startup without touching occupant (15.4337ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:15:50)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:26:223)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:27:1
+✖ missing initialization produces specific redacted gap and cannot run (0.2857ms)
+  AssertionError [ERR_ASSERTION]: T2 ticket sample must exist
+      at source (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:14:32)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:27:103)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:28:1
+✖ hardcoded original database or external init target is blocked (0.2195ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:28:95)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:29:1
+✖ gap explanation is not initialization; reinspection required after repair (0.2235ms)
+  AssertionError [ERR_ASSERTION]: T2 ticket sample must exist
+      at source (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:14:32)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:29:108)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:30:1
+✖ unconfirmed data does not initialize or dispatch (0.7812ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:15:50)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:30:81)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:31:1
+✖ real login/create/query/update preserve actor and business identity (0.3878ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:15:50)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:31:100)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:32:1
+✖ login_200_is_not_identity (0.3061ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:15:50)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:32:58)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:33:1
+✖ incomplete_page never supplies complete evidence (0.2263ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:15:50)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:33:81)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:34:1
+✖ old_record_excluded from current intent/attempt evidence (0.2004ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:15:50)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:34:89)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:35:1
+✖ external_service_blocked before HTTP request or token transmission (0.1936ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:15:50)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:35:99)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:36:1
+✖ passwords/tokens never enter evidence, metadata or exports; session end clears (0.1937ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:15:50)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:36:111)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:37:1
+✖ independent experiments reset while dependent steps retain data (0.1771ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:15:50)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:37:96)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:38:1
+✖ reset failure blocks environment and preserves earlier evidence (0.1753ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:15:50)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:38:96)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:39:1
+✖ interrupted write is not retried; explicit resume isolates old process and starts new attempt (0.1953ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:15:50)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:39:126)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:40:1
+✖ changed recovery conditions require renewed confirmation (0.1854ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:15:50)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:40:89)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\integration\access.test.mjs:41:1
+✖ unregistered operation, action replay and wrong attempt cannot cause writes (0.1903ms)
+  AssertionError [ERR_ASSERTION]: T2 project inspection must exist
+      at load (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:12:30)
+      at setup (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:15:50)
+      at TestContext.<anonymous> (file:///C:/Users/xie/Desktop/Project/tests/integration/access.test.mjs:41:108)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

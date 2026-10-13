@@ -1,0 +1,154 @@
+{
+  "recordedAt": "2026-10-13T04:58:36.663Z",
+  "kind": "developer fixture validation only",
+  "realModel": false,
+  "comparisonRun": false,
+  "node": "v24.19.0",
+  "manifestSha256": "b7a74306a16858721a1773e65e0111bc1ec637ea508350ecf7315b9565dfb8a6",
+  "observations": [
+    {
+      "version": "initial",
+      "baselineHash": "378a3e2a58344ea50216faa5d065a8e0f2df32f905175e35e219d7b4c85d8129",
+      "trace": [
+        {
+          "method": "POST",
+          "path": "/tickets",
+          "status": 201,
+          "body": {
+            "id": "54fca34a-319a-4791-ae53-0410bc4a14fe",
+            "ownerId": "user-a",
+            "title": "初始标题",
+            "priority": "high",
+            "intentId": "t10-intent",
+            "attemptId": "t10-attempt"
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/tickets/54fca34a-319a-4791-ae53-0410bc4a14fe",
+          "status": 200,
+          "body": {
+            "id": "54fca34a-319a-4791-ae53-0410bc4a14fe",
+            "ownerId": "user-a",
+            "title": "更新标题",
+            "priority": "low",
+            "intentId": "t10-intent",
+            "attemptId": "t10-attempt"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/tickets?attemptId=t10-attempt&id=54fca34a-319a-4791-ae53-0410bc4a14fe",
+          "status": 200,
+          "body": {
+            "items": [
+              {
+                "id": "54fca34a-319a-4791-ae53-0410bc4a14fe",
+                "ownerId": "user-a",
+                "title": "更新标题",
+                "priority": "low",
+                "intentId": "t10-intent",
+                "attemptId": "t10-attempt"
+              }
+            ],
+            "total": 1,
+            "hasMore": false,
+            "complete": true
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/tickets/54fca34a-319a-4791-ae53-0410bc4a14fe",
+          "status": 404,
+          "body": {
+            "error": "not found"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/tickets?attemptId=t10-attempt&id=54fca34a-319a-4791-ae53-0410bc4a14fe",
+          "status": 200,
+          "body": {
+            "items": [],
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          }
+        }
+      ],
+      "priorityPreserved": false
+    },
+    {
+      "version": "repaired",
+      "baselineHash": "378a3e2a58344ea50216faa5d065a8e0f2df32f905175e35e219d7b4c85d8129",
+      "trace": [
+        {
+          "method": "POST",
+          "path": "/tickets",
+          "status": 201,
+          "body": {
+            "id": "285e0e33-b01d-43fe-9632-5a0f967f1a86",
+            "ownerId": "user-a",
+            "title": "初始标题",
+            "priority": "high",
+            "intentId": "t10-intent",
+            "attemptId": "t10-attempt"
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/tickets/285e0e33-b01d-43fe-9632-5a0f967f1a86",
+          "status": 200,
+          "body": {
+            "id": "285e0e33-b01d-43fe-9632-5a0f967f1a86",
+            "ownerId": "user-a",
+            "title": "更新标题",
+            "priority": "high",
+            "intentId": "t10-intent",
+            "attemptId": "t10-attempt"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/tickets?attemptId=t10-attempt&id=285e0e33-b01d-43fe-9632-5a0f967f1a86",
+          "status": 200,
+          "body": {
+            "items": [
+              {
+                "id": "285e0e33-b01d-43fe-9632-5a0f967f1a86",
+                "ownerId": "user-a",
+                "title": "更新标题",
+                "priority": "high",
+                "intentId": "t10-intent",
+                "attemptId": "t10-attempt"
+              }
+            ],
+            "total": 1,
+            "hasMore": false,
+            "complete": true
+          }
+        },
+        {
+          "method": "PATCH",
+          "path": "/tickets/285e0e33-b01d-43fe-9632-5a0f967f1a86",
+          "status": 404,
+          "body": {
+            "error": "not found"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/tickets?attemptId=t10-attempt&id=285e0e33-b01d-43fe-9632-5a0f967f1a86",
+          "status": 200,
+          "body": {
+            "items": [],
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          }
+        }
+      ],
+      "priorityPreserved": true
+    }
+  ]
+}

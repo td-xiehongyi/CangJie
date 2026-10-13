@@ -1,0 +1,597 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>四页流程覆盖与文案精简</title><style>body{margin:0;background:#f4f6fb;color:#182238;font:15px/1.7 "Segoe UI","Microsoft YaHei",sans-serif}main{max-width:1200px;margin:auto;padding:28px}h1{font-size:28px}h2{margin-top:32px;font-size:22px}a{color:#3657ba}nav{display:flex;flex-wrap:wrap;gap:20px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}figure{margin:20px 0;background:white;border:1px solid #e0e5ee;border-radius:12px;overflow:hidden}img{display:block;width:100%;height:auto}figcaption{font-weight:600;padding:12px 16px}.notice{padding:16px;background:#fff6e6;border:1px solid #e9d8ae;border-radius:10px}.table{overflow:auto}table{width:100%;border-collapse:collapse;background:white}td{border:1px solid #dde3ed;padding:10px;vertical-align:top}tr:first-child{font-weight:600;background:#eaf0ff}details{background:white;padding:16px;margin:16px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px}@media(max-width:760px){main{padding:16px}.grid{grid-template-columns:1fr}}</style><main><h1>四页流程覆盖与文案精简</h1><nav><a href="../../index.html">查看最终界面</a><a href="../../index.html?inspect=1">打开演示检查模式</a><a href="流程覆盖与文案精简.md">完整检查表</a></nav><p class="notice">核心无模板链路已覆盖，仍有三处业务分支不完整。这里只审查静态预览，没有真实执行、发布、包读取或导出。</p><div class="grid"><figure><figcaption>01 接入精简</figcaption><a href="01-接入精简.jpg"><img src="01-接入精简.jpg" alt="接入精简"></a></figure><figure><figcaption>08 业务规则精简</figcaption><a href="08-业务规则精简.jpg"><img src="08-业务规则精简.jpg" alt="业务规则精简"></a></figure><figure><figcaption>09 未知报告精简</figcaption><a href="09-未知报告精简.jpg"><img src="09-未知报告精简.jpg" alt="未知报告精简"></a></figure><figure><figcaption>10 模型设置精简</figcaption><a href="10-模型设置精简.jpg"><img src="10-模型设置精简.jpg" alt="模型设置精简"></a></figure></div><p>核对日期：2026-10-12。依据：需求 v0.41 的 R01—R52、候选设计 v1.7、最终计划 2.25。范围：静态界面、文案、入口和演示状态；不代表产品实现或真实执行验收。</p><h2>结论</h2><p>四页足以承载首版结构，字段保持的无模板主链可连续演示。不能认定所有业务分支已完全覆盖：种子流程的目标负载、其他模板的验证包/迁移，以及待定规则的观察记录仍有缺口。上一轮“未发现新阻断缺口”仅针对当时演示的字段保持主线，不是全部 R01—R52 的覆盖结论。</p><p>本轮已精简默认界面，并补充能在四页内表达的缺口状态。仍未开发实际功能。</p><h2>按完整链路检查</h2><div class="table"><table><tr><td>步骤</td><td>对应需求</td><td>界面与动作</td><td>健康度</td></tr><tr><td>1. 配置模型</td><td>R16、R33、R36—R39</td><td>地址、模型、API Key、记住/清除、协议与输出检查；不预填默认模型。</td><td>已覆盖界面</td></tr><tr><td>2. 接入项目</td><td>R03、R17、R31、R32、R40、R41</td><td>目录、用途、账号；发送范围与测试环境确认；扩大范围或换服务需重新确认。</td><td>已覆盖界面</td></tr><tr><td>3. 处理接入缺口</td><td>R01、R02、R04、R42</td><td>初始化补充说明及重检；新增外部测试服务配置、HTTP 查询入口或页面线索补充。缺输入或未确认阻断。</td><td>已补齐预览入口</td></tr><tr><td>4. 选择一条流程及规则</td><td>R05—R08、R14、R47、R50</td><td>字段保持与工单提交；可选择保存结果、重复提交、权限隔离；未勾选项不判定。</td><td>部分覆盖：待定观察记录未展示</td></tr><tr><td>5. 没有模板时分类</td><td>R08、R29、R30</td><td>缺映射、底层能力、规则、可信对照分别给出口；缺实验且能力够才生成。</td><td>已覆盖状态</td></tr><tr><td>6. 候选生成与分层验证</td><td>R29、R34、R38</td><td>定义检查、独立正反例与留出变体、受控端到端、项目试运行；v0.1 漏检到 v0.2 修订；上限/模型/预算暂停。</td><td>字段保持主线已回归</td></tr><tr><td>7. 对照补齐与审核发布</td><td>R20—R22、R29、R49</td><td>复制要求、补齐重检，保持规则和计数；业务适用与开发者技术审核缺一不可；新增停用原因与修订候选入口。</td><td>已覆盖预览门槛</td></tr><tr><td>8. 业务结果与证据</td><td>R10、R15、R18、R28</td><td>预期/实际、步骤、请求响应、复制修复说明；业务失败与模板资格分开；修正未知结果旁误写业务失败的问题。</td><td>字段保持证据完整，种子证据较简略</td></tr><tr><td>9. 修复、中断与接口变化复跑</td><td>R12、R13、R27、R43、R44、R51</td><td>目录/版本/变化、密码、隔离、复位、从头重跑；新映射确认后返回；新增复位失败状态；已停用模板禁止开始复跑。</td><td>已覆盖预览；种子复跑保持所选检查</td></tr><tr><td>10. 目标负载</td><td>R09—R11、R25、R46</td><td>新增不确定目标引导；目标、阈值、数据、停止与结算；业务违规、性能/资源/人工停止、未知及未达标分开。</td><td>字段保持完整，工单提交分支未完整绑定</td></tr><tr><td>11. 成果及验证包</td><td>R13、R22、R28</td><td>导出选择明确列出 Markdown、证据文件、验证包；文件选择入口、完整性/路径/版本/资格检查；停用替代版本、重新确认及密码补填。</td><td>字段保持包完整，其他模板包仍缺</td></tr><tr><td>12. 新项目复用</td><td>R19—R24、R49</td><td>新增正常“切换项目”入口；报名映射重新确认，固定模板逻辑不变、新结果不继承旧通过。</td><td>字段保持迁移已展示，种子迁移未完整展示</td></tr></table></div><p>R26、R45、R48、R52 是开发、时间安排、价值对照和交付复现工作，不需要额外产品页面；R35 的 Windows 支持应在交付说明体现。本轮没有实施或验收这些工作。正式文档较早的“单工作台三个状态”描述与已获用户确认的四页结构尚未全文同步，本轮未改写正式需求或实施计划。</p><h2>仍开放的三处覆盖缺口</h2><p>1. 工单提交的目标负载绑定：修复复跑可保持所选种子检查，但该流程的报告没有完整目标负载入口；负载页和账本仍主要固定字段保持。不能把编辑工单的负载结论套给提交工单。</p><p>2. 非字段保持的成果和迁移：工单提交结果页没有各检查完整复现证据；加载包和第二项目迁移主要是字段保持样例，尚未按保存结果、重复提交、权限隔离逐项表达对应规则、版本及范围。导出入口已齐全，不等于这些内容已齐全。</p><p>3. 待定规则的观察记录：现有界面能保留待定、阻止参与对错判定，但尚无具体观察结果与同流程已确认检查并列的记录；“未执行”和“只观察未判定”应明确区分。</p><p>这些是预览覆盖缺口，不是要求开发新页面、评测平台或实际功能。现有四页可容纳后续补齐。本轮保留这些事项，不把未展示部分算作通过。</p><h2>文案精简与小范围修正</h2><p>- 默认界面删除“交互预览”“示例项目”“预览不会发送项目或凭据”、候选讲解副标题及重复提示。</p><p>- “填入示例密码/配置”“显示本轮结果”“显示结束示例”“完成示例结算”“切换示例”等演示控件只在 ?inspect=1 检查模式显示；默认四页只呈现最终产品控件。检查模式的查询参数会随内部跳转保持。</p><p>- 文件加载改为最终应呈现的文件选择表单；示例包状态选择仅供检查模式使用。</p><p>- 保留发送范围、测试隔离、规则、计数、版本、独立审核、数据复位、停止结算、未知原因及结论限制。删除演示控件没有删除这些门槛。</p><p>- 未知报告改为“补齐最终取证并通过业务验证后再运行”，不再说“已证明业务错误”。历史文字不再一概称规则/映射相同。</p><p>- 工单提交修复复跑能显示所选两项检查的修复后结果，并保持主流程；报告导航能返回当前类型报告。均为预设状态转换，不证明真实缺陷已修复。</p><h2>本轮证据与限制</h2><p>- 浏览器重新逐步点击模型→接入→映射→规则→候选漏检→修订→对照补齐→双重审核→发布→密码/条件核对→复跑→负载确认→在途结算→报告；再次核对发布前零项/一项确认均不可发布，负载报告切换保留 L016。</p><p>- 新增取证/服务表单的空输入与确认门槛、负载引导回填、模板停用原因必填和停用复跑阻断已点击检查；种子流程只选两项后，修复复跑仍只报告两项。</p><p>- 41 个来源于现有状态目录的页面做本轮 DOM 检查：有标题、无横向溢出、默认可见文字不含“预览/示例/演示”，且不含模拟控制按钮。该检查不是 41 条完整业务回归，也不是全部状态截图验收。</p><p>- 四页与四个补充状态，在 1280/768/390 宽度共 24 次尺寸检查无横向溢出；390 目标负载截图目视检查。不是全键盘、读屏或所有对话框的移动端验收。</p><p>- JavaScript 语法检查通过；本轮所捕获浏览器 error 日志为空。截图与 URL/DOM 见 screens.json，状态检查见 route-checks.json，尺寸见 layout-checks.json。</p><p>- 原六个源文件已保存到 before/ 并记录哈希；旧 QA 图片保留为历史，不作为本轮证据。</p><p>- 去掉演示文字是为了审阅最终文案。所有路径、账号、版本、结果仍是假数据；检查模式通过手动模拟状态推进。默认模式不会自行推进运行结果。文件选择不读取/验证包内容，导出不会生成文件；无网络、进程、真实模板发布、密码存储或负载操作。</p><h2>本轮逐屏证据</h2><figure><figcaption>01 接入精简</figcaption><a href="01-接入精简.jpg"><img src="01-接入精简.jpg" alt="接入精简"></a></figure><details><summary>URL 与界面文字</summary><p>http://127.0.0.1:9309/index.html</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=unknown
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - button &quot;切换项目&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;项目接入&quot; [level=1]
+  - heading &quot;项目信息&quot; [level=2]
+  - generic: 项目目录
+  - textbox &quot;项目目录&quot;: C:\demo\ticket-app
+  - button &quot;选择目录&quot;
+  - generic: 网站用途
+  - textbox &quot;网站用途&quot;: 用户提交和编辑工单，查看处理进度。
+  - heading &quot;测试账号&quot; [level=2]
+  - generic: 两个普通用户
+  - generic: 用户甲
+  - textbox &quot;用户甲&quot;: user_a
+  - generic: 测试密码
+  - textbox &quot;测试密码&quot;:
+    - /placeholder: 本次会话使用
+  - generic: 用户乙
+  - textbox &quot;用户乙&quot;: user_b
+  - generic: 测试密码
+  - textbox &quot;测试密码&quot;:
+    - /placeholder: 本次会话使用
+  - generic: 密码仅本次会话使用
+  - button &quot;开始分析&quot;
+  - complementary:
+    - heading &quot;发送范围&quot; [level=2]
+    - button &quot;调整&quot;
+    - term: 模型服务
+    - definition: api.deepseek.com
+    - term: 所选文件
+    - definition:
+      - text: src/routes/tickets.ts
+      - text: src/auth.ts · package.json
+    - paragraph: 仅相关摘要与源码片段，排除凭据、环境文件和数据库。
+    - checkbox &quot;同意发送以上内容&quot;
+    - generic: 同意发送以上内容
+    - heading &quot;测试环境&quot; [level=2]
+    - generic: 源码副本
+    - generic: ticket-app-test
+    - generic: 独立数据库
+    - generic: ticket-test.sqlite
+    - generic: 数据来源
+    - generic: 已有测试初始化入口
+    - checkbox &quot;确认测试副本与专用测试数据&quot;
+    - generic: 确认测试副本与专用测试数据</pre></details><figure><figcaption>02 验证包文件入口</figcaption><a href="02-验证包文件入口.jpg"><img src="02-验证包文件入口.jpg" alt="验证包文件入口"></a></figure><details><summary>URL 与界面文字</summary><p>http://127.0.0.1:9309/index.html</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=unknown
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - button &quot;切换项目&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;项目接入&quot; [level=1]
+  - heading &quot;项目信息&quot; [level=2]
+  - generic: 项目目录
+  - textbox &quot;项目目录&quot;: C:\demo\ticket-app
+  - button &quot;选择目录&quot;
+  - generic: 网站用途
+  - textbox &quot;网站用途&quot;: 用户提交和编辑工单，查看处理进度。
+  - heading &quot;测试账号&quot; [level=2]
+  - generic: 两个普通用户
+  - generic: 用户甲
+  - textbox &quot;用户甲&quot;: user_a
+  - generic: 测试密码
+  - textbox &quot;测试密码&quot;:
+    - /placeholder: 本次会话使用
+  - generic: 用户乙
+  - textbox &quot;用户乙&quot;: user_b
+  - generic: 测试密码
+  - textbox &quot;测试密码&quot;:
+    - /placeholder: 本次会话使用
+  - generic: 密码仅本次会话使用
+  - button &quot;开始分析&quot;
+  - complementary:
+    - heading &quot;发送范围&quot; [level=2]
+    - button &quot;调整&quot;
+    - term: 模型服务
+    - definition: api.deepseek.com
+    - term: 所选文件
+    - definition:
+      - text: src/routes/tickets.ts
+      - text: src/auth.ts · package.json
+    - paragraph: 仅相关摘要与源码片段，排除凭据、环境文件和数据库。
+    - checkbox &quot;同意发送以上内容&quot;
+    - generic: 同意发送以上内容
+    - heading &quot;测试环境&quot; [level=2]
+    - generic: 源码副本
+    - generic: ticket-app-test
+    - generic: 独立数据库
+    - generic: ticket-test.sqlite
+    - generic: 数据来源
+    - generic: 已有测试初始化入口
+    - checkbox &quot;确认测试副本与专用测试数据&quot;
+    - generic: 确认测试副本与专用测试数据
+- dialog &quot;加载验证包&quot;:
+  - heading &quot;加载验证包&quot; [level=2]
+  - button &quot;关闭对话框&quot; [active]: 关闭
+  - generic: 验证包文件
+  - button &quot;验证包文件&quot;
+  - alert
+  - button &quot;检查并加载&quot;</pre></details><figure><figcaption>03 补充取证信息</figcaption><a href="03-补充取证信息.jpg"><img src="03-补充取证信息.jpg" alt="补充取证信息"></a></figure><details><summary>URL 与界面文字</summary><p>http://127.0.0.1:9309/index.html?state=evidence-input</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=unknown
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - button &quot;切换项目&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;补充取证信息&quot; [level=1]
+  - status:
+    - strong: 最终结果查询不完整
+    - paragraph: 补充同一对象的完整查询入口。
+  - generic: HTTP 查询入口
+  - textbox &quot;HTTP 查询入口&quot;:
+    - /placeholder: https://
+  - generic: 接口说明或查询页面线索
+  - textbox &quot;接口说明或查询页面线索&quot;
+  - checkbox &quot;确认查询对象、身份和完整字段&quot;
+  - generic: 确认查询对象、身份和完整字段
+  - button &quot;重新检查接入&quot;
+  - complementary:
+    - heading &quot;运行条件&quot; [level=2]
+    - generic: 运行
+    - generic: 待补充
+    - generic: 主流程
+    - generic: 编辑工单
+    - generic: 规则 / 映射
+    - generic: v1.0 / v1.3
+    - generic: 模板
+    - generic: 字段保持 v1.0
+    - generic: 环境 / 基线
+    - generic: 测试副本 / seed-v1
+    - generic: 取证
+    - generic: 完整 HTTP 查询
+    - generic &quot;受影响检查 ＋&quot;</pre></details><figure><figcaption>04 外部服务暂停</figcaption><a href="04-外部服务暂停.jpg"><img src="04-外部服务暂停.jpg" alt="外部服务暂停"></a></figure><details><summary>URL 与界面文字</summary><p>http://127.0.0.1:9309/index.html?state=service-blocked</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=unknown
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - button &quot;切换项目&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;需要配置测试服务&quot; [level=1]
+  - status:
+    - strong: 外部服务检查已暂停
+    - paragraph: 请配置测试服务；其他独立检查可继续。
+  - generic: 测试服务地址
+  - textbox &quot;测试服务地址&quot;:
+    - /placeholder: https://
+  - generic: 测试配置说明
+  - textbox &quot;测试配置说明&quot;
+  - checkbox &quot;确认仅调用测试服务&quot;
+  - generic: 确认仅调用测试服务
+  - button &quot;重新检查接入&quot;
+  - complementary:
+    - heading &quot;运行条件&quot; [level=2]
+    - generic: 运行
+    - generic: 待补充
+    - generic: 主流程
+    - generic: 编辑工单
+    - generic: 规则 / 映射
+    - generic: v1.0 / v1.3
+    - generic: 模板
+    - generic: 字段保持 v1.0
+    - generic: 环境 / 基线
+    - generic: 测试副本 / seed-v1
+    - generic: 取证
+    - generic: 完整 HTTP 查询
+    - generic &quot;受影响检查 ＋&quot;</pre></details><figure><figcaption>05 未知负载目标引导</figcaption><a href="05-未知负载目标引导.jpg"><img src="05-未知负载目标引导.jpg" alt="未知负载目标引导"></a></figure><details><summary>URL 与界面文字</summary><p>http://127.0.0.1:9309/verify.html?state=load-plan</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=unknown
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - button &quot;切换项目&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;目标负载&quot; [level=1]
+  - paragraph: 编辑工单 · 业务复测已通过
+  - heading &quot;确认本次目标&quot; [level=2]
+  - generic: 每分钟编辑次数
+  - spinbutton &quot;每分钟编辑次数&quot;: &quot;30&quot;
+  - generic: 持续时间（分钟）
+  - spinbutton &quot;持续时间（分钟）&quot;: &quot;10&quot;
+  - generic: 95% 请求允许等待（毫秒）
+  - spinbutton &quot;95% 请求允许等待（毫秒）&quot;: &quot;500&quot;
+  - generic: 请求错误率上限（%）
+  - spinbutton &quot;请求错误率上限（%）&quot;: &quot;1&quot;
+  - generic: 使用方式
+  - textbox &quot;使用方式&quot;: 普通用户编辑各自的工单，100% 为标题更新，均匀到达。
+  - generic &quot;数据、停止与结算条件 ＋&quot;
+  - checkbox &quot;确认目标、数据分布、判定与停止条件&quot;
+  - generic: 确认目标、数据分布、判定与停止条件
+  - button &quot;不确定目标&quot;
+  - button &quot;开始目标负载&quot;
+  - complementary:
+    - heading &quot;本次覆盖&quot; [level=2]
+    - generic: 低负载业务
+    - generic: R015 · 通过
+    - generic: 已验证检查
+    - generic: 字段保持 v1.1
+    - generic: 环境
+    - generic: 本机测试副本
+    - generic: 目标
+    - generic: 只验证已确认负载
+    - status:
+      - strong: 结论有范围
+      - paragraph: 不寻找最大容量，不把虚拟用户数换算成真实在线人数。
+- dialog &quot;确定负载目标&quot;:
+  - heading &quot;确定负载目标&quot; [level=2]
+  - button &quot;关闭对话框&quot; [active]: 关闭
+  - generic: 预期使用方式与集中程度
+  - textbox &quot;预期使用方式与集中程度&quot;:
+    - /placeholder: 例如：高峰十分钟内，用户均匀编辑各自工单
+  - generic: 预计每分钟操作次数
+  - spinbutton &quot;预计每分钟操作次数&quot;
+  - generic: 可接受等待（毫秒）
+  - spinbutton &quot;可接受等待（毫秒）&quot;
+  - alert
+  - button &quot;带入目标并确认&quot;</pre></details><figure><figcaption>06 模板停用状态</figcaption><a href="06-模板停用状态.jpg"><img src="06-模板停用状态.jpg" alt="模板停用状态"></a></figure><details><summary>URL 与界面文字</summary><p>http://127.0.0.1:9309/report.html?state=published&amp;tab=qualification</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=published&amp;tab=qualification
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - button &quot;切换项目&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;验证报告&quot; [level=1]
+  - paragraph: 编辑工单 · R014 · 候选试运行 · 本轮已结束
+  - button &quot;导出&quot;
+  - link &quot;修复后复测&quot;:
+    - /url: verify.html?state=replay-prepare
+  - generic &quot;报告内容&quot;:
+    - button &quot;业务结果&quot;
+    - button &quot;候选资格 已停用&quot;:
+      - text: 候选资格
+      - generic: 已停用
+  - complementary:
+    - heading &quot;结果摘要&quot; [level=2]
+    - generic: 业务结果
+    - generic: 业务失败
+    - generic: 模板资格
+    - generic: 已停用 · v1.0
+    - generic: 验证范围
+    - generic: 低负载字段保持
+    - status:
+      - strong: 目标负载未测
+      - paragraph: 先修复业务错误并通过复测。
+    - generic &quot;历史运行 ＋&quot;
+    - generic &quot;运行与版本 ＋&quot;
+    - button &quot;选择下一条流程&quot;
+  - heading &quot;字段保持模板 v1.0&quot; [level=2]
+  - generic: 已停用
+  - status:
+    - strong: 已停止推荐与执行
+    - paragraph: 历史报告保留；请选择有效版本或生成修订候选。
+  - list:
+    - strong: 建立初始状态
+    - paragraph: 用户甲创建高优先级工单，查询并保存 id、priority、ownerId。
+    - strong: 只修改标题
+    - paragraph: 使用甲的身份更新同一张工单，确认请求被接受。
+    - strong: 查询最终结果
+    - paragraph: 标题等于新值；优先级等于操作前值；所有者严格等于原值。
+  - generic &quot;准入与版本 ＋&quot;
+  - button &quot;查看验证证据&quot;
+  - button &quot;生成修订候选&quot;
+  - generic &quot;模板适用说明 ＋&quot;</pre></details><figure><figcaption>07 导出成果选项</figcaption><a href="07-导出成果选项.jpg"><img src="07-导出成果选项.jpg" alt="导出成果选项"></a></figure><details><summary>URL 与界面文字</summary><p>http://127.0.0.1:9309/report.html?state=submit&amp;flow=submit&amp;case=repaired&amp;inspect=1</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: http://127.0.0.1:9309/index.html?inspect=1
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: http://127.0.0.1:9309/index.html?inspect=1
+    - link &quot;业务验证&quot;:
+      - /url: http://127.0.0.1:9309/verify.html?inspect=1
+    - link &quot;验证报告&quot;:
+      - /url: http://127.0.0.1:9309/report.html?state=load-passed&amp;inspect=1
+  - link &quot;模型设置&quot;:
+    - /url: http://127.0.0.1:9309/settings.html?inspect=1
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - button &quot;检查状态&quot;
+  - button &quot;切换项目&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;验证报告&quot; [level=1]
+  - paragraph: 工单提交 · 本轮已结束
+  - button &quot;导出&quot;
+  - link &quot;修复后复测&quot;:
+    - /url: http://127.0.0.1:9309/verify.html?state=replay-prepare&amp;flow=submit&amp;inspect=1
+  - heading &quot;已确认检查&quot; [level=2]
+  - strong: 保存结果
+  - paragraph: 已复位并重新执行，最终结果符合规则。
+  - generic: 通过
+  - strong: 重复提交
+  - paragraph: 已复位并重新执行，最终结果符合规则。
+  - generic: 通过
+  - status:
+    - strong: 业务复测通过
+    - paragraph: 新记录关联原运行，所选检查保持不变。
+  - link &quot;重新接入该流程&quot;:
+    - /url: http://127.0.0.1:9309/index.html?state=mapping&amp;inspect=1
+  - button &quot;选择下一条流程&quot;
+  - complementary:
+    - heading &quot;执行范围&quot; [level=2]
+    - generic: 主流程
+    - generic: 工单提交
+    - generic: 已选检查
+    - generic: 2 项
+    - generic: 环境
+    - generic: 独立测试副本
+    - generic: 模板
+    - generic: 有效已发布版本
+    - generic &quot;未确认规则 ＋&quot;
+- dialog &quot;导出&quot;:
+  - heading &quot;导出&quot; [level=2]
+  - button &quot;关闭对话框&quot; [active]: 关闭
+  - checkbox &quot;Markdown 报告&quot; [checked]
+  - generic: Markdown 报告
+  - checkbox &quot;证据文件&quot; [checked]
+  - generic: 证据文件
+  - checkbox &quot;验证包&quot; [checked]
+  - generic: 验证包
+  - paragraph: 包含当前运行的规则、版本和证据，不包含凭据。
+  - alert
+  - button &quot;导出所选内容&quot;</pre></details><figure><figcaption>08 业务规则精简</figcaption><a href="08-业务规则精简.jpg"><img src="08-业务规则精简.jpg" alt="业务规则精简"></a></figure><details><summary>URL 与界面文字</summary><p>http://127.0.0.1:9309/verify.html?state=rules&amp;case=new</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=load-unknown
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - button &quot;切换项目&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;编辑工单&quot; [level=1]
+  - button &quot;更换流程&quot;
+  - list &quot;候选模板阶段&quot;:
+    - generic: &quot;01&quot;
+    - text: 规则确认
+    - generic: &quot;02&quot;
+    - text: 候选生成
+    - generic: &quot;03&quot;
+    - text: 分层验证
+    - generic: &quot;04&quot;
+    - text: 审核发布
+    - generic: &quot;05&quot;
+    - text: 复跑
+  - heading &quot;确认业务规则&quot; [level=2]
+  - generic: 0/1 已确认
+  - checkbox &quot;确认字段保持规则&quot;
+  - generic: 只修改标题时，优先级和所有者保持不变
+  - generic: 无适用模板
+  - generic: 待确认
+  - button &quot;编辑&quot;
+  - paragraph: 未确认项不参与判定。
+  - button &quot;确认并检查能力&quot;
+  - complementary:
+    - heading &quot;执行范围&quot; [level=2]
+    - generic: 1 条流程
+    - generic: 主流程
+    - generic: 编辑工单
+    - generic: 测试身份
+    - generic: user_a / user_b
+    - generic: 测试环境
+    - generic: 独立副本 · seed-v1
+    - generic: 最终取证
+    - generic: HTTP 查询
+    - generic &quot;接口映射与取证 ＋&quot;
+    - generic &quot;规则与适用条件 ＋&quot;</pre></details><figure><figcaption>09 未知报告精简</figcaption><a href="09-未知报告精简.jpg"><img src="09-未知报告精简.jpg" alt="未知报告精简"></a></figure><details><summary>URL 与界面文字</summary><p>http://127.0.0.1:9309/report.html?state=unknown</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=unknown
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - button &quot;切换项目&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;验证报告&quot; [level=1]
+  - paragraph: 编辑工单 · R014 · 候选试运行 · 本轮已结束
+  - button &quot;导出&quot;
+  - link &quot;重新接入该流程&quot;:
+    - /url: index.html?state=mapping
+  - generic &quot;报告内容&quot;:
+    - button &quot;业务结果&quot;
+    - button &quot;候选资格 已发布&quot;:
+      - text: 候选资格
+      - generic: 已发布
+  - complementary:
+    - heading &quot;结果摘要&quot; [level=2]
+    - generic: 业务结果
+    - generic: 无法验证
+    - generic: 模板资格
+    - generic: 已发布 · v1.0
+    - generic: 验证范围
+    - generic: 低负载字段保持
+    - status:
+      - strong: 目标负载未测
+      - paragraph: 补齐最终取证并通过业务验证后再运行。
+    - generic &quot;历史运行 ＋&quot;
+    - generic &quot;运行与版本 ＋&quot;
+    - button &quot;选择下一条流程&quot;
+  - heading &quot;无法取得完整最终字段&quot; [level=2]
+  - generic: 无法验证
+  - paragraph: 查询缺少 ownerId，不能证明所有者保持不变。未将缺字段当作空值相等。
+  - generic &quot;补充与重新检查 －&quot;
+  - generic: 提供返回同一工单完整 ownerId 的 HTTP 查询入口，并确认账号身份与字段语义。补齐后重新试运行；不因查询超时自动判接口变化。
+  - button &quot;复制补充说明&quot;
+  - button &quot;补充取证信息&quot;
+  - generic &quot;模板适用说明 ＋&quot;</pre></details><figure><figcaption>10 模型设置精简</figcaption><a href="10-模型设置精简.jpg"><img src="10-模型设置精简.jpg" alt="模型设置精简"></a></figure><details><summary>URL 与界面文字</summary><p>http://127.0.0.1:9309/settings.html</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=unknown
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+- banner:
+  - generic: ticket-app
+  - generic: 测试副本
+  - button &quot;切换项目&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;模型设置&quot; [level=1]
+  - heading &quot;模型服务&quot; [level=2]
+  - generic: 服务
+  - combobox &quot;服务&quot;:
+    - option &quot;DeepSeek 官方&quot; [selected]
+    - option &quot;自定义地址&quot;
+  - generic: 接口地址
+  - textbox &quot;接口地址&quot;: https://api.deepseek.com
+  - generic: 模型名称
+  - textbox &quot;模型名称&quot;:
+    - /placeholder: 填写模型名称
+  - generic: API Key
+  - textbox &quot;API Key&quot;:
+    - /placeholder: 输入 API Key
+  - checkbox &quot;记住 API Key&quot;
+  - generic: 记住 API Key
+  - generic &quot;存储与兼容范围 ＋&quot;
+  - button &quot;清除已存密钥&quot;
+  - button &quot;检查连接&quot;
+  - button &quot;保存&quot;</pre></details><figure><figcaption>11 390宽度目标负载</figcaption><a href="11-390宽度目标负载.jpg"><img src="11-390宽度目标负载.jpg" alt="390宽度目标负载"></a></figure><details><summary>URL 与界面文字</summary><p>http://127.0.0.1:9309/verify.html?state=load-plan</p><pre>- link &quot;跳到内容&quot;:
+  - /url: &quot;#content&quot;
+- complementary:
+  - link &quot;网站验证&quot;:
+    - /url: index.html
+  - navigation &quot;主要导航&quot;:
+    - link &quot;项目接入&quot;:
+      - /url: index.html
+    - link &quot;业务验证&quot;:
+      - /url: verify.html
+    - link &quot;验证报告&quot;:
+      - /url: report.html?state=unknown
+  - link &quot;模型设置&quot;:
+    - /url: settings.html
+- banner:
+  - generic: ticket-app
+  - button &quot;切换项目&quot;
+  - button &quot;加载验证包&quot;
+- main:
+  - heading &quot;目标负载&quot; [level=1]
+  - paragraph: 编辑工单 · 业务复测已通过
+  - heading &quot;确认本次目标&quot; [level=2]
+  - generic: 每分钟编辑次数
+  - spinbutton &quot;每分钟编辑次数&quot;: &quot;60&quot;
+  - generic: 持续时间（分钟）
+  - spinbutton &quot;持续时间（分钟）&quot;: &quot;10&quot;
+  - generic: 95% 请求允许等待（毫秒）
+  - spinbutton &quot;95% 请求允许等待（毫秒）&quot;: &quot;1500&quot;
+  - generic: 请求错误率上限（%）
+  - spinbutton &quot;请求错误率上限（%）&quot;: &quot;1&quot;
+  - generic: 使用方式
+  - textbox &quot;使用方式&quot;: 普通用户编辑各自的工单，100% 为标题更新，均匀到达。
+  - generic &quot;数据、停止与结算条件 ＋&quot;
+  - checkbox &quot;确认目标、数据分布、判定与停止条件&quot;
+  - generic: 确认目标、数据分布、判定与停止条件
+  - button &quot;不确定目标&quot;
+  - button &quot;开始目标负载&quot;
+  - complementary:
+    - heading &quot;本次覆盖&quot; [level=2]
+    - generic: 低负载业务
+    - generic: R015 · 通过
+    - generic: 已验证检查
+    - generic: 字段保持 v1.0
+    - generic: 环境
+    - generic: 本机测试副本
+    - generic: 目标
+    - generic: 只验证已确认负载
+    - status:
+      - strong: 结论有范围
+      - paragraph: 不寻找最大容量，不把虚拟用户数换算成真实在线人数。</pre></details></main></html>
