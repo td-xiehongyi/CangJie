@@ -23,6 +23,7 @@
     "check": "npm run build:contracts && npm run build:host && npm run build:sample && npm run check:reference && npm run build:core && npm run build:ui",
     "verify": "node scripts/verify.mjs",
     "test": "node scripts/verify.mjs all",
+    "test:discovery-state": "npm run build:contracts && npm run build:host && node --experimental-test-module-mocks --test tests/unit/*.test.mjs",
     "package": "node scripts/package.mjs"
   },
   "devDependencies": {

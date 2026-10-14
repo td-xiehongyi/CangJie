@@ -1,6 +1,6 @@
 # 源码业务分析与项目特有检查分阶段实施计划
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans only after explicit authorization to implement the named stage. Steps use checkbox syntax. 用户于2026-10-14后续明确授权核对S1/D1并实施S2/D2、D3及所需测试、档案更新；S3—S5尚未授权。禁止真实模型调用、源码外发、提交、推送、发布或替换正式交付包；保留历史未提交改动。实施时按下述任务逐项推进，阶段完成后停止。
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans only after explicit authorization to implement the named stage. Steps use checkbox syntax. 用户于2026-10-14后续明确授权核对S1/D1并实施S2/D2、D3及所需测试、档案更新；最新推进顺序为先修当前状态问题并补回归、同步过时文档、完成真实候选和源码分析验收，再推进S3项目规则。S3尚未启动，须先完成前置修复及验收；S4—S5未实施、待另行授权。真实模型调用与源码外发仍须确认实际范围，本轮状态修复已获授权单提交同步至`fix/discovery-analysis-state`分支，main不合并、不强推；发布或替换正式交付包须另获授权；保留历史改动与证据，不自动跨阶段。
 
 **Goal:** 从JS/TS网站源码生成带引用的业务概览和项目特有检查，确认后保存项目规则，并使一条超出现有种子语义的新业务进入可信执行与复测。
 
@@ -10,7 +10,7 @@
 
 **Spec:** [需求v0.44](../../业务与容量验证系统需求与设计讨论稿.md) R53—R60；[源码分析设计](../specs/2026-10-14-code-grounded-business-discovery.md)；[总体架构](../specs/2026-10-14-extensible-verification-architecture.md)。
 
-版本：1.2；日期：2026-10-15；状态：S1实际复核通过，S2/D2、D3已实现并通过离线开发检查；真实deepseek-flash效果待外发确认及验收，不能记为S2完整验收通过；S3—S5未实施、待另行授权。证据见[源码索引与受控读取](../../evidence/discovery-source.md)、[业务分析与推荐](../../evidence/discovery-analysis.md)。
+版本：1.4；状态：S1/D1与S2/D2、D3已实现，保留历史离线验收。推送前专项36/38、API4/6的时序问题已在本地补回归并最小修复；本轮7项回归通过，4份专项38/38仅为明确OS互斥替身下的Linux结果，原生Windows完整续验尚未完成。真实候选与源码分析效果仍待验收，S2未完整验收。S3—S5未实施；完成原生续验及真实验收后再推进S3。本轮证据见[状态修复](../../evidence/discovery-state-fix-2026-10-14.md)，历史见[源码索引](../../evidence/discovery-source.md)、[业务分析](../../evidence/discovery-analysis.md)和[推送前核验](../../evidence/remote-push-2026-10-15.md)。
 
 ## Global Constraints
 
@@ -94,7 +94,7 @@
 - [x] 编译contracts和host后重跑，所有上述断言通过；运行`npm run verify -- access`确认旧运行准备保护未退化。
 - [x] 写入`docs/evidence/discovery-source.md`，列索引支持范围、拒绝原因及未解析关系；阶段停止。
 
-验收结果：源码专项12/12，旧access37/37，`npm run check`完整构建通过，最终`npm test`276/276；生产依赖全新目录中的索引/TSX读取/引用核验通过。首轮故障、测试定位器最小同步、静态关系限制与历史字节保留核对均见证据文档。S1只提供宿主基础接口，界面入口及业务分析归S2；未调用真实模型、不外发源码、不关闭旧T9/T10。S1交付时停止并等待授权；本轮已另获S2授权，当前结果以下节为准。
+S1历史验收结果：源码专项12/12，旧access37/37，`npm run check`完整构建通过，当次最终`npm test`276/276；生产依赖全新目录中的索引/TSX读取/引用核验通过。首轮故障、测试定位器最小同步、静态关系限制与历史字节保留核对均见证据文档。这些计数仅代表对应历史运行，不替代最新状态回归。S1只提供宿主基础接口，界面入口及业务分析归S2；未调用真实模型、不外发源码、不关闭旧T9/T10。S1交付时停止并等待授权；之后另获S2授权，当前结果以下节为准。
 
 实施说明（2026-10-14）：新增`createAnalysisScope`构造本地读取边界，快照可选`includeProjectTests`且默认排除项目测试；这不是云端发送同意。片段返回`{text,bytes,ref}`，引用只匹配宿主实际读取日志的精确行区间，LF归一化后计算片段摘要。单文件2MiB及总计10000文件/64MiB为本地索引防失控上限，达到时明确报告缺口。每轮4片段/累计196608字节及模型预算由S2/D2会话实现，不在无状态读取接口伪装为已落实。
 
@@ -122,11 +122,17 @@
 
 - [x] API测试无运行配置可建源码项目，未确认范围不能启动模型；读状态不触发调用；暂停/重连不自动分析；导入业务配置后项目身份和分析引用保持。
 - [x] 浏览器测试选择源码→查看发送范围→分析→业务概览→展开真实引用→选择一条业务；覆盖partial、失败重试、多标签草稿冲突、设置返回及窄屏不遮挡主操作。
-- [x] 完成UI与API后编译，运行`node --test tests/integration/discovery-api.test.mjs`及`npx playwright test tests/e2e/business-discovery.spec.ts`，全部通过。
+- [x] 完成UI与API后编译，运行`node --test tests/integration/discovery-api.test.mjs`及`npx playwright test tests/e2e/business-discovery.spec.ts`，历史离线检查全部通过；推送前API回归曾出现失败，本轮本地修复与原生续验限制见下方当前状态。
 - [ ] 用户授权真实调用时，以deepseek-flash在未提供verification.json的受控项目上分析；要求实际涉及入口、服务与数据/权限相关文件，引用逐项可回查，存在项目特有建议和诚实缺口；失败如实保留。未经外发确认仅交付确定性结果，S2真实效果未验收。
 - [x] 更新分析证据并停止，建议列表不能显示“业务已通过”。
 
-验收状态（2026-10-15）：S1源码12/12、旧access37/37；S2会话16/16、API6/6，新界面6/6。最终完整构建通过，npm test298/298、Edge完整29/29通过；旧回归在隔离副本生成证据，原历史文件未覆盖。一次独立审查的4项Important已先红后绿修补：中断draft恢复、配置变化恢复提示、手动账号接入、逐条依据展开。S1最小补齐validateScope/scopedSourceFiles；S2额外修改credentials作已知Key拒绝、WorkflowJourney/styles作源码入口适配、verify纳入新增测试，均为D2/D3必要衔接。所有产品模型响应为本机确定性模拟；两份合成源码的真实发送清单、服务及预算已准备但未同意、未发送。真实效果复选框保持未完成，停止于S2离线交付，不进入S3。
+历史离线验收（见discovery-analysis.md）：S1源码12/12、旧access37/37；S2会话16/16、API6/6，新界面6/6。当次完整构建通过，npm test298/298、Edge完整29/29通过；旧回归在隔离副本生成证据，原历史文件未覆盖。一次独立审查的4项Important已先红后绿修补：中断draft恢复、配置变化恢复提示、手动账号接入、逐条依据展开。S1最小补齐validateScope/scopedSourceFiles；S2额外修改credentials作已知Key拒绝、WorkflowJourney/styles作源码入口适配、verify纳入新增测试，均为D2/D3必要衔接。上述通过记录仅证明对应版本的离线检查，不证明真实模型效果或当前全绿。
+
+推送前状态（remote-push-2026-10-15.md，修复前）：源码分析access/session/API与model-key-validation专项38项中36项通过、2项失败，表现为结果意外paused和修改模型配置遇到MODEL_WORK_ACTIVE；独立API复测6项中4项通过、2项失败，运行配置导入和模型配置切换均遇到MODEL_WORK_ACTIVE。该次沙箱外完整构建通过，但未重跑完整集成或浏览器套件。分析持久状态与后台任务结束时序须先修复并补回归，不能由历史298/298或29/29推出当前全部通过。
+
+本轮状态修复：持久running读取与任务结束竞争、终态保存与互斥释放竞争及恢复注册窗口已新增确定性屏障回归并最小修复。7项新增回归通过；四份专项在明确OS互斥替身下38/38通过。Linux正式check/test因缺仓颉Windows工具链中止，UI尝试被浏览器启动限制阻断；均不记原生Windows通过。原历史证据未覆盖，详见[本轮修复与续验命令](../../evidence/discovery-state-fix-2026-10-14.md)。
+
+S2已有分析模型响应为本机确定性模拟；两份合成源码的真实发送清单、服务及预算已准备，历史证据记录未同意、未发送。真实候选与源码分析效果仍待实际验收，真实效果复选框保持未完成。本地修复回归和文档同步后，须先完成原生Windows完整续验，再核对真实发送范围、完成真实候选与源码分析验收，再推进尚未启动的S3；不据此进入S4/S5或关闭原T9/T10。
 
 ## S3 项目规则
 
@@ -197,4 +203,4 @@ S1—S3可以先交付只读分析和推荐，但必须标注新规则尚未实�
 
 ## 文档自审结果
 
-R53→D2/D3；R54→D1/D2；R55→D2/D4；R56→D4/D5/D6；R57→D1/D3；R58→D5/D6；R59→D4/D7；R60→阶段停止点/D8。五项Review Focus均有对应测试任务。预算、规则版本与引用契约集中定义，后续任务复用；本轮核验D1并实施D2/D3；D3真实模型效果保持待验收，D4—D8保持未完成。
+R53→D2/D3；R54→D1/D2；R55→D2/D4；R56→D4/D5/D6；R57→D1/D3；R58→D5/D6；R59→D4/D7；R60→阶段停止点/D8。五项Review Focus均有对应测试任务。预算、规则版本与引用契约集中定义，后续任务复用；D1—D3已实现且保留历史验收记录，本地状态回归已修复，原生Windows完整续验和D3真实模型效果待验收。D4—D8保持未完成；S3在状态修复、回归及真实验收完成后推进，S4/S5不自动启动。
