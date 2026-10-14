@@ -30,9 +30,14 @@ T10测试项目与边界见[对照准备记录](docs/evidence/comparison.md)。�
 
 ## 当前入口
 
+2026-10-14 新增方向已确认：优先从源码分析业务并推荐项目特有检查。总体架构和需求已同步，新增计划仅供审阅，尚未编码；当前可用能力与正式验收状态仍以上方主版本及证据为准。
+
 | 文件 | 用途 |
 | --- | --- |
-| [需求稿 v0.43](docs/业务与容量验证系统需求与设计讨论稿.md) | 已确认的 R01—R52、首版范围、业务原则及最新四页基准 |
+| [需求稿 v0.44](docs/业务与容量验证系统需求与设计讨论稿.md) | R01—R52既有边界与R53—R60源码业务分析新增主线，新增能力未实施 |
+| [总体架构](docs/superpowers/specs/2026-10-14-extensible-verification-architecture.md) | 源码分析、项目规则、检查执行与证据的模块边界及用户流程 |
+| [源码业务分析设计](docs/superpowers/specs/2026-10-14-code-grounded-business-discovery.md) | 按需读源码、业务概览、项目特有检查与能力缺口 |
+| [新增分阶段计划 v1.0](docs/superpowers/plans/2026-10-14-code-grounded-business-discovery.md) | S1—S5、D1—D8任务与验收停止点；全未实施，编码需授权 |
 | [候选模板设计 v1.7](docs/superpowers/specs/2026-10-11-candidate-template-lifecycle.md) | 候选生成、独立验证、审核发布和复用机制 |
 | [最终实施计划 2.34](docs/superpowers/plans/2026-10-11-website-verification.md) | T9交付已实施；真实模型与正式模板发布待验收；T10工单对照项目已准备，正式同模型对照待运行 |
 | [蓝白四页定稿](output/ui-preview-final/index.html) | 历史视觉参考；当前交互以正式工作台与交互改版验收为准 |

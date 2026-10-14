@@ -1,5 +1,7 @@
 # 网站业务与容量验证系统首版架构与实施计划（最终版）
 
+> 2026-10-14衔接说明：本文件保留既有T0—T10实施历史与开放验收。新增源码业务分析与项目特有检查按[分阶段计划](2026-10-14-code-grounded-business-discovery.md)推进，尚未授权编码；旧任务历史授权不适用于新D1—D8。下述版本、日期和阶段状态是原计划记录，不作为新能力已完成的证据。
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task only after the user authorizes coding. Steps use checkbox (`- [ ]`) syntax. 用户已完成T0—T3并后续明确授权T5、T6、T7、T8、T9；本轮用户授权T10并在暂停询问测试项目后要求继续；先准备工单对照项目，真实模型验收及正式人工双审核仍开放，T10正式对照待前置条件关闭；提交、推送或正式发布未获授权。
 
 **Goal:** 在 HTTP/JSON 测试副本上，复用三类种子模板，并让缺模板的业务生成候选实验，经独立验证、审核发布后在第二网站复用；同时完成已确认目标负载的业务与性能验证。

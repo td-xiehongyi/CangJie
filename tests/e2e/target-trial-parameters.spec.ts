@@ -14,7 +14,7 @@ for(const width of [1280,390])test(`inconclusive trial explains request rejectio
     const candidate={id:'paused-parameter-fixture',ruleId:'title-update-rule',status:'paused',phase:'awaiting_trial',code:'TARGET_TRIAL_EVIDENCE_INCOMPLETE',spec,revisionIndex:0,budget:{calls:1,tokens:20},validation:{gateResults:{admitted:true}},trial:{completed:true,verdicts:spec.assertions.map((a:any)=>({assertionRef:a.id,status:'inconclusive',reasonCode:'UNEXPECTED_ACCEPTANCE',evidenceRefs:['one','two','three']}))}};
     await page.route('**/api/state',route=>route.fulfill({json:{...raw,projects:[{...raw.projects[0],candidate}]}}));
     await page.setViewportSize({width,height:900});await page.goto(host.url+`/?page=verify&project=${projectId}`);
-    await page.getByRole('combobox',{name:'选择流程',exact:true}).selectOption('edit');
+    await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('edit');
     const review=page.getByRole('region',{name:'检查方案验证与审核',exact:true});
     await expect(review.getByText('试运行待处理',{exact:true})).toBeVisible();
     await expect(review.getByText('接口的接受或拒绝结果与步骤预期不符，请核对请求参数、权限和接口限制。',{exact:false})).toHaveCount(3);

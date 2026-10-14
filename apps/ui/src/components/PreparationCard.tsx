@@ -1,9 +1,10 @@
 import {useEffect,useRef,useState} from 'react';
-import {api,friendlyError,type Data} from '../api/client';
+import {api,friendlyError,subscribeSession,type Data} from '../api/client';
 export default function PreparationCard({project,title='执行前准备',onReady,includeSending=false,actionLabel='开始检查'}:{project:Data;title?:string;onReady:()=>Promise<void>;includeSending?:boolean;actionLabel?:string}){
   const [environment,setEnvironment]=useState(false),[sending,setSending]=useState(false),[disclosure,setDisclosure]=useState<Data>(),[error,setError]=useState(''),[busy,setBusy]=useState(false),[passwords,setPasswords]=useState<Record<string,string>>({});
   const active=useRef(false);
   useEffect(()=>{if(includeSending&&!project.consent)void api(`/projects/${project.id}/disclosure`).then(setDisclosure).catch(e=>setError(e.message));},[project.id,project.consent,includeSending]);
+  useEffect(()=>subscribeSession(expired=>{if(!expired)setError(current=>current==='SESSION_REQUIRED'?'连接已恢复，准备信息已保留。请核对后再次确认准备。':current);}),[]);
   async function prepare(){if(active.current)return;active.current=true;setError('');setBusy(true);try{
     if(!project.environmentConfirmed&&!environment)throw new Error('请确认测试环境和数据复位条件');
     if(Object.values(passwords).some(Boolean))await api(`/projects/${project.id}/passwords`,passwords);

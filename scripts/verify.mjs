@@ -1,8 +1,9 @@
 import { spawnSync } from 'node:child_process';
 import { root } from './toolchain.mjs';
 const group = process.argv[2];
-if (!['protocol','interpreter','access','validation-harness','candidate','registry','replay','transfer','target-load','release','workbench','all'].includes(group)) throw new Error(`Unknown verification group: ${group ?? '(missing)'}`);
+if (!['protocol','interpreter','access','discovery','validation-harness','candidate','registry','replay','transfer','target-load','release','workbench','all'].includes(group)) throw new Error(`Unknown verification group: ${group ?? '(missing)'}`);
 const suites={protocol:['tests/contracts/protocol.test.mjs'],interpreter:['tests/contracts/interpreter.test.mjs','tests/contracts/experiment-host.test.mjs','tests/contracts/schema.test.mjs'],access:['tests/integration/access.test.mjs','tests/integration/access-core.test.mjs'],'validation-harness':['tests/integration/validation-harness.test.mjs']};
+suites.discovery=['tests/integration/discovery-access.test.mjs','tests/integration/discovery-session.test.mjs','tests/integration/discovery-api.test.mjs'];
 // T4 deterministic provider/native credential tests; live DeepSeek acceptance is explicit.
 suites.candidate=['tests/integration/candidate.test.mjs','tests/integration/target-trial-recovery.test.mjs'];
 suites.registry=['tests/integration/registry.test.mjs'];

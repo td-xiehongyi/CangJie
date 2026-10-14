@@ -26,7 +26,7 @@ for(const width of [1280,390])test(`candidate creation reveals sending confirmat
     await page.route('**/api/projects/*/candidate',async route=>{launches++;expect(route.request().postDataJSON().confirmRule).toBe(true);started=true;await route.fulfill({json:{candidateId:'ui-start-fixture'}});});
     await page.route('**/api/state',async route=>{const response=await route.fetch(),value=await response.json();if(started)value.projects[0].candidate={id:'ui-start-fixture',ruleId:'title-update-rule',status:'validating',revisionIndex:0,budget:{calls:0,tokens:0}};await route.fulfill({json:value});});
     await page.setViewportSize({width,height:720});await page.goto(host.url+`/?page=verify&project=${projectId}`);
-    await page.getByRole('combobox',{name:'选择流程',exact:true}).selectOption('edit');await page.getByLabel('只改标题，优先级和所有者不变',{exact:true}).check();await page.getByLabel('这就是我期望的网站行为',{exact:true}).check();
+    await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('edit');await page.getByLabel('只改标题，优先级和所有者不变',{exact:true}).check();await page.getByLabel('这就是我期望的网站行为',{exact:true}).check();
     await page.getByRole('button',{name:'为这条规则创建检查方案',exact:true}).click();
     const preparation=page.locator('#candidate-preparation');await expect(preparation).toBeFocused();await expect(page.getByRole('heading',{name:'创建方案前准备',exact:true})).toBeInViewport();
     expect(launches).toBe(0);const confirm=page.getByLabel('同意向该服务发送以上范围内经过过滤的内容',{exact:true});await expect(confirm).not.toBeChecked();await confirm.check();
@@ -76,10 +76,10 @@ test('empty library, preparation history, settings return and draft restoration'
     await page.getByRole('button',{name:'返回检查方案',exact:true}).click();
     await page.reload();await expect(page.getByLabel('提交结果保存',{exact:true})).toBeChecked();
     await expect(page.getByText('这就是我期望的网站行为',{exact:true}).locator('input')).toBeChecked();
-    await page.getByRole('combobox',{name:'选择流程',exact:true}).selectOption('edit');
+    await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('edit');
     await page.getByLabel('只改标题，优先级和所有者不变',{exact:true}).check();
     await expect(page.getByText('检查选择已保存',{exact:true})).toBeVisible();
-    await page.getByRole('combobox',{name:'选择流程',exact:true}).selectOption('submit');await expect(page.getByLabel('提交结果保存',{exact:true})).toBeChecked();
+    await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('submit');await expect(page.getByLabel('提交结果保存',{exact:true})).toBeChecked();
     await page.getByRole('link',{name:'项目接入',exact:true}).click();
     await expect(page.getByText('最近一次环境检查通过，两个测试用户登录成功。',{exact:true})).toBeVisible();
     await expect(page.getByRole('button',{name:'继续选择检查',exact:true})).toBeVisible();

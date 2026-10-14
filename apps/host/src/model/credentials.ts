@@ -17,7 +17,8 @@ async function native(operation:string,target:string,value?:string):Promise<any>
 export class ModelCredentials {
   #keys=new Map<string,{key:string;service:string}>();#closed=false;
   async set(endpoint:string,key:string,{remember}:{remember:boolean}):Promise<string>{
-    if(this.#closed||!key||key.length>2000||/[\r\n]/.test(key))throw new Error('INVALID_MODEL_KEY');
+    if(this.#closed)throw new Error('CREDENTIAL_SESSION_CLOSED');
+    if(!key||key.length>2000||/[\r\n]/.test(key))throw new Error('INVALID_MODEL_KEY');
     const ref=`${remember?'windows':'session'}:${randomUUID()}`,entry={key,service:serviceUrl(endpoint)};
     if(remember)await native('write',`website-verification/model/${ref.split(':')[1]}`,JSON.stringify(entry));this.#keys.set(ref,entry);return ref;
   }
@@ -29,5 +30,6 @@ export class ModelCredentials {
   }
   async clear(ref:string):Promise<void>{this.#keys.delete(ref);if(ref.startsWith('windows:'))await native('delete',`website-verification/model/${ref.split(':')[1]}`);}
   redact(value:unknown):any{return scrubSecrets(value,[...this.#keys.values()].map(e=>e.key));}
+  containsKey(value:string):boolean{return [...this.#keys.values()].some(e=>value.includes(e.key));}
   close():void{this.#keys.clear();this.#closed=true;}
 }

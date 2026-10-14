@@ -1,7 +1,7 @@
 import {useEffect,useRef,useState} from 'react';
 import {useLeaveGuard} from '../navigation';
 import CandidateEvidence from './CandidateEvidence';
-import {api,friendlyError,ruleNames,statusNames,type Data,type CommonProps} from '../api/client';
+import {api,friendlyError,subscribeSession,ruleNames,statusNames,type Data,type CommonProps} from '../api/client';
 
 type Props=Pick<CommonProps,'state'|'refresh'|'select'>&{project:Data;readOnly?:boolean;hideContinue?:boolean;continueBlocked?:string;onDirtyChange?:(dirty:boolean)=>void;onContinue?:(ref:Data,ruleId:string)=>void};
 const lines=(value:string)=>value.split('\n').map(s=>s.trim()).filter(Boolean);
@@ -16,6 +16,7 @@ export default function CandidateReviewCard({state,project,refresh,select,readOn
   const [applicable,setApplicable]=useState((source?.applicable??[]).join('\n')),[excluded,setExcluded]=useState((source?.excluded??[]).join('\n')),[instructions,setInstructions]=useState(source?.instructions??'');
   const [savedHash,setSavedHash]=useState(candidate.draftHash??''),[business,setBusiness]=useState(''),[reviewer,setReviewer]=useState('');
   const [businessOK,setBusinessOK]=useState(false),[technicalOK,setTechnicalOK]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState('');
+  useEffect(()=>subscribeSession(expired=>{if(!expired)setError(current=>current===friendlyError('SESSION_REQUIRED')?'连接已恢复，审核输入已保留。请核对后手动保存，尚未重新提交审核。':current);}),[]);
   const dirty=useRef(false),section=useRef<HTMLElement>(null);
   const publication=!dirty.current&&state.catalog.matches.find((m:Data)=>m.ref.hash===candidate.draftHash);
   const remoteChanged=!!heldCandidate&&(heldCandidate.id!==project.candidate.id||heldCandidate.candidateHash!==project.candidate.candidateHash||heldCandidate.draftHash!==project.candidate.draftHash);
@@ -49,8 +50,8 @@ export default function CandidateReviewCard({state,project,refresh,select,readOn
     <div className="card-header"><div><span className="eyebrow">检查方案</span><h2 tabIndex={-1} id={readOnly?'report-candidate-heading':'candidate-review-heading'}>检查方案验证与审核</h2></div><span className="pill" role="status">{publication?'已发布':statusNames[candidate.status]??candidate.status}</span></div>
     {remoteChanged&&<div className="notice"><p>其他页面已更新当前方案；本页未保存的说明已保留。</p><p>保存会写入原方案的审核材料，不会替换其他页面正在处理的方案。</p><button className="text-button" onClick={discard}>放弃修改并查看最新方案</button></div>}
     <p className="muted review-rule">{ruleNames[ruleId]??ruleId}</p>
-    <ol className="review-progress" aria-label="方案准备步骤"><li><strong>1 · 生成方案</strong><span>{candidate.spec?.id?'已生成':'准备中'}</span></li><li><strong>2 · 自动验证</strong><span>{gates?.admitted&&trial?.completed&&!trial.verdicts.some((v:Data)=>v.status==='inconclusive')?'已完成':candidate.phase==='awaiting_trial'?'试运行待处理':candidate.status==='rejected'?'未通过':'等待完成'}</span></li><li><strong>3 · 确认并发布</strong><span>{publication?'已发布':candidate.status==='ready_for_review'?'请在下方审核':'等待验证'}</span></li></ol>
-    <CandidateEvidence candidate={candidate}/>
+    <details className="published-evidence" open={publication?undefined:true}><summary hidden={!publication}>检查方案已就绪 · 查看验证与审核依据</summary><ol className="review-progress" aria-label="方案准备步骤"><li><strong>1 · 生成方案</strong><span>{candidate.spec?.id?'已生成':'准备中'}</span></li><li><strong>2 · 自动验证</strong><span>{gates?.admitted&&trial?.completed&&!trial.verdicts.some((v:Data)=>v.status==='inconclusive')?'已完成':candidate.phase==='awaiting_trial'?'试运行待处理':candidate.status==='rejected'?'未通过':'等待完成'}</span></li><li><strong>3 · 确认并发布</strong><span>{publication?'已发布':candidate.status==='ready_for_review'?'请在下方审核':'等待验证'}</span></li></ol>
+    <CandidateEvidence candidate={candidate}/></details>
     {publication?<div className="info-strip"><strong>已发布固定版本 {publication.ref.version}</strong><p>检查方案已可用于本轮业务验证。</p>{continueBlocked&&<p>{continueBlocked}</p>}<div className="actions" hidden={hideContinue}><button className="btn primary" disabled={!!continueBlocked} onClick={()=>onContinue?onContinue(publication.ref,ruleId):select(project.id,undefined,'verify')}>{onContinue?'准备运行所选检查':'前往业务验证'}</button></div></div>:candidate.status==='ready_for_review'?<>
       <p className="success">自动验证与项目试运行已完成，请核对适用范围并完成双重审核。</p>
       {trial?.verdicts.some((v:Data)=>v.status==='fail')&&<p className="notice">试运行发现了业务问题。请查看证据；检查方案能检出问题，不代表被测业务已经通过。</p>}

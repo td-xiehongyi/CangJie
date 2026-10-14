@@ -3,9 +3,26 @@ import {resolve,relative,isAbsolute,sep} from 'node:path';
 import {digest} from '../projects/inspect.js';
 import {serviceUrl} from './endpoint.js';
 import {fileURLToPath} from 'node:url';
+import type {AnalysisScope,SourceSnapshot,SourceExcerpt} from '@website-verification/contracts/discovery';
+import {scopedSourceFiles,validateSourceRefs} from '../discovery/access.js';
+import {isProjectTest} from '../discovery/index.js';
 export interface ContextRequest {projectId:string;root:string;serviceUrl:string;entries:{path:string;contentType:'source'|'summary'|'rule'}[]}
 export interface Disclosure {projectId:string;root:string;serviceUrl:string;entries:{path:string;contentType:string}[];scopeHash:string}
 export interface DisclosureConsent extends Disclosure {confirmed:true;confirmedAt:string}
+export interface DiscoveryContext {snapshot:SourceSnapshot;scope:AnalysisScope;reads:SourceExcerpt[]}
+export async function filterDiscoveryContext(context:DiscoveryContext,endpoint:string,secrets:string[]){
+  const {snapshot,scope,reads}=context;
+  if(!scope.confirmedAt||!Number.isFinite(Date.parse(scope.confirmedAt)))throw new Error('SENDING_NOT_CONFIRMED');
+  if(serviceUrl(scope.serviceUrl)!==serviceUrl(endpoint))throw new Error('SERVICE_CONFIRMATION_REQUIRED');
+  const indexed=scopedSourceFiles(snapshot,scope),allowed=new Set(indexed.map(f=>f.path));
+  if(reads.some(r=>!allowed.has(r.ref.path)))throw new Error('SCOPE_NOT_ALLOWED');
+  const checked=await validateSourceRefs(snapshot,reads,reads.map(r=>r.ref));if(!checked.valid)throw new Error(checked.issues[0]!.code);
+  const index=indexed.map(({path,hash,bytes,language,lineCount,symbols,imports,routes})=>({path,hash,bytes,language,lineCount,symbols,imports,routes}));
+  const files=reads.map(r=>({path:r.ref.path,content:r.text,sourceRef:r.ref,sourceKind:isProjectTest(r.ref.path)?'project_test':/\.(md|txt)$/i.test(r.ref.path)?'documentation':'source'}));
+  // Redaction would invalidate a cited excerpt; reject rather than relabel altered text as original.
+  const raw=JSON.stringify({index,files});if(secrets.some(secret=>secret&&raw.includes(secret)))throw new Error('SENSITIVE_FILE');
+  return {index,files,manifest:reads.map(r=>({path:r.ref.path,bytes:r.bytes,hash:r.ref.excerptHash})),sourceBytes:reads.reduce((n,r)=>n+r.bytes,0)};
+}
 const denied=/(^|\/)(?:\.env(?:\.|$)|\.git|\.aws|\.codex|node_modules|tests|templates|\.local-data|\.local-tools)(\/|$)|password|credential|secret|(?:api[-_]?key)|\.(?:sqlite|sqlite3|db|db3|pem|key|pfx|p12|bak|backup|zip)$/i;
 const toolRoot=fileURLToPath(new URL('../../../../',import.meta.url));
 const protectedTrees=['tests','templates',...['validation','reference-sources','candidates','model','workbench','runs','templates','projects'].map(p=>'.local-data/'+p)].map(p=>resolve(toolRoot,p).toLowerCase());

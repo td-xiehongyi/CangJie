@@ -28,17 +28,23 @@ import {projectRoot} from './validation/review.js';
 import {startTargetLoad,LoadStore,renderLoadReport,LOAD_PRESET,type LoadHandle} from './load/runner.js';
 import {emptyWorkflow,writeWorkflow,reconcileWorkflow,type WorkflowDraft,type PreparationResult} from './projects/workflow.js';
 import {pickProjectDirectory} from './projects/folder-picker.js';
+import {DiscoveryStore} from './discovery/store.js';
+import {DiscoveryService} from './discovery/service.js';
+import {mountDiscoveryRoutes} from './discovery/routes.js';
 
 interface Project {workflow?:WorkflowDraft;preparation?:PreparationResult;accountMode?:'automatic'|'manual';id:string;purpose:string;profile:ProjectProfile;mapping:HttpMapping;accounts:RunEnvironment['accounts'];data:RunEnvironment['data'];entries:ContextRequest['entries'];environmentHash:string;environmentConfirmed?:string;consent?:DisclosureConsent;analysis?:{status:string;code?:string;proposal?:unknown;budget?:BudgetUsage;environmentHash?:string};analysisHistory?:unknown[];candidateId?:string;candidateIds?:Record<string,string>;draft?:RegistryDraft;reviewDrafts?:Record<string,RegistryDraft>}
 const ruleIds=['save-rule','duplicate-rule','permission-rule','title-update-rule'];
 export async function startWorkbench(options:{directory?:string;registryDirectory?:string;port?:number;uiDirectory?:string;pickDirectory?:(signal?:AbortSignal)=>Promise<string|null>}={}){
   const directory=options.directory??join(projectRoot,'.local-data/workbench');await mkdir(directory,{recursive:true});
-  const registry=new TemplateRegistry(options.registryDirectory),store=new ArtifactStore(join(directory,'runs')),credentials=new CredentialSession(),modelKeys=new ModelCredentials();
+  const registry=new TemplateRegistry(options.registryDirectory),store=new ArtifactStore(join(directory,'runs'));
+  let credentials=new CredentialSession(),modelKeys=new ModelCredentials();
   const loads=new LoadStore(join(directory,'loads')),activeLoads=new Map<string,LoadHandle>();
   const loadBusy=(projectId:string)=>[...activeLoads.values()].some(h=>h.snapshot().projectId===projectId);
   const preparations=new Map<string,Promise<unknown>>(),preparedInSession=new Set<string>();let pickingFolder=false;let folderController:AbortController|undefined;
   const projects=new Map<string,Project>(),active=new Map<string,{executor:RunExecutor;record?:RunRecord;projectId:string;promise:Promise<unknown>}>(),candidateJobs=new Map<string,Promise<unknown>>();
   let config:ModelConfig={serviceUrl:'https://api.deepseek.com',model:''},connection={status:'not_checked',code:''};
+  const discoveryStore=new DiscoveryStore(join(directory,'discovery'));
+  let discovery=new DiscoveryService({store:discoveryStore,config:()=>config,credentials:modelKeys});
   const configFile=join(directory,'state.json');
   try{const saved=JSON.parse(await readFile(configFile,'utf8'));config=saved.config;for(const p of saved.projects??[]){if(preparations.has(p.id))throw new Error('PROJECT_BUSY');if(p.analysis?.status==='running'){p.analysis.status='paused';p.analysis.code='INTERRUPTED_MODEL_CALL';}if(p.preparation?.status==='preparing'){p.preparation.status='interrupted';p.preparation.code='PREPARATION_INTERRUPTED';}projects.set(p.id,p);}}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
   let saveQueue:Promise<void>=Promise.resolve();
@@ -48,7 +54,7 @@ export async function startWorkbench(options:{directory?:string;registryDirector
     await replaceFile(tmp,configFile);
   });return saveQueue;};
   const project=(id:string)=>{const p=projects.get(id);if(!p)throw new Error('PROJECT_NOT_FOUND');return p;};
-  const modelIdle=(id?:string)=>{if(id?(candidateJobs.has(id)||candidateJobs.has('analysis:'+id)):candidateJobs.size)throw new Error('MODEL_WORK_ACTIVE');};
+  const modelIdle=(id?:string)=>{if(discovery.active()||(id?(candidateJobs.has(id)||candidateJobs.has('analysis:'+id)):candidateJobs.size))throw new Error('MODEL_WORK_ACTIVE');};
   const freshEnvironment=async(p:Project)=>{if((await inspectProject(p.profile.root)).sourceHash!==p.profile.sourceHash)throw new Error('CONDITIONS_CHANGED_RECONNECT_REQUIRED');};
   const context=(p:Project):ContextRequest=>({projectId:p.id,root:p.profile.root,serviceUrl:config.serviceUrl,entries:p.entries});
   const automaticPasswords=(p:Project)=>{if(p.accountMode==='automatic')for(const a of p.accounts)if(!credentials.has(p.id,a.actorRef))credentials.set(p.id,a.actorRef,randomBytes(24).toString('base64url'));};
@@ -65,11 +71,12 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   try{rules.push(...JSON.parse(await readFile(join(projectRoot,'resources/public-rules.json'),'utf8')));}
   catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;const manifest=JSON.parse(await readFile(join(projectRoot,'tests/reference/suite-manifest.json'),'utf8'));for(const entry of manifest.suites)rules.push(structuredClone(entry.rule));}
   const rule=(id:string)=>{const r=rules.find(r=>r.id===id);if(!r)throw new Error('RULE_CAPABILITY_GAP');return structuredClone(r);};
-  const app=express();app.disable('x-powered-by');let origin='';const token=randomBytes(32).toString('hex');
+  const app=express();app.disable('x-powered-by');let origin='',token=randomBytes(32).toString('hex');
   app.use((req,res,next)=>{res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");if(req.headers.host!==new URL(origin).host||req.headers.origin&&req.headers.origin!==origin||req.headers['sec-fetch-site']==='cross-site')return void res.status(403).json({error:'ORIGIN_REJECTED'});next();});
   app.use(express.json({limit:'18mb'}));
   app.get('/api/session',(_req,res)=>res.json({token}));
   app.use('/api',(req,res,next)=>{const given=req.headers.authorization?.replace(/^Bearer /,'')??'';if(given.length!==token.length||!timingSafeEqual(Buffer.from(given),Buffer.from(token)))return void res.status(401).json({error:'SESSION_REQUIRED'});next();});
+  const discoveryRoutes=mountDiscoveryRoutes(app,{store:discoveryStore,service:()=>discovery,config:()=>config,runtimeProject:id=>{const p=projects.get(id);return p?{directory:p.profile.root,name:p.profile.name}:undefined},runtimeProjects:()=>[...projects.values()].map(p=>({id:p.id,directory:p.profile.root}))});
   app.get('/api/state',async(_req,res)=>{
     const catalog=await registry.matchReport(capabilities,rules),runs=await store.list();
     const hashes=new Map(rules.map(r=>[r.id,digest(r)])),versions=new Set(catalog.matches.map(m=>`${rules.find(r=>digest(r)===m.ruleHash)?.id}:${m.ref.hash}`));let reconciled=false;
@@ -77,7 +84,9 @@ export async function startWorkbench(options:{directory?:string;registryDirector
     for(const [id,r]of active){if(r.record){const index=runs.findIndex(v=>v.id===id);if(index<0)runs.push(r.record);else runs[index]=r.record;}}
     const {readdir}=await import('node:fs/promises');await mkdir(loads.directory,{recursive:true});const loadIds=new Set((await readdir(loads.directory)).filter(n=>/^[a-f0-9-]{36}(\.pending)?\.json$/.test(n)).map(n=>n.slice(0,36)));for(const id of activeLoads.keys())loadIds.add(id);
     const loadRecords=await Promise.all([...loadIds].map(async id=>{const r=activeLoads.get(id)?.snapshot()??await loads.getLoad(id);return {...r,ledger:undefined,evidence:undefined,environment:undefined};}));
-    res.json({loadPreset:LOAD_PRESET,loads:loadRecords,projects:await Promise.all([...projects.values()].map(async p=>({id:p.id,accountMode:p.accountMode??'manual',purpose:p.purpose,directory:p.profile.root,name:p.profile.name,supported:p.profile.supported,gaps:p.profile.gaps,gapMarkdown:p.profile.gapMarkdown,sourceHash:p.profile.sourceHash,workflow:p.workflow??emptyWorkflow(),preparation:p.preparation?{...p.preparation,sessionCurrent:preparedInSession.has(p.id)&&p.preparation.environmentHash===p.environmentHash}:undefined,mapping:p.mapping,accounts:p.accounts.map(a=>({...a,hasPassword:credentials.has(p.id,a.actorRef)})),data:p.data,entries:p.entries,environmentHash:p.environmentHash,environmentConfirmed:p.environmentHash===p.environmentConfirmed,consent:p.consent,analysis:p.analysis,candidate:await publicCandidate(p)}))),rules:rules.map(r=>({...r,hash:digest(r)})),catalog,runs:runs.sort((a,b)=>b.startedAt.localeCompare(a.startedAt)),settings:{serviceUrl:config.serviceUrl,model:config.model,remembered:config.credentialRef?.startsWith('windows:')??false,hasKey:!!config.credentialRef,connection},preset:MODEL_PRESET});
+    const sourceProjects=await discoveryRoutes.publicProjects();
+    const runtimeProjects=await Promise.all([...projects.values()].map(async p=>({...sourceProjects.find(v=>v.id===p.id),id:p.id,sourceOnly:false,accountMode:p.accountMode??'manual',purpose:p.purpose,directory:p.profile.root,name:p.profile.name,supported:p.profile.supported,gaps:p.profile.gaps,gapMarkdown:p.profile.gapMarkdown,sourceHash:p.profile.sourceHash,workflow:p.workflow??emptyWorkflow(),preparation:p.preparation?{...p.preparation,sessionCurrent:preparedInSession.has(p.id)&&p.preparation.environmentHash===p.environmentHash}:undefined,mapping:p.mapping,accounts:p.accounts.map(a=>({...a,hasPassword:credentials.has(p.id,a.actorRef)})),data:p.data,entries:p.entries,environmentHash:p.environmentHash,environmentConfirmed:p.environmentHash===p.environmentConfirmed,consent:p.consent,analysis:p.analysis,candidate:await publicCandidate(p)})));
+    res.json({loadPreset:LOAD_PRESET,loads:loadRecords,projects:[...runtimeProjects,...sourceProjects.filter(p=>!projects.has(p.id))],rules:rules.map(r=>({...r,hash:digest(r)})),catalog,runs:runs.sort((a,b)=>b.startedAt.localeCompare(a.startedAt)),settings:{serviceUrl:config.serviceUrl,model:config.model,remembered:config.credentialRef?.startsWith('windows:')??false,hasKey:!!config.credentialRef,connection},preset:MODEL_PRESET});
   });
   app.post('/api/projects/pick-directory',async(_req,res)=>{if(pickingFolder)throw new Error('FOLDER_PICKER_BUSY');pickingFolder=true;const controller=new AbortController();folderController=controller;res.once('close',()=>{if(!res.writableEnded)controller.abort();});try{res.json({directory:await (options.pickDirectory??pickProjectDirectory)(controller.signal)});}finally{pickingFolder=false;if(folderController===controller)folderController=undefined;}});
   app.post('/api/projects/:id/workflow',async(req,res)=>{project(req.params.id);const catalog=await registry.matchReport(capabilities,rules),p=project(req.params.id),hashes=new Map(rules.map(r=>[r.id,digest(r)])),versions=new Set(catalog.matches.map(m=>`${rules.find(r=>digest(r)===m.ruleHash)?.id}:${m.ref.hash}`));p.workflow=writeWorkflow(p.workflow??emptyWorkflow(),req.body,hashes,p.environmentHash,versions);await save();res.json(p.workflow);});
@@ -94,8 +103,9 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   app.post('/api/settings/clear',async(_req,res)=>{modelIdle();if(config.credentialRef)await modelKeys.clear(config.credentialRef);delete config.credentialRef;connection={status:'not_checked',code:''};await save();res.json({cleared:true});});
   app.post('/api/settings/check',async(_req,res)=>{connection={status:'running',code:''};try{await new ModelProvider(config,modelKeys,new ModelBudget()).checkConnection();connection={status:'connected',code:''};res.json(connection);}catch(e){connection={status:'failed',code:(e as Error).message};throw e;}});
   app.post('/api/projects',async(req,res)=>{
-    const old=req.body.id?project(String(req.body.id)):undefined;if(old)modelIdle(old.id);if(old&&(preparations.has(old.id)||loadBusy(old.id)||[...active.values()].some(a=>a.projectId===old.id)))throw new Error('PROJECT_BUSY');
-    const profile=await inspectProject(String(req.body.directory??'')),id=old?.id??randomUUID();
+    const old=req.body.id?projects.get(String(req.body.id)):undefined;const sourceOnly=req.body.id&&!old?await discoveryStore.getProject(String(req.body.id)):undefined;if(old||sourceOnly)modelIdle(old?.id??sourceOnly!.id);if(old&&(preparations.has(old.id)||loadBusy(old.id)||[...active.values()].some(a=>a.projectId===old.id)))throw new Error('PROJECT_BUSY');
+    const profile=await inspectProject(String(req.body.directory??'')),id=old?.id??sourceOnly?.id??randomUUID();
+    if(sourceOnly&&sourceOnly.directory.toLowerCase()!==profile.root.toLowerCase())throw new Error('PROJECT_MISMATCH');
     const accountMode=req.body.accountMode??(req.body.accounts?'manual':old?.accountMode??'manual');
     if(!['automatic','manual'].includes(accountMode))throw new Error('TEST_ACCOUNT_CONFIG_GAP');
     const generated=()=>['owner','other'].map(actorRef=>({actorRef,username:'test_'+randomBytes(6).toString('hex'),userId:randomUUID(),role:'user'}));
@@ -183,8 +193,17 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   app.get('/api/loads/:id',async(req,res)=>{validId(req.params.id);res.json(activeLoads.get(req.params.id)?.snapshot()??await loads.getLoad(req.params.id));});
   app.get('/api/loads/:id/report',async(req,res)=>res.type('text/markdown').send(renderLoadReport(await loads.getLoad(req.params.id))));
   app.post('/api/loads/:id/stop',async(req,res)=>{const h=activeLoads.get(req.params.id);if(!h)throw new Error('LOAD_NOT_ACTIVE');res.json(await h.stop('manual_cancel'));});
-  const closeSecrets=async()=>{folderController?.abort();await Promise.allSettled([...preparations.values()]);await Promise.all([...activeLoads.values()].map(h=>h.stop('session_closed')));await Promise.all([...active.values()].map(a=>a.executor.stop()));await Promise.all([...active.values()].map(a=>a.promise));credentials.close();modelKeys.close();};
-  app.post('/api/session/close',async(_req,res)=>{if(candidateJobs.size||preparations.size)throw new Error('MODEL_WORK_ACTIVE');await closeSecrets();res.json({closed:true});});
+  const closeSecrets=async()=>{folderController?.abort();await discovery.close();await Promise.allSettled([...preparations.values()]);await Promise.all([...activeLoads.values()].map(h=>h.stop('session_closed')));await Promise.all([...active.values()].map(a=>a.executor.stop()));await Promise.all([...active.values()].map(a=>a.promise));credentials.close();modelKeys.close();};
+  app.post('/api/session/close',async(_req,res)=>{
+    if(candidateJobs.size||preparations.size)throw new Error('MODEL_WORK_ACTIVE');
+    await closeSecrets();
+    credentials=new CredentialSession();modelKeys=new ModelCredentials();
+    discovery=new DiscoveryService({store:discoveryStore,config:()=>config,credentials:modelKeys});
+    preparedInSession.clear();
+    if(config.credentialRef?.startsWith('session:'))delete config.credentialRef;
+    connection={status:'not_checked',code:''};token=randomBytes(32).toString('hex');
+    await save();res.json({closed:true});
+  });
   app.use('/api',(_req,res)=>res.status(404).json({error:'NOT_FOUND'}));
   app.use(express.static(options.uiDirectory??join(projectRoot,'apps/ui/dist')));
   app.use((error:Error,_req:express.Request,res:express.Response,_next:express.NextFunction)=>{res.status(400).json({error:scrubSecrets(error.message)});});

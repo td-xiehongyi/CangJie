@@ -1,6 +1,7 @@
 import type {Data} from '../api/client';
 export default function WorkflowJourney({page,project,run,state}:{page:string;project?:Data;run?:Data;state:Data}){
   if(page==='settings')return null;
+  if(project?.sourceOnly){const current=project.discovery?.result?3:project.discovery?2:1;return <ol className="journey workflow-journey" aria-label="源码分析步骤">{['选择源码','确认范围','分析业务','查看建议'].map((label,i)=><li key={label} className={current===i?'current':i<current?'done':''} aria-current={current===i?'step':undefined}><span aria-hidden="true">{i<current?'✓':i+1}</span><div>{label}{i===current&&<small>当前步骤</small>}</div></li>)}</ol>;}
   const draft=project?.workflow,choices=Object.entries(draft?.flows?.[draft.flow]??{}).filter(([,c])=>(c as Data).enabled) as [string,Data][],hasSelection=choices.length>0;
   const prepared=project?.supported&&project.preparation?.status==='ready'&&project.preparation.environmentHash===project.environmentHash;
   const plansReady=hasSelection&&choices.every(([id,c])=>state.catalog.matches.some((m:Data)=>m.ref.hash===c.version&&m.ruleHash===state.rules.find((r:Data)=>r.id===id)?.hash));

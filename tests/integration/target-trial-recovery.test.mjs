@@ -37,7 +37,7 @@ test('incomplete target evidence pauses and resumes the same candidate without a
   const {chromium,expect}=await import('@playwright/test');
   const browser=await chromium.launch({channel:'msedge',headless:true});t.after(()=>browser.close());
   const page=await browser.newPage();await page.goto(host.url+`/?page=verify&project=${projectId}`);
-  await page.getByLabel('选择流程').selectOption('edit');
+  await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('edit');
   await page.getByLabel('只改标题，优先级和所有者不变',{exact:true}).check();
   await page.getByLabel('这就是我期望的网站行为',{exact:true}).check();
   await expect(page.getByRole('status').filter({hasText:'检查选择已保存'})).toBeVisible();

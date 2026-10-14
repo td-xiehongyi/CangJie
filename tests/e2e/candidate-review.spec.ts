@@ -33,7 +33,7 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     expect(new URL(page.url()).searchParams.get('page')).toBe('verify');
     expect(calls).toBe(1);
     await review.getByRole('textbox',{name:'适用条件',exact:true}).fill('人工限定：仅本地隔离的提交保存流程');
-    await page.getByRole('combobox',{name:'选择流程',exact:true}).selectOption('edit');
+    await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('edit');
     await expect(page.getByRole('dialog',{name:'审核说明尚未保存',exact:true})).toBeVisible();
     await page.getByRole('button',{name:'留在本页',exact:true}).click();
     await expect(review.getByRole('textbox',{name:'适用条件',exact:true})).toHaveValue('人工限定：仅本地隔离的提交保存流程');
@@ -69,10 +69,13 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     await review.getByRole('button',{name:'审核通过，保存为可复用方案',exact:true}).click();
     await expect(review.getByText('已发布固定版本 1.0.0',{exact:true})).toBeVisible();
     await page.getByLabel('重复提交不重复创建',{exact:true}).check();
-    await expect(review.getByRole('button',{name:'准备运行所选检查',exact:true})).toBeDisabled();
+    await expect(page.getByRole('button',{name:'准备本轮检查',exact:true})).toBeDisabled();
+    await expect(review.locator('.published-evidence')).not.toHaveAttribute('open');
+    await expect(review.getByRole('button',{name:'准备运行所选检查',exact:true})).toHaveCount(0);
     await expect(review.getByText('请先完成其它已选检查的方案：重复提交不重复创建',{exact:true})).toBeVisible();
     await page.getByLabel('重复提交不重复创建',{exact:true}).uncheck();
-    await review.getByRole('button',{name:'准备运行所选检查',exact:true}).click();
+    await page.getByLabel('这就是我期望的网站行为',{exact:true}).check();
+    await page.getByRole('button',{name:'准备本轮检查',exact:true}).click();
     await expect(page.getByRole('heading',{name:'本轮运行准备',exact:true})).toBeVisible();
     await page.getByRole('button',{name:'开始检查',exact:true}).click();
     await expect.poll(()=>new URL(page.url()).searchParams.get('run')).toBeTruthy();

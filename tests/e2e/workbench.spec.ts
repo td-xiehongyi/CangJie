@@ -32,7 +32,7 @@ test('project form and session passwords survive scope edits; actual run and pac
   await page.getByRole('button',{name:'修改项目信息'}).click();await page.getByText('高级配置：接口映射与 AI 可读取的文件',{exact:true}).click();
   await page.getByRole('textbox',{name:'网站用途',exact:true}).fill('仍在编辑的用途');await page.getByLabel('用户甲测试密码',{exact:true}).fill('still-in-browser-memory');await page.getByRole('textbox',{name:'发送文件',exact:true}).fill('verification.json\npackage.json');await page.getByRole('button',{name:'更新发送范围',exact:true}).click();await expect(page.getByRole('textbox',{name:'网站用途',exact:true})).toHaveValue('仍在编辑的用途');await expect(page.getByLabel('用户甲测试密码',{exact:true})).toHaveValue('still-in-browser-memory');
   await page.getByRole('button',{name:'返回准备步骤'}).click();await page.getByText('我同意在独立测试副本中创建用户并重置测试数据').check();await page.getByRole('button',{name:'确认并准备测试环境',exact:true}).click();await expect(page.getByRole('heading',{name:'你想检查什么？'})).toBeVisible();
-  await page.getByLabel('提交结果保存',{exact:true}).check();await page.getByText('这就是我期望的网站行为').first().check();await page.getByRole('button',{name:'准备本轮检查',exact:true}).click();await page.getByRole('button',{name:'开始检查',exact:true}).click();
+  await page.getByLabel('提交结果保存',{exact:true}).check();await page.getByRole('checkbox',{name:'这就是我期望的网站行为',exact:true}).first().check();await page.getByRole('button',{name:'准备本轮检查',exact:true}).click();await page.getByRole('button',{name:'开始检查',exact:true}).click();
   await expect.poll(()=>new URL(page.url()).searchParams.get('run')).toBeTruthy();runId=new URL(page.url()).searchParams.get('run')!;
   await page.getByRole('button',{name:'查看检查结果',exact:true}).click();await expect(page.getByText('已验证符合本条规则的预期。')).toBeVisible();
   await page.getByRole('tab',{name:'方案与验证依据'}).click();await page.getByRole('tab',{name:'业务结果',exact:true}).click();expect(new URL(page.url()).searchParams.get('run')).toBe(runId);await page.reload();await expect(page.getByText('已验证符合本条规则的预期。')).toBeVisible();
@@ -54,12 +54,12 @@ test('candidate review is explicit and a disabled version cannot silently fall b
   try{
     await page.goto(host.url+`/?page=settings&project=${projectId}&run=${runId}`);await page.getByLabel('接口地址',{exact:true}).fill(`http://127.0.0.1:${(provider.address() as any).port}`);await page.getByLabel('模型名称',{exact:true}).fill('synthetic-review-model');await page.getByLabel('API Key',{exact:true}).fill('synthetic-review-key');await page.getByRole('button',{name:'保存并检查连接',exact:true}).click();
     await page.getByRole('link',{name:'项目接入',exact:true}).click();await page.getByRole('radio',{name:'让 AI 分析网站并推荐检查内容'}).check();await page.getByRole('button',{name:'刷新 AI 读取范围',exact:true}).click();await page.getByRole('checkbox',{name:'同意向该服务发送以上范围内经过过滤的内容',exact:true}).check();await page.getByRole('button',{name:'确认并准备、分析项目',exact:true}).click();await expect(page.getByRole('heading',{name:'分析已暂停',exact:true})).toBeVisible();
-    await page.getByRole('link',{name:'业务验证',exact:true}).click();await page.getByRole('button',{name:'选择其他检查或重新运行',exact:true}).click();await page.getByLabel('提交结果保存',{exact:true}).check();await page.getByText('这就是我期望的网站行为').first().check();await page.getByText('检查方案与版本',{exact:true}).first().click();await page.getByRole('button',{name:'重新生成检查方案',exact:true}).click();await expect(page.getByText('等待双重审核',{exact:true})).toBeVisible({timeout:40000});
+    await page.getByRole('link',{name:'业务验证',exact:true}).click();await page.getByRole('button',{name:'选择其他检查或重新运行',exact:true}).click();await page.getByLabel('提交结果保存',{exact:true}).check();await page.getByRole('checkbox',{name:'这就是我期望的网站行为',exact:true}).first().check();await page.getByText('检查方案与版本',{exact:true}).first().click();await page.getByRole('button',{name:'重新生成检查方案',exact:true}).click();await expect(page.getByText('等待双重审核',{exact:true})).toBeVisible({timeout:40000});
     await expect(page.getByRole('region',{name:'检查方案验证与审核',exact:true})).toBeVisible();await page.getByText('方案版本（通常无需修改）',{exact:true}).click();await page.getByLabel('固定版本',{exact:true}).fill('1.1.0');await page.getByRole('textbox',{name:'适用条件',exact:true}).fill('隔离测试副本的提交保存');await page.getByRole('textbox',{name:'排除条件',exact:true}).fill('其他业务语义');await page.getByRole('textbox',{name:'使用说明',exact:true}).fill('重新确认映射和合成数据');await page.getByRole('button',{name:'保存本版审核材料',exact:true}).click();await expect(page.getByRole('button',{name:'审核通过，保存为可复用方案',exact:true})).toBeDisabled();
     await page.getByLabel('业务确认人',{exact:true}).fill('fixture-business');await page.getByLabel('开发者技术审核人',{exact:true}).fill('fixture-developer');await page.getByText('确认规则及本版适用条件',{exact:true}).check();await page.getByText('已审查定义、正反例、端到端证据及限制',{exact:true}).check();await captureStates(page,'candidate-review');await page.getByRole('button',{name:'审核通过，保存为可复用方案',exact:true}).click();
     await page.goto(host.url+`/?page=report&project=${projectId}&run=${runId}`);await page.getByRole('tab',{name:'方案与验证依据',exact:true}).click();await page.getByText('方案维护：停用版本',{exact:true}).click();await page.getByLabel('停用原因',{exact:true}).fill('fixture withdrawn');await page.getByRole('button',{name:'停用 save-result 1.0.0',exact:true}).click();await page.getByRole('link',{name:'业务验证',exact:true}).click();await page.getByRole('button',{name:'选择其他检查或重新运行',exact:true}).click();await expect(page.getByRole('button',{name:'准备本轮检查',exact:true})).toBeDisabled();
-    if(!await page.getByRole('combobox',{name:'固定模板版本',exact:true}).isVisible())await page.getByText('检查方案与版本',{exact:true}).first().click();
-    await page.getByRole('combobox',{name:'固定模板版本',exact:true}).selectOption({label:'save-result @ 1.1.0'});await expect(page.getByText('这就是我期望的网站行为').first().locator('input')).not.toBeChecked();await captureStates(page,'disabled-version');
+    if(!await page.getByRole('combobox',{name:'检查方案版本',exact:true}).isVisible())await page.getByText('检查方案与版本',{exact:true}).first().click();
+    await page.getByRole('combobox',{name:'检查方案版本',exact:true}).selectOption({label:'save-result @ 1.1.0'});await expect(page.getByRole('checkbox',{name:'这就是我期望的网站行为',exact:true}).first()).not.toBeChecked();await captureStates(page,'disabled-version');
   }finally{await new Promise<void>(r=>provider.close(()=>r()));}
 });
 
@@ -97,7 +97,7 @@ test('automatic accounts complete preparation without typing credentials',async(
     await page.getByRole('button',{name:'确认并准备测试环境'}).click();
     await expect(page.getByRole('heading',{name:'你想检查什么？'})).toBeVisible();
     await page.getByLabel('提交结果保存',{exact:true}).check();
-    await page.getByText('这就是我期望的网站行为').first().check();
+    await page.getByRole('checkbox',{name:'这就是我期望的网站行为',exact:true}).first().check();
     await page.getByRole('button',{name:'准备本轮检查'}).click();
     await page.getByRole('button',{name:'开始检查',exact:true}).click();
     await expect.poll(()=>new URL(page.url()).searchParams.get('run')).toBeTruthy();
@@ -120,7 +120,7 @@ test('first published template becomes usable without reselecting the rule',asyn
     const p=(await request('/state')).projects[0],disclosure=await request(`/projects/${id}/disclosure`);
     await request(`/projects/${id}/confirm`,{environment:true,environmentHash:p.environmentHash,send:true,scopeHash:disclosure.scopeHash});
     await page.goto(isolated.url+`/?page=verify&project=${id}`);
-    await page.getByLabel('提交结果保存',{exact:true}).check();await page.getByText('这就是我期望的网站行为').first().check();
+    await page.getByLabel('提交结果保存',{exact:true}).check();await page.getByRole('checkbox',{name:'这就是我期望的网站行为',exact:true}).first().check();
     await expect(page.getByRole('button',{name:'准备本轮检查'})).toBeDisabled();
     await page.getByRole('button',{name:'为这条规则创建检查方案',exact:true}).first().click();
     await expect(page.getByText('等待双重审核',{exact:true})).toBeVisible({timeout:40000});
@@ -132,9 +132,10 @@ test('first published template becomes usable without reselecting the rule',asyn
     await page.getByRole('button',{name:'审核通过，保存为可复用方案',exact:true}).click();
     await expect(page.getByRole('region',{name:'检查方案验证与审核',exact:true}).getByText('已发布固定版本 1.0.0',{exact:true})).toBeVisible();
     await expect(page.getByRole('button',{name:'审核通过，保存为可复用方案',exact:true})).toHaveCount(0);
-    await page.getByRole('button',{name:'准备运行所选检查',exact:true}).click();
+    await page.getByRole('checkbox',{name:'这就是我期望的网站行为',exact:true}).first().check();
+    await page.getByRole('button',{name:'准备本轮检查',exact:true}).click();
     await expect(page.getByRole('button',{name:'准备本轮检查'})).toBeEnabled();
-    await expect(page.getByText('这就是我期望的网站行为').first().locator('input')).toBeChecked();
+    await expect(page.getByRole('checkbox',{name:'这就是我期望的网站行为',exact:true}).first()).toBeChecked();
     await page.getByRole('button',{name:'开始检查',exact:true}).click();
     await expect.poll(()=>new URL(page.url()).searchParams.get('run')).toBeTruthy();
     await page.getByRole('button',{name:'查看检查结果'}).click();await expect(page.getByText('已验证符合本条规则的预期。')).toBeVisible();

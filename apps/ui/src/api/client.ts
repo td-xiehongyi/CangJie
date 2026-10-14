@@ -1,20 +1,59 @@
-let token='';
-export async function connect(){const r=await fetch('/api/session');if(!r.ok)throw new Error('本机会话连接失败');token=(await r.json()).token;}
+let token='',sessionExpired=false;
+const sessionListeners=new Set<(expired:boolean)=>void>();
+export const isSessionExpired=()=>sessionExpired;
+export function subscribeSession(listener:(expired:boolean)=>void){sessionListeners.add(listener);return()=>{sessionListeners.delete(listener);};}
+function setSessionExpired(value:boolean){sessionExpired=value;for(const listener of sessionListeners)listener(value);}
+export async function connect(){
+  try{const r=await fetch('/api/session');if(!r.ok)throw new Error('CONNECTION_FAILED');const next=await r.json();if(typeof next.token!=='string'||!next.token)throw new Error('CONNECTION_FAILED');token=next.token;setSessionExpired(false);}
+  catch{setSessionExpired(true);throw new Error('CONNECTION_FAILED');}
+}
 export async function api(path:string,body?:unknown,method=body===undefined?'GET':'POST',signal?:AbortSignal):Promise<any>{
-  const r=await fetch('/api'+path,{method,signal,headers:{authorization:`Bearer ${token}`,...(body===undefined?{}:{'content-type':'application/json'})},...(body===undefined?{}:{body:JSON.stringify(body)})});
-  if(!r.ok){const e=await r.json().catch(()=>({error:'请求失败'}));throw new Error(e.error);}return r.headers.get('content-type')?.includes('application/json')?r.json():r.text();
+  if(sessionExpired)throw new Error('SESSION_REQUIRED');
+  const requestToken=token;
+  const r=await fetch('/api'+path,{method,signal,headers:{authorization:`Bearer ${requestToken}`,...(body===undefined?{}:{'content-type':'application/json'})},...(body===undefined?{}:{body:JSON.stringify(body)})});
+  if(!r.ok){const e=await r.json().catch(()=>({error:'请求失败'}));if(r.status===401&&e.error==='SESSION_REQUIRED'&&requestToken===token)setSessionExpired(true);throw new Error(e.error);}return r.headers.get('content-type')?.includes('application/json')?r.json():r.text();
 }
 export function download(name:string,value:unknown,type='application/json'){const url=URL.createObjectURL(new Blob([typeof value==='string'?value:JSON.stringify(value,null,2)],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 export type Data=Record<string,any>;
+export const discoveryApi={
+  scope:(id:string)=>api(`/projects/${id}/discovery-scope`),
+  saveScope:(id:string,body:unknown)=>api(`/projects/${id}/discovery-scope`,body),
+  start:(id:string,body:unknown)=>api(`/projects/${id}/discovery`,body),
+  pause:(id:string)=>api(`/discovery/${id}/pause`,{}),
+  resume:(id:string,revision:number)=>api(`/discovery/${id}/resume`,{revision}),
+  select:(id:string,suggestionId:string,revision:number)=>api(`/discovery/${id}/selection`,{suggestionId,revision}),
+  excerpt:(id:string,index:number)=>api(`/discovery/${id}/excerpts/${index}`)
+};
 export const ruleNames:Record<string,string>={'save-rule':'提交结果保存','duplicate-rule':'重复提交不重复创建','permission-rule':'账号之间权限隔离','title-update-rule':'只改标题，优先级和所有者不变'};
 export const statusNames:Record<string,string>={completed:'已完成',running:'进行中',preparing:'准备中',blocked:'受阻',paused:'已暂停',cancelled:'已停止',interrupted:'上次运行未完成',pass:'通过',fail:'发现问题',inconclusive:'无法验证',ready_for_review:'等待双重审核',draft:'草稿',rejected:'未获准入',needs_rule:'等待规则确认',needs_capability:'缺少能力',validating:'验证中',not_checked:'尚未检查',connected:'连接已通过',failed:'连接失败'};
 export type CommonProps={state:Data;project?:Data;run?:Data;refresh:()=>Promise<void>;act:(work:()=>Promise<void>)=>void;settingsReturn?:string;select:(projectId:string,runId?:string,page?:string)=>void};
 
 export function friendlyError(code:string):string{
   const messages:Record<string,string>={
+    SESSION_REQUIRED:'工作台连接已失效，当前输入已保留。请先重新连接，再决定如何保存。',
+    ANALYSIS_CONFLICT:'另一页面已修改分析范围。本页输入已保留，请加载最新范围或保留本页重新保存。',
+    ANALYSIS_BUDGET_EXHAUSTED:'本次分析预算已耗尽，已保存读取记录和部分结果；继续原任务不会重置预算。',
+    ANALYSIS_PAUSED:'分析已暂停，在途请求已取消或记录未知用量。',
+    STALE_SOURCE:'源码已变化，请重新索引后创建新分析。',
+    INVALID_DISCOVERY_OUTPUT:'模型返回的业务分析格式无效，进度已保留；可在原预算内显式重试。',
+    INVALID_DISCOVERY_ACTION:'模型请求了不允许的动作；没有执行命令或扩大读取权限。',
+    INVALID_SOURCE_REF:'来源引用无效或不属于实际读取的片段，不能作为业务依据。',
+    SOURCE_REINDEX_REQUIRED:'纳入项目测试前，请重新索引并查看新的读取范围。',
+    SENSITIVE_FILE:'该材料含敏感内容或属于永久排除范围，已拒绝读取或发送。',
+    SCOPE_NOT_ALLOWED:'该路径不在已确认的分析范围内，请核对读取范围。',
+    SERVICE_CONFIRMATION_REQUIRED:'模型或服务已变化，请核对读取范围并新建分析。',
+    INTERRUPTED_ANALYSIS:'上次分析准备中断，尚未调用模型。可继续原分析，预算不会重置。',
+    INTERRUPTED_MODEL_CALL:'上次模型请求中断，请核对已保留的用量后继续原分析。',
+    ANALYSIS_SAVE_FAILED:'分析进度保存失败，已停止发送。请检查本机磁盘与文件权限后继续原分析。',
+    ANALYSIS_START_FAILED:'分析未能启动，进度已保留。请检查本机服务后重试。',
+    CONNECTION_FAILED:'暂时无法重新连接，请确认工作台正在运行后重试。',
+    WORKFLOW_RECONNECTED:'连接已恢复，本页选择尚未保存。请选择保留本页，或加载已保存的选择。',
     TEST_PASSWORD_REQUIRED:'请补填两个测试用户的会话密码后，重新准备环境。',
     STARTUP_OR_BASELINE_FAILED:'测试网站启动或数据基线准备失败，请检查项目启动与初始化配置后重试。',
     AUTHENTICATION_FAILED:'模型服务未接受密钥，请在模型设置中核对后重试。',
+    INVALID_MODEL_KEY:'密钥格式不正确：请粘贴完整密钥，不要包含换行。',
+    MODEL_KEY_REQUIRED:'请在本机输入模型 API 密钥后，再保存并检查连接。',
+    CREDENTIAL_SESSION_CLOSED:'本机密钥会话已关闭，请重启工作台服务并刷新页面后重新输入密钥。',
     MODEL_NOT_FOUND:'模型服务未找到所填模型，请核对精确名称。',
     PROVIDER_UNAVAILABLE:'暂时无法连接模型服务。进度已保留，请检查连接后继续。',
     INVALID_SERVICE_URL:'请填写支持的模型接口地址。',
@@ -49,3 +88,8 @@ export const ruleDescriptions:Record<string,string>={
   'permission-rule':'一个用户不能越权读取或修改另一个用户的数据。',
   'title-update-rule':'修改标题后，优先级和记录所有者应保持不变。'
 };
+
+export function operationLabels(project:Data){
+  const record=String(project.name??'').includes('工单')?'工单':'记录';
+  return {submit:`新增${record}`,edit:`修改${record}标题`,proposal:'AI 推荐的业务操作'};
+}

@@ -1,5 +1,5 @@
-import {readFile,readdir,realpath,lstat} from 'node:fs/promises';
-import {resolve,relative,isAbsolute,extname,basename} from 'node:path';
+import {readFile,readdir,realpath,lstat,open} from 'node:fs/promises';
+import {resolve,relative,isAbsolute,extname,basename,dirname} from 'node:path';
 import {createHash} from 'node:crypto';
 import {validateMapping,type HttpMapping} from '../execution/mapping.js';
 import {databaseTargetsUseTestEnvironment} from './database-target.js';
@@ -17,6 +17,26 @@ export interface ProjectProfile {
 }
 export function digest(value:unknown):string{return createHash('sha256').update(typeof value==='string'?value:JSON.stringify(value)).digest('hex');}
 export function within(root:string,path:string):string{const full=resolve(root,path),rel=relative(resolve(root),full);if(!rel||rel.startsWith('..')||isAbsolute(rel))throw new Error('PATH_ESCAPE');return full;}
+/** Shared bounded, link-rejecting read. Does not relax the legacy run/copy file policy. */
+export async function noSourceLinks(path:string):Promise<void>{
+  const ancestors:string[]=[];for(let current=resolve(path);;current=dirname(current)){ancestors.unshift(current);if(dirname(current)===current)break;}
+  for(const current of ancestors)if((await lstat(current)).isSymbolicLink())throw new Error('PATH_ESCAPE: symbolic links are not supported');
+}
+export async function readSourceFile(root:string,path:string,maxBytes=2*1024*1024):Promise<Buffer>{
+  const full=within(root,path);await noSourceLinks(full);
+  within(await realpath(root),await realpath(full));
+  const before=await lstat(full);if(!before.isFile())throw new Error('PATH_ESCAPE');if(before.size>maxBytes)throw new Error('SOURCE_FILE_TOO_LARGE');
+  const handle=await open(full,'r');
+  try{
+    const opened=await handle.stat();if(opened.dev!==before.dev||opened.ino!==before.ino)throw new Error('STALE_SOURCE');
+    const data=Buffer.alloc(Math.min(opened.size+1,maxBytes+1));let length=0;
+    while(length<data.length){const next=await handle.read(data,length,data.length-length,length);if(!next.bytesRead)break;length+=next.bytesRead;}
+    const after=await handle.stat();await noSourceLinks(full);const final=await lstat(full);within(await realpath(root),await realpath(full));
+    if(length>maxBytes)throw new Error('SOURCE_FILE_TOO_LARGE');
+    if(after.size!==opened.size||after.mtimeMs!==opened.mtimeMs||after.ctimeMs!==opened.ctimeMs||final.dev!==opened.dev||final.ino!==opened.ino)throw new Error('STALE_SOURCE');
+    return data.subarray(0,length);
+  }finally{await handle.close();}
+}
 const ignoredDirs=new Set(['node_modules','.git','.local-data','.local-tools','dist','target']);
 const forbidden=/(^\.env($|\.)|\.(?:sqlite|sqlite3|db|db3)(?:[-.].*)?$|\.(?:bak|backup|zip|7z|tar|gz|pem|key|pfx|p12)$|credential|secret|^\.npmrc$)/i;
 export async function sourceFiles(root:string):Promise<{path:string;hash:string}[]> {
@@ -27,7 +47,7 @@ export async function sourceFiles(root:string):Promise<{path:string;hash:string}
     if(ent.isDirectory()){if(!ignoredDirs.has(ent.name))await visit(full);continue;}
     if(!ent.isFile()||forbidden.test(ent.name)||!['.ts','.js','.mjs','.cjs','.json','.md','.txt'].includes(extname(ent.name)))continue;
     const info=await lstat(full);if(info.size>2*1024*1024)throw new Error('SOURCE_FILE_TOO_LARGE');
-    const data=await readFile(full);if(data.subarray(0,16).toString()==='SQLite format 3\0')continue;
+    const data=await readSourceFile(root,full);if(data.subarray(0,16).toString()==='SQLite format 3\0')continue;
     files.push({path:relative(root,full),hash:createHash('sha256').update(data).digest('hex')});
   }}
   await visit(root);return files.sort((a,b)=>a.path.localeCompare(b.path));
