@@ -17,7 +17,7 @@ const files=[
   'scripts/setup-cangjie.mjs','scripts/setup-tools.ps1','scripts/setup-k6.ps1','scripts/doctor.mjs',
   'templates/load-http.js','scripts/package.mjs',
   'apps/host/tsconfig.json','apps/ui/tsconfig.json','apps/ui/index.html','apps/core/cjpm.toml',
-  'packages/contracts/types.ts','packages/contracts/validate.ts','packages/contracts/discovery.ts','packages/contracts/tsconfig.json',
+  'packages/contracts/types.ts','packages/contracts/validate.ts','packages/contracts/discovery.ts','packages/contracts/status-transition.ts','packages/contracts/tsconfig.json',
   'scripts/build-core.mjs',
 ];
 const trees=['apps/host/dist','apps/ui/dist','packages/contracts/dist','apps/host/src','apps/ui/src','apps/core/src'];
@@ -78,7 +78,7 @@ export async function buildPackage(){
   pkg.scripts=Object.fromEntries(Object.entries(pkg.scripts).filter(([key])=>['doctor','start','build:core','build:host','build:ui','build:contracts','build:sample'].includes(key)));
   pkg.scripts.check='npm run build:contracts && npm run build:host && npm run build:sample && npm run build:core && npm run build:ui';
   await writeFile(join(directory,'package.json'),JSON.stringify(pkg,null,2)+'\n');
-  const config=JSON.parse(await readFile(join(root,'packages/contracts/tsconfig.json'),'utf8'));config.include=['types.ts','validate.ts','discovery.ts'];
+  const config=JSON.parse(await readFile(join(root,'packages/contracts/tsconfig.json'),'utf8'));config.include=['types.ts','validate.ts','discovery.ts','status-transition.ts'];
   await writeFile(join(directory,'packages/contracts/tsconfig.json'),JSON.stringify(config,null,2)+'\n');
   const rules=JSON.parse(await readFile(join(root,'tests/reference/suite-manifest.json'),'utf8')).suites.map(s=>s.rule);
   await mkdir(join(directory,'resources'));await writeFile(join(directory,'resources/public-rules.json'),JSON.stringify(rules,null,2)+'\n');

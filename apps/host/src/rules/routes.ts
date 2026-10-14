@@ -20,7 +20,11 @@ export function mountProjectRuleRoutes(app:Express,options:{store:ProjectRuleSto
   async function publicRules(projectId:string){await options.ensureProject(projectId);const collection=await store.list(projectId);const readiness:RuleReadiness[]=await Promise.all(collection.versions.map(async rule=>{
     // Dynamic independent resources and qualified project templates are not present in S3.
     // Seed rules never qualify an unrelated semantic version by action name.
-    const r=assessRule(rule,options.capabilities(projectId),[],[]);
+    const capabilities=options.capabilities(projectId),grammar:Record<string,string[]>={create:['title','status'],query:['id'],update:['id','title','status']};
+    // Readiness asks whether this rule's needed bindings exist, not whether every optional
+    // grammar input is mapped. Keep unsupported grammar distinct from missing bindings.
+    const required=rule.requirements?.operations??[];
+    const r=assessRule(rule,{...capabilities,operations:capabilities.operations.map(op=>{const needs=required.filter(r=>r.operationId===op.operationId).flatMap(r=>r.parameters),supported=grammar[op.operationId]??op.parameters;return {...op,parameters:supported,mapped:op.mapped&&needs.every(p=>op.parameters.includes(p))}})},[],[]);
     if(!await sources(rule)){r.status=r.status==='needs_capability'?'needs_capability':'needs_conditions';r.missing.push({code:'STALE_SOURCE',detail:'源码引用已变化；历史版本仍可查看，不能继续确认或使用。'})}
     return r;
   }));return {...collection,readiness}}

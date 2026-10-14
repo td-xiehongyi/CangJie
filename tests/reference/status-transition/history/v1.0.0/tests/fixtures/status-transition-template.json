@@ -1,0 +1,235 @@
+{
+  "id": "status-transition-test-probe",
+  "revision": 1,
+  "ruleRef": {
+    "id": "status-transition-rule",
+    "version": 1
+  },
+  "parameters": {
+    "title": "合成初始工单",
+    "intent": "status-transition-intent"
+  },
+  "requiredCapabilities": [
+    "create",
+    "query",
+    "update"
+  ],
+  "checks": [
+    "transition"
+  ],
+  "steps": [
+    {
+      "stepId": "create",
+      "checkId": "transition",
+      "operationId": "create",
+      "actorRef": "owner",
+      "bindings": {
+        "title": {
+          "op": "field",
+          "var": "params",
+          "path": [
+            "title"
+          ]
+        },
+        "status": {
+          "op": "const",
+          "value": "open"
+        }
+      },
+      "output": "created",
+      "expectedAcceptance": "accepted"
+    },
+    {
+      "stepId": "before",
+      "checkId": "transition",
+      "operationId": "query",
+      "actorRef": "owner",
+      "bindings": {
+        "id": {
+          "op": "field",
+          "var": "created",
+          "path": [
+            "id"
+          ]
+        }
+      },
+      "output": "before",
+      "expectedAcceptance": "accepted"
+    },
+    {
+      "stepId": "close",
+      "checkId": "transition",
+      "operationId": "update",
+      "actorRef": "owner",
+      "bindings": {
+        "id": {
+          "op": "field",
+          "var": "created",
+          "path": [
+            "id"
+          ]
+        },
+        "status": {
+          "op": "const",
+          "value": "closed"
+        }
+      },
+      "output": "closedUpdate",
+      "expectedAcceptance": "accepted"
+    },
+    {
+      "stepId": "closed",
+      "checkId": "transition",
+      "operationId": "query",
+      "actorRef": "owner",
+      "bindings": {
+        "id": {
+          "op": "field",
+          "var": "created",
+          "path": [
+            "id"
+          ]
+        }
+      },
+      "output": "closed",
+      "expectedAcceptance": "accepted"
+    },
+    {
+      "stepId": "reopen",
+      "checkId": "transition",
+      "operationId": "update",
+      "actorRef": "owner",
+      "bindings": {
+        "id": {
+          "op": "field",
+          "var": "created",
+          "path": [
+            "id"
+          ]
+        },
+        "status": {
+          "op": "const",
+          "value": "open"
+        }
+      },
+      "output": "reopenUpdate",
+      "expectedAcceptance": "rejected"
+    },
+    {
+      "stepId": "after",
+      "checkId": "transition",
+      "operationId": "query",
+      "actorRef": "owner",
+      "bindings": {
+        "id": {
+          "op": "field",
+          "var": "created",
+          "path": [
+            "id"
+          ]
+        }
+      },
+      "output": "after",
+      "expectedAcceptance": "accepted"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "closed-status",
+      "checkId": "transition",
+      "expr": {
+        "op": "eq",
+        "args": [
+          {
+            "op": "field",
+            "var": "closed",
+            "path": [
+              "status"
+            ]
+          },
+          {
+            "op": "const",
+            "value": "closed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "remains-closed",
+      "checkId": "transition",
+      "expr": {
+        "op": "eq",
+        "args": [
+          {
+            "op": "field",
+            "var": "after",
+            "path": [
+              "status"
+            ]
+          },
+          {
+            "op": "const",
+            "value": "closed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "unchanged-title",
+      "checkId": "transition",
+      "expr": {
+        "op": "eq",
+        "args": [
+          {
+            "op": "field",
+            "var": "after",
+            "path": [
+              "title"
+            ]
+          },
+          {
+            "op": "field",
+            "var": "before",
+            "path": [
+              "title"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "unchanged-owner",
+      "checkId": "transition",
+      "expr": {
+        "op": "eq",
+        "args": [
+          {
+            "op": "field",
+            "var": "after",
+            "path": [
+              "ownerId"
+            ]
+          },
+          {
+            "op": "field",
+            "var": "before",
+            "path": [
+              "ownerId"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "evidenceRequirements": {
+    "identityVerified": true,
+    "queryComplete": true,
+    "acceptanceKnown": true,
+    "evidenceRefs": true
+  },
+  "limits": {
+    "maxActions": 16,
+    "actionTimeoutMs": 1500,
+    "runTimeoutMs": 10000
+  }
+}

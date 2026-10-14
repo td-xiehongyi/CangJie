@@ -91,3 +91,27 @@ for(const [name,normal,broken] of [['save-result',{title:'测试工单'},{title:
     assert.equal(st.verdicts[0].status,want);
   });
 }
+
+// Native Cangjie contract coverage; these tests require the actual compiled core.
+async function rejectionRun(t,extra={}) {
+  const c=client(t),s=clone(seed);s.steps=[s.steps[0]];s.steps[0].bindings={};s.steps[0].expectedAcceptance='rejected';
+  s.assertions[0].expr=eq(field('created','a'),constant(1));
+  const st=await start(c,s);return advance(c,st,{a:1},extra);
+}
+test('reliable acceptance violates an explicit expected rejection',async t=>{
+  const r=await rejectionRun(t);
+  assert.equal(r.state,'completed');assert.deepEqual(r.actions,[]);
+  assert.equal(r.verdicts[0].status,'fail');assert.equal(r.verdicts[0].reasonCode,'EXPECTED_REJECTION_VIOLATED');
+  assert.ok(r.verdicts[0].evidenceRefs.length>0);
+});
+for(const [name,extra]of [['identity',{identityVerified:false}],['query',{queryComplete:false}],['transport',{transportStatus:'error'}],['evidence',{evidenceRefs:[]}],['unknown',{acceptance:'unknown'}]])test(`expected rejection remains inconclusive without reliable ${name}`,async t=>{
+  const r=await rejectionRun(t,extra);assert.equal(r.verdicts[0].status,'inconclusive');assert.equal(r.verdicts[0].reasonCode,'INSUFFICIENT_EVIDENCE');
+});
+test('actual rejection continues after an explicit expected rejection',async t=>{
+  const r=await rejectionRun(t,{acceptance:'rejected'});assert.equal(r.verdicts[0].status,'pass');assert.equal(r.verdicts[0].reasonCode,'ASSERTION_TRUE');
+});
+test('late accepted evidence cannot fail an expected rejection',async t=>{
+  const c=client(t),s=clone(seed);s.steps=[s.steps[0]];s.steps[0].bindings={};s.steps[0].expectedAcceptance='rejected';s.limits.actionTimeoutMs=10;
+  const st=await start(c,s);await new Promise(r=>setTimeout(r,30));const r=await advance(c,st,{id:'x'});
+  assert.equal(r.verdicts[0].status,'inconclusive');assert.equal(r.verdicts[0].reasonCode,'ACTION_DEADLINE');
+});

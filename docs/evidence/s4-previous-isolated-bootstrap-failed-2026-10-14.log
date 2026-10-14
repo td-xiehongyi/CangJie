@@ -1,0 +1,286 @@
+(node:14) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✖ source-only TS/TSX/JSX snapshot has stable fingerprints, symbols, imports and honest routes (8.021428ms)
+✖ excluded and sensitive trees never appear in an index or search, project tests require opt-in (2.458102ms)
+✖ Windows case and separators normalize; traversal, ADS, absolute and unauthorized paths fail (1.49077ms)
+✖ junctions and linked roots cannot escape the source boundary, including replacement after indexing (1.183239ms)
+✖ only actually read, exact version and line ranges validate as source references (1.363834ms)
+✖ UTF-8 excerpt bytes, line ranges, search result caps and large-file partial reading are enforced (1.212361ms)
+✖ binary, oversized and recognizable secret content is withheld with explicit index issues (0.99995ms)
+✔ runtime contracts reject malformed hashes, paths and references (1.418264ms)
+✖ selecting an excluded subtree as the root cannot bypass exclusions (1.082145ms)
+✖ quoted JSON secrets and invalid UTF-8 stay out of snapshots and search (1.434377ms)
+✖ Express settings reads never become routes (1.345968ms)
+✖ module links preserve emitted mjs and cjs suffixes (0.948404ms)
+(node:26) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ source-only import needs no run configuration and analysis APIs retain session authentication (201.454996ms)
+✔ cited project-specific recommendations remain draft suggestions, never catalog rules or execution verdicts (219.786565ms)
+✔ duplicate request IDs, scope conflicts and host restart do not automatically dispatch new model calls (105.798565ms)
+✔ later runtime import keeps source project identity and unchanged analysis references (412.575962ms)
+✔ resume rejects changed model configuration visibly before accepting asynchronous work (100.344194ms)
+✔ different source fixtures generate different business and check suggestions through the same pipeline (166.129273ms)
+(node:38) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:38) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ discovery follows search, route, service/data/docs and returns cited unconfirmed project suggestions (211.794999ms)
+✔ forged/unread refs, confirmation escalation and unknown tools never become completed analysis (206.608194ms)
+✔ path escape and unauthorized read requests are refused without sending denied content (106.948696ms)
+✔ scope summary and reads respect exclusions before every request; unconfirmed scope has no network effects (119.849393ms)
+✔ budgets bound calls, encoded bytes, tokens, elapsed time and cumulative outgoing excerpts (306.386231ms)
+✔ pause aborts in-flight work, preserves uncertain usage and explicit resume does not reset budget (82.131238ms)
+✔ duplicate starts cannot dispatch twice, stale revisions cannot overwrite analysis selection (89.913295ms)
+✔ changed source invalidates pending analysis and displayed citations without mixing versions (58.399406ms)
+✔ checkpoint failure blocks network dispatch and persisted reservation cannot be silently replayed (40.689204ms)
+✔ orphaned drafts recover as paused without dispatch, including an initial save failure (33.435237ms)
+✔ insufficient information stays partial without invented flows or business expectations (31.33394ms)
+✔ at most four excerpt actions execute per response, partial suggestions survive budget exhaustion (142.814308ms)
+✔ typed token logic remains original cited source while an actual model key is withheld (135.247764ms)
+✔ explicit retry of invalid model output preserves task budget and does not replay the bad response (78.128583ms)
+✔ known model keys hidden in index metadata are refused before a session record is written (34.692709ms)
+✔ opted-in project tests are disclosed input expectations and cannot be mislabeled source facts (97.389694ms)
+(node:50) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ closing a workbench session revokes its token and permits a fresh key session (89.579165ms)
+✔ closed credential sessions report lifecycle failure instead of an invalid key (0.844971ms)
+✔ model keys accept ordinary r and n characters (0.384666ms)
+✔ model keys reject actual carriage returns and newlines (0.388811ms)
+(node:62) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:62) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ authenticated APIs preserve project-local confirmation, history and selection without executing (440.304952ms)
+✔ forged projects, stale revisions, stale source and client qualification cannot bypass rule gates (244.114913ms)
+✔ moving a source-only project ID to another directory cannot carry old rules or confirmation (182.008066ms)
+✔ runtime response mappings and completeness declarations are not verified business observations (496.541255ms)
+✔ risk-only source citations remain audited and become stale when their file changes (172.839276ms)
+✔ an update endpoint without title parameter binding remains a missing mapping condition (345.794662ms)
+(node:74) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:74) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a new project-specific rule is confirmed, selected and restored outside the public catalog (15.945882ms)
+✔ critical unanswered questions and inferred expectations cannot be auto-confirmed (2.345016ms)
+✔ project isolation, exact refs and concurrent revision conflicts fail closed (5.04926ms)
+✔ corrections append a pending immutable version, invalidate selection and preserve conflicting facts (10.51405ms)
+✔ draft input objects cannot mutate saved semantics after an await (2.609053ms)
+✔ simultaneous independent stores cannot overwrite the same project revision (3.431282ms)
+✔ exact semantic references compare fields independently of JSON property order (7.438972ms)
+(node:86) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:86) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ four preparation states distinguish expressive gaps, conditions, generation and exact qualified reuse (2.210438ms)
+✔ same-named operations and old semantic versions do not qualify a new business (0.342994ms)
+✔ HTTP 200 and incomplete observation never replace business evidence (0.219372ms)
+✔ actions, roles, parameters, assertions and independent cases must all match (0.205402ms)
+node:internal/test_runner/mock/mock:676
+      throw new ERR_INVALID_STATE(
+            ^
+
+Error [ERR_INVALID_STATE]: Invalid state: Cannot mock '../../apps/host/dist/model/task-lock.js'. The module is already mocked.
+    at MockTracker.module (node:internal/test_runner/mock/mock:676:13)
+    at file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/unit/discovery-state-race.test.mjs:6:6
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  code: 'ERR_INVALID_STATE'
+}
+
+Node.js v24.19.0
+✖ tests/unit/discovery-state-race.test.mjs (366.698272ms)
+node:internal/test_runner/mock/mock:676
+      throw new ERR_INVALID_STATE(
+            ^
+
+Error [ERR_INVALID_STATE]: Invalid state: Cannot mock '../../apps/host/dist/model/task-lock.js'. The module is already mocked.
+    at MockTracker.module (node:internal/test_runner/mock/mock:676:13)
+    at file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/unit/project-rules-source-race.test.mjs:3:27
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  code: 'ERR_INVALID_STATE'
+}
+
+Node.js v24.19.0
+✖ tests/unit/project-rules-source-race.test.mjs (338.213409ms)
+(node:110) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:110) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ full verification includes state regressions and retains its fifteen-minute timeout (3.414598ms)
+(node:118) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:118) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ S3 rule and capability suites run in both discovery and all dispatch (3.242225ms)
+ℹ tests 59
+ℹ suites 0
+ℹ pass 46
+ℹ fail 13
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9095.260886
+
+✖ failing tests:
+
+test at tests/integration/discovery-access.test.mjs:27:1
+✖ source-only TS/TSX/JSX snapshot has stable fingerprints, symbols, imports and honest routes (8.021428ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-1CKRjX'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:28:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-1CKRjX'
+  }
+
+test at tests/integration/discovery-access.test.mjs:43:1
+✖ excluded and sensitive trees never appear in an index or search, project tests require opt-in (2.458102ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-0kEWsj'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:44:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-0kEWsj'
+  }
+
+test at tests/integration/discovery-access.test.mjs:54:1
+✖ Windows case and separators normalize; traversal, ADS, absolute and unauthorized paths fail (1.49077ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-BzWZSG'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:55:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-BzWZSG'
+  }
+
+test at tests/integration/discovery-access.test.mjs:63:1
+✖ junctions and linked roots cannot escape the source boundary, including replacement after indexing (1.183239ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-JBOFyk'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:64:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-JBOFyk'
+  }
+
+test at tests/integration/discovery-access.test.mjs:73:1
+✖ only actually read, exact version and line ranges validate as source references (1.363834ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-n5hdHr'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:74:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-n5hdHr'
+  }
+
+test at tests/integration/discovery-access.test.mjs:86:1
+✖ UTF-8 excerpt bytes, line ranges, search result caps and large-file partial reading are enforced (1.212361ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-Vqo1Y0'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:87:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-Vqo1Y0'
+  }
+
+test at tests/integration/discovery-access.test.mjs:103:1
+✖ binary, oversized and recognizable secret content is withheld with explicit index issues (0.99995ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-Do6TAk'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:104:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-Do6TAk'
+  }
+
+test at tests/integration/discovery-access.test.mjs:120:1
+✖ selecting an excluded subtree as the root cannot bypass exclusions (1.082145ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-Aj3TOg'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:121:18)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-Aj3TOg'
+  }
+
+test at tests/integration/discovery-access.test.mjs:127:1
+✖ quoted JSON secrets and invalid UTF-8 stay out of snapshots and search (1.434377ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-wLoCGC'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:128:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-wLoCGC'
+  }
+
+test at tests/integration/discovery-access.test.mjs:136:1
+✖ Express settings reads never become routes (1.345968ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-hBibnT'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:137:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-hBibnT'
+  }
+
+test at tests/integration/discovery-access.test.mjs:142:1
+✖ module links preserve emitted mjs and cjs suffixes (0.948404ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-uFmsQi'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:143:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-uFmsQi'
+  }
+
+test at tests/unit/discovery-state-race.test.mjs:1:1
+✖ tests/unit/discovery-state-race.test.mjs (366.698272ms)
+  'test failed'
+
+test at tests/unit/project-rules-source-race.test.mjs:1:1
+✖ tests/unit/project-rules-source-race.test.mjs (338.213409ms)
+  'test failed'

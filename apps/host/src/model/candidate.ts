@@ -15,6 +15,7 @@ import {generateCandidate,candidateShape,type CandidateReference} from './propos
 import type {ContextRequest,DisclosureConsent} from './context.js';
 import {runTargetTrial,type TargetTrialInput,type TargetTrial} from './target-trial.js';
 import {acquireTask} from './task-lock.js';
+import {loadCompiledValidationRule,assertCompiledRuleProject} from '../rules/compiler.js';
 import {repairLegacyTitleParameters} from '../validation/parameters.js';
 const root=fileURLToPath(new URL('../../../../',import.meta.url)),base=join(root,'.local-data/candidates');
 export const digestRule=(rule:RuleContract)=>digest(rule);
@@ -45,6 +46,7 @@ export class CandidateTask {
   }
   static async create(input:CandidateInput,credentials:ModelCredentials):Promise<CandidateTask>{
     if(!validateContract('RuleContract',input.rule).valid||!validateContract('CapabilitySet',input.capabilities).valid)throw new Error('INVALID_CANDIDATE_INPUT');
+    if(input.rule.source.startsWith('project-rule:')){const compiled=await loadCompiledValidationRule(input.rule.id,input.rule.version);if(!compiled||compiled.ruleRef.projectId!==input.context.projectId||digest(compiled.rule)!==digest(input.rule))throw new Error('RULE_PROJECT_MISMATCH');}
     const preset=input.preset??MODEL_PRESET,budget=new ModelBudget(preset);const data:CandidateRecord={schemaVersion:1,id:randomUUID(),input:structuredClone(input),revisionIndex:0,status:'draft',phase:'generating',candidateHash:'',ruleHash:digest(input.rule),suiteHash:'',interpreterVersion:'1.0.0',code:'',budget:budget.usage,drafts:[],history:[],audit:[],diagnostics:[]};
     const task=new CandidateTask(data,credentials);await mkdir(join(base,data.id),{recursive:true});await task.save();return task;
   }
@@ -74,8 +76,9 @@ export class CandidateTask {
       if(['rejected','ready_for_review'].includes(this.data.status))return this.snapshot();
       const {rule,capabilities,context,consent}=this.data.input;
       if(rule.confirmation!=='confirmed'){await this.event(core,'needs_rule');return this.snapshot();}
-      let suite;try{suite=await loadValidationSuite(rule.id);}catch(error){if((error as Error).message!=='UNSUPPORTED_RULE')throw error;await this.event(core,'capability_gap');return this.snapshot();}
+      let suite;try{suite=await loadValidationSuite(rule.id,rule.version);}catch(error){if((error as Error).message!=='UNSUPPORTED_RULE')throw error;await this.event(core,'capability_gap');return this.snapshot();}
       if(digest(rule)!==digest(suite.rule))throw new Error('CONFIRMED_RULE_DIFFERS_FROM_REFERENCE');
+      if(rule.source.startsWith('project-rule:')){const compiled=await loadCompiledValidationRule(rule.id,rule.version);if(!compiled||compiled.ruleRef.projectId!==context.projectId||digest(compiled.rule)!==digest(rule))throw new Error('RULE_PROJECT_MISMATCH');if(target){const profile=await (await import('../projects/inspect.js')).inspectProject(target.source);await assertCompiledRuleProject(rule,target.projectId,target.mapping??profile.mapping,profile.sourceHash,profile.root);}}
       if(['create','query','update'].some(op=>!capabilities.operations.includes(op))){await this.event(core,'capability_gap');return this.snapshot();}
       this.data.suiteHash=suite.suiteHash;
       for(;;){
@@ -116,6 +119,7 @@ export class CandidateTask {
           if(value.requiredCapabilities.some(op=>!capabilities.operations.includes(op))||value.steps.some(s=>!capabilities.operations.includes(s.operationId)||!capabilities.actorRefs.includes(s.actorRef))){await this.event(core,'capability_gap');return this.snapshot();}
           const available=await command(core,randomUUID(),'start',{operation:'validateTemplate',spec:value,capabilities});
           if(available.issues.some((issue:{code:string})=>['UNKNOWN_CAPABILITY','UNKNOWN_OPERATION','UNKNOWN_ACTOR','UNKNOWN_EXPRESSION'].includes(issue.code))){await this.event(core,'capability_gap');return this.snapshot();}
+          this.data.interpreterVersion=available.interpreterVersion;
           this.data.validation=await validateAgainstSuite(value,suite);
           if(this.data.validation.gateResults.admitted){await this.event(core,'validated',{record:this.data.validation});continue;}
           // Never send expected verdicts, private observations, held-out case ids,

@@ -3,6 +3,8 @@ import {join,resolve} from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {createServer} from 'node:net';
 import {randomUUID} from 'node:crypto';
+import type {ProjectRuleRef} from '@website-verification/contracts/discovery';
+import {loadCompiledValidationRule} from '../rules/compiler.js';
 import type {TemplateSpec,RuleContract,ValidationRecord,Transition,Json} from '@website-verification/contracts';
 import {validateContract} from '@website-verification/contracts/validate';
 import {CoreClient} from '../core/client.js';
@@ -16,25 +18,44 @@ import {executableParameters} from './parameters.js';
 
 const root=fileURLToPath(new URL('../../../../',import.meta.url));
 const reference=join(root,'tests/reference'),evidenceRoot=join(root,'.local-data/validation');
-interface SuiteCase {id:string;kind:'normal'|'defect'|'unknown';heldOut:boolean;parameters:Record<string,Json>;behavior:string;context?:{ownerId:string;otherId:string;initialPriority:string};expected:Record<string,string>}
-export interface ValidationSuite {version:string;review:unknown;rule:RuleContract;cases:SuiteCase[];suiteHash:string}
+interface SuiteCase {id:string;kind:'normal'|'defect'|'unknown';heldOut:boolean;parameters:Record<string,Json>;behavior:string;context?:{ownerId:string;otherId:string;initialPriority?:string;initialStatus?:string};expected:Record<string,string>}
+export interface ValidationSuite {version:string;review:unknown;rule:RuleContract;cases:SuiteCase[];suiteHash:string;facility?:'status-transition';observationsPath?:string}
 export interface SuiteValidationRecord extends ValidationRecord {cases:CaseResult[];issues:string[];mappingDefinitionHash:string;recordRef?:string}
 async function json(path:string){return JSON.parse(await readFile(path,'utf8'));}
-async function frozenFiles():Promise<Record<string,string>>{
-  const lock=await json(join(reference,'suite-lock.json')) as Record<string,string>;
+const statusReference=join(reference,'status-transition');
+const statusObservations='tests/fixtures/status-transition-observations.json';
+function facility(suite:ValidationSuite){
+  // Paths are selected by host-owned identity, never by a candidate or caller.
+  return suite.facility==='status-transition'?{directory:statusReference,observations:join(root,statusObservations),seedVersion:'status-ticket-seed-v1'}:{directory:reference,observations:join(root,'tests/fixtures/observations.json'),seedVersion:'ticket-seed-v1'};
+}
+async function frozenFiles(directory:string):Promise<Record<string,string>>{
+  const lock=await json(join(directory,'suite-lock.json')) as Record<string,string>;
   for(const [file,hash]of Object.entries(lock))if(digest(await readFile(join(root,file),'utf8'))!==hash)throw new Error('REFERENCE_CHANGED_REVIEW_REQUIRED');
   return lock;
 }
 /** Host-private input. Never include this suite, observations, controls or
  * expected labels in model context; a candidate gets only rule/capabilities. */
-export async function loadValidationSuite(ruleId:string):Promise<ValidationSuite>{
+export async function loadValidationSuite(ruleId:string,version=1):Promise<ValidationSuite>{
+  if(!Number.isSafeInteger(version)||version<1)throw new Error('UNSUPPORTED_RULE');
+  const compiled=ruleId==='status-transition-rule'?undefined:await loadCompiledValidationRule(ruleId,version);
+  if(compiled){
+    if(compiled.resourceId!=='status-transition'||compiled.rule.id!==ruleId||compiled.rule.version!==version)throw new Error('UNSUPPORTED_RULE');
+    const canonical=await loadValidationSuite('status-transition-rule',1);
+    return {...canonical,rule:compiled.rule,suiteHash:digest({canonicalHash:canonical.suiteHash,bindingHash:compiled.bindingHash,ruleHash:digest(compiled.rule)})};
+  }
+  const isStatus=ruleId==='status-transition-rule',directory=isStatus?statusReference:reference;
   let lock:Record<string,string>,manifest:any;
-  try{lock=await frozenFiles();manifest=await json(join(reference,'suite-manifest.json'));}
+  try{lock=await frozenFiles(directory);manifest=await json(join(directory,'suite-manifest.json'));}
   catch(error){if((error as NodeJS.ErrnoException).code==='ENOENT')throw new Error('VALIDATION_RESOURCES_REQUIRED');throw error;}
-  const entry=manifest.suites.find((s:{rule:RuleContract})=>s.rule.id===ruleId);if(!entry)throw new Error('UNSUPPORTED_RULE');
-  return {...entry,version:manifest.version,review:manifest.review,suiteHash:digest({lock,entry,version:manifest.version})};
+  const entry=manifest.suites.find((s:{rule:RuleContract})=>s.rule.id===ruleId&&s.rule.version===version);if(!entry)throw new Error('UNSUPPORTED_RULE');
+  return {...entry,version:manifest.version,review:manifest.review,...(isStatus?{facility:'status-transition' as const,observationsPath:statusObservations}:{}),suiteHash:digest({lock,entry,version:manifest.version})};
 }
-async function trusted(suite:ValidationSuite):Promise<ValidationSuite>{const original=await loadValidationSuite(suite.rule.id);if(digest(suite)!==digest(original))throw new Error('SUITE_CHANGED');return original;}
+export async function resolveValidationSuite(ruleRef:ProjectRuleRef):Promise<ValidationSuite>{
+  const compiled=await loadCompiledValidationRule(ruleRef.id,ruleRef.version);
+  if(!compiled||['projectId','id','version','contentHash'].some(key=>compiled.ruleRef[key as keyof ProjectRuleRef]!==ruleRef[key as keyof ProjectRuleRef]))throw new Error('UNSUPPORTED_RULE');
+  return loadValidationSuite(ruleRef.id,ruleRef.version);
+}
+async function trusted(suite:ValidationSuite):Promise<ValidationSuite>{const original=await loadValidationSuite(suite.rule.id,suite.rule.version);if(digest(suite)!==digest(original))throw new Error('SUITE_CHANGED');return original;}
 async function core():Promise<CoreClient>{const {coreCommand}=await import(pathToFileURL(join(root,'scripts/toolchain.mjs')).href);return new CoreClient({...coreCommand(),timeoutMs:5000});}
 async function port():Promise<number>{const s=createServer();await new Promise<void>(r=>s.listen(0,'127.0.0.1',r));const p=(s.address() as {port:number}).port;await new Promise<void>((r,j)=>s.close(e=>e?j(e):r()));return p;}
 function referenceRef(copyId:string,ref:string):string{return `reference:${copyId}:${ref.replace(/^evidence:/,'')}`;}
@@ -50,17 +71,17 @@ export async function readReferenceEvidence(ref:string):Promise<unknown>{
 }
 /** Whole chain uses T2 preparation, identity, execution, evidence and cleanup. */
 export async function runReferenceCase(candidate:TemplateSpec,input:ValidationSuite,control:{behavior:string;parameters:Record<string,Json>;id?:string;context?:SuiteCase['context']}):Promise<CaseResult>{
-  const suite=await trusted(input),spec=configure(candidate,control.parameters),id=control.id??randomUUID();
+  const suite=await trusted(input),resources=facility(suite),spec=configure(candidate,control.parameters),id=control.id??randomUUID();
   const source=join(root,'.local-data/reference-sources',randomUUID());await mkdir(source,{recursive:true});
-  for(const file of ['server.ts','behaviors.ts','db.ts','seed.ts'])await copyFile(join(reference,file),join(source,file));
+  for(const file of ['server.ts','behaviors.ts','db.ts','seed.ts'])await copyFile(join(resources.directory,file),join(source,file));
   await writeFile(join(source,'control.json'),JSON.stringify({behavior:control.behavior,...control.context}));
   await writeFile(join(source,'package.json'),JSON.stringify({type:'module',dependencies:{express:'5.1.0'}}));
-  const mapping=await json(join(reference,'mapping.json'));
-  await writeFile(join(source,'verification.json'),JSON.stringify({schemaVersion:1,name:'T3 reviewed reference facility',start:{argv:['server.ts']},initialization:{argv:['seed.ts'],version:'ticket-seed-v1',source:'synthetic',databaseEnv:'TEST_DATABASE',localOnly:true,externalServices:[]},healthPath:'/health',actors:[{actorRef:'owner',role:'user'},{actorRef:'other',role:'user'}],mapping}));
+  const mapping=await json(join(resources.directory,'mapping.json'));
+  await writeFile(join(source,'verification.json'),JSON.stringify({schemaVersion:1,name:'T3 reviewed reference facility',start:{argv:['server.ts']},initialization:{argv:['seed.ts'],version:resources.seedVersion,source:'synthetic',databaseEnv:'TEST_DATABASE',localOnly:true,externalServices:[]},healthPath:'/health',actors:[{actorRef:'owner',role:'user'},{actorRef:'other',role:'user'}],mapping}));
   const profile=await inspectProject(source);if(!profile.supported)throw new Error(`REFERENCE_UNSUPPORTED:${JSON.stringify(profile.gaps)}`);
   const credentials=new CredentialSession(),projectId=`reference-${randomUUID()}`;
   credentials.set(projectId,'owner','synthetic-reference-password-owner');credentials.set(projectId,'other','synthetic-reference-password-other');
-  const env=await prepareCopy(profile,{projectId,port:await port(),confirmed:true,data:{source:'synthetic',count:2,seedVersion:'ticket-seed-v1'},accounts:[{actorRef:'owner',username:'alpha',userId:control.context?.ownerId??'user-a',role:'user'},{actorRef:'other',username:'beta',userId:control.context?.otherId??'user-b',role:'user'}],credentials});
+  const env=await prepareCopy(profile,{projectId,port:await port(),confirmed:true,data:{source:'synthetic',count:2,seedVersion:resources.seedVersion},accounts:[{actorRef:'owner',username:'alpha',userId:control.context?.ownerId??'user-a',role:'user'},{actorRef:'other',username:'beta',userId:control.context?.otherId??'user-b',role:'user'}],credentials});
   let client:CoreClient|undefined,state:Transition|undefined;const refs:string[]=[];const runId=randomUUID(),bound=bindMapping(mapping,env.id);
   const provenance={copyId:env.id,mappingHash:mappingHash(bound),effectiveCandidateHash:digest(spec)};
   try{
@@ -85,15 +106,15 @@ export async function runReferenceCase(candidate:TemplateSpec,input:ValidationSu
   }finally{try{await env.close();}finally{credentials.close();if(client)await client.close();}}
 }
 export async function validateAgainstSuite(candidate:TemplateSpec,input:ValidationSuite):Promise<SuiteValidationRecord>{
-  const suite=await trusted(input),spec=structuredClone(candidate),client=await core();
-  const record:SuiteValidationRecord={scope:'template_validation',candidateHash:digest(spec),ruleHash:digest(suite.rule),suiteHash:suite.suiteHash,interpreterVersion:'',mappingHash:digest([]),mappingDefinitionHash:digest(await json(join(reference,'mapping.json'))),gateResults:{static:false,coverage:false,observation:false,http:false,admitted:false},evidenceRefs:[],cases:[],issues:[]};
+  const suite=await trusted(input),resources=facility(suite),spec=structuredClone(candidate),client=await core();
+  const record:SuiteValidationRecord={scope:'template_validation',candidateHash:digest(spec),ruleHash:digest(suite.rule),suiteHash:suite.suiteHash,interpreterVersion:'',mappingHash:digest([]),mappingDefinitionHash:digest(await json(join(resources.directory,'mapping.json'))),gateResults:{static:false,coverage:false,observation:false,http:false,admitted:false},evidenceRefs:[],cases:[],issues:[]};
   try{
     const schema=validateContract('TemplateSpec',spec);
     const validation=await command(client,randomUUID(),'start',{operation:'validateTemplate',spec,capabilities});record.interpreterVersion=validation.interpreterVersion;
-    record.gateResults.static=schema.valid&&validation.valid&&executableParameters(spec)&&spec.ruleRef.id===suite.rule.id&&spec.ruleRef.version===suite.rule.version;
+    record.gateResults.static=schema.valid&&validation.valid&&executableParameters(spec,suite.rule)&&spec.ruleRef.id===suite.rule.id&&spec.ruleRef.version===suite.rule.version;
     if(!record.gateResults.static){record.issues.push('STATIC_REJECTED');return record;}
     record.gateResults.coverage=['normal','defect','unknown'].every(kind=>suite.cases.some(c=>c.kind===kind&&!c.heldOut)&&suite.cases.some(c=>c.kind===kind&&c.heldOut));
-    const samples=await json(join(root,'tests/fixtures/observations.json')) as Record<string,{trace:SampleFrame[]}>;
+    const samples=await json(resources.observations) as Record<string,{trace:SampleFrame[]}>;
     for(const c of suite.cases){
       const configured=configure(spec,c.parameters);
       const observation=await validateObservations(client,configured,suite.rule,c.id,samples[c.id]!.trace,evidenceRoot);observation.effectiveCandidateHash=digest(configured);observation.matched=matches(observation,c.expected);record.cases.push(observation);

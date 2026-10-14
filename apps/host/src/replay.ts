@@ -16,6 +16,7 @@ import {execute} from './execution/http.js';
 import {CoreClient} from './core/client.js';
 import {command,capabilities} from './validation/observations.js';
 import {projectRoot} from './validation/review.js';
+import {assertCompiledRuleProject} from './rules/compiler.js';
 import {readPackage} from './manifest.js';
 import {scrubSecrets} from './model/context.js';
 
@@ -36,7 +37,7 @@ async function freePort(){const s=createServer();await new Promise<void>(r=>s.li
 export async function qualifyPlan(plan:ConfirmedPlan,registry:TemplateRegistry){
   const checked=confirmPlan(plan); // Structural validation, never auto-confirm a pending rule.
   const templates=[];
-  for(const c of checked.checks){const p=await registry.assertQualified(c.templateRef);if(digest({...c.rule,confirmation:'confirmed'})!==p.ruleHash)throw new Error('RULE_VERSION_MISMATCH');templates.push(p);}
+  for(const c of checked.checks){await assertCompiledRuleProject(c.rule,checked.projectId,checked.mapping,checked.sourceHash);const p=await registry.assertQualified(c.templateRef);if(digest({...c.rule,confirmation:'confirmed'})!==p.ruleHash)throw new Error('RULE_VERSION_MISMATCH');templates.push(p);}
   return templates;
 }
 export async function loadReplay(input:unknown,environment:RunEnvironment,registry:TemplateRegistry):Promise<{plan:ConfirmedPlan;parentRunId:string}>{
@@ -57,6 +58,7 @@ export class RunExecutor {
     plan=structuredClone(plan);const templates=await qualifyPlan(plan,this.registry);
     if(!input.confirmed||input.projectId!==plan.projectId)throw new Error('PROJECT_CONFIRMATION_REQUIRED');
     const profile=await inspectProject(input.source);if(!profile.supported)throw new Error('PROJECT_UNSUPPORTED');if(profile.sourceHash!==plan.sourceHash)throw new Error('CONDITIONS_CHANGED_CONFIRMATION_REQUIRED');
+    for(const check of plan.checks)await assertCompiledRuleProject(check.rule,input.projectId,plan.mapping,profile.sourceHash,profile.root);
     for(const account of input.accounts)input.credentials.get(input.projectId,account.actorRef);
     const secrets=input.accounts.map(a=>input.credentials.get(input.projectId,a.actorRef));
     const run:RunRecord={schemaVersion:1,id,projectId:plan.projectId,flow:plan.flow,plan,kind:plan.checks.some(c=>c.mode==='verify')?'verification':'observations',status:'running',startedAt:new Date().toISOString(),...(parentRunId?{parentRunId}:{}),checks:[],events:[],evidence:{},uncovered:['只覆盖本轮已选规则、测试副本及数据条件；不证明所有业务或容量。']};

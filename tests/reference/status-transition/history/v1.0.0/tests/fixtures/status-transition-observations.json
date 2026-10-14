@@ -1,0 +1,786 @@
+{
+  "st-dev-1": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-1",
+            "title": "开发 合成编号13 1",
+            "status": "open",
+            "ownerId": "dev-owner-938"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-1",
+            "title": "开发 合成编号13 1",
+            "status": "open",
+            "ownerId": "dev-owner-938",
+            "items": [
+              {
+                "id": "object-st-dev-1",
+                "title": "开发 合成编号13 1",
+                "status": "open",
+                "ownerId": "dev-owner-938"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-1",
+            "title": "开发 合成编号13 1",
+            "status": "closed",
+            "ownerId": "dev-owner-938"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-1",
+            "title": "开发 合成编号13 1",
+            "status": "closed",
+            "ownerId": "dev-owner-938",
+            "items": [
+              {
+                "id": "object-st-dev-1",
+                "title": "开发 合成编号13 1",
+                "status": "closed",
+                "ownerId": "dev-owner-938"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "rejected",
+          "result": {
+            "id": "object-st-dev-1",
+            "title": "开发 合成编号13 1",
+            "status": "closed",
+            "ownerId": "dev-owner-938"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-1",
+            "title": "开发 合成编号13 1",
+            "status": "closed",
+            "ownerId": "dev-owner-938",
+            "items": [
+              {
+                "id": "object-st-dev-1",
+                "title": "开发 合成编号13 1",
+                "status": "closed",
+                "ownerId": "dev-owner-938"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "st-dev-2": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-2",
+            "title": "开发 合成编号13 2",
+            "status": "open",
+            "ownerId": "dev-owner-939"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-2",
+            "title": "开发 合成编号13 2",
+            "status": "open",
+            "ownerId": "dev-owner-939",
+            "items": [
+              {
+                "id": "object-st-dev-2",
+                "title": "开发 合成编号13 2",
+                "status": "open",
+                "ownerId": "dev-owner-939"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-2",
+            "title": "开发 合成编号13 2",
+            "status": "closed",
+            "ownerId": "dev-owner-939"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-2",
+            "title": "开发 合成编号13 2",
+            "status": "closed",
+            "ownerId": "dev-owner-939",
+            "items": [
+              {
+                "id": "object-st-dev-2",
+                "title": "开发 合成编号13 2",
+                "status": "closed",
+                "ownerId": "dev-owner-939"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-2",
+            "title": "开发 合成编号13 2",
+            "status": "open",
+            "ownerId": "dev-owner-939"
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "st-dev-3": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-3",
+            "title": "开发 合成编号13 3",
+            "status": "open",
+            "ownerId": "dev-owner-940"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-3",
+            "title": "开发 合成编号13 3",
+            "status": "open",
+            "ownerId": "dev-owner-940",
+            "items": [
+              {
+                "id": "object-st-dev-3",
+                "title": "开发 合成编号13 3",
+                "status": "open",
+                "ownerId": "dev-owner-940"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-3",
+            "title": "开发 合成编号13 3",
+            "status": "closed",
+            "ownerId": "dev-other-941"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-3",
+            "title": "开发 合成编号13 3",
+            "status": "closed",
+            "ownerId": "dev-other-941",
+            "items": [
+              {
+                "id": "object-st-dev-3",
+                "title": "开发 合成编号13 3",
+                "status": "closed",
+                "ownerId": "dev-other-941"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "rejected",
+          "result": {
+            "id": "object-st-dev-3",
+            "title": "开发 合成编号13 3",
+            "status": "closed",
+            "ownerId": "dev-other-941"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-3",
+            "title": "开发 合成编号13 3",
+            "status": "closed",
+            "ownerId": "dev-other-941",
+            "items": [
+              {
+                "id": "object-st-dev-3",
+                "title": "开发 合成编号13 3",
+                "status": "closed",
+                "ownerId": "dev-other-941"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "st-dev-4": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-4",
+            "title": "开发 合成编号13 4",
+            "status": "open",
+            "ownerId": "dev-owner-941"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-dev-4",
+            "title": "开发 合成编号13 4",
+            "status": "open",
+            "ownerId": "dev-owner-941",
+            "items": [
+              {
+                "id": "object-st-dev-4",
+                "title": "开发 合成编号13 4",
+                "status": "open",
+                "ownerId": "dev-owner-941"
+              }
+            ]
+          },
+          "queryComplete": false
+        }
+      }
+    ]
+  },
+  "st-held-1": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-1",
+            "title": "留出 合成编号97 1",
+            "status": "open",
+            "ownerId": "held-owner-938"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-1",
+            "title": "留出 合成编号97 1",
+            "status": "open",
+            "ownerId": "held-owner-938",
+            "items": [
+              {
+                "id": "object-st-held-1",
+                "title": "留出 合成编号97 1",
+                "status": "open",
+                "ownerId": "held-owner-938"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-1",
+            "title": "留出 合成编号97 1",
+            "status": "closed",
+            "ownerId": "held-owner-938"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-1",
+            "title": "留出 合成编号97 1",
+            "status": "closed",
+            "ownerId": "held-owner-938",
+            "items": [
+              {
+                "id": "object-st-held-1",
+                "title": "留出 合成编号97 1",
+                "status": "closed",
+                "ownerId": "held-owner-938"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "rejected",
+          "result": {
+            "id": "object-st-held-1",
+            "title": "留出 合成编号97 1",
+            "status": "closed",
+            "ownerId": "held-owner-938"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-1",
+            "title": "留出 合成编号97 1",
+            "status": "closed",
+            "ownerId": "held-owner-938",
+            "items": [
+              {
+                "id": "object-st-held-1",
+                "title": "留出 合成编号97 1",
+                "status": "closed",
+                "ownerId": "held-owner-938"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "st-held-2": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-2",
+            "title": "留出 合成编号97 2",
+            "status": "open",
+            "ownerId": "held-owner-939"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-2",
+            "title": "留出 合成编号97 2",
+            "status": "open",
+            "ownerId": "held-owner-939",
+            "items": [
+              {
+                "id": "object-st-held-2",
+                "title": "留出 合成编号97 2",
+                "status": "open",
+                "ownerId": "held-owner-939"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-2",
+            "title": "留出 合成编号97 2",
+            "status": "closed",
+            "ownerId": "held-owner-939"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-2",
+            "title": "留出 合成编号97 2",
+            "status": "closed",
+            "ownerId": "held-owner-939",
+            "items": [
+              {
+                "id": "object-st-held-2",
+                "title": "留出 合成编号97 2",
+                "status": "closed",
+                "ownerId": "held-owner-939"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-2",
+            "title": "留出 合成编号97 2",
+            "status": "open",
+            "ownerId": "held-owner-939"
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "st-held-3": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-3",
+            "title": "留出 合成编号97 3",
+            "status": "open",
+            "ownerId": "held-owner-940"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-3",
+            "title": "留出 合成编号97 3",
+            "status": "open",
+            "ownerId": "held-owner-940",
+            "items": [
+              {
+                "id": "object-st-held-3",
+                "title": "留出 合成编号97 3",
+                "status": "open",
+                "ownerId": "held-owner-940"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-3",
+            "title": "留出 合成编号97 3",
+            "status": "closed",
+            "ownerId": "held-other-941"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-3",
+            "title": "留出 合成编号97 3",
+            "status": "closed",
+            "ownerId": "held-other-941",
+            "items": [
+              {
+                "id": "object-st-held-3",
+                "title": "留出 合成编号97 3",
+                "status": "closed",
+                "ownerId": "held-other-941"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "update",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "rejected",
+          "result": {
+            "id": "object-st-held-3",
+            "title": "留出 合成编号97 3",
+            "status": "closed",
+            "ownerId": "held-other-941"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-3",
+            "title": "留出 合成编号97 3",
+            "status": "closed",
+            "ownerId": "held-other-941",
+            "items": [
+              {
+                "id": "object-st-held-3",
+                "title": "留出 合成编号97 3",
+                "status": "closed",
+                "ownerId": "held-other-941"
+              }
+            ]
+          },
+          "queryComplete": true
+        }
+      }
+    ]
+  },
+  "st-held-4": {
+    "trace": [
+      {
+        "operationId": "create",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-4",
+            "title": "留出 合成编号97 4",
+            "status": "open",
+            "ownerId": "held-owner-941"
+          },
+          "queryComplete": true
+        }
+      },
+      {
+        "operationId": "query",
+        "actorRef": "owner",
+        "observation": {
+          "transportStatus": "ok",
+          "identityVerified": true,
+          "acceptance": "accepted",
+          "result": {
+            "id": "object-st-held-4",
+            "title": "留出 合成编号97 4",
+            "status": "open",
+            "ownerId": "held-owner-941",
+            "items": [
+              {
+                "id": "object-st-held-4",
+                "title": "留出 合成编号97 4",
+                "status": "open",
+                "ownerId": "held-owner-941"
+              }
+            ]
+          },
+          "queryComplete": false
+        }
+      }
+    ]
+  }
+}

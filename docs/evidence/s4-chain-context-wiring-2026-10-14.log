@@ -1,0 +1,36 @@
+(node:35) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:35) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a confirmed new project rule compiles only its frozen semantic and explicitly mapped inputs (24.615364ms)
+✔ same operation names do not qualify changed semantics, missing status mapping, unknown fields or incomplete observation declarations (17.643103ms)
+✔ an unconfirmed version never compiles and missing private resources remain a gap (7.095842ms)
+✖ new UUID rule traverses isolated deterministic candidate, admission, test-review, run and package replay (653.28887ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1033.18283
+
+✖ failing tests:
+
+test at tests/integration/discovered-rule-execution.test.mjs:19:1
+✖ new UUID rule traverses isolated deterministic candidate, admission, test-review, run and package replay (653.28887ms)
+  AssertionError [ERR_ASSERTION]: {"code":"ENOENT: no such file or directory, open '/workspace/scratch/7074c4c0dda2/cangjie/output/s4-compiler-felayu/public.md'","phase":"paused"}
+  + actual - expected
+  
+  + 'validating'
+  - 'ready_for_review'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:36:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'validating',
+    expected: 'ready_for_review',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

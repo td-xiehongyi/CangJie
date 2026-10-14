@@ -1,0 +1,15 @@
+(node:34) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:34) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a confirmed new project rule compiles only its frozen semantic and explicitly mapped inputs (21.030088ms)
+✔ same operation names do not qualify changed semantics, missing status mapping, unknown fields or incomplete observation declarations (18.738502ms)
+✔ an unconfirmed version never compiles and missing private resources remain a gap (7.043786ms)
+✔ new UUID rule traverses isolated deterministic candidate, admission, test-review, run and package replay (9093.749268ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9460.410778

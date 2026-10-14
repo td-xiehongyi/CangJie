@@ -12,7 +12,7 @@ export interface TemplateRef {id:string;version:string;hash:string}
 export interface RegistryDraft {taskId:string;spec:TemplateSpec;rule:RuleContract;capabilities:CapabilitySet;candidateHash:string;ruleHash:string;validation:ValidationRecord;trial:ValidationRecord;metadata:TemplateMetadata;evidenceHash:string;draftHash:string}
 export interface PublishedTemplate extends RegistryDraft {status:'published';ref:TemplateRef;review:ReviewRecord;publishedAt:string}
 export interface Match {ref:TemplateRef;ruleHash:string;reasons:string[];requiresProjectConfirmation:true;applicable:string[];excluded:string[];instructions:string}
-const unavailableCodes=new Set(['VERSION_DISABLED','STALE_QUALIFICATION','STALE_INTERPRETER_OR_TEMPLATE','STALE_EVIDENCE','STALE_VALIDATION_RECORD','STALE_TRIAL_RECORD','EVIDENCE_MISSING','EVIDENCE_CORRUPT','UNSUPPORTED_RULE']);
+const unavailableCodes=new Set(['VERSION_DISABLED','STALE_QUALIFICATION','STALE_INTERPRETER_OR_TEMPLATE','STALE_EVIDENCE','STALE_VALIDATION_RECORD','STALE_TRIAL_RECORD','EVIDENCE_MISSING','EVIDENCE_CORRUPT','UNSUPPORTED_RULE','STALE_PROJECT_RULE','RULE_PROJECT_MISMATCH','RULE_MAPPING_MISMATCH','COMPILED_RULE_ALREADY_BOUND','CORRUPT_COMPILED_RULE','REFERENCE_CHANGED_REVIEW_REQUIRED']);
 function hash(value:string):void{if(!/^[a-f0-9]{64}$/.test(value))throw new Error('INVALID_HASH');}
 function refValid(ref:TemplateRef):void{if(!/^[A-Za-z0-9_-]{1,80}$/.test(ref.id)||!/^[0-9]+\.[0-9]+\.[0-9]+$/.test(ref.version)||!ref.hash||!/^[a-f0-9]{64}$/.test(ref.hash))throw new Error('INVALID_REF');}
 function metadataValid(m:TemplateMetadata):void{
@@ -47,7 +47,7 @@ export class TemplateRegistry {
   }
   private async current(d:RegistryDraft):Promise<void>{
     if(digest(draftBody(d))!==d.draftHash||digest(d.spec)!==d.candidateHash||digest(d.rule)!==d.ruleHash||d.validation.candidateHash!==d.candidateHash||d.validation.ruleHash!==d.ruleHash)throw new Error('STALE_CANDIDATE_OR_RULE');
-    const suite=await loadValidationSuite(d.rule.id);
+    const suite=await loadValidationSuite(d.rule.id,d.rule.version);
     if(digest(suite.rule)!==d.ruleHash||suite.suiteHash!==d.validation.suiteHash)throw new Error('STALE_QUALIFICATION');
     const validation=await registryCore({operation:'validateTemplate',spec:d.spec,capabilities:d.capabilities});
     if(!validation.valid||validation.interpreterVersion!==d.validation.interpreterVersion||d.trial.interpreterVersion!==validation.interpreterVersion)throw new Error('STALE_INTERPRETER_OR_TEMPLATE');

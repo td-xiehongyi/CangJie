@@ -1,0 +1,21 @@
+(node:13) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a confirmed new project rule compiles only its frozen semantic and explicitly mapped inputs (20.962852ms)
+✔ same operation names do not qualify changed semantics, missing status mapping, unknown fields or incomplete observation declarations (17.187939ms)
+✔ an unconfirmed version never compiles and missing private resources remain a gap (9.447351ms)
+✔ new UUID rule traverses isolated deterministic candidate, admission, test-review, run and package replay (15599.678238ms)
+✔ compiled validation qualification refuses a changed runtime source before review (403.045689ms)
+✔ controlled normalized field meanings cannot be relabelled as stable object IDs (24.206426ms)
+✔ private status resources and bound rule journals never become model discovery inputs (0.85705ms)
+✔ status candidates reject schema-like parameters before any target action (7.882612ms)
+✔ registration checks the current runtime snapshot inside the project transaction (116.028212ms)
+✔ public model guidance sends only the current status obligations and executable parameters (4.282568ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16540.575819

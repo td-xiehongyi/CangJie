@@ -20,7 +20,7 @@
 
 需要重新构建时先运行 `npm run check`，再运行 `npm start`，浏览器打开 `http://127.0.0.1:4317`。当前主版本恢复已有数据；全新交付目录首次启动为空，模型名称需由使用者填写。密钥只在本机输入，未勾选记住时只存会话。已有合格模板的执行与包复跑不需要模型。
 
-`npm run test:project-rules` 单独检查S3规则、能力和身份事务（原生Windows规则库锁；Linux显式测试替身口径见证据）；`npm run test:discovery-state` 单独检查源码分析状态时序和回归接入，不依赖仓颉核心；`npm run verify -- discovery` 在完整工具链下运行源码专项。`npm run verify -- replay` 检查运行记录/验证包/API；`npm run verify -- workbench` 通过本机Edge验收正式页面；`npm run verify -- transfer` 检查报名迁移与冻结证据恢复；`npm run verify -- target-load` 检查固定负载与停止结算；`npm run verify -- release` 检查交付复现；`npm test` 运行完整回归。测试套件逐文件运行，仓颉及隔离网站真实执行。候选生成使用确定性模型服务、审核使用明确测试身份，仅写隔离测试库，不计作真实模型生成或正式业务审核。详见 [T6验收与限制](docs/evidence/workbench.md)、[T5](docs/evidence/registry.md)、[T4真实调用入口](docs/evidence/candidate.md)。T7受控迁移开发验收已完成；宿主通用基线计数与Windows文件替换已补强，不能称作无需适配的盲迁移。原四页预览六源哈希未变。详见 [T7验收与限制](docs/evidence/transfer.md)。
+`CANGJIE_TEST_MUTEX=1 npm run test:discovered-rule` 在Linux明示OS锁/核心测试模型口径下检查S4受控链（不计原生验收）；`npm run test:project-rules` 单独检查S3规则、能力和身份事务（原生Windows规则库锁；Linux显式测试替身口径见证据）；`npm run test:discovery-state` 单独检查源码分析状态时序和回归接入，不依赖仓颉核心；`npm run verify -- discovery` 在完整工具链下运行源码专项。`npm run verify -- replay` 检查运行记录/验证包/API；`npm run verify -- workbench` 通过本机Edge验收正式页面；`npm run verify -- transfer` 检查报名迁移与冻结证据恢复；`npm run verify -- target-load` 检查固定负载与停止结算；`npm run verify -- release` 检查交付复现；`npm test` 运行完整回归。测试套件逐文件运行，仓颉及隔离网站真实执行。候选生成使用确定性模型服务、审核使用明确测试身份，仅写隔离测试库，不计作真实模型生成或正式业务审核。详见 [T6验收与限制](docs/evidence/workbench.md)、[T5](docs/evidence/registry.md)、[T4真实调用入口](docs/evidence/candidate.md)。T7受控迁移开发验收已完成；宿主通用基线计数与Windows文件替换已补强，不能称作无需适配的盲迁移。原四页预览六源哈希未变。详见 [T7验收与限制](docs/evidence/transfer.md)。
 
 负载入口在已通过的业务报告下方；填写目标率、时长、等待/错误阈值及所选规则比例，确认后运行。已有工作台需重启以加载新代码。详见 [T8验收与限制](docs/evidence/target-load.md)。依赖恢复入口：`powershell -File scripts/setup-k6.ps1`。
 
@@ -32,14 +32,14 @@ T10测试项目与边界见[对照准备记录](docs/evidence/comparison.md)。�
 
 2026-10-14 新增方向已确认：优先从源码分析业务并推荐项目特有检查。S1/D1源码索引与受控读取、S2/D2—D3分析会话及API/UI已实现，并有历史离线开发验收；真实候选与源码分析效果仍待验收。推送前曾出现专项36/38、API复测4/6。此次状态修复新增7项回归通过，四份专项在明确OS互斥替身的Linux隔离测试中38/38；原生Windows完整构建/集成/Edge仍须续验，不能沿用历史全绿结论。详情见[本轮状态修复与限制](docs/evidence/discovery-state-fix-2026-10-14.md)、[业务分析与推荐历史证据](docs/evidence/discovery-analysis.md)和[推送前核验](docs/evidence/remote-push-2026-10-15.md)。
 
-用户于2026-10-14明确允许暂时跳过正式验收并继续后续开发。S3/D4—D5已实现项目规则确认、不可变版本与纠正记录、精确版本草稿选择、四类准备状态和受认证API/UI；新增开发回归及独立代码审查见[项目规则证据](docs/evidence/project-rules.md)。S3只保存规则与说明缺口，不执行或发布新规则；S4—S5尚未实施，按阶段审查后继续。原生Windows完整续验、浏览器交互、真实模型效果、正式人员审核及原业务/负载、交付/T10均保持延期未验证，真实调用仍需确认实际范围。
+用户于2026-10-14明确允许暂时跳过正式验收并继续后续开发。S3/D4—D5已实现项目规则确认、不可变版本与纠正记录、精确版本草稿选择、四类准备状态和受认证API/UI；新增开发回归及独立代码审查见[项目规则证据](docs/evidence/project-rules.md)。S3只保存规则与说明缺口，不执行或发布新规则；S4/D6已开发受控合成工单关闭性质的精确版本编译、独立验证桥、真实本机HTTP与同环境包复跑；独立审查通过，新增开发检查61/61、旧隔离回归65/65，原生仓颉及正式审核仍未验证，详见[新规则开发证据](docs/evidence/discovered-rule-execution.md)。S5尚未实施，按阶段审查后继续。原生Windows完整续验、浏览器交互、真实模型效果、正式人员审核及原业务/负载、交付/T10均保持延期未验证，真实调用仍需确认实际范围。
 
 | 文件 | 用途 |
 | --- | --- |
-| [需求稿 v0.44](docs/业务与容量验证系统需求与设计讨论稿.md) | R01—R52既有边界与R53—R60源码业务分析主线；S1/S2与S3规则准备已实现；S4—S5未实施 |
+| [需求稿 v0.44](docs/业务与容量验证系统需求与设计讨论稿.md) | R01—R52既有边界与R53—R60源码业务分析主线；S1/S2与S3规则准备已实现；S4受控开发链已实现；S5未实施 |
 | [总体架构](docs/superpowers/specs/2026-10-14-extensible-verification-architecture.md) | 源码分析、项目规则、检查执行与证据的模块边界及用户流程 |
 | [源码业务分析设计](docs/superpowers/specs/2026-10-14-code-grounded-business-discovery.md) | 按需读源码、业务概览、项目特有检查与能力缺口 |
-| [新增分阶段计划 v1.5](docs/superpowers/plans/2026-10-14-code-grounded-business-discovery.md) | S1—S5、D1—D8任务与验收停止点；S1—S3已开发实现，正式验收延期未验证；S4—S5按阶段审查继续 |
+| [新增分阶段计划 v1.6](docs/superpowers/plans/2026-10-14-code-grounded-business-discovery.md) | S1—S5、D1—D8任务与验收停止点；S1—S4受控开发链已实现，正式验收延期未验证；S5尚未实施 |
 | [候选模板设计 v1.7](docs/superpowers/specs/2026-10-11-candidate-template-lifecycle.md) | 候选生成、独立验证、审核发布和复用机制 |
 | [最终实施计划 2.34](docs/superpowers/plans/2026-10-11-website-verification.md) | T9交付已实施；真实模型与正式模板发布待验收；T10工单对照项目已准备，正式同模型对照待运行 |
 | [蓝白四页定稿](output/ui-preview-final/index.html) | 历史视觉参考；当前交互以正式工作台与交互改版验收为准 |

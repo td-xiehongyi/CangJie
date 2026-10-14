@@ -109,7 +109,9 @@ class RunState {
         for (s in items(get(spec,"steps"))) { if (textField(s.asObject(),"checkId")==checkId()) { steps.add(s.asObject()) } }
         let step=steps[stepIndex]
         let expected=if (step.containsKey("expectedAcceptance")) { textField(step,"expectedAcceptance") } else { "accepted" }
-        if (reason.isEmpty() && acceptance!=expected) { reason="UNEXPECTED_ACCEPTANCE" }
+        if (reason.isEmpty() && acceptance!=expected) {
+            reason=if (expected=="rejected" && acceptance=="accepted") { "EXPECTED_REJECTION_VIOLATED" } else { "UNEXPECTED_ACCEPTANCE" }
+        }
         // Validate first; malformed frames never consume an outstanding action.
         consumed.add(actionId);pending=None
         for (ref in refs) { evidence.add(ref) }

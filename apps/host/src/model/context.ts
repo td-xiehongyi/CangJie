@@ -25,7 +25,7 @@ export async function filterDiscoveryContext(context:DiscoveryContext,endpoint:s
 }
 const denied=/(^|\/)(?:\.env(?:\.|$)|\.git|\.aws|\.codex|node_modules|tests|templates|\.local-data|\.local-tools)(\/|$)|password|credential|secret|(?:api[-_]?key)|\.(?:sqlite|sqlite3|db|db3|pem|key|pfx|p12|bak|backup|zip)$/i;
 const toolRoot=fileURLToPath(new URL('../../../../',import.meta.url));
-const protectedTrees=['tests','templates',...['validation','reference-sources','candidates','model','workbench','runs','templates','projects'].map(p=>'.local-data/'+p)].map(p=>resolve(toolRoot,p).toLowerCase());
+const protectedTrees=['tests','templates',...['rule-compilations','validation','reference-sources','candidates','model','workbench','runs','templates','projects'].map(p=>'.local-data/'+p)].map(p=>resolve(toolRoot,p).toLowerCase());
 function protectedPath(path:string):boolean{return protectedTrees.some(tree=>{const rel=relative(tree,path.toLowerCase());return !rel||(!rel.startsWith('..')&&!isAbsolute(rel));});}
 async function normalize(request:ContextRequest):Promise<Disclosure>{
   if(!request.projectId||!request.entries.length||request.entries.length>16)throw new Error('INVALID_SCOPE');

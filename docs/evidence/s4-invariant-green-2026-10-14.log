@@ -1,0 +1,33 @@
+✔ status ticket initialization, identity, correlation and irreversible transition are real HTTP behavior (643.166392ms)
+✔ independent development normal control preserves observed facts (559.940065ms)
+✔ independent development reopen-defect control preserves observed facts (562.922677ms)
+✔ independent development owner-defect control preserves observed facts (580.272491ms)
+✔ independent development incomplete-query control preserves observed facts (510.304401ms)
+✔ independent held-out normal control preserves observed facts (541.295053ms)
+✔ independent held-out reopen-defect control preserves observed facts (533.029808ms)
+✔ independent held-out owner-defect control preserves observed facts (489.893306ms)
+✔ independent held-out incomplete-query control preserves observed facts (443.794486ms)
+✔ independent development temporary-mutation control preserves observed facts (504.141261ms)
+✔ independent held-out temporary-mutation control preserves observed facts (498.063131ms)
+✔ frozen private suite has ten independent controls and exact template trace semantics (4.825675ms)
+✔ status-transition resources match frozen sha256 bytes (29.112743ms)
+✔ historical v1.0.0 resources preserve original bytes, lock and readable manifest (7.861828ms)
+(node:16) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ host-private status transition controls load independently with exact version (17.098319ms)
+✔ legacy validation suites retain their frozen hash and shape (14.674343ms)
+✔ caller-controlled observation paths and expected labels cannot replace private controls (20.794851ms)
+✔ test-only core model drives real HTTP plus ten independent observation controls (8560.511276ms)
+✔ test-only model cannot admit an HTTP-200 assertion or a hardcoded owner (14520.67786ms)
+✔ test-only model preserves insufficient evidence before expected-rejection failure (1.852132ms)
+✔ temporary close mutation exposes the historical false pass and is rejected by the repaired obligations (2.666548ms)
+✔ historical four-obligation template cannot be admitted by the expanded private suite (7934.178284ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 31483.95877

@@ -29,6 +29,7 @@ export const projectRulesApi={
   confirm:(projectId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/confirm`,body),
   revise:(projectId:string,ruleId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/${encodeURIComponent(ruleId)}/revise`,body),
   confirmVersion:(projectId:string,ruleId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/${encodeURIComponent(ruleId)}/confirm-version`,body),
+  compile:(projectId:string,ruleId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/${encodeURIComponent(ruleId)}/compile`,body),
   select:(projectId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/selection`,body),
   version:(projectId:string,ruleId:string,version:number)=>api(`/projects/${encodeURIComponent(projectId)}/rules/${encodeURIComponent(ruleId)}/versions/${version}`)
 };

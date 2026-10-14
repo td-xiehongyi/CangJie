@@ -1,0 +1,34 @@
+✔ source-only TS/TSX/JSX snapshot has stable fingerprints, symbols, imports and honest routes (333.934914ms)
+✔ excluded and sensitive trees never appear in an index or search, project tests require opt-in (56.617602ms)
+✔ Windows case and separators normalize; traversal, ADS, absolute and unauthorized paths fail (21.916031ms)
+✔ junctions and linked roots cannot escape the source boundary, including replacement after indexing (17.847724ms)
+✔ only actually read, exact version and line ranges validate as source references (39.225797ms)
+✔ UTF-8 excerpt bytes, line ranges, search result caps and large-file partial reading are enforced (62.46633ms)
+✔ binary, oversized and recognizable secret content is withheld with explicit index issues (27.351271ms)
+✔ runtime contracts reject malformed hashes, paths and references (1.146164ms)
+✔ selecting an excluded subtree as the root cannot bypass exclusions (6.434534ms)
+✔ quoted JSON secrets and invalid UTF-8 stay out of snapshots and search (35.430497ms)
+✔ Express settings reads never become routes (16.820808ms)
+✔ module links preserve emitted mjs and cjs suffixes (21.633981ms)
+(node:27) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:27) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a read that captured running before completion cannot report an orphaned pause (99.488064ms)
+✔ a persisted terminal state stays running until the task mutex is released (50.941482ms)
+✔ API observation of a terminal discovery allows settings and runtime import immediately (409.046093ms)
+✔ explicit resume stays running before the initial persisted running checkpoint (64.901017ms)
+✔ idempotent run of a completed discovery returns its terminal state without another request (79.371443ms)
+✔ a complete job lifecycle during an initially idle read cannot produce an ABA orphan pause (35.873613ms)
+(node:39) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:39) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a root changed between optimistic source validation and rule locking cannot be selected (259.497821ms)
+✔ source rebinding cannot mutate identity while locked rule validation is awaiting I/O (177.813941ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2854.930059

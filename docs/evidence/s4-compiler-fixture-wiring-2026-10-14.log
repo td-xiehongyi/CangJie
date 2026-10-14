@@ -1,0 +1,49 @@
+(node:55) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✖ a confirmed new project rule compiles only its frozen semantic and explicitly mapped inputs (14.721409ms)
+✖ same operation names do not qualify changed semantics, missing status mapping, unknown fields or incomplete observation declarations (3.025226ms)
+✖ an unconfirmed version never compiles and missing private resources remain a gap (1.693238ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 329.836952
+
+✖ failing tests:
+
+test at tests/integration/discovered-rule-execution.test.mjs:13:1
+✖ a confirmed new project rule compiles only its frozen semantic and explicitly mapped inputs (14.721409ms)
+  Error: INVALID_ID
+      at id (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/store.js:9:11)
+      at ProjectRuleStore.mutate (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/store.js:56:9)
+      at ProjectRuleStore.confirmProjectRule (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/store.js:96:21)
+      at setup (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:10:242)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:13:132)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/integration/discovered-rule-execution.test.mjs:14:1
+✖ same operation names do not qualify changed semantics, missing status mapping, unknown fields or incomplete observation declarations (3.025226ms)
+  Error: INVALID_ID
+      at id (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/store.js:9:11)
+      at ProjectRuleStore.mutate (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/store.js:56:9)
+      at ProjectRuleStore.confirmProjectRule (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/store.js:96:21)
+      at setup (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:10:242)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:14:173)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/integration/discovered-rule-execution.test.mjs:15:1
+✖ an unconfirmed version never compiles and missing private resources remain a gap (1.693238ms)
+  Error: INVALID_ID
+      at id (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/store.js:9:11)
+      at ProjectRuleStore.mutate (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/store.js:56:9)
+      at ProjectRuleStore.confirmProjectRule (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/store.js:96:21)
+      at setup (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:10:242)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:15:121)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

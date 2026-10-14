@@ -1,0 +1,478 @@
+✖ source-only TS/TSX/JSX snapshot has stable fingerprints, symbols, imports and honest routes (267.197238ms)
+✖ excluded and sensitive trees never appear in an index or search, project tests require opt-in (3.136489ms)
+✖ Windows case and separators normalize; traversal, ADS, absolute and unauthorized paths fail (2.731369ms)
+✖ junctions and linked roots cannot escape the source boundary, including replacement after indexing (1.862317ms)
+✖ only actually read, exact version and line ranges validate as source references (1.709512ms)
+✖ UTF-8 excerpt bytes, line ranges, search result caps and large-file partial reading are enforced (1.903172ms)
+✖ binary, oversized and recognizable secret content is withheld with explicit index issues (2.050899ms)
+✔ runtime contracts reject malformed hashes, paths and references (2.277607ms)
+✖ selecting an excluded subtree as the root cannot bypass exclusions (1.131653ms)
+✖ quoted JSON secrets and invalid UTF-8 stay out of snapshots and search (2.854795ms)
+✖ Express settings reads never become routes (1.471623ms)
+✖ module links preserve emitted mjs and cjs suffixes (1.285404ms)
+✖ source-only import needs no run configuration and analysis APIs retain session authentication (161.94037ms)
+✖ cited project-specific recommendations remain draft suggestions, never catalog rules or execution verdicts (67.31465ms)
+✖ duplicate request IDs, scope conflicts and host restart do not automatically dispatch new model calls (43.085586ms)
+✖ later runtime import keeps source project identity and unchanged analysis references (56.718213ms)
+✖ resume rejects changed model configuration visibly before accepting asynchronous work (48.49212ms)
+✖ different source fixtures generate different business and check suggestions through the same pipeline (37.772327ms)
+✖ discovery follows search, route, service/data/docs and returns cited unconfirmed project suggestions (319.329122ms)
+✖ forged/unread refs, confirmation escalation and unknown tools never become completed analysis (26.446579ms)
+✖ path escape and unauthorized read requests are refused without sending denied content (16.974124ms)
+✖ scope summary and reads respect exclusions before every request; unconfirmed scope has no network effects (22.103221ms)
+✖ budgets bound calls, encoded bytes, tokens, elapsed time and cumulative outgoing excerpts (29.037071ms)
+✖ pause aborts in-flight work, preserves uncertain usage and explicit resume does not reset budget (15.945182ms)
+✖ duplicate starts cannot dispatch twice, stale revisions cannot overwrite analysis selection (20.057876ms)
+✖ changed source invalidates pending analysis and displayed citations without mixing versions (19.109382ms)
+✖ checkpoint failure blocks network dispatch and persisted reservation cannot be silently replayed (21.997706ms)
+✖ orphaned drafts recover as paused without dispatch, including an initial save failure (20.403363ms)
+✖ insufficient information stays partial without invented flows or business expectations (18.501679ms)
+✖ at most four excerpt actions execute per response, partial suggestions survive budget exhaustion (16.48811ms)
+✖ typed token logic remains original cited source while an actual model key is withheld (35.69962ms)
+✖ explicit retry of invalid model output preserves task budget and does not replay the bad response (21.099997ms)
+✔ known model keys hidden in index metadata are refused before a session record is written (21.989975ms)
+✖ opted-in project tests are disclosed input expectations and cannot be mislabeled source facts (27.855614ms)
+✔ closing a workbench session revokes its token and permits a fresh key session (84.085749ms)
+✔ closed credential sessions report lifecycle failure instead of an invalid key (0.962454ms)
+✔ model keys accept ordinary r and n characters (0.863849ms)
+✔ model keys reject actual carriage returns and newlines (0.771824ms)
+(node:66) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:66) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ authenticated APIs preserve project-local confirmation, history and selection without executing (384.004471ms)
+✔ forged projects, stale revisions, stale source and client qualification cannot bypass rule gates (200.083089ms)
+✔ moving a source-only project ID to another directory cannot carry old rules or confirmation (163.133383ms)
+✔ runtime response mappings and completeness declarations are not verified business observations (458.226785ms)
+✔ risk-only source citations remain audited and become stale when their file changes (156.792647ms)
+✔ an update endpoint without title parameter binding remains a missing mapping condition (320.934013ms)
+(node:78) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a new project-specific rule is confirmed, selected and restored outside the public catalog (24.439623ms)
+✔ critical unanswered questions and inferred expectations cannot be auto-confirmed (2.238579ms)
+✔ project isolation, exact refs and concurrent revision conflicts fail closed (4.99526ms)
+✔ corrections append a pending immutable version, invalidate selection and preserve conflicting facts (11.213738ms)
+✔ draft input objects cannot mutate saved semantics after an await (2.308773ms)
+✔ simultaneous independent stores cannot overwrite the same project revision (2.874514ms)
+✔ exact semantic references compare fields independently of JSON property order (4.159772ms)
+(node:90) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:90) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ four preparation states distinguish expressive gaps, conditions, generation and exact qualified reuse (2.12356ms)
+✔ same-named operations and old semantic versions do not qualify a new business (0.23185ms)
+✔ HTTP 200 and incomplete observation never replace business evidence (0.226813ms)
+✔ actions, roles, parameters, assertions and independent cases must all match (0.326891ms)
+(node:98) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:98) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a read that captured running before completion cannot report an orphaned pause (97.092771ms)
+✔ a persisted terminal state stays running until the task mutex is released (47.72287ms)
+✔ API observation of a terminal discovery allows settings and runtime import immediately (346.942232ms)
+✔ explicit resume stays running before the initial persisted running checkpoint (54.991427ms)
+✔ idempotent run of a completed discovery returns its terminal state without another request (57.197173ms)
+✔ a complete job lifecycle during an initially idle read cannot produce an ABA orphan pause (29.634274ms)
+(node:110) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:110) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a root changed between optimistic source validation and rule locking cannot be selected (268.990354ms)
+✔ source rebinding cannot mutate identity while locked rule validation is awaiting I/O (188.300749ms)
+(node:122) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:122) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ full verification includes state regressions and retains its fifteen-minute timeout (4.490209ms)
+(node:130) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:130) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ S3 rule and capability suites run in both discovery and all dispatch (5.910205ms)
+ℹ tests 65
+ℹ suites 0
+ℹ pass 33
+ℹ fail 32
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7381.380053
+
+✖ failing tests:
+
+test at tests/integration/discovery-access.test.mjs:27:1
+✖ source-only TS/TSX/JSX snapshot has stable fingerprints, symbols, imports and honest routes (267.197238ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-KvpkBE'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:28:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-KvpkBE'
+  }
+
+test at tests/integration/discovery-access.test.mjs:43:1
+✖ excluded and sensitive trees never appear in an index or search, project tests require opt-in (3.136489ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-PmyGbk'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:44:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-PmyGbk'
+  }
+
+test at tests/integration/discovery-access.test.mjs:54:1
+✖ Windows case and separators normalize; traversal, ADS, absolute and unauthorized paths fail (2.731369ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-fB24ar'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:55:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-fB24ar'
+  }
+
+test at tests/integration/discovery-access.test.mjs:63:1
+✖ junctions and linked roots cannot escape the source boundary, including replacement after indexing (1.862317ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-qHZ01S'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:64:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-qHZ01S'
+  }
+
+test at tests/integration/discovery-access.test.mjs:73:1
+✖ only actually read, exact version and line ranges validate as source references (1.709512ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-X9ONAO'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:74:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-X9ONAO'
+  }
+
+test at tests/integration/discovery-access.test.mjs:86:1
+✖ UTF-8 excerpt bytes, line ranges, search result caps and large-file partial reading are enforced (1.903172ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-zRnFqA'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:87:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-zRnFqA'
+  }
+
+test at tests/integration/discovery-access.test.mjs:103:1
+✖ binary, oversized and recognizable secret content is withheld with explicit index issues (2.050899ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-bEaB2M'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:104:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-bEaB2M'
+  }
+
+test at tests/integration/discovery-access.test.mjs:120:1
+✖ selecting an excluded subtree as the root cannot bypass exclusions (1.131653ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-7DdHBg'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:121:18)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-7DdHBg'
+  }
+
+test at tests/integration/discovery-access.test.mjs:127:1
+✖ quoted JSON secrets and invalid UTF-8 stay out of snapshots and search (2.854795ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-AjrCDi'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:128:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-AjrCDi'
+  }
+
+test at tests/integration/discovery-access.test.mjs:136:1
+✖ Express settings reads never become routes (1.471623ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-MNnGVD'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:137:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-MNnGVD'
+  }
+
+test at tests/integration/discovery-access.test.mjs:142:1
+✖ module links preserve emitted mjs and cjs suffixes (1.285404ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-ZPbsvb'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-access.test.mjs:143:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/output/s1-source/fixture-ZPbsvb'
+  }
+
+test at tests/integration/discovery-api.test.mjs:17:1
+✖ source-only import needs no run configuration and analysis APIs retain session authentication (161.94037ms)
+  AssertionError [ERR_ASSERTION]: {"error":"CANDIDATE_LOCK_UNAVAILABLE"}
+  
+  400 !== 201
+  
+      at Object.request (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-api.test.mjs:10:311)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-api.test.mjs:19:11)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 400,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-api.test.mjs:26:1
+✖ cited project-specific recommendations remain draft suggestions, never catalog rules or execution verdicts (67.31465ms)
+  AssertionError [ERR_ASSERTION]: {"error":"CANDIDATE_LOCK_UNAVAILABLE"}
+  
+  400 !== 201
+  
+      at Object.request (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-api.test.mjs:10:311)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-api.test.mjs:28:11)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 400,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-api.test.mjs:36:1
+✖ duplicate request IDs, scope conflicts and host restart do not automatically dispatch new model calls (43.085586ms)
+  AssertionError [ERR_ASSERTION]: {"error":"CANDIDATE_LOCK_UNAVAILABLE"}
+  
+  400 !== 201
+  
+      at Object.request (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-api.test.mjs:10:311)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-api.test.mjs:38:11)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 400,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-api.test.mjs:43:1
+✖ later runtime import keeps source project identity and unchanged analysis references (56.718213ms)
+  AssertionError [ERR_ASSERTION]: {"error":"CANDIDATE_LOCK_UNAVAILABLE"}
+  
+  400 !== 201
+  
+      at Object.request (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-api.test.mjs:10:311)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-api.test.mjs:45:11)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 400,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-api.test.mjs:51:1
+✖ resume rejects changed model configuration visibly before accepting asynchronous work (48.49212ms)
+  AssertionError [ERR_ASSERTION]: {"error":"CANDIDATE_LOCK_UNAVAILABLE"}
+  
+  400 !== 201
+  
+      at Object.request (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-api.test.mjs:10:311)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-api.test.mjs:53:11)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 400,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-api.test.mjs:58:1
+✖ different source fixtures generate different business and check suggestions through the same pipeline (37.772327ms)
+  AssertionError [ERR_ASSERTION]: {"error":"CANDIDATE_LOCK_UNAVAILABLE"}
+  
+  400 !== 201
+  
+      at Object.request (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-api.test.mjs:10:311)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-api.test.mjs:60:11)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 400,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-session.test.mjs:7:1
+✖ discovery follows search, route, service/data/docs and returns cited unconfirmed project suggestions (319.329122ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+
+test at tests/integration/discovery-session.test.mjs:22:1
+✖ forged/unread refs, confirmation escalation and unknown tools never become completed analysis (26.446579ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+
+test at tests/integration/discovery-session.test.mjs:28:1
+✖ path escape and unauthorized read requests are refused without sending denied content (16.974124ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+
+test at tests/integration/discovery-session.test.mjs:34:1
+✖ scope summary and reads respect exclusions before every request; unconfirmed scope has no network effects (22.103221ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-session.test.mjs:39:11)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/integration/discovery-session.test.mjs:42:1
+✖ budgets bound calls, encoded bytes, tokens, elapsed time and cumulative outgoing excerpts (29.037071ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+
+test at tests/integration/discovery-session.test.mjs:51:1
+✖ pause aborts in-flight work, preserves uncertain usage and explicit resume does not reset budget (15.945182ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+
+test at tests/integration/discovery-session.test.mjs:60:1
+✖ duplicate starts cannot dispatch twice, stale revisions cannot overwrite analysis selection (20.057876ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+
+test at tests/integration/discovery-session.test.mjs:67:1
+✖ changed source invalidates pending analysis and displayed citations without mixing versions (19.109382ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+
+test at tests/integration/discovery-session.test.mjs:72:1
+✖ checkpoint failure blocks network dispatch and persisted reservation cannot be silently replayed (21.997706ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+
+test at tests/integration/discovery-session.test.mjs:77:1
+✖ orphaned drafts recover as paused without dispatch, including an initial save failure (20.403363ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+
+test at tests/integration/discovery-session.test.mjs:85:1
+✖ insufficient information stays partial without invented flows or business expectations (18.501679ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+
+test at tests/integration/discovery-session.test.mjs:90:1
+✖ at most four excerpt actions execute per response, partial suggestions survive budget exhaustion (16.48811ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+
+test at tests/integration/discovery-session.test.mjs:96:1
+✖ typed token logic remains original cited source while an actual model key is withheld (35.69962ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-session.test.mjs:100:11)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/integration/discovery-session.test.mjs:107:1
+✖ explicit retry of invalid model output preserves task budget and does not replay the bad response (21.099997ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+
+test at tests/integration/discovery-session.test.mjs:117:1
+✖ opted-in project tests are disclosed input expectations and cannot be mislabeled source facts (27.855614ms)
+  Error: CANDIDATE_LOCK_UNAVAILABLE
+      at DiscoveryStore.exclusive (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:18:15)
+      at async DiscoveryStore.create (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/store.js:34:28)
+      at async DiscoveryService.createDiscovery (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/apps/host/dist/discovery/service.js:44:9)
+      at async TestContext.<anonymous> (file:///tmp/cangjie-s4-regression-2c59363d-3c5a-4faf-9ecf-b5b534c41a5b/tests/integration/discovery-session.test.mjs:121:17)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

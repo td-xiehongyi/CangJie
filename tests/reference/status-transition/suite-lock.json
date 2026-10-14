@@ -1,0 +1,11 @@
+{
+  "tests/fixtures/status-transition-observations.json": "ea73bb5f9a7a27cc7b91cbd5a8428d43c586eb94b266d8f8287e93698e70e240",
+  "tests/fixtures/status-transition-template.json": "18037a7c9f8a58d80f56065f2f6483942491ec1c32d5768789705c336e549ad4",
+  "tests/reference/status-transition/behaviors.ts": "b7fd0f77e587b3e6e91e64c1d7c7340fb1ae7b8dae253f58f38fdb35fcfc9173",
+  "tests/reference/status-transition/db.ts": "b7cf96602a53e62d5c22bf403d07f78bea571a29451284ec14e68db79cfecc10",
+  "tests/reference/status-transition/mapping.json": "c468ae09ac8f544379b6c2b7c1c972c4322ff359c3e594110e03da44d71abf87",
+  "tests/reference/status-transition/seed.ts": "572227849f7a4726483cae84ac4e34240f6c7534330b9377ad3b18dcb2cd8ad1",
+  "tests/reference/status-transition/server.ts": "515a184ab276ddd3b50c305a0675a90f43c3289d48fd2836ca498671974f1e7c",
+  "tests/reference/status-transition/suite-manifest.json": "04f3052da1fbfb19c124e74e106f2124ccb5341ef84c4cd5fe4f8cccfbffc8f4",
+  "tests/reference/status-transition/tsconfig.json": "d694f3014f7d4068da8e5e372e05461a9ff1535d1329c94f8bd786d23147afbe"
+}

@@ -1,0 +1,29 @@
+(node:14) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a confirmed new project rule compiles only its frozen semantic and explicitly mapped inputs (23.94669ms)
+✔ same operation names do not qualify changed semantics, missing status mapping, unknown fields or incomplete observation declarations (21.546076ms)
+✔ an unconfirmed version never compiles and missing private resources remain a gap (7.48031ms)
+✖ new UUID rule traverses isolated deterministic candidate, admission, test-review, run and package replay (7439.193852ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7853.862679
+
+✖ failing tests:
+
+test at tests/integration/discovered-rule-execution.test.mjs:19:1
+✖ new UUID rule traverses isolated deterministic candidate, admission, test-review, run and package replay (7439.193852ms)
+  Error: STALE_VALIDATION_RECORD
+      at StatusTransitionAdmissionModel.send (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/support/status-transition-admission-model.mjs:10:101)
+      at command (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/validation/observations.js:6:31)
+      at CandidateTask.event (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/model/candidate.js:127:28)
+      at file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/model/candidate.js:244:40
+      at async CandidateTask.exclusive (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/model/candidate.js:63:20)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:35:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

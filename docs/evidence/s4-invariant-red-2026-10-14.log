@@ -1,0 +1,39 @@
+(node:14) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✖ temporary close mutation exposes the historical false pass and is rejected by the repaired obligations (15.111091ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 399.927649
+
+✖ failing tests:
+
+test at tests/integration/status-transition-validation.test.mjs:87:1
+✖ temporary close mutation exposes the historical false pass and is rejected by the repaired obligations (15.111091ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      'closed-status': 'pass',
+  -   'closed-unchanged-owner': 'fail',
+  -   'closed-unchanged-title': 'fail',
+      'remains-closed': 'pass',
+      'unchanged-owner': 'pass',
+      'unchanged-title': 'pass'
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/status-transition-validation.test.mjs:91:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { 'closed-status': 'pass', 'remains-closed': 'pass', 'unchanged-title': 'pass', 'unchanged-owner': 'pass' },
+    expected: { 'closed-status': 'pass', 'remains-closed': 'pass', 'unchanged-title': 'pass', 'unchanged-owner': 'pass', 'closed-unchanged-title': 'fail', 'closed-unchanged-owner': 'fail' },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,34 @@
+(node:55) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✖ compiled validation qualification refuses a changed runtime source before review (527.672876ms)
+✔ controlled normalized field meanings cannot be relabelled as stable object IDs (9.2697ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 892.898668
+
+✖ failing tests:
+
+test at tests/integration/discovered-rule-execution.test.mjs:56:1
+✖ compiled validation qualification refuses a changed runtime source before review (527.672876ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'blocked'
+  - 'compiled'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:59:215)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'blocked',
+    expected: 'compiled',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

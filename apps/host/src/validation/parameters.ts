@@ -1,6 +1,8 @@
-import type {TemplateSpec} from '@website-verification/contracts';
+import type {TemplateSpec,RuleContract} from '@website-verification/contracts';
 
-export function executableParameters(spec:TemplateSpec):boolean{
+export function executableParameters(spec:TemplateSpec,rule?:RuleContract):boolean{
+  if(spec.ruleRef.id==='status-transition-rule'||rule?.source.startsWith('project-rule:'))return [spec.parameters.title,spec.parameters.intent].every(v=>typeof v==='string'&&v.trim().length>0);
+
   if(spec.ruleRef.id!=='title-update-rule')return true;
   const {title,newTitle}=spec.parameters;
   return typeof title==='string'&&!!title.trim()&&typeof newTitle==='string'&&!!newTitle.trim()&&title!==newTitle;

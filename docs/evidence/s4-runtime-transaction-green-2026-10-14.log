@@ -1,0 +1,14 @@
+(node:55) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ compiled validation qualification refuses a changed runtime source before review (610.387933ms)
+✔ controlled normalized field meanings cannot be relabelled as stable object IDs (14.336092ms)
+✔ registration checks the current runtime snapshot inside the project transaction (140.318057ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1081.884809

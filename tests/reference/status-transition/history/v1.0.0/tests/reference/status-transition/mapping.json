@@ -1,0 +1,123 @@
+{
+  "id": "reviewed-status-transition-http",
+  "version": 1,
+  "authMode": "token",
+  "targetRef": "unbound",
+  "actorRefs": [
+    "owner",
+    "other"
+  ],
+  "auth": {
+    "loginPath": "/login",
+    "usernameField": "username",
+    "passwordField": "password",
+    "tokenPath": [
+      "token"
+    ],
+    "identityPath": "/me",
+    "idPath": [
+      "id"
+    ]
+  },
+  "operations": [
+    {
+      "operationId": "create",
+      "method": "POST",
+      "path": "/tickets",
+      "bodyBindings": {
+        "title": "title",
+        "status": "status",
+        "intentId": "intent"
+      }
+    },
+    {
+      "operationId": "update",
+      "method": "PATCH",
+      "path": "/tickets/:id",
+      "bodyBindings": {
+        "status": "status"
+      }
+    },
+    {
+      "operationId": "query",
+      "method": "GET",
+      "path": "/tickets",
+      "queryBindings": {
+        "id": "id",
+        "intentId": "intent",
+        "limit": "limit"
+      }
+    }
+  ],
+  "resultBindings": {
+    "create": {
+      "id": [
+        "id"
+      ],
+      "title": [
+        "title"
+      ],
+      "status": [
+        "status"
+      ],
+      "ownerId": [
+        "ownerId"
+      ]
+    },
+    "update": {
+      "id": [
+        "id"
+      ],
+      "title": [
+        "title"
+      ],
+      "status": [
+        "status"
+      ],
+      "ownerId": [
+        "ownerId"
+      ]
+    },
+    "query": {
+      "id": [
+        "items",
+        "0",
+        "id"
+      ],
+      "title": [
+        "items",
+        "0",
+        "title"
+      ],
+      "status": [
+        "items",
+        "0",
+        "status"
+      ],
+      "ownerId": [
+        "items",
+        "0",
+        "ownerId"
+      ],
+      "items": [
+        "items"
+      ]
+    }
+  },
+  "queryCompleteness": {
+    "query": {
+      "itemsPath": [
+        "items"
+      ],
+      "totalPath": [
+        "total"
+      ],
+      "hasMorePath": [
+        "hasMore"
+      ],
+      "completePath": [
+        "complete"
+      ]
+    }
+  }
+}

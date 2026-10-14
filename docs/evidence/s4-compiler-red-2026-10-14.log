@@ -1,0 +1,61 @@
+(node:56) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✖ a confirmed new project rule compiles only its frozen semantic and explicitly mapped inputs (3.911117ms)
+✖ same operation names do not qualify changed semantics, missing status mapping, unknown fields or incomplete observation declarations (1.567473ms)
+✖ an unconfirmed version never compiles and missing private resources remain a gap (1.284999ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 320.764899
+
+✖ failing tests:
+
+test at tests/integration/discovered-rule-execution.test.mjs:13:1
+✖ a confirmed new project rule compiles only its frozen semantic and explicitly mapped inputs (3.911117ms)
+  AssertionError [ERR_ASSERTION]: S4 project rule compiler is not implemented
+      at api (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:9:162)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:13:118)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovered-rule-execution.test.mjs:14:1
+✖ same operation names do not qualify changed semantics, missing status mapping, unknown fields or incomplete observation declarations (1.567473ms)
+  AssertionError [ERR_ASSERTION]: S4 project rule compiler is not implemented
+      at api (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:9:162)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:14:159)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovered-rule-execution.test.mjs:15:1
+✖ an unconfirmed version never compiles and missing private resources remain a gap (1.284999ms)
+  AssertionError [ERR_ASSERTION]: S4 project rule compiler is not implemented
+      at api (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:9:162)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:15:107)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

@@ -18,14 +18,15 @@
     "build:ui": "npm run build --workspace apps/ui",
     "start": "node scripts/workbench.mjs",
     "build:contracts": "tsc -p packages/contracts/tsconfig.json",
-    "build:sample": "tsc -p samples/ticket/tsconfig.json && tsc -p samples/registration/tsconfig.json",
-    "check:reference": "tsc -p tests/reference/tsconfig.json",
+    "build:sample": "tsc -p samples/ticket/tsconfig.json && tsc -p samples/registration/tsconfig.json && tsc -p samples/status-ticket/tsconfig.json",
+    "check:reference": "tsc -p tests/reference/tsconfig.json && tsc -p tests/reference/status-transition/tsconfig.json",
     "check": "npm run build:contracts && npm run build:host && npm run build:sample && npm run check:reference && npm run build:core && npm run build:ui",
     "verify": "node scripts/verify.mjs",
     "test": "node scripts/verify.mjs all",
     "test:discovery-state": "npm run build:contracts && npm run build:host && node --experimental-test-module-mocks --test tests/unit/*.test.mjs",
     "package": "node scripts/package.mjs",
-    "test:project-rules": "npm run build:contracts && npm run build:host && node --experimental-test-module-mocks --test tests/integration/project-rules.test.mjs tests/integration/project-rules-api.test.mjs tests/integration/rule-readiness.test.mjs tests/unit/project-rules-source-race.test.mjs tests/unit/verify-project-rules-runner.test.mjs"
+    "test:project-rules": "npm run build:contracts && npm run build:host && node --experimental-test-module-mocks --test tests/integration/project-rules.test.mjs tests/integration/project-rules-api.test.mjs tests/integration/rule-readiness.test.mjs tests/unit/project-rules-source-race.test.mjs tests/unit/verify-project-rules-runner.test.mjs",
+    "test:discovered-rule": "npm run build:contracts && npm run build:host && npm run build:sample && npm run check:reference && node --experimental-test-module-mocks --test tests/integration/discovered-rule-execution.test.mjs tests/integration/status-ticket-fixture.test.mjs tests/integration/status-transition-validation.test.mjs tests/integration/discovered-rule-api.test.mjs tests/unit/discovered-rule-ui.test.mjs tests/unit/verify-status-rule-runner.test.mjs"
   },
   "devDependencies": {
     "@types/express": "5.0.5",

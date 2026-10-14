@@ -1,0 +1,31 @@
+(node:13) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a confirmed new project rule compiles only its frozen semantic and explicitly mapped inputs (16.718161ms)
+✔ same operation names do not qualify changed semantics, missing status mapping, unknown fields or incomplete observation declarations (13.602973ms)
+✔ an unconfirmed version never compiles and missing private resources remain a gap (8.954174ms)
+✖ new UUID rule traverses isolated deterministic candidate, admission, test-review, run and package replay (481.368547ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 857.531613
+
+✖ failing tests:
+
+test at tests/integration/discovered-rule-execution.test.mjs:19:1
+✖ new UUID rule traverses isolated deterministic candidate, admission, test-review, run and package replay (481.368547ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovered-rule-execution.test.mjs:34:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /RULE_PROJECT_MISMATCH/,
+    operator: 'rejects',
+    diff: 'simple'
+  }

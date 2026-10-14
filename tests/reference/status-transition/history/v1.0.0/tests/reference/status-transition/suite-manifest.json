@@ -1,0 +1,256 @@
+{
+  "version": "status-transition-reference-v1",
+  "review": {
+    "reviewer": "developer-reviewed controlled resource; formal independent reviewer pending",
+    "date": "2026-10-14",
+    "basis": "Literal expected labels frozen independently of candidate verdicts; in-memory transition implementation independent from target sample; baseline/authentication setup only reused; native Cangjie verification not yet run"
+  },
+  "suites": [
+    {
+      "rule": {
+        "id": "status-transition-rule",
+        "version": 1,
+        "confirmation": "confirmed",
+        "source": "docs/superpowers/plans/2026-10-14-code-grounded-business-discovery.md#D6; frozen controlled synthetic status-ticket contract",
+        "preconditions": [
+          "owner creates an open ticket and reads the complete open baseline",
+          "two verified synthetic accounts",
+          "isolated synthetic baseline and attempt/intent object correlation"
+        ],
+        "expectedChanges": [
+          "open→closed update is accepted and complete query returns closed",
+          "closed→open update is rejected and subsequent complete query still returns closed"
+        ],
+        "invariants": [
+          "title unchanged from open baseline after closure and rejected reopen",
+          "ownerId unchanged from open baseline after closure and rejected reopen"
+        ],
+        "completionDeadline": 10000
+      },
+      "semanticContract": {
+        "expectedBehavior": [
+          "工单允许 open→closed。",
+          "closed 后请求 open 必须被拒绝，状态仍为 closed。",
+          "标题和归属保持不变。"
+        ],
+        "requirements": {
+          "operations": [
+            {
+              "operationId": "create",
+              "actorRef": "owner",
+              "parameters": [
+                "title",
+                "status"
+              ]
+            },
+            {
+              "operationId": "query",
+              "actorRef": "owner",
+              "parameters": [
+                "id"
+              ]
+            },
+            {
+              "operationId": "update",
+              "actorRef": "owner",
+              "parameters": [
+                "id",
+                "status"
+              ]
+            }
+          ],
+          "observations": [
+            {
+              "operationId": "query",
+              "field": "id",
+              "requiresComplete": true
+            },
+            {
+              "operationId": "query",
+              "field": "title",
+              "requiresComplete": true
+            },
+            {
+              "operationId": "query",
+              "field": "status",
+              "requiresComplete": true
+            },
+            {
+              "operationId": "query",
+              "field": "ownerId",
+              "requiresComplete": true
+            }
+          ],
+          "assertions": [
+            "eq"
+          ],
+          "dataConditions": [
+            "synthetic-status-ticket"
+          ]
+        }
+      },
+      "cases": [
+        {
+          "id": "st-dev-1",
+          "kind": "normal",
+          "heldOut": false,
+          "parameters": {
+            "title": "开发 合成编号13 1",
+            "intent": "dev-status-intent-1"
+          },
+          "behavior": "normal",
+          "expected": {
+            "closed-status": "pass",
+            "remains-closed": "pass",
+            "unchanged-title": "pass",
+            "unchanged-owner": "pass"
+          },
+          "context": {
+            "ownerId": "dev-owner-938",
+            "otherId": "dev-other-939"
+          }
+        },
+        {
+          "id": "st-dev-2",
+          "kind": "defect",
+          "heldOut": false,
+          "parameters": {
+            "title": "开发 合成编号13 2",
+            "intent": "dev-status-intent-2"
+          },
+          "behavior": "reopen-defect",
+          "expected": {
+            "closed-status": "fail",
+            "remains-closed": "fail",
+            "unchanged-title": "fail",
+            "unchanged-owner": "fail"
+          },
+          "context": {
+            "ownerId": "dev-owner-939",
+            "otherId": "dev-other-940"
+          }
+        },
+        {
+          "id": "st-dev-3",
+          "kind": "defect",
+          "heldOut": false,
+          "parameters": {
+            "title": "开发 合成编号13 3",
+            "intent": "dev-status-intent-3"
+          },
+          "behavior": "owner-defect",
+          "expected": {
+            "closed-status": "pass",
+            "remains-closed": "pass",
+            "unchanged-title": "pass",
+            "unchanged-owner": "fail"
+          },
+          "context": {
+            "ownerId": "dev-owner-940",
+            "otherId": "dev-other-941"
+          }
+        },
+        {
+          "id": "st-dev-4",
+          "kind": "unknown",
+          "heldOut": false,
+          "parameters": {
+            "title": "开发 合成编号13 4",
+            "intent": "dev-status-intent-4"
+          },
+          "behavior": "incomplete-query",
+          "expected": {
+            "closed-status": "inconclusive",
+            "remains-closed": "inconclusive",
+            "unchanged-title": "inconclusive",
+            "unchanged-owner": "inconclusive"
+          },
+          "context": {
+            "ownerId": "dev-owner-941",
+            "otherId": "dev-other-942"
+          }
+        },
+        {
+          "id": "st-held-1",
+          "kind": "normal",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出 合成编号97 1",
+            "intent": "held-status-intent-1"
+          },
+          "behavior": "normal",
+          "expected": {
+            "closed-status": "pass",
+            "remains-closed": "pass",
+            "unchanged-title": "pass",
+            "unchanged-owner": "pass"
+          },
+          "context": {
+            "ownerId": "held-owner-938",
+            "otherId": "held-other-939"
+          }
+        },
+        {
+          "id": "st-held-2",
+          "kind": "defect",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出 合成编号97 2",
+            "intent": "held-status-intent-2"
+          },
+          "behavior": "reopen-defect",
+          "expected": {
+            "closed-status": "fail",
+            "remains-closed": "fail",
+            "unchanged-title": "fail",
+            "unchanged-owner": "fail"
+          },
+          "context": {
+            "ownerId": "held-owner-939",
+            "otherId": "held-other-940"
+          }
+        },
+        {
+          "id": "st-held-3",
+          "kind": "defect",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出 合成编号97 3",
+            "intent": "held-status-intent-3"
+          },
+          "behavior": "owner-defect",
+          "expected": {
+            "closed-status": "pass",
+            "remains-closed": "pass",
+            "unchanged-title": "pass",
+            "unchanged-owner": "fail"
+          },
+          "context": {
+            "ownerId": "held-owner-940",
+            "otherId": "held-other-941"
+          }
+        },
+        {
+          "id": "st-held-4",
+          "kind": "unknown",
+          "heldOut": true,
+          "parameters": {
+            "title": "留出 合成编号97 4",
+            "intent": "held-status-intent-4"
+          },
+          "behavior": "incomplete-query",
+          "expected": {
+            "closed-status": "inconclusive",
+            "remains-closed": "inconclusive",
+            "unchanged-title": "inconclusive",
+            "unchanged-owner": "inconclusive"
+          },
+          "context": {
+            "ownerId": "held-owner-941",
+            "otherId": "held-other-942"
+          }
+        }
+      ]
+    }
+  ]
+}

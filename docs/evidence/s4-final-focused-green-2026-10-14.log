@@ -1,0 +1,111 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> website-verification@0.0.0 test:discovered-rule
+> npm run build:contracts && npm run build:host && npm run build:sample && npm run check:reference && node --experimental-test-module-mocks --test tests/integration/discovered-rule-execution.test.mjs tests/integration/status-ticket-fixture.test.mjs tests/integration/status-transition-validation.test.mjs tests/integration/discovered-rule-api.test.mjs tests/unit/discovered-rule-ui.test.mjs tests/unit/verify-status-rule-runner.test.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> website-verification@0.0.0 build:contracts
+> tsc -p packages/contracts/tsconfig.json
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> website-verification@0.0.0 build:host
+> tsc -p apps/host/tsconfig.json
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> website-verification@0.0.0 build:sample
+> tsc -p samples/ticket/tsconfig.json && tsc -p samples/registration/tsconfig.json && tsc -p samples/status-ticket/tsconfig.json
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> website-verification@0.0.0 check:reference
+> tsc -p tests/reference/tsconfig.json && tsc -p tests/reference/status-transition/tsconfig.json
+
+(node:139) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:139) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ explicit authenticated compilation exposes only current project-local public inputs and never qualifies a template (1308.353381ms)
+✔ compile rejects mismatched refs, stale versions and stale source without accepting browser contracts (532.77228ms)
+✔ unknown semantics return explicit gaps and do not appear among compiled executable rules (400.087153ms)
+✔ dynamic candidate and run reject external contracts, uncompiled versions and cross-project refs before executing (176.755781ms)
+✔ dynamic candidates use exact immutable version keys and host-owned compiler contracts (test-only execution seam) (3757.559996ms)
+✔ dynamic run resolves exact ref or selected stored compiled ref and preserves observe mode (test-only executor seam) (1867.188026ms)
+✔ source and mapping changes withdraw the executable list and block stale compiled requests (1755.137319ms)
+✔ dynamic review and publication recheck runtime mapping before using stored candidate evidence (test-only registry seam) (2053.6478ms)
+✔ actual discovery confirmation API accepts only explicitly supplied public controlled semantics before compilation (861.66474ms)
+✔ free-form discovery confirmation remains a capability gap without controlled requirements (401.31252ms)
+✔ publication rechecks the current runtime object after waiting for the project rule transaction (test-only await barrier) (1756.626379ms)
+✔ several distinct dynamic checks resolve sequentially without competing for the same project mutex (test-only executor seam) (2333.348366ms)
+(node:140) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:140) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a confirmed new project rule compiles only its frozen semantic and explicitly mapped inputs (25.043523ms)
+✔ same operation names do not qualify changed semantics, missing status mapping, unknown fields or incomplete observation declarations (20.383971ms)
+✔ an unconfirmed version never compiles and missing private resources remain a gap (19.972201ms)
+✔ new UUID rule traverses isolated deterministic candidate, admission, test-review, run and package replay (16031.42306ms)
+✔ compiled validation qualification refuses a changed runtime source before review (354.539027ms)
+✔ controlled normalized field meanings cannot be relabelled as stable object IDs (11.59209ms)
+✔ private status resources and bound rule journals never become model discovery inputs (0.656625ms)
+✔ status candidates reject schema-like parameters before any target action (5.104539ms)
+✔ registration checks the current runtime snapshot inside the project transaction (95.387734ms)
+✔ public model guidance sends only the current status obligations and executable parameters (6.48707ms)
+✔ status ticket initialization, identity, correlation and irreversible transition are real HTTP behavior (679.222077ms)
+✔ independent development normal control preserves observed facts (514.443563ms)
+✔ independent development reopen-defect control preserves observed facts (496.671349ms)
+✔ independent development owner-defect control preserves observed facts (529.969295ms)
+✔ independent development incomplete-query control preserves observed facts (467.963524ms)
+✔ independent held-out normal control preserves observed facts (512.573215ms)
+✔ independent held-out reopen-defect control preserves observed facts (561.333489ms)
+✔ independent held-out owner-defect control preserves observed facts (496.472754ms)
+✔ independent held-out incomplete-query control preserves observed facts (504.515205ms)
+✔ independent development temporary-mutation control preserves observed facts (518.667249ms)
+✔ independent held-out temporary-mutation control preserves observed facts (503.97371ms)
+✔ frozen private suite has ten independent controls and exact template trace semantics (23.811978ms)
+✔ status-transition resources match frozen sha256 bytes (8.39814ms)
+✔ historical v1.0.0 resources preserve original bytes, lock and readable manifest (11.393902ms)
+(node:142) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:142) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ host-private status transition controls load independently with exact version (14.263529ms)
+✔ legacy validation suites retain their frozen hash and shape (41.810785ms)
+✔ caller-controlled observation paths and expected labels cannot replace private controls (23.696158ms)
+✔ test-only core model drives real HTTP plus ten independent observation controls (8429.5968ms)
+✔ test-only model cannot admit an HTTP-200 assertion or a hardcoded owner (14302.091444ms)
+✔ test-only model preserves insufficient evidence before expected-rejection failure (1.454136ms)
+✔ temporary close mutation exposes the historical false pass and is rejected by the repaired obligations (1.528396ms)
+✔ historical four-obligation template cannot be admitted by the expanded private suite (6594.74799ms)
+✔ compile API sends the exact reference to the project-specific endpoint (10.293835ms)
+✔ verification only exposes legacy plus compiled exact current confirmed local versions (0.429141ms)
+✔ catalog selection uses current project matches and never globally exposes dynamic matches (0.216238ms)
+✔ candidate and run request builders preserve exact dynamic refs without legacy title defaults (0.240593ms)
+✔ confirmed project versions require explicit compilation and cannot prepare a run from resources alone (21.286748ms)
+✔ compilation gaps show semantic details without presenting the rule as executable (4.376841ms)
+✔ compiled rules remain behind candidate generation and dual-review template admission (7.530625ms)
+✔ a dynamic candidate continues in the existing automatic validation and review chain (13.402413ms)
+✔ an old dynamic candidate cannot appear as the current exact version review or resume (14.314983ms)
+✔ controlled contract is visible and unchecked by default without inferring arbitrary suggestion semantics (2.409921ms)
+✔ actual confirm handler sends controlled exact behavior and requirements only after explicit opt-in (8.825358ms)
+✔ unchecked actual confirm stays free-text without requirements and changing opt-in clears confirmation (3.51858ms)
+✔ actual free revision preserves existing controlled bindings without implicitly adopting contract semantics (4.415148ms)
+✔ revision opt-in is unsaved semantic state and converts a free version through actual revision API before confirmation (3.36184ms)
+✔ discarding unsaved contract selection restores free current-version confirmation without issuing an API request (3.886611ms)
+✔ an unchecked free revision does not add controlled requirements to an unbound version (2.770205ms)
+(node:159) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:159) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ S4 developer checks are explicit in discovery and all while native core remains prerequisite (10.299222ms)
+ℹ tests 61
+ℹ suites 0
+ℹ pass 61
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 29792.389271
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
