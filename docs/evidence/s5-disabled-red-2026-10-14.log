@@ -1,0 +1,39 @@
+(node:13) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ uncited selected-business source changes conservatively invalidate a view without rewriting historical analysis (181.020629ms)
+✔ unchanged analysis is readable and new business files invalidate while excluded files do not (137.031816ms)
+✔ project-local correction appends a pending version and does not alter selected historical semantics (8.469388ms)
+✔ API refuses uncited changes for rule selection but permits append-only correction and history (270.026647ms)
+✔ source and data/identity changes cannot reuse a prior business pass as load qualification (0.877099ms)
+✖ a disabled exact publication remains readable but is rejected before any core or adapter call (12.485431ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1071.774648
+
+✖ failing tests:
+
+test at tests/integration/discovery-reuse.test.mjs:17:1
+✖ a disabled exact publication remains readable but is rejected before any core or adapter call (12.485431ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /VERSION_DISABLED/. Input:
+  
+  'Error: spawn /workspace/scratch/7074c4c0dda2/CangJie/apps/core/target/verification-core.exe ENOENT'
+  
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-reuse.test.mjs:17:675)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: spawn /workspace/scratch/7074c4c0dda2/CangJie/apps/core/target/verification-core.exe ENOENT
+        at ChildProcess._handle.onexit (node:internal/child_process:287:19)
+        at onErrorNT (node:internal/child_process:525:16)
+        at process.processTicksAndRejections (node:internal/process/task_queues:90:21),
+    expected: /VERSION_DISABLED/,
+    operator: 'rejects',
+    diff: 'simple'
+  }

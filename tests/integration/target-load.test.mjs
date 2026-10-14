@@ -42,7 +42,7 @@ test('actual k6 fixed target, accumulation, stopping and evidence',{timeout:1800
     try{
       const p=await request('/projects',{directory:base.environment.source,accounts:base.environment.accounts.map(a=>({...a,password:credentials.get(projectId,a.actorRef)}))});const pid=p.data.projectId;
       const current=(await request('/state')).data.projects[0];await request(`/projects/${pid}/confirm`,{environment:true,environmentHash:current.environmentHash});
-      const source=structuredClone(base.sourceRun);source.projectId=pid;source.plan.projectId=pid;await host.store.finish(source);
+      const source=structuredClone(base.sourceRun);source.projectId=pid;source.plan.projectId=pid;for(const check of source.checks)check.preparation.projectId=pid;await host.store.finish(source);
       const results=await Promise.all([request(`/projects/${pid}/load`,{sourceRunId:source.id,target:defaults}),request(`/projects/${pid}/load`,{sourceRunId:source.id,target:defaults})]);
       await Promise.all(results.filter(r=>r.status===202).map(r=>request(`/loads/${r.data.loadId}/stop`,{})));
       assert.deepEqual(results.map(r=>r.status).sort(),[202,400]);

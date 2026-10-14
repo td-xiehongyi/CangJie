@@ -1,0 +1,114 @@
+(node:55) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✖ uncited selected-business source changes conservatively invalidate a view without rewriting historical analysis (126.453597ms)
+✖ unchanged analysis is readable and new business files invalidate while excluded files do not (80.677161ms)
+✖ project-local correction appends a pending version and does not alter selected historical semantics (7.490879ms)
+✖ API refuses uncited changes for rule selection but permits append-only correction and history (192.481978ms)
+✖ source and data/identity changes cannot reuse a prior business pass as load qualification (0.719758ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 771.093813
+
+✖ failing tests:
+
+test at tests/integration/discovery-reuse.test.mjs:11:1
+✖ uncited selected-business source changes conservatively invalidate a view without rewriting historical analysis (126.453597ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'completed'
+  - 'stale'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-reuse.test.mjs:11:346)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'completed',
+    expected: 'stale',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-reuse.test.mjs:12:1
+✖ unchanged analysis is readable and new business files invalidate while excluded files do not (80.677161ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'completed'
+  - 'stale'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-reuse.test.mjs:12:476)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'completed',
+    expected: 'stale',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-reuse.test.mjs:13:1
+✖ project-local correction appends a pending version and does not alter selected historical semantics (7.490879ms)
+  AssertionError [ERR_ASSERTION]: D7 correction API missing
+  + actual - expected
+  
+  + 'undefined'
+  - 'function'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-reuse.test.mjs:13:394)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'function',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-reuse.test.mjs:14:1
+✖ API refuses uncited changes for rule selection but permits append-only correction and history (192.481978ms)
+  AssertionError [ERR_ASSERTION]: {"projectId":"e07d2bf6-e4ef-43eb-bb79-968424dcb0b5","revision":2,"versions":[{"projectId":"e07d2bf6-e4ef-43eb-bb79-968424dcb0b5","id":"d2df0f3c-533d-478d-a692-d19be76e0ad3","version":1,"contentHash":"43e9ec21a0e13b825cf093e6bbe4015cacd97c3e3b7d4148b75aeb24900f4e79","suggestionRef":{"discoveryId":"86405b9f-c447-4818-b1ee-22d1326a5d15","suggestionId":"cancel-order-once"},"sourceRefs":[{"snapshotId":"28747d26-0db4-4ae8-804a-5570c0a39655","path":"src/orders.ts","fileHash":"b51424e1a76feae3342f6b750aa6a9272ad8db5c8aa9710b2ce4f1d633d16400","startLine":1,"endLine":9,"excerptHash":"ea62da3e0a1e41c529425c26ea5286cc478fc05a6f362c99467b4cf60139047c"}],"flow":"取消订单","facts":[{"text":"当前实现按unpaid状态取消，没有在此函数核对所有者。","sourceRefs":[{"snapshotId":"28747d26-0db4-4ae8-804a-5570c0a39655","path":"src/orders.ts","fileHash":"b51424e1a76feae3342f6b750aa6a9272ad8db5c8aa9710b2ce4f1d633d16400","startLine":1,"endLine":9,"excerptHash":"ea62da3e0a1e41c529425c26ea5286cc478fc05a6f362c99467b4cf60139047c"}]}],"expectations":[{"text":"仅订单所有者可以取消，库存至多释放一次。","source":"ai_hypothesis","confirmation":"pending","sourceRefs":[{"snapshotId":"28747d26-0db4-4ae8-804a-5570c0a39655","path":"src/orders.ts","fileHash":"b51424e1a76feae3342f6b750aa6a9272ad8db5c8aa9710b2ce4f1d633d16400","startLine":1,"endLine":9,"excerptHash":"ea62da3e0a1e41c529425c26ea5286cc478fc05a6f362c99467b4cf60139047c"}]}],"openQuestions":["请确认未付款订单可取消及库存恢复规则。"],"answers":{"请确认未付款订单可取消及库存恢复规则。":"仅所有者可取消"},"expectedBehavior":["仅所有者可取消"],"operationNeeds":["取消订单入口"],"observationNeeds":["可核对库存及订单归属"],"confirmation":{"status":"confirmed","time":"2026-10-14T18:32:11.520Z","actor":"local_user"},"corrections":[]}],"selectedRule":{"projectId":"e07d2bf6-e4ef-43eb-bb79-968424dcb0b5","id":"d2df0f3c-533d-478d-a692-d19be76e0ad3","version":1,"contentHash":"43e9ec21a0e13b825cf093e6bbe4015cacd97c3e3b7d4148b75aeb24900f4e79"},"readiness":[{"ruleRef":{"projectId":"e07d2bf6-e4ef-43eb-bb79-968424dcb0b5","id":"d2df0f3c-533d-478d-a692-d19be76e0ad3","version":1,"contentHash":"43e9ec21a0e13b825cf093e6bbe4015cacd97c3e3b7d4148b75aeb24900f4e79"},"status":"needs_capability","missing":[{"code":"RULE_CAPABILITY_GAP","detail":"业务语义尚未映射为明确动作、角色、参数、观察字段与断言。"},{"code":"VALIDATION_RESOURCE_GAP","detail":"缺此精确规则版本的独立正常、缺陷和证据不足验证资源；旧规则资源不得借用。"}]}]}
+  
+  200 !== 400
+  
+      at request (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-reuse.test.mjs:14:656)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-reuse.test.mjs:15:857)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 400,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-reuse.test.mjs:16:1
+✖ source and data/identity changes cannot reuse a prior business pass as load qualification (0.719758ms)
+  AssertionError [ERR_ASSERTION]: D7 load environment gate missing
+  + actual - expected
+  
+  + 'undefined'
+  - 'function'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-reuse.test.mjs:16:197)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'function',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

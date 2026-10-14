@@ -33,6 +33,14 @@ export function validateTarget(p:TargetSettings,ruleIds:string[]){
 export function assertLoadSource(run:RunRecord,mapping:MappingSpec){
   if(run.status!=='completed'||run.kind!=='verification'||!run.checks.length||run.checks.length!==run.plan.checks.length||digest(run.flow)!==digest(run.plan.flow)||digest(mapping)!==digest(run.plan.mapping)||run.checks.some((c,i)=>c.mode!=='verify'||c.rule.confirmation!=='confirmed'||c.status!=='completed'||!c.verdicts.length||c.verdicts.some(v=>v.status!=='pass')||digest(c.rule)!==digest(run.plan.checks[i]!.rule)||digest(c.templateRef)!==digest(run.plan.checks[i]!.templateRef)))throw new Error('LOAD_BUSINESS_GATE_BLOCKED');
 }
+/** A prior pass is scoped to the exact source, mapping, identities and data.
+ * Old reports remain readable; absent historical environment evidence is a gap. */
+export function assertLoadEnvironment(run:RunRecord,environment:RunEnvironment,profile:{sourceHash:string},mapping:MappingSpec){
+  if(!environment.confirmed||environment.projectId!==run.projectId||profile.sourceHash!==run.plan.sourceHash||digest(mapping)!==digest(run.plan.mapping))throw new Error('LOAD_ENVIRONMENT_CHANGED');
+  for(const check of run.checks){const preparation=check.preparation as {projectId?:string;data?:unknown;accounts?:unknown}|undefined;
+    if(!preparation||preparation.projectId!==run.projectId||digest(preparation.data??null)!==digest(environment.data)||digest(preparation.accounts??null)!==digest(environment.accounts))throw new Error('LOAD_ENVIRONMENT_CHANGED');
+  }
+}
 export class LoadStore extends ArtifactStore {
   async getLoad(id:string):Promise<LoadRecord>{validId(id);try{return await this.read(id+'.json');}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;const r=await this.read<LoadRecord>(id+'.pending.json');return {...r,status:'interrupted',verdict:'unknown',reason:'HOST_EXITED_BEFORE_SETTLEMENT'};}}
 }
@@ -55,7 +63,7 @@ class LoadEnvironment implements HttpEnvironment {
 
 export function startTargetLoad(input:TargetLoadPlan,mapping:MappingSpec):LoadHandle{
   assertLoadSource(input.sourceRun,mapping);validateTarget(input,input.sourceRun.checks.map(c=>c.rule.id));
-  const source=structuredClone(input.sourceRun),boundMapping=structuredClone(mapping),environment=input.environment;
+  const source=structuredClone(input.sourceRun),boundMapping=structuredClone(mapping),environment:RunEnvironment={...input.environment,data:structuredClone(input.environment.data),accounts:structuredClone(input.environment.accounts)};
   if(environment.projectId!==source.projectId||!environment.confirmed)throw new Error('PROJECT_CONFIRMATION_REQUIRED');
   const {confirmed,rate,durationSeconds,maxVUs,maxIterations,maxHostMemoryMb,settlementMs,latencyMs,errorRate,sustainedSamples,ratios}=input;
   const target=structuredClone({confirmed,rate,durationSeconds,maxVUs,maxIterations,maxHostMemoryMb,settlementMs,latencyMs,errorRate,sustainedSamples,ratios});
@@ -73,6 +81,8 @@ export function startTargetLoad(input:TargetLoadPlan,mapping:MappingSpec):LoadHa
       const check=source.checks[index]!,entry:LedgerEntry={id:randomUUID(),ruleId:check.rule.id,phase,status:'running',startedAt:Date.now(),actions:[],observations:[],verdicts:[]};ledger.entries.push(entry);
       const core=new CoreClient({...coreCommand(),timeoutMs:5000});const mapped=bindMapping(boundMapping,env!.id),local=new LoadEnvironment(env!,mapped,abort.signal);
       try{
+        assertLoadEnvironment(source,environment,await inspectProject(environment.source),boundMapping);
+        await qualifyPlan(source.plan,input.registry);
         const qualification=await input.registry.assertQualified(check.templateRef),spec=qualification.spec;
         let state:Transition=await command(core,entry.id,'start',{operation:'runTemplate',spec,rule:check.rule,capabilities,scope:{kind:'published_template',confirmed:true,qualification}});
         while(state.state==='running'){
@@ -98,7 +108,7 @@ export function startTargetLoad(input:TargetLoadPlan,mapping:MappingSpec):LoadHa
     };
     try{
       await persist();const profile=await inspectProject(environment.source);
-      if(profile.sourceHash!==source.plan.sourceHash)throw new Error('CONDITIONS_CHANGED_RECONNECT_REQUIRED');
+      assertLoadEnvironment(source,environment,profile,boundMapping);
       await qualifyPlan(source.plan,input.registry);
       if(stopped)return record;
       env=await prepareCopy(profile,{projectId:environment.projectId,port:await port(),confirmed:true,data:environment.data,accounts:environment.accounts,credentials:environment.credentials});record.copyId=env.id;
@@ -152,8 +162,8 @@ export function startTargetLoad(input:TargetLoadPlan,mapping:MappingSpec):LoadHa
         record.environment=await env.exportRecord();for(const e of ledger.entries)for(const o of e.observations)for(const ref of o.evidenceRefs){const name=ref.slice(9);if(/^[a-f0-9]{64}\.json$/.test(name)){const {readFile}=await import('node:fs/promises');record.evidence[`${env.id}/${name}`]=JSON.parse(await readFile(join(env.evidenceRoot,name),'utf8'));}}
       }finally{await env.close();}}
       record.metrics=metrics(ledger.entries);
-      const decisionCore=new CoreClient({...coreCommand(),timeoutMs:5000});
-      try{const expected=rate*durationSeconds;const decision=await command(decisionCore,id,'start',{operation:'loadDecision',failed:record.settlement.failed,unknown:record.settlement.unknown,completed:!stopped&&record.status!=='blocked',targetReached:record.metrics.started>=expected&&record.generator.iterations===record.metrics.completed&&source.checks.every(c=>ledger.entries.some(e=>e.phase==='target'&&e.ruleId===c.rule.id)),thresholdsConfirmed:latencyMs!==undefined&&errorRate!==undefined,generatorLimited:record.generator.limited,withinThresholds:record.metrics.p95Ms<=(latencyMs??0)&&record.metrics.errorRate<=(errorRate??0)});record.verdict=decision.status;}catch{record.verdict='unknown';record.reason='DECISION_UNAVAILABLE';}finally{await decisionCore.close();}
+      if(record.status!=='blocked'){const decisionCore=new CoreClient({...coreCommand(),timeoutMs:5000});
+      try{const expected=rate*durationSeconds;const decision=await command(decisionCore,id,'start',{operation:'loadDecision',failed:record.settlement.failed,unknown:record.settlement.unknown,completed:!stopped,targetReached:record.metrics.started>=expected&&record.generator.iterations===record.metrics.completed&&source.checks.every(c=>ledger.entries.some(e=>e.phase==='target'&&e.ruleId===c.rule.id)),thresholdsConfirmed:latencyMs!==undefined&&errorRate!==undefined,generatorLimited:record.generator.limited,withinThresholds:record.metrics.p95Ms<=(latencyMs??0)&&record.metrics.errorRate<=(errorRate??0)});record.verdict=decision.status;}catch{record.verdict='unknown';if(!record.reason)record.reason='DECISION_UNAVAILABLE';else record.limitations.push('负载决策核心不可用，未作正式结论。');}finally{await decisionCore.close();}}
       if(record.status!=='blocked')record.status='completed';record.finishedAt=new Date().toISOString();if(!record.reason)record.reason=latencyMs===undefined||errorRate===undefined?'OBSERVATION_ONLY':'target_finished';
       await queue;await store.write(id+'.json',snapshot(),true);
     }

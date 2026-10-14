@@ -28,7 +28,7 @@ import {projectRoot} from './validation/review.js';
 import {startTargetLoad,LoadStore,renderLoadReport,LOAD_PRESET,type LoadHandle} from './load/runner.js';
 import {emptyWorkflow,writeWorkflow,reconcileWorkflow,type WorkflowDraft,type PreparationResult} from './projects/workflow.js';
 import {pickProjectDirectory} from './projects/folder-picker.js';
-import {DiscoveryStore} from './discovery/store.js';
+import {currentDiscovery,DiscoveryStore} from './discovery/store.js';
 import {DiscoveryService} from './discovery/service.js';
 import {mountDiscoveryRoutes} from './discovery/routes.js';
 import {ProjectRuleStore} from './rules/store.js';
@@ -54,7 +54,7 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   const projectRuleStore=new ProjectRuleStore(join(directory,'project-rules'),{validateSources:async rule=>{
     // Called while holding the same project mutex used by source-project save and runtime import.
     const record=await discoveryStore.get(rule.suggestionRef.discoveryId),currentDirectory=projects.get(rule.projectId)?.profile.root??(await discoveryStore.getProject(rule.projectId)).directory;
-    if(record.session.projectId!==rule.projectId||currentDirectory.toLowerCase()!==record.snapshot.root.toLowerCase())throw new Error('STALE_SOURCE');
+    if((await currentDiscovery(record)).reanalysisRequired||record.session.projectId!==rule.projectId||currentDirectory.toLowerCase()!==record.snapshot.root.toLowerCase())throw new Error('STALE_SOURCE');
     if(!(await validateSourceRefs(record.snapshot,record.session.reads,rule.sourceRefs)).valid)throw new Error('STALE_SOURCE');
   }});
   let discovery=new DiscoveryService({store:discoveryStore,config:()=>config,credentials:modelKeys});

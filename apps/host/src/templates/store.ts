@@ -78,7 +78,7 @@ export class TemplateRegistry {
     ref=structuredClone(ref);const p=await this.getVersion(ref);
     let disabled=false;
     try{const record=await readEnvelope<{ref:TemplateRef}>(this.disabledPath(ref));if(digest(record.ref)!==digest(ref))throw new Error('CORRUPT_DISABLE_RECORD');disabled=true;}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
-    if(disabled)await registryCore({operation:'checkQualification',draft:p,review:p.review,disabled:true});
+    if(disabled)throw new Error('VERSION_DISABLED');
     await this.current(p);checkReview(p.review,p.draftHash,p.validation.recordRef??'');
     await registryCore({operation:'checkQualification',draft:p,review:p.review,disabled:false});return p;
   }

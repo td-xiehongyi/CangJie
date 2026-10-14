@@ -1,0 +1,54 @@
+(node:56) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ uncited selected-business source changes conservatively invalidate a view without rewriting historical analysis (185.107686ms)
+✔ unchanged analysis is readable and new business files invalidate while excluded files do not (203.815523ms)
+✔ project-local correction appends a pending version and does not alter selected historical semantics (10.440954ms)
+✔ API refuses uncited changes for rule selection but permits append-only correction and history (286.902804ms)
+✔ source and data/identity changes cannot reuse a prior business pass as load qualification (1.049371ms)
+✔ a disabled exact publication remains readable but is rejected before any core or adapter call (7.945845ms)
+✔ v1 history can be inspected with no tools while unknown package versions are never executable (9.611566ms)
+✔ load start snapshots caller data and identity before asynchronous preflight and preserves its blocking reason (454.954295ms)
+✖ stale suggestion selection is rejected inside its transaction without changing saved report bytes (106.278813ms)
+✖ default whole-root business scope never exempts newly added package or runtime configuration (59.24836ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 8
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1759.284039
+
+✖ failing tests:
+
+test at tests/integration/discovery-reuse.test.mjs:20:1
+✖ stale suggestion selection is rejected inside its transaction without changing saved report bytes (106.278813ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-reuse.test.mjs:20:271)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /STALE_SOURCE/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-reuse.test.mjs:21:1
+✖ default whole-root business scope never exempts newly added package or runtime configuration (59.24836ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'partial' !== 'stale'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-reuse.test.mjs:21:510)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'partial',
+    expected: 'stale',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

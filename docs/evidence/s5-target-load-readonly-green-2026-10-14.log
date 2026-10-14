@@ -1,0 +1,10 @@
+✔ T8 provides a bounded load runner and explicit settlement (243.936022ms)
+✔ ledger_unsettled_unknown: missing evidence and unfinished work never pass (0.63322ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 358.307212

@@ -8,7 +8,32 @@ import type {ModelPreset as BudgetPreset} from '../model/budget.js';
 import {acquireTask} from '../model/task-lock.js';
 import {replaceFile} from '../artifacts/replace.js';
 import {digest} from '../projects/inspect.js';
+import {createAnalysisScope,scopedSourceFiles} from './access.js';
+import {buildSourceSnapshot} from './index.js';
 export interface DiscoveryRecord {session:DiscoverySession;snapshot:SourceSnapshot;scope:AnalysisScope;preset:BudgetPreset;sourceByteLimit:number;config:Pick<ModelConfig,'serviceUrl'|'model'>}
+/** Conservative selected-business reuse. Re-index locally; never rewrite the saved report.
+ * All additions, removals and changes inside the selected scope count, including
+ * runtime metadata. A narrower explicit business scope is never broadened. */
+export function reconcileDiscovery(record:DiscoveryRecord,current:SourceSnapshot):{session:DiscoverySession;changedPaths:string[];reanalysisRequired:boolean} {
+  const session=structuredClone(record.session);
+  if(current.projectId!==record.snapshot.projectId||resolve(current.root).toLowerCase()!==resolve(record.snapshot.root).toLowerCase())throw new Error('STALE_SOURCE');
+  const scope=createAnalysisScope(current,record.scope),before=new Map(scopedSourceFiles(record.snapshot,record.scope).map(f=>[f.path,f.hash])),after=new Map(scopedSourceFiles(current,scope).map(f=>[f.path,f.hash]));
+  const changedPaths=[...new Set([...before.keys(),...after.keys()])].filter(path=>before.get(path)!==after.get(path)).sort();
+  // New read/path/index failures also invalidate reuse, even if the old cited
+  // text still exists. Stable historical gaps are kept as explicit limitations.
+  const inScope=(path:string)=>record.scope.allowedPaths.some(p=>p==='.'||path.toLowerCase()===p||path.toLowerCase().startsWith(p+'/'))&&!record.scope.excludedPaths.some(p=>p==='.'||path.toLowerCase()===p||path.toLowerCase().startsWith(p+'/'));
+  const relevantIssues=(snapshot:SourceSnapshot)=>snapshot.indexIssues.filter(i=>inScope(i.path)&&!['SENSITIVE_FILE','PROJECT_TEST_EXCLUDED'].includes(i.code));
+  const issueChange=digest(relevantIssues(current))!==digest(relevantIssues(record.snapshot));
+  const reanalysisRequired=changedPaths.length>0||issueChange;
+  if(reanalysisRequired){session.status='stale';session.referencesValid=false;delete session.selectedSuggestionId;session.unresolved=[...new Set([...session.unresolved,'SELECTED_BUSINESS_SOURCE_CHANGED'])];}
+  return {session,changedPaths,reanalysisRequired};
+}
+export async function currentDiscovery(record:DiscoveryRecord){
+  let snapshot:SourceSnapshot;
+  try{snapshot=await buildSourceSnapshot(record.snapshot.root,record.snapshot.projectId,{includeProjectTests:record.scope.includeProjectTests});}
+  catch{const session=structuredClone(record.session);session.status='stale';session.referencesValid=false;delete session.selectedSuggestionId;session.unresolved=[...new Set([...session.unresolved,'SOURCE_RECHECK_UNAVAILABLE'])];return {session,changedPaths:[],reanalysisRequired:true};}
+  return reconcileDiscovery(record,snapshot);
+}
 export interface SourceProject {id:string;revision:number;name:string;directory:string;snapshot:SourceSnapshot;scope?:AnalysisScope;discoveryId?:string;lastRequestId?:string}
 const idCheck=(id:string)=>{if(typeof id!=='string'||!/^[a-f0-9-]{36}$/.test(id))throw new Error('INVALID_ID')};
 export class DiscoveryStore {

@@ -40,9 +40,9 @@ test('duplicate request IDs, scope conflicts and host restart do not automatical
   await x.restart();assert.equal((await x.request('/discovery/'+accepted.id)).status,'partial');assert.equal(x.requests.length,1);
   const old=await x.request(`/projects/${p.id}/discovery-scope`,{expectedRevision:0,allowedPaths:['src'],excludedPaths:[],includeProjectTests:false},400);assert.equal(old.error,'ANALYSIS_CONFLICT');
 });
-test('later runtime import keeps source project identity and unchanged analysis references',async t=>{
+test('later runtime import preserves explicitly scoped business sources and project identity',async t=>{
   const x=await hostFor(t,(p,n)=>n===1?action([read('src/orders.ts',1,9)]):overview(p.files));
-  const p=await x.request('/source-projects',{directory:x.root},201),accepted=await start(x,p),done=await x.wait(accepted.id);
+  const p=await x.request('/source-projects',{directory:x.root,allowedPaths:['src','README.md']},201),accepted=await start(x,p),done=await x.wait(accepted.id);
   for(const name of ['verification.json','package.json'])await cp(join('samples/ticket',name),join(x.root,name));
   const imported=await x.request('/projects',{id:p.id,directory:x.root,accountMode:'automatic'});assert.equal(imported.projectId,p.id);
   const state=await x.request('/state');assert.equal(state.projects.filter(v=>v.id===p.id).length,1);assert.equal(state.projects.find(v=>v.id===p.id).sourceOnly,false);

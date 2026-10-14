@@ -1,0 +1,26 @@
+(node:47) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ uncited selected-business source changes conservatively invalidate a view without rewriting historical analysis (210.130797ms)
+✔ unchanged analysis is readable and new business files invalidate while excluded files do not (125.646539ms)
+✔ project-local correction appends a pending version and does not alter selected historical semantics (8.489194ms)
+✔ API refuses uncited changes for rule selection but permits append-only correction and history (203.971521ms)
+✔ source and data/identity changes cannot reuse a prior business pass as load qualification (0.873864ms)
+✔ a disabled exact publication remains readable but is rejected before any core or adapter call (4.307375ms)
+✔ v1 history can be inspected with no tools while unknown package versions are never executable (7.691473ms)
+✔ load start snapshots caller data and identity before asynchronous preflight and preserves its blocking reason (436.043715ms)
+✔ stale suggestion selection is rejected inside its transaction without changing saved report bytes (101.67974ms)
+✔ default whole-root business scope never exempts newly added package or runtime configuration (57.837857ms)
+✔ a missing or renamed source root leaves historical analysis readable, unmodified and unusable for resume (67.6472ms)
+(node:48) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ all source-business S1-S5 development tests are dispatched with sufficient package/HTTP timeout (6.313297ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1679.889273

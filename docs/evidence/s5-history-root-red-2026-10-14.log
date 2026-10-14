@@ -1,0 +1,37 @@
+(node:13) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ uncited selected-business source changes conservatively invalidate a view without rewriting historical analysis (246.927484ms)
+✔ unchanged analysis is readable and new business files invalidate while excluded files do not (213.841387ms)
+✔ project-local correction appends a pending version and does not alter selected historical semantics (11.675505ms)
+✔ API refuses uncited changes for rule selection but permits append-only correction and history (291.423248ms)
+✔ source and data/identity changes cannot reuse a prior business pass as load qualification (0.927953ms)
+✔ a disabled exact publication remains readable but is rejected before any core or adapter call (4.86118ms)
+✔ v1 history can be inspected with no tools while unknown package versions are never executable (8.393699ms)
+✔ load start snapshots caller data and identity before asynchronous preflight and preserves its blocking reason (478.277485ms)
+✔ stale suggestion selection is rejected inside its transaction without changing saved report bytes (69.32309ms)
+✔ default whole-root business scope never exempts newly added package or runtime configuration (48.302216ms)
+✖ a missing or renamed source root leaves historical analysis readable, unmodified and unusable for resume (64.840687ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1897.803773
+
+✖ failing tests:
+
+test at tests/integration/discovery-reuse.test.mjs:22:1
+✖ a missing or renamed source root leaves historical analysis readable, unmodified and unusable for resume (64.840687ms)
+  Error [SourceAccessError]: PATH_ESCAPE: 根目录或祖先路径含链接，或目录不可访问。
+      at file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/discovery/index.js:103:52
+      at async buildSourceSnapshot (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/discovery/index.js:103:5)
+      at async currentDiscovery (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/discovery/store.js:33:84)
+      at async DiscoveryService.inspectDiscovery (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/discovery/service.js:51:50)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-reuse.test.mjs:22:300)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    code: 'PATH_ESCAPE'
+  }

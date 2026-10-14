@@ -2,7 +2,7 @@ import type {Express} from 'express';
 import {resolve} from 'node:path';
 import type {ProjectRuleVersion,RuleReadiness} from '@website-verification/contracts/discovery';
 import type {DiscoveryService} from '../discovery/service.js';
-import type {DiscoveryStore} from '../discovery/store.js';
+import {type DiscoveryStore,currentDiscovery} from '../discovery/store.js';
 import {validateSourceRefs} from '../discovery/access.js';
 import {ProjectRuleStore} from './store.js';
 import {assessRule,type ProjectCapabilities} from './readiness.js';
@@ -11,7 +11,7 @@ export function mountProjectRuleRoutes(app:Express,options:{store:ProjectRuleSto
   const {store}=options;
   async function sources(rule:ProjectRuleVersion){
     const r=await options.discoveryStore.get(rule.suggestionRef.discoveryId);
-    if(r.session.projectId!==rule.projectId)return false;
+    if(r.session.projectId!==rule.projectId||(await currentDiscovery(r)).reanalysisRequired)return false;
     const current=await options.ensureProject(rule.projectId);if(resolve(current.directory).toLowerCase()!==resolve(r.snapshot.root).toLowerCase())return false;
     const refs=[...rule.sourceRefs,...rule.facts.flatMap(s=>s.sourceRefs),...rule.expectations.flatMap(s=>s.sourceRefs)];
     return (await validateSourceRefs(r.snapshot,r.session.reads,refs)).valid;
@@ -27,7 +27,7 @@ export function mountProjectRuleRoutes(app:Express,options:{store:ProjectRuleSto
     const r=assessRule(rule,{...capabilities,operations:capabilities.operations.map(op=>{const needs=required.filter(r=>r.operationId===op.operationId).flatMap(r=>r.parameters),supported=grammar[op.operationId]??op.parameters;return {...op,parameters:supported,mapped:op.mapped&&needs.every(p=>op.parameters.includes(p))}})},[],[]);
     if(!await sources(rule)){r.status=r.status==='needs_capability'?'needs_capability':'needs_conditions';r.missing.push({code:'STALE_SOURCE',detail:'源码引用已变化；历史版本仍可查看，不能继续确认或使用。'})}
     return r;
-  }));return {...collection,readiness}}
+  }));const sourceCurrent=new Map(readiness.map(r=>[r.ruleRef.id,!r.missing.some(m=>m.code==='STALE_SOURCE')]));return {...collection,versions:collection.versions.map(rule=>({...rule,sourceCurrent:sourceCurrent.get(rule.id)})),...(collection.selectedRule&&!sourceCurrent.get(collection.selectedRule.id)?{selectedRule:undefined}:{}),readiness}}
   app.get('/api/projects/:id/rules',async(req,res)=>res.json(await publicRules(req.params.id)));
   app.post('/api/projects/:id/rules/confirm',async(req,res)=>{
     const current=await options.ensureProject(req.params.id);const record=await options.discoveryStore.get(req.body.discoveryId),session=await options.discovery().getDiscovery(req.body.discoveryId);
@@ -42,6 +42,7 @@ export function mountProjectRuleRoutes(app:Express,options:{store:ProjectRuleSto
   });
   app.get('/api/projects/:id/rules/:ruleId/versions/:version',async(req,res)=>{await options.ensureProject(req.params.id);res.json(await store.getProjectRule(req.params.id,req.params.ruleId,Number(req.params.version)))});
   app.post('/api/projects/:id/rules/:ruleId/revise',async(req,res)=>{await options.ensureProject(req.params.id);const collection=await store.list(req.params.id),current=collection.versions.find(v=>v.id===req.params.ruleId);if(!current)throw new Error('RULE_NOT_FOUND');await fresh(current);res.json(await store.reviseProjectRule({projectId:current.projectId,id:current.id,version:current.version,contentHash:current.contentHash},{expectedBehavior:req.body.expectedBehavior,answers:req.body.answers,note:req.body.note,...(req.body.requirements!==undefined?{requirements:req.body.requirements}:{})},req.body.expectedRevision))});
+  app.post('/api/projects/:id/rules/:ruleId/corrections',async(req,res)=>{await options.ensureProject(req.params.id);if(req.body.ruleRef?.projectId!==req.params.id||req.body.ruleRef?.id!==req.params.ruleId)throw new Error('RULE_PROJECT_MISMATCH');res.status(201).json(await store.appendRuleCorrection(req.body.ruleRef,req.body.note,req.body.expectedRevision))});
   app.post('/api/projects/:id/rules/:ruleId/confirm-version',async(req,res)=>{await options.ensureProject(req.params.id);const rule=await store.getProjectRule(req.params.id,req.params.ruleId,req.body.version);await fresh(rule);res.json(await store.confirmVersion(req.params.id,req.params.ruleId,req.body.version,req.body.expectedRevision,req.body.confirmed===true))});
   app.post('/api/projects/:id/rules/selection',async(req,res)=>{await options.ensureProject(req.params.id);if(req.body.ruleRef?.projectId!==req.params.id)throw new Error('RULE_PROJECT_MISMATCH');const rule=await store.assertCurrent(req.body.ruleRef);await fresh(rule);await store.select(req.params.id,req.body.ruleRef,req.body.expectedRevision);res.json(await publicRules(req.params.id))});
   return {publicRules};

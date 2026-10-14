@@ -24,7 +24,7 @@
 
 负载入口在已通过的业务报告下方；填写目标率、时长、等待/错误阈值及所选规则比例，确认后运行。已有工作台需重启以加载新代码。详见 [T8验收与限制](docs/evidence/target-load.md)。依赖恢复入口：`powershell -File scripts/setup-k6.ps1`。
 
-交付：`npm run package` 在 `output/delivery` 新建普通运行/源码包与独立开发者验收资源目录，不覆盖已有产物。普通包排除私有答案、候选示例、旧配置和运行记录。按[交付使用说明](docs/delivery-guide.md)在新目录安装依赖和资源后启动；最终交付索引见[交付清单](docs/evidence/t9-delivery.json)，演示和答辩基础见[演示提纲](docs/demo-outline.md)。这些目录不是正式模板发布，也未上传。
+交付：`npm run package` 仍要求真实原生核心exe，在 `output/delivery` 新建普通运行/源码包与独立开发者验收资源目录，不覆盖已有产物。普通包排除私有答案、候选示例、旧配置和运行记录。按[交付使用说明](docs/delivery-guide.md)在新目录安装依赖和资源后启动；最终交付索引见[交付清单](docs/evidence/t9-delivery.json)，演示和答辩基础见[演示提纲](docs/demo-outline.md)。这些目录不是正式模板发布，也未上传。缺核心时可运行`node scripts/package.mjs --source-only`生成明确未构建核心的源码开发交付与独立资源；不能以此替代正式Windows执行包。
 
 T10测试项目与边界见[对照准备记录](docs/evidence/comparison.md)。专项检查：`node --test tests/integration/comparison-fixture.test.mjs`；这不是正式两组成绩，也不计入历史242项回归。
 
@@ -32,14 +32,14 @@ T10测试项目与边界见[对照准备记录](docs/evidence/comparison.md)。�
 
 2026-10-14 新增方向已确认：优先从源码分析业务并推荐项目特有检查。S1/D1源码索引与受控读取、S2/D2—D3分析会话及API/UI已实现，并有历史离线开发验收；真实候选与源码分析效果仍待验收。推送前曾出现专项36/38、API复测4/6。此次状态修复新增7项回归通过，四份专项在明确OS互斥替身的Linux隔离测试中38/38；原生Windows完整构建/集成/Edge仍须续验，不能沿用历史全绿结论。详情见[本轮状态修复与限制](docs/evidence/discovery-state-fix-2026-10-14.md)、[业务分析与推荐历史证据](docs/evidence/discovery-analysis.md)和[推送前核验](docs/evidence/remote-push-2026-10-15.md)。
 
-用户于2026-10-14明确允许暂时跳过正式验收并继续后续开发。S3/D4—D5已实现项目规则确认、不可变版本与纠正记录、精确版本草稿选择、四类准备状态和受认证API/UI；新增开发回归及独立代码审查见[项目规则证据](docs/evidence/project-rules.md)。S3只保存规则与说明缺口，不执行或发布新规则；S4/D6已开发受控合成工单关闭性质的精确版本编译、独立验证桥、真实本机HTTP与同环境包复跑；独立审查通过，新增开发检查61/61、旧隔离回归65/65，原生仓颉及正式审核仍未验证，详见[新规则开发证据](docs/evidence/discovered-rule-execution.md)。S5尚未实施，按阶段审查后继续。原生Windows完整续验、浏览器交互、真实模型效果、正式人员审核及原业务/负载、交付/T10均保持延期未验证，真实调用仍需确认实际范围。
+用户于2026-10-14明确允许暂时跳过正式验收并继续后续开发。S3/D4—D5已实现项目规则确认、不可变版本与纠正记录、精确版本草稿选择、四类准备状态和受认证API/UI；新增开发回归及独立代码审查见[项目规则证据](docs/evidence/project-rules.md)。S3只保存规则与说明缺口，不执行或发布新规则；S4/D6已开发受控合成工单关闭性质的精确版本编译、独立验证桥、真实本机HTTP与同环境包复跑；独立审查通过，新增开发检查61/61、旧隔离回归65/65，原生仓颉及正式审核仍未验证，详见[新规则开发证据](docs/evidence/discovered-rule-execution.md)。S5/D7—D8已开发实现来源保守失效、不可变纠正追加、精确负载复核、v1兼容与安全分包；最终独立代码审查通过，无未修阻断项。开发范围与延期清单见[复用与交付证据](docs/evidence/discovery-release.md)。原生Windows完整续验、浏览器交互、真实模型效果、正式人员审核及原业务/负载、交付/T10均保持延期未验证，真实调用仍需确认实际范围。
 
 | 文件 | 用途 |
 | --- | --- |
-| [需求稿 v0.44](docs/业务与容量验证系统需求与设计讨论稿.md) | R01—R52既有边界与R53—R60源码业务分析主线；S1/S2与S3规则准备已实现；S4受控开发链已实现；S5未实施 |
+| [需求稿 v0.44](docs/业务与容量验证系统需求与设计讨论稿.md) | R01—R52既有边界与R53—R60源码业务分析主线；S1/S2与S3规则准备已实现；S4受控开发链已实现；S5复用/交付开发实现 |
 | [总体架构](docs/superpowers/specs/2026-10-14-extensible-verification-architecture.md) | 源码分析、项目规则、检查执行与证据的模块边界及用户流程 |
 | [源码业务分析设计](docs/superpowers/specs/2026-10-14-code-grounded-business-discovery.md) | 按需读源码、业务概览、项目特有检查与能力缺口 |
-| [新增分阶段计划 v1.6](docs/superpowers/plans/2026-10-14-code-grounded-business-discovery.md) | S1—S5、D1—D8任务与验收停止点；S1—S4受控开发链已实现，正式验收延期未验证；S5尚未实施 |
+| [新增分阶段计划 v1.7](docs/superpowers/plans/2026-10-14-code-grounded-business-discovery.md) | S1—S5、D1—D8任务与验收停止点；S1—S5开发链已实现，原生/真实模型/人员与正式交付验收延期未验证 |
 | [候选模板设计 v1.7](docs/superpowers/specs/2026-10-11-candidate-template-lifecycle.md) | 候选生成、独立验证、审核发布和复用机制 |
 | [最终实施计划 2.34](docs/superpowers/plans/2026-10-11-website-verification.md) | T9交付已实施；真实模型与正式模板发布待验收；T10工单对照项目已准备，正式同模型对照待运行 |
 | [蓝白四页定稿](output/ui-preview-final/index.html) | 历史视觉参考；当前交互以正式工作台与交互改版验收为准 |

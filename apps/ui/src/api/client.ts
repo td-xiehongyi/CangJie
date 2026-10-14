@@ -28,6 +28,7 @@ export const projectRulesApi={
   list:(projectId:string)=>api(`/projects/${encodeURIComponent(projectId)}/rules`),
   confirm:(projectId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/confirm`,body),
   revise:(projectId:string,ruleId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/${encodeURIComponent(ruleId)}/revise`,body),
+  correct:(projectId:string,ruleId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/${encodeURIComponent(ruleId)}/corrections`,body),
   confirmVersion:(projectId:string,ruleId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/${encodeURIComponent(ruleId)}/confirm-version`,body),
   compile:(projectId:string,ruleId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/${encodeURIComponent(ruleId)}/compile`,body),
   select:(projectId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/selection`,body),

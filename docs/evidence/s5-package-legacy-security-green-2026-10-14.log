@@ -1,0 +1,10 @@
+✔ resource builder rejects a lock path before any escaping write (18.970302ms)
+✔ root junction and installation ancestor junction are rejected (85.445374ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 202.683453

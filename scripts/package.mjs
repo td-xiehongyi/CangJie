@@ -6,6 +6,16 @@ import {constants} from 'node:fs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const resourceFiles=['tests/reference/server.ts','tests/reference/behaviors.ts','tests/reference/db.ts','tests/reference/seed.ts','tests/reference/mapping.json','tests/reference/suite-manifest.json','tests/fixtures/observations.json'];
+const statusResourceFiles=['tests/reference/status-transition/server.ts','tests/reference/status-transition/behaviors.ts','tests/reference/status-transition/db.ts','tests/reference/status-transition/seed.ts','tests/reference/status-transition/mapping.json','tests/reference/status-transition/suite-manifest.json','tests/reference/status-transition/tsconfig.json','tests/fixtures/status-transition-observations.json','tests/fixtures/status-transition-template.json'];
+const legacyResourcePaths=[...resourceFiles,'tests/reference/suite-lock.json'];
+const currentResourcePaths=[...legacyResourcePaths,'tests/reference/tsconfig.json',...statusResourceFiles,'tests/reference/status-transition/suite-lock.json'];
+async function frozenResources(directory,lockPath,allowed){
+  await noLinks(join(directory,lockPath));
+  const lock=JSON.parse(await readFile(join(directory,lockPath),'utf8'));
+  if(!lock||Array.isArray(lock)||Object.keys(lock).length!==allowed.length||Object.keys(lock).some(path=>!allowed.includes(path))||Object.values(lock).some(value=>typeof value!=='string'||!/^[a-f0-9]{64}$/.test(value)))throw new Error('INVALID_RESOURCE_FILES');
+  for(const path of allowed){await noLinks(join(directory,path));if(hash(await readFile(join(directory,path)))!==lock[path])throw new Error('REFERENCE_CHANGED_REVIEW_REQUIRED');}
+  return lock;
+}
 async function noLinks(path){
   const ancestors=[];for(let current=resolve(path);;current=dirname(current)){ancestors.unshift(current);if(dirname(current)===current)break;}
   for(const current of ancestors){try{if((await lstat(current)).isSymbolicLink())throw new Error('SYMLINK_REJECTED:'+current);}catch(e){if(e.code!=='ENOENT')throw e;}}
@@ -37,10 +47,11 @@ export async function verifyPackage(directory){
   // Walk first so a symlinked ancestor cannot be read through a manifest entry.
   const actual=await walk(directory);
   const manifest=JSON.parse(await readFile(join(directory,'delivery-manifest.json'),'utf8'));
-  if(manifest.schemaVersion!==1||!Array.isArray(manifest.files))throw new Error('MANIFEST_VERSION');
+  if(!manifest||manifest.schemaVersion!==1||!Array.isArray(manifest.files)||manifest.formatVersions!==undefined&&(!manifest.formatVersions||['delivery','contracts','verificationPackage'].some(key=>manifest.formatVersions[key]!==1)))throw new Error('MANIFEST_VERSION');
   const expected=new Set(['delivery-manifest.json']);
   for(const file of manifest.files){
-    if(typeof file.path!=='string'||file.path.includes('\\')||file.path.startsWith('/')||file.path.split('/').some(p=>!p||p==='.'||p==='..')||file.path.includes(':')||expected.has(file.path))throw new Error('INVALID_MANIFEST_PATH');
+    if(typeof file?.path!=='string'||file.path.includes('\\')||file.path.startsWith('/')||file.path.split('/').some(p=>!p||p==='.'||p==='..'||/[. ]$/.test(p)||/^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(p))||/[\x00-\x1f:*?"<>|]/.test(file.path)||expected.has(file.path))throw new Error('INVALID_MANIFEST_PATH');
+    if(!Number.isSafeInteger(file.bytes)||file.bytes<0||typeof file.sha256!=='string'||!/^[a-f0-9]{64}$/.test(file.sha256))throw new Error('INVALID_MANIFEST_FILE');
     expected.add(file.path);
     const full=join(directory,file.path);
     if((await lstat(full)).isSymbolicLink())throw new Error('SYMLINK_REJECTED');
@@ -50,20 +61,25 @@ export async function verifyPackage(directory){
   for(const path of actual)if(!expected.has(path))throw new Error('UNEXPECTED_FILE:'+path);
   return manifest;
 }
-export async function buildPackage(){
+export async function buildPackage(){return buildDelivery(false);}
+/** Explicit development artifact: never manufacture or claim a native core. */
+export async function buildSourcePackage(){return buildDelivery(true);}
+async function buildDelivery(sourceOnly){
   const parent=join(root,'output/delivery');await noLinks(parent);await mkdir(parent,{recursive:true});
   const directory=await mkdtemp(join(parent,'website-verification-'));
   const manifest={schemaVersion:1,product:'AI开发网站验证系统',version:'0.0.0-t9-preview',platform:'win32-x64',createdAt:new Date().toISOString(),
     formatVersions:{delivery:1,contracts:1,verificationPackage:1},
     dependencies:{node:'24.x (verified 24.19.0)',npm:'11.x (verified 11.17.0)',cangjie:'1.0.5',stdx:'1.0.5.1',k6:'2.3.0',npmLockSha256:hash(await readFile(join(root,'package-lock.json')))},
     limits:['其他电脑兼容性未验证','真实模型与实际人工双审核尚未验收','不包含用户配置、凭据、历史运行及业务数据库'],files:[]};
-  const selected=[...files];
+  if(sourceOnly){manifest.kind='source-development-delivery';manifest.coreBuilt=false;manifest.limits.push('仅源码开发交付；未包含原生仓颉核心，正式执行前须构建并验收');}
+  const selected=files.filter(path=>!sourceOnly||path!=='apps/core/target/verification-core.exe');
   for(const tree of trees)for(const file of await walk(join(root,tree))){
     const allowed=tree.endsWith('/src')?/\.(?:ts|tsx|css|cj)$/:/\.(?:js|ts|css|html|json|svg)$/;
     if(allowed.test(file)&&!file.startsWith('fixture-check.')&&!file.startsWith('fixtures/'))selected.push(tree+'/'+file);
   }
-  for(const sample of ['ticket','registration']){
+  for(const sample of ['ticket','registration','status-ticket']){
     for(const name of ['package.json','verification.json','tsconfig.json'])selected.push(`samples/${sample}/${name}`);
+    if(sample==='status-ticket')selected.push(`samples/${sample}/README.md`);
     for(const file of await walk(join(root,`samples/${sample}/src`)))if(file.endsWith('.ts'))selected.push(`samples/${sample}/src/${file}`);
   }
   for(const path of selected.sort()){
@@ -71,7 +87,8 @@ export async function buildPackage(){
     const target=join(directory,path);await mkdir(resolve(target,'..'),{recursive:true});await copyFile(join(root,path),target);
   }
   for(const path of ['docs/delivery-guide.md','docs/demo-outline.md','docs/evidence/release-check.md','tests/reference/suite-manifest.json'])await noLinks(join(root,path));
-  await writeFile(join(directory,'README.md'),await readFile(join(root,'docs/delivery-guide.md')));
+  const guide=await readFile(join(root,'docs/delivery-guide.md'),'utf8');
+  await writeFile(join(directory,'README.md'),(sourceOnly?'# 源码开发交付：未构建原生核心\n\n本目录未包含 verification-core.exe。源码分析可使用已构建的宿主组件；正式执行、候选准入及复跑须先在原生 Windows 环境安装开发依赖并运行 npm run build:core，完成相应验收。此交付不代表正式发布或验收通过。\n\n':'')+guide);
   await mkdir(join(directory,'docs'));await copyFile(join(root,'docs/demo-outline.md'),join(directory,'docs/demo-outline.md'));
   await copyFile(join(root,'docs/evidence/release-check.md'),join(directory,'docs/release-check.md'));
   const pkg=JSON.parse(await readFile(join(root,'package.json'),'utf8'));
@@ -92,41 +109,54 @@ export async function buildPackage(){
   return directory;
 }
 export async function buildDeveloperResources(){
-  await noLinks(join(root,'tests/reference/suite-lock.json'));
-  const lock=JSON.parse(await readFile(join(root,'tests/reference/suite-lock.json'),'utf8'));
-  if(Object.keys(lock).length!==resourceFiles.length||Object.keys(lock).some(path=>!resourceFiles.includes(path))||Object.values(lock).some(value=>typeof value!=='string'||!/^[a-f0-9]{64}$/.test(value)))throw new Error('INVALID_RESOURCE_FILES');
-  for(const path of resourceFiles)await noLinks(join(root,path));
+  await frozenResources(root,'tests/reference/suite-lock.json',resourceFiles);
+  await frozenResources(root,'tests/reference/status-transition/suite-lock.json',statusResourceFiles);
   const parent=join(root,'output/delivery');await noLinks(parent);await mkdir(parent,{recursive:true});
   const directory=await mkdtemp(join(parent,'developer-resources-'));
-  const manifest={schemaVersion:1,kind:'developer-validation-resources',version:'reference-v1',files:[]};
-  for(const path of [...Object.keys(lock),'tests/reference/suite-lock.json'].sort()){
+  const manifest={schemaVersion:1,kind:'developer-validation-resources',version:'reference-v2',runtime:'Node.js 24 native TypeScript execution; no emitted JavaScript required',build:'npm ci --ignore-scripts && node node_modules/typescript/bin/tsc -p tests/reference/tsconfig.json && node node_modules/typescript/bin/tsc -p tests/reference/status-transition/tsconfig.json',files:[]};
+  for(const path of currentResourcePaths.sort()){
+    await noLinks(join(root,path));
     const bytes=await readFile(join(root,path));
-    if(lock[path]&&hash(bytes)!==lock[path])throw new Error('REFERENCE_CHANGED_REVIEW_REQUIRED');
     const target=join(directory,path);await mkdir(resolve(target,'..'),{recursive:true});await writeFile(target,bytes);
     manifest.files.push({path,bytes:bytes.length,sha256:hash(bytes)});
   }
   await writeFile(join(directory,'delivery-manifest.json'),JSON.stringify(manifest,null,2)+'\n');
-  await verifyPackage(directory);return directory;
+  await verifyPackage(directory);
+  await frozenResources(directory,'tests/reference/suite-lock.json',resourceFiles);
+  await frozenResources(directory,'tests/reference/status-transition/suite-lock.json',statusResourceFiles);
+  return directory;
 }
 export async function installDeveloperResources(resources,directory){
   const manifest=await verifyPackage(resources);
   if(manifest.kind!=='developer-validation-resources')throw new Error('WRONG_RESOURCE_KIND');
-  const allowed=new Set([...resourceFiles,'tests/reference/suite-lock.json']);
+  if(!['reference-v1','reference-v2'].includes(manifest.version))throw new Error('RESOURCE_VERSION');
+  const allowed=new Set(manifest.version==='reference-v1'?legacyResourcePaths:currentResourcePaths);
   if(manifest.files.length!==allowed.size||manifest.files.some(f=>!allowed.has(f.path)))throw new Error('INVALID_RESOURCE_FILES');
+  await frozenResources(resources,'tests/reference/suite-lock.json',resourceFiles);
+  if(manifest.version==='reference-v2')await frozenResources(resources,'tests/reference/status-transition/suite-lock.json',statusResourceFiles);
   for(const file of manifest.files){
     await noLinks(join(directory,file.path));
     try{if((await lstat(join(directory,file.path))).isSymbolicLink()||hash(await readFile(join(directory,file.path)))!==file.sha256)throw new Error('INSTALL_CONFLICT:'+file.path);}
     catch(e){if(e.code!=='ENOENT')throw e;}
   }
   for(const file of manifest.files){
-    const target=join(directory,file.path);await mkdir(resolve(target,'..'),{recursive:true});
+    const target=join(directory,file.path);await noLinks(target);await mkdir(resolve(target,'..'),{recursive:true});await noLinks(target);
+    await noLinks(join(resources,file.path));
     try{await copyFile(join(resources,file.path),target,constants.COPYFILE_EXCL);}catch(e){if(e.code!=='EEXIST'||hash(await readFile(target))!==file.sha256)throw e;}
+    await noLinks(target);if(hash(await readFile(target))!==file.sha256)throw new Error('HASH_MISMATCH:'+file.path);
   }
+  // A successful copy is not a successful installation: recheck the final
+  // target set and its private frozen resources before reporting completion.
+  for(const file of manifest.files){const target=join(directory,file.path);await noLinks(target);const bytes=await readFile(target);if(hash(bytes)!==file.sha256||bytes.length!==file.bytes)throw new Error('HASH_MISMATCH:'+file.path);}
+  await frozenResources(directory,'tests/reference/suite-lock.json',resourceFiles);
+  if(manifest.version==='reference-v2')await frozenResources(directory,'tests/reference/status-transition/suite-lock.json',statusResourceFiles);
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
   try{
     if(process.argv[2]==='--verify')console.log(JSON.stringify(await verifyPackage(resolve(process.argv[3]))));
     else if(process.argv[2]==='--install-resources'){await installDeveloperResources(resolve(process.argv[3]),resolve(process.argv[4]??root));console.log('Developer validation resources installed');}
+    else if(process.argv[2]==='--source-only')console.log(JSON.stringify({sourceDevelopment:await buildSourcePackage(),developerResources:await buildDeveloperResources()}));
+    else if(process.argv[2])throw new Error('UNKNOWN_PACKAGE_OPTION');
     else console.log(JSON.stringify({runtime:await buildPackage(),developerResources:await buildDeveloperResources()}));
   }
   catch(error){console.error(error.message);process.exitCode=1;}

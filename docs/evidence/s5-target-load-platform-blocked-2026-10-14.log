@@ -1,0 +1,16 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> website-verification@0.0.0 verify
+> node scripts/verify.mjs target-load
+
+file:///tmp/cangjie-s5-final-653569f3-6613-43eb-a009-5efea8c24ec8/scripts/build-core.mjs:7
+if (!existsSync(executable)) throw new Error('Cangjie SDK missing; see docs/evidence/environment.md');
+                                   ^
+
+Error: Cangjie SDK missing; see docs/evidence/environment.md
+    at file:///tmp/cangjie-s5-final-653569f3-6613-43eb-a009-5efea8c24ec8/scripts/build-core.mjs:7:36
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0

@@ -1,0 +1,38 @@
+(node:13) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ uncited selected-business source changes conservatively invalidate a view without rewriting historical analysis (313.930966ms)
+✔ unchanged analysis is readable and new business files invalidate while excluded files do not (134.393131ms)
+✔ project-local correction appends a pending version and does not alter selected historical semantics (8.225937ms)
+✔ API refuses uncited changes for rule selection but permits append-only correction and history (210.212087ms)
+✔ source and data/identity changes cannot reuse a prior business pass as load qualification (0.840815ms)
+✔ a disabled exact publication remains readable but is rejected before any core or adapter call (4.338993ms)
+✔ v1 history can be inspected with no tools while unknown package versions are never executable (8.194576ms)
+✖ load start snapshots caller data and identity before asynchronous preflight and preserves its blocking reason (298.509378ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1471.324155
+
+✖ failing tests:
+
+test at tests/integration/discovery-reuse.test.mjs:19:1
+✖ load start snapshots caller data and identity before asynchronous preflight and preserves its blocking reason (298.509378ms)
+  AssertionError [ERR_ASSERTION]: caller mutations must not replace snapshotted environment
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-reuse.test.mjs:19:1891)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,26 @@
+✔ compile API sends the exact reference to the project-specific endpoint (3.772883ms)
+✔ verification only exposes legacy plus compiled exact current confirmed local versions (0.31292ms)
+✔ catalog selection uses current project matches and never globally exposes dynamic matches (0.321232ms)
+✔ candidate and run request builders preserve exact dynamic refs without legacy title defaults (0.236227ms)
+✔ confirmed project versions require explicit compilation and cannot prepare a run from resources alone (10.574517ms)
+✔ compilation gaps show semantic details without presenting the rule as executable (2.007369ms)
+✔ compiled rules remain behind candidate generation and dual-review template admission (3.696761ms)
+✔ a dynamic candidate continues in the existing automatic validation and review chain (3.781286ms)
+✔ an old dynamic candidate cannot appear as the current exact version review or resume (3.771151ms)
+✔ controlled contract is visible and unchecked by default without inferring arbitrary suggestion semantics (1.582655ms)
+✔ actual confirm handler sends controlled exact behavior and requirements only after explicit opt-in (7.569011ms)
+✔ unchecked actual confirm stays free-text without requirements and changing opt-in clears confirmation (7.069797ms)
+✔ actual free revision preserves existing controlled bindings without implicitly adopting contract semantics (4.34932ms)
+✔ revision opt-in is unsaved semantic state and converts a free version through actual revision API before confirmation (3.679547ms)
+✔ discarding unsaved contract selection restores free current-version confirmation without issuing an API request (2.523407ms)
+✔ an unchecked free revision does not add controlled requirements to an unbound version (2.256295ms)
+✔ stale-source history blocks selection and confirmation while real correction handler appends exact reference (1.950576ms)
+✔ source-invalidated versions cannot be displayed as executable or offered for compilation (2.720657ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 854.37382

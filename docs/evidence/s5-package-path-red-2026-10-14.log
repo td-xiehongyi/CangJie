@@ -1,0 +1,35 @@
+✖ delivery manifest rejects unsafe Windows names and malformed digest records before reading them (11.020224ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 143.598398
+
+✖ failing tests:
+
+test at tests/integration/discovery-package.test.mjs:79:1
+✖ delivery manifest rejects unsafe Windows names and malformed digest records before reading them (11.020224ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /INVALID_MANIFEST_PATH/. Input:
+  
+  "TypeError [ERR_INVALID_ARG_VALUE]: The argument 'path' must be a string, Uint8Array, or URL without null bytes. Received '/tmp/cangjie-s5-package-KIks0k/safe.txt\\x00'"
+  
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-package.test.mjs:83:121)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: TypeError [ERR_INVALID_ARG_VALUE]: The argument 'path' must be a string, Uint8Array, or URL without null bytes. Received '/tmp/cangjie-s5-package-KIks0k/safe.txt\x00'
+        at lstat (node:internal/fs/promises:1081:10)
+        at Module.verifyPackage (file:///workspace/scratch/7074c4c0dda2/CangJie/scripts/package.mjs:56:15)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-package.test.mjs:83:121)
+        at async Test.run (node:internal/test_runner/test:1389:7)
+        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3),
+    expected: /INVALID_MANIFEST_PATH/,
+    operator: 'rejects',
+    diff: 'simple'
+  }

@@ -177,3 +177,14 @@ test('an unchecked free revision does not add controlled requirements to an unbo
   const saved=editor(renderer);let tree=saved.render();click(control(tree,'button','修订业务预期'));tree=saved.render();change(fieldInput(tree,'纠正说明'),'只补充业务回答');tree=saved.render();click(control(tree,'button','保存修订（清除确认）'));await tick();
   assert.deepEqual(calls[0].body.expectedBehavior,version.expectedBehavior);assert.equal(Object.hasOwn(calls[0].body,'requirements'),false);assert.equal(calls.length,1);
 }));
+
+test('stale-source history blocks selection and confirmation while real correction handler appends exact reference',async()=>{
+  await withCard([{...version,sourceCurrent:false}],async(renderer,calls)=>{
+    const saved=editor(renderer);let tree=saved.render();
+    assert.equal(control(tree,'button','选择此版本（仅保存草稿）').props.disabled,true);
+    assert.ok(textOf(tree).includes('来源已变化，当时已由你确认'));
+    change(fieldInput(tree,'处理/纠正记录（追加，不改历史）'),'保留旧预期，需要重新分析并核对。');tree=saved.render();click(control(tree,'button','追加纠正记录（清除确认）'));await tick();await tick();
+    const sent=calls.find(c=>c.url.endsWith('/corrections'));assert.ok(sent,'real correction request missing');assert.deepEqual(sent.body,{ruleRef:ref,note:'保留旧预期，需要重新分析并核对。',expectedRevision:2});assert.equal(sent.url,`/api/projects/${projectId}/rules/${ruleId}/corrections`);
+  });
+});
+test('source-invalidated versions cannot be displayed as executable or offered for compilation',()=>{const value=fixture({compiled:[dynamic],versions:[{...version,sourceCurrent:false}]});assert.deepEqual(view.verificationRules(value.state,value.project),[legacy]);const html=render(value);assert.match(button(html,'编译此精确规则版本'),/disabled/);assert.match(html,/来源已变化，请重新分析/);});

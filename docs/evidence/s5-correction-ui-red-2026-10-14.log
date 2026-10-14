@@ -1,0 +1,46 @@
+✔ compile API sends the exact reference to the project-specific endpoint (6.319176ms)
+✔ verification only exposes legacy plus compiled exact current confirmed local versions (0.608755ms)
+✔ catalog selection uses current project matches and never globally exposes dynamic matches (0.2586ms)
+✔ candidate and run request builders preserve exact dynamic refs without legacy title defaults (0.260162ms)
+✔ confirmed project versions require explicit compilation and cannot prepare a run from resources alone (14.729521ms)
+✔ compilation gaps show semantic details without presenting the rule as executable (1.905641ms)
+✔ compiled rules remain behind candidate generation and dual-review template admission (5.075459ms)
+✔ a dynamic candidate continues in the existing automatic validation and review chain (6.048232ms)
+✔ an old dynamic candidate cannot appear as the current exact version review or resume (4.667959ms)
+✔ controlled contract is visible and unchecked by default without inferring arbitrary suggestion semantics (2.047279ms)
+✔ actual confirm handler sends controlled exact behavior and requirements only after explicit opt-in (8.717491ms)
+✔ unchecked actual confirm stays free-text without requirements and changing opt-in clears confirmation (6.289132ms)
+✔ actual free revision preserves existing controlled bindings without implicitly adopting contract semantics (12.808483ms)
+✔ revision opt-in is unsaved semantic state and converts a free version through actual revision API before confirmation (4.893982ms)
+✔ discarding unsaved contract selection restores free current-version confirmation without issuing an API request (3.237037ms)
+✔ an unchecked free revision does not add controlled requirements to an unbound version (2.760427ms)
+✖ stale-source history blocks selection and confirmation while real correction handler appends exact reference (2.882936ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 16
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 850.97725
+
+✖ failing tests:
+
+test at tests/unit/discovered-rule-ui.test.mjs:181:1
+✖ stale-source history blocks selection and confirmation while real correction handler appends exact reference (2.882936ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at file:///workspace/scratch/7074c4c0dda2/CangJie/tests/unit/discovered-rule-ui.test.mjs:184:12
+      at withCard (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/unit/discovered-rule-ui.test.mjs:57:474)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/unit/discovered-rule-ui.test.mjs:182:3)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

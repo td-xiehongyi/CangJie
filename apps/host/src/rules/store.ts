@@ -51,6 +51,14 @@ export class ProjectRuleStore {
   async reviseProjectRule(ref:ProjectRuleRef,changes:{expectedBehavior:string[];answers?:Record<string,string>;note:string;requirements?:RuleRequirements},expectedRevision:number):Promise<ProjectRuleVersion>{
     ref=structuredClone(ref);changes=structuredClone(changes);return this.mutate(ref.projectId,expectedRevision,async r=>{const current=this.current(r,ref);if(typeof changes.note!=='string'||!changes.note.trim())throw new Error('RULE_CORRECTION_REQUIRED');const next=stamp({...current,version:current.version+1,expectedBehavior:changes.expectedBehavior,answers:changes.answers??current.answers,...(changes.requirements!==undefined?{requirements:changes.requirements}:{}),confirmation:{status:'pending'},corrections:[...current.corrections,{time:new Date().toISOString(),note:changes.note,previousVersion:current.version}]});await this.options.validateSources?.(next);r.history.push(next);if(r.selectedRule?.id===next.id)delete r.selectedRule;return next});
   }
+  async appendRuleCorrection(ref:ProjectRuleRef,note:string,expectedRevision:number):Promise<ProjectRuleVersion>{
+    ref=structuredClone(ref);return this.mutate(ref.projectId,expectedRevision,r=>{
+      const current=this.current(r,ref);if(typeof note!=='string'||!note.trim()||note.length>8000)throw new Error('RULE_CORRECTION_REQUIRED');
+      const next=stamp({...current,version:current.version+1,confirmation:{status:'pending'},corrections:[...current.corrections,{time:new Date().toISOString(),note:note.trim(),previousVersion:current.version}]});
+      // A correction may document stale source; it never restores confirmation.
+      r.history.push(next);if(r.selectedRule?.id===next.id)delete r.selectedRule;return next;
+    });
+  }
   async confirmVersion(projectId:string,ruleId:string,version:number,expectedRevision:number,confirmed:boolean):Promise<ProjectRuleVersion>{if(confirmed!==true)throw new Error('RULE_CONFIRMATION_REQUIRED');return this.mutate(projectId,expectedRevision,async r=>{const current=r.history.filter(v=>v.id===ruleId).at(-1);if(!current||current.version!==version)throw new Error('STALE_PROJECT_RULE');if(current.confirmation.status==='confirmed')throw new Error('RULE_ALREADY_CONFIRMED');complete(current);const next=stamp({...current,version:current.version+1,confirmation:{status:'confirmed',time:new Date().toISOString(),actor:'local_user'}});await this.options.validateSources?.(next);r.history.push(next);return next})}
   async assertCurrent(ref:ProjectRuleRef):Promise<ProjectRuleVersion>{ref=structuredClone(ref);const current=this.current(await this.read(ref.projectId),ref);if(current.confirmation.status!=='confirmed')throw new Error('RULE_CONFIRMATION_REQUIRED');return structuredClone(current)}
   async withCurrentRule<T>(ref:ProjectRuleRef,work:(rule:ProjectRuleVersion)=>Promise<T>):Promise<T>{
