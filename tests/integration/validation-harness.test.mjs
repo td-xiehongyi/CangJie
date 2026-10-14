@@ -7,6 +7,13 @@ const root=new URL('../../',import.meta.url);
 const json=async path=>JSON.parse(await readFile(new URL(path,root),'utf8'));
 async function api(){assert.ok(existsSync(new URL('apps/host/dist/validation/reference-runner.js',root)),'T3 independent validation runner must exist');return import('../../apps/host/dist/validation/reference-runner.js');}
 const records=[];
+test('independent controls cannot hide non-executable title defaults',async()=>{
+  const a=await api(),spec=await json('tests/fixtures/title-update.json');
+  spec.parameters={title:{type:'string'},newTitle:{type:'string'}};
+  const result=await a.validateAgainstSuite(spec,await a.loadValidationSuite('title-update-rule'));
+  assert.equal(result.gateResults.static,false);assert.equal(result.gateResults.admitted,false);
+  assert.equal(result.cases.length,0);
+});
 for(const [file,rule] of [['saved-result','save-rule'],['duplicate-submit','duplicate-rule'],['permission-isolation','permission-rule']]){
   test(`${file}: real Cangjie observation and HTTP normal/defect/unknown controls`,async()=>{
     const a=await api(),suite=await a.loadValidationSuite(rule),spec=await json(`templates/${file}.json`);

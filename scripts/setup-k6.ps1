@@ -1,4 +1,5 @@
 $ErrorActionPreference = 'Stop'
+Add-Type -AssemblyName System.IO.Compression.FileSystem
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $toolDirectory = Join-Path $projectRoot '.local-tools'
 $archivePath = Join-Path $toolDirectory 'k6-v2.3.0-windows-amd64.zip'

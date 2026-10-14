@@ -42,6 +42,29 @@ test('proposal request supplies complete public rule and mapping schemas without
 });
 async function candidateFixture(t,reply,status){const x=await setup(t,reply,status),a=await candidateApi(),suite=await a.loadValidationSuite('title-update-rule');return {...x,a:{...x.a,...a},suite,rule:suite.rule,spec:JSON.parse(await readFile(join(root,'tests/fixtures/title-update.json'),'utf8'))};}
 async function task(x,extra={}){return x.a.CandidateTask.create({rule:x.rule,capabilities:x.a.capabilities,context:x.request,consent:x.consent,config:x.config,...extra},x.keys);}
+
+test('AI reference is saved with its candidate revision without changing executable qualification',async t=>{
+  const spec=JSON.parse(await readFile(join(root,'tests/fixtures/title-update.json'),'utf8'));
+  const reference={applicable:['仅修改标题且可查询完整字段'],excluded:['允许联动修改优先级的业务'],instructions:'创建合成记录，修改标题后查询并核对三个字段。'};
+  const x=await candidateFixture(t,{spec,reference}),c=await task(x),result=await c.run();
+  assert.equal(result.phase,'awaiting_trial');
+  assert.equal(result.validation.gateResults.admitted,true);
+  assert.deepEqual(result.drafts.at(-1).value,spec);
+  assert.deepEqual(result.drafts.at(-1).reference,reference);
+  assert.equal(result.budget.calls,1);
+  const restored=(await x.a.CandidateTask.open(c.id,x.keys)).snapshot();
+  assert.deepEqual(restored.drafts.at(-1).reference,reference);
+  assert.equal(restored.candidateHash,result.validation.candidateHash);
+});
+
+test('invalid AI reference cannot approve or reject an otherwise valid candidate',async t=>{
+  const spec=JSON.parse(await readFile(join(root,'tests/fixtures/title-update.json'),'utf8'));
+  const x=await candidateFixture(t,{spec,reference:{applicable:['所有网站'],excluded:[],instructions:'已审核',technicalReviewed:true}}),c=await task(x),result=await c.run();
+  assert.equal(result.phase,'awaiting_trial');
+  assert.equal(result.drafts.at(-1).reference,undefined);
+  assert.equal(result.budget.calls,1);
+  assert.notEqual(result.status,'published');
+});
 test('proposal is one suggested flow, rules remain pending, malformed proposal is rejected',async t=>{const output={flow:{id:'ticket-edit',title:'Edit ticket'},pendingRules:[],mappingProposals:[],matchReasons:['title update']};const x=await setup(t,output),a=await candidateApi();const p=await a.propose(x.provider,{context:x.request,consent:x.consent},[]);assert.equal(p.flow.id,'ticket-edit');const bad=await setup(t,{...output,flows:[output.flow]});await assert.rejects(a.propose(bad.provider,{context:bad.request,consent:bad.consent},[]),/INVALID_PROPOSAL/);const confirmed=await setup(t,{...output,pendingRules:[{id:'r',version:1,confirmation:'confirmed',source:'model',preconditions:[],expectedChanges:['x'],invariants:[],completionDeadline:1000}]});await assert.rejects(a.propose(confirmed.provider,{context:confirmed.request,consent:confirmed.consent},[]),/INVALID_PROPOSAL/);});
 test('generation_is_not_publication; first passing candidate stops; target business defect preserves qualification', {timeout:30000},async t=>{const spec=JSON.parse(await readFile(join(root,'tests/fixtures/title-update.json'),'utf8')),x=await candidateFixture(t,spec),c=await task(x),source=join(root,'.local-data/target-tests',randomUUID());await cp(join(root,'samples/ticket'),source,{recursive:true});const file=join(source,'src/server.ts'),original=await readFile(file,'utf8');assert.ok(original.includes('SET title=? WHERE'));await writeFile(file,original.replace('SET title=? WHERE',"SET title=?, priority=0 WHERE"));const r=await c.run({source,projectId:'candidate-target',confirmed:true});assert.equal(r.status,'ready_for_review');assert.equal(r.revisionIndex,0);assert.equal(r.budget.calls,1);assert.equal(x.requests.length,1);assert.ok(r.validation.gateResults.admitted);assert.ok(r.trial.completed);assert.deepEqual(r.trial.verdicts.map(v=>v.status),['pass','fail','pass']);assert.ok(r.trial.copyId);assert.ok(r.validation.cases.some(c=>c.verdicts.some(v=>v.status==='fail')));assert.ok(r.validation.cases.some(c=>c.verdicts.some(v=>v.status==='inconclusive')));assert.notEqual(r.status,'published');const sent=JSON.stringify(x.requests[0].body);for(const privateToken of ['title-update-test-probe','c019','held-owner-77','priority-reset','CONTROL_MISMATCH'])assert.ok(!sent.includes(privateToken));assert.ok(!sent.includes('"steps":['));const saved=await readFile(c.path,'utf8');assert.ok(!saved.includes(secret));assert.ok(!saved.includes('private-value'));assert.ok(!saved.includes('"content":'));});
 test('rule_cannot_be_weakened; malformed and constant assertions consume at most two revisions, reopen cannot reset',async t=>{const x=await candidateFixture(t,{rule:{confirmation:'confirmed'},steps:[]}),c=await task(x);const r=await c.run();assert.equal(r.status,'rejected');assert.equal(r.revisionIndex,2);assert.equal(r.budget.calls,3);assert.equal(r.history.filter(h=>h.kind==='validation_failed').length,3);assert.equal(r.ruleHash,x.a.digestRule(x.rule));const reopened=await x.a.CandidateTask.open(c.id,x.keys);assert.equal((await reopened.run()).revisionIndex,2);assert.equal(x.requests.length,3);assert.equal(r.drafts.length,3);});
@@ -66,4 +89,59 @@ test('T6 resume refreshes context, consent and model without resetting candidate
   const context={...x.request,entries:[{path:'extra.md',contentType:'summary'}]};await writeFile(join(x.dir,'extra.md'),'new reduced scope');
   await c.reconfigure({context,consent:undefined,config:{...x.config,model:'new-model'}});const paused=await c.run();assert.equal(paused.code,'SENDING_NOT_CONFIRMED');assert.equal(paused.budget.calls,1);assert.equal(x.requests.length,1);
   await c.reconfigure({context,consent:x.a.confirmDisclosure(await x.a.disclose(context),true),config:{...x.config,model:'new-model'}});const next=await c.run();assert.equal(next.budget.calls,2);assert.equal(next.revisionIndex,first.revisionIndex);assert.equal(x.requests[1].body.model,'new-model');assert.ok(!JSON.stringify(x.requests[1].body).includes('summary.md'));assert.ok(JSON.stringify(x.requests[1].body).includes('extra.md'));
+});
+
+test('candidate exceeding confirmed rule deadline is rejected before execution',async()=>{
+  const {candidateShape}=await candidateApi();
+  const rule=JSON.parse(await readFile(join(root,'tests/reference/suite-manifest.json'),'utf8')).suites.find(s=>s.rule.id==='title-update-rule').rule;
+  const spec=JSON.parse(await readFile(join(root,'tests/fixtures/title-update.json'),'utf8'));
+  spec.limits.runTimeoutMs=60000;
+  assert.equal(candidateShape(spec,rule),false);
+  spec.limits.runTimeoutMs=rule.completionDeadline;
+  assert.equal(candidateShape(spec,rule),true);
+});
+
+test('title parameter defaults must be executable values rather than JSON Schema',async()=>{
+  const a=await candidateApi(),suite=await a.loadValidationSuite('title-update-rule');
+  const spec=JSON.parse(await readFile(join(root,'tests/fixtures/title-update.json'),'utf8'));
+  for(const parameters of [{title:{type:'string'},newTitle:{type:'string'}},{title:'',newTitle:'changed'},{title:'same',newTitle:'same'},{title:'original'}]){
+    assert.equal(a.candidateShape({...spec,parameters},suite.rule),false,JSON.stringify(parameters));
+  }
+  assert.equal(a.candidateShape(spec,suite.rule),true);
+});
+
+test('legacy schema defaults are repaired with fresh qualification without resetting expired model budget',{timeout:60000},async t=>{
+  const spec=JSON.parse(await readFile(join(root,'tests/fixtures/title-update.json'),'utf8'));
+  const x=await candidateFixture(t,spec),c=await task(x);
+  const {digest}=await import('../../apps/host/dist/projects/inspect.js');
+  // A saved checkpoint from the old admission path, whose model budget has expired.
+  const legacy=c.snapshot(),bad={...spec,parameters:{title:{type:'string'},newTitle:{type:'string'}}};
+  legacy.status='validating';legacy.phase='awaiting_trial';legacy.suiteHash=x.suite.suiteHash;
+  legacy.drafts=[{revisionIndex:0,value:bad,hash:digest(bad)}];legacy.candidateHash=digest(bad);
+  legacy.budget={calls:1,tokens:3508,startedAt:Date.now()-x.a.MODEL_PRESET.deadlineMs-1000};
+  await writeFile(c.path,JSON.stringify({record:legacy,hash:digest(legacy)}));
+  const restored=await x.a.CandidateTask.open(c.id,x.keys);
+  const result=await restored.run({source:join(root,'samples/ticket'),projectId:'legacy-parameter-recovery',confirmed:true});
+  assert.equal(result.id,legacy.id);assert.equal(result.revisionIndex,1);
+  assert.deepEqual(result.budget,legacy.budget);assert.equal(x.requests.length,0);
+  assert.deepEqual(result.drafts[0].value,bad);assert.equal(result.drafts.length,2);
+  assert.deepEqual({...result.drafts[1].value,parameters:bad.parameters},bad);
+  assert.equal(typeof result.drafts[1].value.parameters.title,'string');
+  assert.notEqual(result.drafts[1].value.parameters.title,result.drafts[1].value.parameters.newTitle);
+  assert.equal(result.status,'ready_for_review',result.code);assert.ok(result.validation.gateResults.admitted);
+  assert.equal(result.validation.candidateHash,result.candidateHash);assert.equal(result.trial.candidateHash,result.candidateHash);
+  assert.ok(result.trial.verdicts.every(v=>v.status==='pass'));
+  assert.ok(result.history.some(h=>h.kind==='developer_parameter_repair'));
+});
+
+test('legacy repair respects revision limits and cannot coerce arbitrary parameter objects',async t=>{
+  const x=await candidateFixture(t,{}),{digest}=await import('../../apps/host/dist/projects/inspect.js');
+  for(const [revisionIndex,parameters,code] of [[2,{title:{type:'string'},newTitle:{type:'string'}},'REVISION_LIMIT_REACHED'],[0,{title:{type:'string',minLength:1},newTitle:{type:'string'}},'TEMPLATE_SCHEMA_OR_RULE_BINDING_INVALID']]){
+    const c=await task(x),legacy=c.snapshot(),bad={...x.spec,parameters};
+    Object.assign(legacy,{status:'validating',phase:'awaiting_trial',revisionIndex,candidateHash:digest(bad),drafts:[{revisionIndex,value:bad,hash:digest(bad)}]});
+    await writeFile(c.path,JSON.stringify({record:legacy,hash:digest(legacy)}));
+    const result=await (await x.a.CandidateTask.open(c.id,x.keys)).run();
+    assert.equal(result.code,code);assert.equal(result.drafts.length,1);assert.deepEqual(result.budget,legacy.budget);
+  }
+  assert.equal(x.requests.length,0);
 });

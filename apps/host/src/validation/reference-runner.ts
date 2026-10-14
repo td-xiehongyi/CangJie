@@ -12,6 +12,7 @@ import {CredentialSession} from '../execution/session.js';
 import {execute} from '../execution/http.js';
 import {bindMapping,mappingHash} from '../execution/mapping.js';
 import {capabilities,command,runPayload,matches,validateObservations,type SampleFrame,type CaseResult} from './observations.js';
+import {executableParameters} from './parameters.js';
 
 const root=fileURLToPath(new URL('../../../../',import.meta.url));
 const reference=join(root,'tests/reference'),evidenceRoot=join(root,'.local-data/validation');
@@ -89,7 +90,7 @@ export async function validateAgainstSuite(candidate:TemplateSpec,input:Validati
   try{
     const schema=validateContract('TemplateSpec',spec);
     const validation=await command(client,randomUUID(),'start',{operation:'validateTemplate',spec,capabilities});record.interpreterVersion=validation.interpreterVersion;
-    record.gateResults.static=schema.valid&&validation.valid&&spec.ruleRef.id===suite.rule.id&&spec.ruleRef.version===suite.rule.version;
+    record.gateResults.static=schema.valid&&validation.valid&&executableParameters(spec)&&spec.ruleRef.id===suite.rule.id&&spec.ruleRef.version===suite.rule.version;
     if(!record.gateResults.static){record.issues.push('STATIC_REJECTED');return record;}
     record.gateResults.coverage=['normal','defect','unknown'].every(kind=>suite.cases.some(c=>c.kind===kind&&!c.heldOut)&&suite.cases.some(c=>c.kind===kind&&c.heldOut));
     const samples=await json(join(root,'tests/fixtures/observations.json')) as Record<string,{trace:SampleFrame[]}>;

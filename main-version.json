@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "main-2026-10-14",
+  "product": "AI开发网站验证系统",
+  "label": "当前主版本",
+  "selectedAt": "2026-10-14",
+  "baselineRecord": "docs/evidence/main-version-baseline.json",
+  "runtime": {
+    "port": 4317,
+    "directory": ".local-data/natural-workflow-preview",
+    "registryDirectory": ".local-data/natural-workflow-preview/registry"
+  }
+}

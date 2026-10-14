@@ -3,11 +3,11 @@
   "sdk": "C:\\Users\\xie\\Desktop\\Project\\.local-tools\\cangjie",
   "sourceArchive": "C:\\Users\\xie\\Desktop\\Project\\output\\delivery\\website-verification-ziwjWs.zip",
   "directory": "C:\\Users\\xie\\Desktop\\Project\\output\\t9-live-9a9bc3ea",
-  "status": "proposal_schema_hotfix_waiting_for_user_retry",
+  "status": "candidate_deadline_hotfix_waiting_for_resume",
   "stdx": "C:\\Users\\xie\\Desktop\\Project\\.local-tools\\stdx\\windows_x86_64_cjnative",
-  "pid": 42312,
+  "pid": 7580,
   "stdout": "C:\\Users\\xie\\Desktop\\Project\\output\\t9-live-9a9bc3ea\\workbench.stdout.log",
   "stderr": "C:\\Users\\xie\\Desktop\\Project\\output\\t9-live-9a9bc3ea\\workbench.stderr.log",
   "url": "http://127.0.0.1:8097",
-  "hotfix": "public-proposal-schemas"
+  "hotfix": "public-proposal-schemas,candidate-rule-deadline"
 }

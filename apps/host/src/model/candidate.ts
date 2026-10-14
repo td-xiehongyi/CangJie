@@ -11,15 +11,16 @@ import {loadValidationSuite,validateAgainstSuite,type SuiteValidationRecord} fro
 import {ModelProvider,ModelFault,type ModelConfig} from './provider.js';
 import {ModelBudget,MODEL_PRESET,type ModelPreset,type BudgetUsage} from './budget.js';
 import {ModelCredentials} from './credentials.js';
-import {generateCandidate,candidateShape} from './proposal.js';
+import {generateCandidate,candidateShape,type CandidateReference} from './proposal.js';
 import type {ContextRequest,DisclosureConsent} from './context.js';
 import {runTargetTrial,type TargetTrialInput,type TargetTrial} from './target-trial.js';
 import {acquireTask} from './task-lock.js';
+import {repairLegacyTitleParameters} from '../validation/parameters.js';
 const root=fileURLToPath(new URL('../../../../',import.meta.url)),base=join(root,'.local-data/candidates');
 export const digestRule=(rule:RuleContract)=>digest(rule);
 export interface CandidateInput {rule:RuleContract;capabilities:CapabilitySet;context:ContextRequest;consent?:DisclosureConsent;config:ModelConfig;preset?:ModelPreset}
 export interface AdmissionState {revisionIndex:number;status:string;phase:string;candidateHash:string;ruleHash:string;suiteHash:string;interpreterVersion:string;code:string}
-interface CandidateRecord extends AdmissionState {schemaVersion:1;id:string;input:CandidateInput;budget:BudgetUsage;drafts:{revisionIndex:number;value:unknown;hash:string}[];history:{kind:string;revisionIndex:number;candidateHash:string;validationRef?:string;diagnostics:string[];time:string;code:string}[];audit:Record<string,unknown>[];validation?:SuiteValidationRecord;trial?:TargetTrial;diagnostics:string[]}
+interface CandidateRecord extends AdmissionState {schemaVersion:1;id:string;input:CandidateInput;budget:BudgetUsage;drafts:{revisionIndex:number;value:unknown;hash:string;reference?:CandidateReference}[];history:{kind:string;revisionIndex:number;candidateHash:string;validationRef?:string;diagnostics:string[];time:string;code:string}[];audit:Record<string,unknown>[];validation?:SuiteValidationRecord;trial?:TargetTrial;diagnostics:string[]}
 /** One task owns one immutable rule and one finite cumulative budget. The local
  * journal persists reservations before calls and never contains a model key.
  * Reopening is read-only; run() is an explicit resume, never a background retry. */
@@ -79,21 +80,36 @@ export class CandidateTask {
       this.data.suiteHash=suite.suiteHash;
       for(;;){
         if(this.data.phase==='awaiting_trial'){
-          if(!target)return this.snapshot();
           const spec=this.data.drafts.at(-1)!.value as TemplateSpec;
+          // Repair only the legacy type-declaration bug; never use target verdicts as revision guidance.
+          if(!candidateShape(spec,rule)){
+            const repaired=repairLegacyTitleParameters(spec);
+            if(!repaired||!candidateShape(repaired,rule)){this.data.code='TEMPLATE_SCHEMA_OR_RULE_BINDING_INVALID';await this.save();return this.snapshot();}
+            this.data.diagnostics=['TEMPLATE_SCHEMA_OR_RULE_BINDING_INVALID'];
+            delete this.data.validation;delete this.data.trial;
+            await this.event(core,'validation_failed',{canRevise:true});
+            if(this.data.status==='rejected')return this.snapshot();
+            const hash=digest(repaired),previous=this.data.drafts.at(-1)!;
+            this.data.drafts.push({revisionIndex:this.data.revisionIndex,value:repaired,hash,...(previous.reference?{reference:previous.reference}:{})});
+            this.data.candidateHash=hash;this.data.phase='validating_draft';
+            this.data.history.push({kind:'developer_parameter_repair',revisionIndex:this.data.revisionIndex,candidateHash:hash,diagnostics:['LEGACY_TITLE_DEFAULTS_REPLACED_WITH_SYNTHETIC_VALUES'],time:new Date().toISOString(),code:'REVALIDATION_REQUIRED'});
+            await this.save();
+            continue;
+          }
+          if(!target)return this.snapshot();
           try{this.data.trial=await runTargetTrial(spec,rule,target);if(!this.data.trial.completed)throw new Error('TARGET_TRIAL_INCOMPLETE');if(!this.data.trial.gateResults.conclusive)throw new Error('TARGET_TRIAL_EVIDENCE_INCOMPLETE');await this.event(core,'trial',{record:this.data.trial});}
           catch(error){this.data.code=(error as Error).message;await this.save();}return this.snapshot();
         }
         if(this.data.phase!=='validating_draft'){
           this.data.phase='model_call';await this.save();
-          let value:unknown;
-          try{value=await generateCandidate(this.provider,rule,capabilities,{context,consent},this.data.revisionIndex,this.data.diagnostics);}
+          let value:unknown,reference:CandidateReference|undefined;
+          try{const generated=await generateCandidate(this.provider,rule,capabilities,{context,consent},this.data.revisionIndex,this.data.diagnostics);value=generated.spec;reference=generated.reference;}
           catch(error){
             const code=(error as Error).message;
             if(error instanceof ModelFault&&error.category==='output'){this.data.candidateHash=digest({invalidOutput:code});this.data.drafts.push({revisionIndex:this.data.revisionIndex,value:{invalidOutput:code},hash:this.data.candidateHash});this.data.diagnostics=[code];await this.event(core,'validation_failed',{canRevise:true});if(this.data.status==='rejected')return this.snapshot();continue;}
             await this.event(core,code==='BUDGET_EXHAUSTED'?'budget_exhausted':error instanceof ModelFault&&error.category==='provider'?'provider_fault':'scope_fault',{code});return this.snapshot();
           }
-          this.data.drafts.push({revisionIndex:this.data.revisionIndex,value,hash:digest(value)});this.data.candidateHash=digest(value);this.data.phase='validating_draft';await this.save();
+          this.data.drafts.push({revisionIndex:this.data.revisionIndex,value,hash:digest(value),...(reference?{reference}:{})});this.data.candidateHash=digest(value);this.data.phase='validating_draft';await this.save();
         }
         const value=this.data.drafts.at(-1)!.value;
         if(candidateShape(value,rule)){

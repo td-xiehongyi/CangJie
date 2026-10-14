@@ -10,7 +10,7 @@
       {"operationId":"update","method":"PATCH","path":"/tickets/:id","bodyBindings":{"title":"title"}},
       {"operationId":"query","method":"GET","path":"/tickets","queryBindings":{"id":"id","intentId":"intent","limit":"limit"}}
     ],
-    "resultBindings":{"create":{"id":["id"],"title":["title"]},"update":{"id":["id"],"title":["title"]},"query":{"id":["items","0","id"],"title":["items","0","title"],"items":["items"]}},
+    "resultBindings":{"create":{"id":["id"],"title":["title"]},"update":{"id":["id"],"title":["title"]},"query":{"id":["items","0","id"],"title":["items","0","title"],"priority":["items","0","priority"],"ownerId":["items","0","ownerId"],"items":["items"]}},
     "queryCompleteness":{"query":{"itemsPath":["items"],"totalPath":["total"],"hasMorePath":["hasMore"],"completePath":["complete"]}}
   }
 }

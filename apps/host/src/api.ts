@@ -4,6 +4,9 @@ import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import {replaceFile} from './artifacts/replace.js';
 import {join} from 'node:path';
 import type {Server} from 'node:http';
+import {createServer as createPortServer} from 'node:net';
+import {prepareCopy} from './projects/copy.js';
+import {bindMapping,mappingHash} from './execution/mapping.js';
 import type {RuleContract} from '@website-verification/contracts';
 import {inspectProject,digest,type ProjectProfile} from './projects/inspect.js';
 import {validateMapping,type HttpMapping} from './execution/mapping.js';
@@ -23,18 +26,21 @@ import {capabilities} from './validation/observations.js';
 import {loadValidationSuite} from './validation/reference-runner.js';
 import {projectRoot} from './validation/review.js';
 import {startTargetLoad,LoadStore,renderLoadReport,LOAD_PRESET,type LoadHandle} from './load/runner.js';
+import {emptyWorkflow,writeWorkflow,reconcileWorkflow,type WorkflowDraft,type PreparationResult} from './projects/workflow.js';
+import {pickProjectDirectory} from './projects/folder-picker.js';
 
-interface Project {id:string;purpose:string;profile:ProjectProfile;mapping:HttpMapping;accounts:RunEnvironment['accounts'];data:RunEnvironment['data'];entries:ContextRequest['entries'];environmentHash:string;environmentConfirmed?:string;consent?:DisclosureConsent;analysis?:{status:string;code?:string;proposal?:unknown;budget?:BudgetUsage;environmentHash?:string};analysisHistory?:unknown[];candidateId?:string;candidateIds?:Record<string,string>;draft?:RegistryDraft}
+interface Project {workflow?:WorkflowDraft;preparation?:PreparationResult;accountMode?:'automatic'|'manual';id:string;purpose:string;profile:ProjectProfile;mapping:HttpMapping;accounts:RunEnvironment['accounts'];data:RunEnvironment['data'];entries:ContextRequest['entries'];environmentHash:string;environmentConfirmed?:string;consent?:DisclosureConsent;analysis?:{status:string;code?:string;proposal?:unknown;budget?:BudgetUsage;environmentHash?:string};analysisHistory?:unknown[];candidateId?:string;candidateIds?:Record<string,string>;draft?:RegistryDraft;reviewDrafts?:Record<string,RegistryDraft>}
 const ruleIds=['save-rule','duplicate-rule','permission-rule','title-update-rule'];
-export async function startWorkbench(options:{directory?:string;registryDirectory?:string;port?:number;uiDirectory?:string}={}){
+export async function startWorkbench(options:{directory?:string;registryDirectory?:string;port?:number;uiDirectory?:string;pickDirectory?:(signal?:AbortSignal)=>Promise<string|null>}={}){
   const directory=options.directory??join(projectRoot,'.local-data/workbench');await mkdir(directory,{recursive:true});
   const registry=new TemplateRegistry(options.registryDirectory),store=new ArtifactStore(join(directory,'runs')),credentials=new CredentialSession(),modelKeys=new ModelCredentials();
   const loads=new LoadStore(join(directory,'loads')),activeLoads=new Map<string,LoadHandle>();
   const loadBusy=(projectId:string)=>[...activeLoads.values()].some(h=>h.snapshot().projectId===projectId);
+  const preparations=new Map<string,Promise<unknown>>(),preparedInSession=new Set<string>();let pickingFolder=false;let folderController:AbortController|undefined;
   const projects=new Map<string,Project>(),active=new Map<string,{executor:RunExecutor;record?:RunRecord;projectId:string;promise:Promise<unknown>}>(),candidateJobs=new Map<string,Promise<unknown>>();
   let config:ModelConfig={serviceUrl:'https://api.deepseek.com',model:''},connection={status:'not_checked',code:''};
   const configFile=join(directory,'state.json');
-  try{const saved=JSON.parse(await readFile(configFile,'utf8'));config=saved.config;for(const p of saved.projects??[]){if(p.analysis?.status==='running'){p.analysis.status='paused';p.analysis.code='INTERRUPTED_MODEL_CALL';}projects.set(p.id,p);}}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
+  try{const saved=JSON.parse(await readFile(configFile,'utf8'));config=saved.config;for(const p of saved.projects??[]){if(preparations.has(p.id))throw new Error('PROJECT_BUSY');if(p.analysis?.status==='running'){p.analysis.status='paused';p.analysis.code='INTERRUPTED_MODEL_CALL';}if(p.preparation?.status==='preparing'){p.preparation.status='interrupted';p.preparation.code='PREPARATION_INTERRUPTED';}projects.set(p.id,p);}}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
   let saveQueue:Promise<void>=Promise.resolve();
   const save=()=>{saveQueue=saveQueue.catch(()=>{}).then(async()=>{
     const tmp=join(directory,randomUUID()+'.tmp');
@@ -45,8 +51,15 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   const modelIdle=(id?:string)=>{if(id?(candidateJobs.has(id)||candidateJobs.has('analysis:'+id)):candidateJobs.size)throw new Error('MODEL_WORK_ACTIVE');};
   const freshEnvironment=async(p:Project)=>{if((await inspectProject(p.profile.root)).sourceHash!==p.profile.sourceHash)throw new Error('CONDITIONS_CHANGED_RECONNECT_REQUIRED');};
   const context=(p:Project):ContextRequest=>({projectId:p.id,root:p.profile.root,serviceUrl:config.serviceUrl,entries:p.entries});
-  const env=(p:Project,reconfirmedChanges=false):RunEnvironment=>({source:p.profile.root,projectId:p.id,confirmed:p.environmentConfirmed===p.environmentHash,data:p.data,accounts:p.accounts,credentials,reconfirmedChanges});
-  const publicCandidate=async(p:Project)=>{if(!p.candidateId)return undefined;const s=(await CandidateTask.open(p.candidateId,modelKeys)).snapshot();return {id:s.id,status:s.status,phase:s.phase,code:s.code,revisionIndex:s.revisionIndex,budget:s.budget,preset:MODEL_PRESET,validation:s.validation?{gateResults:s.validation.gateResults,recordRef:s.validation.recordRef,cases:s.validation.cases,issues:s.validation.issues}:undefined,trial:s.trial?{completed:s.trial.completed,verdicts:s.trial.verdicts}:undefined,spec:s.drafts.at(-1)?.value,draftHash:p.draft?.draftHash};};
+  const automaticPasswords=(p:Project)=>{if(p.accountMode==='automatic')for(const a of p.accounts)if(!credentials.has(p.id,a.actorRef))credentials.set(p.id,a.actorRef,randomBytes(24).toString('base64url'));};
+  const env=(p:Project,reconfirmedChanges=false):RunEnvironment=>{automaticPasswords(p);return ({source:p.profile.root,projectId:p.id,confirmed:p.environmentConfirmed===p.environmentHash,data:p.data,accounts:p.accounts,credentials,reconfirmedChanges});};
+  const publicCandidate=async(p:Project)=>{
+    if(!p.candidateId)return undefined;
+    const s=(await CandidateTask.open(p.candidateId,modelKeys)).snapshot(),latest=s.drafts.at(-1);
+    const saved=p.draft?.taskId===s.id?p.draft:p.reviewDrafts?.[s.id];
+    const draft=saved?.candidateHash===s.candidateHash&&saved?.ruleHash===s.ruleHash?saved:undefined;
+    return {id:s.id,ruleId:s.input.rule.id,candidateHash:s.candidateHash,status:s.status==='ready_for_review'&&candidateJobs.has(p.id)?'validating':s.status==='validating'&&s.phase==='awaiting_trial'&&!candidateJobs.has(p.id)?'paused':s.status,phase:s.status==='ready_for_review'&&candidateJobs.has(p.id)?'finalizing':s.phase,code:s.code,revisionIndex:s.revisionIndex,budget:s.budget,preset:MODEL_PRESET,validation:s.validation?{gateResults:s.validation.gateResults,recordRef:s.validation.recordRef,cases:s.validation.cases,issues:s.validation.issues}:undefined,trial:s.trial?{completed:s.trial.completed,verdicts:s.trial.verdicts}:undefined,spec:latest?.value,reference:latest?.hash===s.candidateHash?latest.reference:undefined,metadata:draft?.metadata,draftHash:draft?.draftHash};
+  };
   const rules:RuleContract[]=[];
   // Load only public rule contracts, never the private suite cases/answers.
   try{rules.push(...JSON.parse(await readFile(join(projectRoot,'resources/public-rules.json'),'utf8')));}
@@ -59,11 +72,15 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   app.use('/api',(req,res,next)=>{const given=req.headers.authorization?.replace(/^Bearer /,'')??'';if(given.length!==token.length||!timingSafeEqual(Buffer.from(given),Buffer.from(token)))return void res.status(401).json({error:'SESSION_REQUIRED'});next();});
   app.get('/api/state',async(_req,res)=>{
     const catalog=await registry.matchReport(capabilities,rules),runs=await store.list();
+    const hashes=new Map(rules.map(r=>[r.id,digest(r)])),versions=new Set(catalog.matches.map(m=>`${rules.find(r=>digest(r)===m.ruleHash)?.id}:${m.ref.hash}`));let reconciled=false;
+    for(const p of projects.values()){const previous=p.workflow??emptyWorkflow();const next=reconcileWorkflow(previous,hashes,p.environmentHash,versions);if(next!==previous){p.workflow=next;reconciled=true;}}if(reconciled)await save();
     for(const [id,r]of active){if(r.record){const index=runs.findIndex(v=>v.id===id);if(index<0)runs.push(r.record);else runs[index]=r.record;}}
     const {readdir}=await import('node:fs/promises');await mkdir(loads.directory,{recursive:true});const loadIds=new Set((await readdir(loads.directory)).filter(n=>/^[a-f0-9-]{36}(\.pending)?\.json$/.test(n)).map(n=>n.slice(0,36)));for(const id of activeLoads.keys())loadIds.add(id);
     const loadRecords=await Promise.all([...loadIds].map(async id=>{const r=activeLoads.get(id)?.snapshot()??await loads.getLoad(id);return {...r,ledger:undefined,evidence:undefined,environment:undefined};}));
-    res.json({loadPreset:LOAD_PRESET,loads:loadRecords,projects:await Promise.all([...projects.values()].map(async p=>({id:p.id,purpose:p.purpose,directory:p.profile.root,name:p.profile.name,supported:p.profile.supported,gaps:p.profile.gaps,gapMarkdown:p.profile.gapMarkdown,sourceHash:p.profile.sourceHash,mapping:p.mapping,accounts:p.accounts.map(a=>({...a,hasPassword:credentials.has(p.id,a.actorRef)})),data:p.data,entries:p.entries,environmentHash:p.environmentHash,environmentConfirmed:p.environmentHash===p.environmentConfirmed,consent:p.consent,analysis:p.analysis,candidate:await publicCandidate(p)}))),rules:rules.map(r=>({...r,hash:digest(r)})),catalog,runs:runs.sort((a,b)=>b.startedAt.localeCompare(a.startedAt)),settings:{serviceUrl:config.serviceUrl,model:config.model,remembered:config.credentialRef?.startsWith('windows:')??false,hasKey:!!config.credentialRef,connection},preset:MODEL_PRESET});
+    res.json({loadPreset:LOAD_PRESET,loads:loadRecords,projects:await Promise.all([...projects.values()].map(async p=>({id:p.id,accountMode:p.accountMode??'manual',purpose:p.purpose,directory:p.profile.root,name:p.profile.name,supported:p.profile.supported,gaps:p.profile.gaps,gapMarkdown:p.profile.gapMarkdown,sourceHash:p.profile.sourceHash,workflow:p.workflow??emptyWorkflow(),preparation:p.preparation?{...p.preparation,sessionCurrent:preparedInSession.has(p.id)&&p.preparation.environmentHash===p.environmentHash}:undefined,mapping:p.mapping,accounts:p.accounts.map(a=>({...a,hasPassword:credentials.has(p.id,a.actorRef)})),data:p.data,entries:p.entries,environmentHash:p.environmentHash,environmentConfirmed:p.environmentHash===p.environmentConfirmed,consent:p.consent,analysis:p.analysis,candidate:await publicCandidate(p)}))),rules:rules.map(r=>({...r,hash:digest(r)})),catalog,runs:runs.sort((a,b)=>b.startedAt.localeCompare(a.startedAt)),settings:{serviceUrl:config.serviceUrl,model:config.model,remembered:config.credentialRef?.startsWith('windows:')??false,hasKey:!!config.credentialRef,connection},preset:MODEL_PRESET});
   });
+  app.post('/api/projects/pick-directory',async(_req,res)=>{if(pickingFolder)throw new Error('FOLDER_PICKER_BUSY');pickingFolder=true;const controller=new AbortController();folderController=controller;res.once('close',()=>{if(!res.writableEnded)controller.abort();});try{res.json({directory:await (options.pickDirectory??pickProjectDirectory)(controller.signal)});}finally{pickingFolder=false;if(folderController===controller)folderController=undefined;}});
+  app.post('/api/projects/:id/workflow',async(req,res)=>{project(req.params.id);const catalog=await registry.matchReport(capabilities,rules),p=project(req.params.id),hashes=new Map(rules.map(r=>[r.id,digest(r)])),versions=new Set(catalog.matches.map(m=>`${rules.find(r=>digest(r)===m.ruleHash)?.id}:${m.ref.hash}`));p.workflow=writeWorkflow(p.workflow??emptyWorkflow(),req.body,hashes,p.environmentHash,versions);await save();res.json(p.workflow);});
   app.post('/api/settings',async(req,res)=>{
     modelIdle();const next={serviceUrl:String(req.body.serviceUrl??''),model:String(req.body.model??'')};new ModelProvider(next,modelKeys,new ModelBudget());
     const changed=next.serviceUrl!==config.serviceUrl||next.model!==config.model||!!req.body.key;
@@ -77,42 +94,70 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   app.post('/api/settings/clear',async(_req,res)=>{modelIdle();if(config.credentialRef)await modelKeys.clear(config.credentialRef);delete config.credentialRef;connection={status:'not_checked',code:''};await save();res.json({cleared:true});});
   app.post('/api/settings/check',async(_req,res)=>{connection={status:'running',code:''};try{await new ModelProvider(config,modelKeys,new ModelBudget()).checkConnection();connection={status:'connected',code:''};res.json(connection);}catch(e){connection={status:'failed',code:(e as Error).message};throw e;}});
   app.post('/api/projects',async(req,res)=>{
-    const old=req.body.id?project(String(req.body.id)):undefined;if(old)modelIdle(old.id);if(old&&(loadBusy(old.id)||[...active.values()].some(a=>a.projectId===old.id)))throw new Error('PROJECT_BUSY');
+    const old=req.body.id?project(String(req.body.id)):undefined;if(old)modelIdle(old.id);if(old&&(preparations.has(old.id)||loadBusy(old.id)||[...active.values()].some(a=>a.projectId===old.id)))throw new Error('PROJECT_BUSY');
     const profile=await inspectProject(String(req.body.directory??'')),id=old?.id??randomUUID();
-    const accounts=(req.body.accounts??old?.accounts??[]) as (RunEnvironment['accounts'][number]&{password?:string})[];
-    if(accounts.length!==2||accounts.some(a=>!a.actorRef||!a.username||!a.userId||a.role!=='user'))throw new Error('TEST_ACCOUNT_CONFIG_GAP');
+    const accountMode=req.body.accountMode??(req.body.accounts?'manual':old?.accountMode??'manual');
+    if(!['automatic','manual'].includes(accountMode))throw new Error('TEST_ACCOUNT_CONFIG_GAP');
+    const generated=()=>['owner','other'].map(actorRef=>({actorRef,username:'test_'+randomBytes(6).toString('hex'),userId:randomUUID(),role:'user'}));
+    const accounts=(accountMode==='automatic'?(old?.accountMode==='automatic'?old.accounts:generated()):(req.body.accounts??old?.accounts??[])) as (RunEnvironment['accounts'][number]&{password?:string})[];
+    if(accounts.length!==2||new Set(accounts.map(a=>a.userId)).size!==2||new Set(accounts.map(a=>a.actorRef)).size!==2||accounts.some(a=>!a.actorRef||!a.username||!a.userId||a.role!=='user'))throw new Error('TEST_ACCOUNT_CONFIG_GAP');
     const mapping=structuredClone(req.body.mapping??profile.mapping);validateMapping(mapping);
     const data={source:'synthetic' as const,count:Number(req.body.count??old?.data.count??2),seedVersion:profile.initialization?.version??''};
     if(!Number.isSafeInteger(data.count)||data.count<0||data.count>1000)throw new Error('INVALID_DATA_COUNT');
     const publicAccounts=accounts.map(({actorRef,username,userId,role})=>({actorRef,username,userId,role}));
     const environmentHash=digest({sourceHash:profile.sourceHash,mapping,accounts:publicAccounts,data});
-    const p:Project={id,purpose:String(req.body.purpose??old?.purpose??''),profile,mapping,accounts:publicAccounts,data,entries:req.body.entries??old?.entries??[{path:'verification.json',contentType:'summary'}],environmentHash,...(old?.environmentHash===environmentHash?{environmentConfirmed:old.environmentConfirmed}:{}),...(old?{consent:old.consent,candidateId:old.candidateId,candidateIds:old.candidateIds,draft:old.draft,analysis:old.analysis,analysisHistory:old.analysisHistory}: {})};
+    const p:Project={id,accountMode,purpose:String(req.body.purpose??old?.purpose??''),profile,mapping,accounts:publicAccounts,data,entries:req.body.entries??old?.entries??[{path:'verification.json',contentType:'summary'}],environmentHash,...(old?.environmentHash===environmentHash?{environmentConfirmed:old.environmentConfirmed}:{}),...(old?{workflow:old.workflow,preparation:old.preparation,consent:old.consent,candidateId:old.candidateId,candidateIds:old.candidateIds,draft:old.draft,reviewDrafts:old.reviewDrafts,analysis:old.analysis,analysisHistory:old.analysisHistory}: {})};
     if(old&&digest(old.entries)!==digest(p.entries)||old&&old.profile.root!==profile.root)delete p.consent;
-    for(const a of accounts)if(a.password)credentials.set(id,a.actorRef,a.password);projects.set(id,p);await save();res.json({projectId:id});
+    if(accountMode==='automatic'&&old?.accountMode!=='automatic')for(const a of accounts)credentials.set(id,a.actorRef,randomBytes(24).toString('base64url'));
+    for(const a of accounts)if(a.password)credentials.set(id,a.actorRef,a.password);automaticPasswords(p);projects.set(id,p);await save();res.json({projectId:id});
+  });
+  app.post('/api/projects/:id/prepare',async(req,res)=>{
+    const p=project(req.params.id);modelIdle(p.id);
+    if(preparations.has(p.id)||loadBusy(p.id)||[...active.values()].some(a=>a.projectId===p.id))throw new Error('PROJECT_BUSY');
+    if(p.environmentConfirmed!==p.environmentHash)throw new Error('PROJECT_CONFIRMATION_REQUIRED');
+    p.preparation={status:'preparing',environmentHash:p.environmentHash,startedAt:new Date().toISOString()};preparedInSession.delete(p.id);
+    const job=(async()=>{
+      await save();await freshEnvironment(p);if(!p.profile.supported)throw new Error('PROJECT_UNSUPPORTED');automaticPasswords(p);
+      const socket=createPortServer();await new Promise<void>(r=>socket.listen(0,'127.0.0.1',r));const port=(socket.address() as {port:number}).port;await new Promise<void>((r,j)=>socket.close(e=>e?j(e):r()));
+      const copy=await prepareCopy(p.profile,{projectId:p.id,port,confirmed:true,data:p.data,accounts:p.accounts,credentials});
+      try{const mapping=bindMapping(p.mapping,copy.id);await copy.prepareExperiment({checkId:'environment-check',ruleHash:digest('environment-check'),mapping,mappingHash:mappingHash(mapping),confirmed:true,budget:{maxOperations:8,deadlineMs:30000}});await copy.completeAttempt();return {status:'ready',verifiedAccounts:p.accounts.length,copyId:copy.id};}
+      finally{await copy.close();}
+    })();preparations.set(p.id,job);
+    try{const result=await job as {status:'ready';verifiedAccounts:number;copyId:string};p.preparation={...p.preparation!,status:'ready',completedAt:new Date().toISOString(),verifiedAccounts:result.verifiedAccounts};preparedInSession.add(p.id);await save();res.json(result);}
+    catch(error){p.preparation={...p.preparation!,status:'failed',completedAt:new Date().toISOString(),code:scrubSecrets((error as Error).message)};await save();throw error;}finally{preparations.delete(p.id);}
   });
   app.post('/api/projects/:id/scope',async(req,res)=>{const p=project(req.params.id);modelIdle(p.id);p.entries=structuredClone(req.body.entries);delete p.consent;await save();res.json(await disclose(context(p)));});
   app.get('/api/projects/:id/disclosure',async(req,res)=>res.json(await disclose(context(project(req.params.id)))));
   app.post('/api/projects/:id/confirm',async(req,res)=>{const p=project(req.params.id);if(req.body.environment===true){await freshEnvironment(p);if(req.body.environmentHash!==p.environmentHash)throw new Error('STALE_ENVIRONMENT_CONFIRMATION');p.environmentConfirmed=p.environmentHash;}if(req.body.send===true){const d=await disclose(context(p));if(req.body.scopeHash!==d.scopeHash)throw new Error('STALE_SCOPE_CONFIRMATION');p.consent=confirmDisclosure(d,true);}await save();res.json({confirmed:true});});
   app.post('/api/projects/:id/passwords',async(req,res)=>{const p=project(req.params.id);for(const a of p.accounts){const value=req.body[a.actorRef];if(typeof value==='string'&&value)credentials.set(p.id,a.actorRef,value);}res.json({savedInSession:true});});
   app.post('/api/projects/:id/analyze',async(req,res)=>{
-    const p=project(req.params.id);await freshEnvironment(p);if(!env(p).confirmed)throw new Error('PROJECT_CONFIRMATION_REQUIRED');if(p.analysis?.status==='running')throw new Error('ANALYSIS_BUSY');
+    const p=project(req.params.id);await freshEnvironment(p);if(!env(p).confirmed)throw new Error('PROJECT_CONFIRMATION_REQUIRED');if(preparations.has(p.id))throw new Error('PROJECT_BUSY');if(p.analysis?.status==='running')throw new Error('ANALYSIS_BUSY');
     const newConditions=p.analysis?.environmentHash&&p.analysis.environmentHash!==p.environmentHash;if(newConditions){(p.analysisHistory??=[]).push(p.analysis);p.analysis=undefined;}const environmentHash=p.environmentHash;const budget=new ModelBudget(MODEL_PRESET,p.analysis?.budget);p.analysis={status:'running',environmentHash,budget:budget.usage};await save();
     const provider=new ModelProvider(config,modelKeys,budget,async()=>{p.analysis!.budget=budget.usage;await save();});
     const job=propose(provider,{context:context(p),consent:p.consent},[]).then(async proposal=>{p.analysis={status:'completed',environmentHash,proposal,budget:budget.usage};await save();}).catch(async e=>{p.analysis={status:'paused',environmentHash,code:e.message,budget:budget.usage};await save();});
     candidateJobs.set('analysis:'+p.id,job);void job.finally(()=>{if(candidateJobs.get('analysis:'+p.id)===job)candidateJobs.delete('analysis:'+p.id);}).catch(()=>{});res.status(202).json({status:'running'});
   });
   app.post('/api/projects/:id/candidate',async(req,res)=>{
-    const p=project(req.params.id);if(candidateJobs.has(p.id))throw new Error('CANDIDATE_BUSY');if(!env(p).confirmed)throw new Error('PROJECT_CONFIRMATION_REQUIRED');if(req.body.confirmRule!==true)throw new Error('RULE_CONFIRMATION_REQUIRED');
-    await freshEnvironment(p);const selected=rule(String(req.body.ruleId));let task:CandidateTask;p.candidateIds??={};if(p.candidateId){const existing=await CandidateTask.open(p.candidateId,modelKeys);p.candidateIds[existing.snapshot().input.rule.id]=p.candidateId;}const previousId=p.candidateId;p.candidateId=p.candidateIds[selected.id];if(previousId!==p.candidateId)delete p.draft;
+    const p=project(req.params.id);if(preparations.has(p.id))throw new Error('PROJECT_BUSY');if(candidateJobs.has(p.id))throw new Error('CANDIDATE_BUSY');if(!env(p).confirmed)throw new Error('PROJECT_CONFIRMATION_REQUIRED');if(req.body.confirmRule!==true)throw new Error('RULE_CONFIRMATION_REQUIRED');
+    await freshEnvironment(p);const selected=rule(String(req.body.ruleId));let task:CandidateTask;p.candidateIds??={};if(p.candidateId){const existing=await CandidateTask.open(p.candidateId,modelKeys);p.candidateIds[existing.snapshot().input.rule.id]=p.candidateId;}if(p.draft)(p.reviewDrafts??={})[p.draft.taskId]=p.draft;const previousId=p.candidateId;p.candidateId=p.candidateIds[selected.id];if(previousId!==p.candidateId)p.draft=p.candidateId?p.reviewDrafts?.[p.candidateId]:undefined;
     if(p.candidateId){task=await CandidateTask.open(p.candidateId,modelKeys);if(digest(task.snapshot().input.rule)!==digest(selected))throw new Error('RULE_VERSION_MISMATCH');await task.reconfigure({context:context(p),consent:p.consent,config});}
     else{task=await CandidateTask.create({rule:selected,capabilities,context:context(p),consent:p.consent,config},modelKeys);p.candidateId=task.id;p.candidateIds[selected.id]=task.id;delete p.draft;await save();}
     await save();const job=task.run({...env(p),mapping:p.mapping,sourceHash:p.profile.sourceHash}).finally(()=>{candidateJobs.delete(p.id);});candidateJobs.set(p.id,job);void job.catch(()=>{});res.status(202).json({candidateId:task.id});
   });
-  app.post('/api/projects/:id/review',async(req,res)=>{const p=project(req.params.id);if(!p.candidateId)throw new Error('NO_CANDIDATE');p.draft=await registry.stageCandidate(p.candidateId,req.body.metadata);await save();res.json({draftHash:p.draft.draftHash,validationRef:p.draft.validation.recordRef});});
-  app.post('/api/projects/:id/publish',async(req,res)=>{const p=project(req.params.id);if(!p.draft||req.body.scope!==p.draft.draftHash||req.body.businessConfirmed!==true||req.body.technicalReviewed!==true)throw new Error('REVIEW_REQUIRED');const published=await registry.publishCandidate(p.draft.candidateHash,p.draft.validation,{scope:p.draft.draftHash,validationRef:p.draft.validation.recordRef!,decision:'approve',businessConfirmation:req.body.businessConfirmation,technicalReviewer:req.body.technicalReviewer,time:new Date().toISOString()});res.json({ref:published.ref});});
+  app.post('/api/projects/:id/review',async(req,res)=>{
+    const initial=project(req.params.id);modelIdle(initial.id);if(!initial.candidateId)throw new Error('NO_CANDIDATE');
+    const candidateId=String(req.body.candidateId??initial.candidateId);
+    const owned=(p:Project)=>candidateId===p.candidateId||Object.values(p.candidateIds??{}).includes(candidateId);
+    if(!owned(initial))throw new Error('STALE_CANDIDATE');
+    const draft=await registry.stageCandidate(candidateId,req.body.metadata),p=project(req.params.id);
+    if(!owned(p)||req.body.candidateHash!==undefined&&req.body.candidateHash!==draft.candidateHash)throw new Error('STALE_CANDIDATE');
+    if(p.candidateId===candidateId)p.draft=draft;(p.reviewDrafts??={})[candidateId]=draft;
+    await save();res.json({draftHash:draft.draftHash,validationRef:draft.validation.recordRef});
+  });
+  app.post('/api/projects/:id/publish',async(req,res)=>{const p=project(req.params.id);modelIdle(p.id);const draft=p.draft;if(!draft||draft.taskId!==p.candidateId||req.body.scope!==draft.draftHash||req.body.businessConfirmed!==true||req.body.technicalReviewed!==true)throw new Error('REVIEW_REQUIRED');const published=await registry.publishCandidate(draft.candidateHash,draft.validation,{scope:draft.draftHash,validationRef:draft.validation.recordRef!,decision:'approve',businessConfirmation:req.body.businessConfirmation,technicalReviewer:req.body.technicalReviewer,time:new Date().toISOString()});res.json({ref:published.ref});});
   app.post('/api/templates/disable',async(req,res)=>{await registry.disableVersion(req.body.ref,req.body.reason);res.json({disabled:true});});
   const launch=(p:Project,plan:ReturnType<typeof confirmPlan>,parentRunId?:string,sourceRun?:RunRecord)=>{
-    if(loadBusy(p.id)||[...active.values()].some(a=>a.projectId===p.id))throw new Error('PROJECT_BUSY');const id=randomUUID(),executor=new RunExecutor(registry,store);
+    if(preparations.has(p.id)||loadBusy(p.id)||[...active.values()].some(a=>a.projectId===p.id))throw new Error('PROJECT_BUSY');const id=randomUUID(),executor=new RunExecutor(registry,store);
     const entry={executor,projectId:p.id,record:undefined as RunRecord|undefined,promise:Promise.resolve() as Promise<unknown>};active.set(id,entry);
     entry.promise=executor.run(plan,{...env(p),sourceRun},parentRunId,r=>{entry.record=r;},id).catch(async error=>{const failed:RunRecord={schemaVersion:1,id,projectId:p.id,flow:plan.flow,kind:'verification',status:'blocked',startedAt:new Date().toISOString(),finishedAt:new Date().toISOString(),plan,checks:[],events:[],evidence:{},uncovered:[error.message]};await store.finish(failed);}).finally(()=>active.delete(id));void entry.promise.catch(()=>{});return id;
   };
@@ -124,22 +169,22 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   app.get('/api/runs/:id/package',async(req,res)=>res.json(await exportPackage(store,req.params.id)));
   app.get('/api/runs/:id/report',async(req,res)=>{res.type('text/markdown').send(renderReport(await store.get(req.params.id)));});
   app.post('/api/projects/:id/load',async(req,res)=>{
-    const p=project(req.params.id);if(loadBusy(p.id)||[...active.values()].some(a=>a.projectId===p.id))throw new Error('PROJECT_BUSY');await freshEnvironment(p);
+    const p=project(req.params.id);if(preparations.has(p.id)||loadBusy(p.id)||[...active.values()].some(a=>a.projectId===p.id))throw new Error('PROJECT_BUSY');await freshEnvironment(p);
     const sourceRun=await store.get(String(req.body.sourceRunId));if(sourceRun.projectId!==p.id)throw new Error('PROJECT_MISMATCH');
     // Only target settings are accepted from the browser; source evidence and
     // registry/environment always come from trusted local state.
     const settings={...(req.body.target??{}),...LOAD_PRESET};
     // Recheck synchronously after reads: two concurrent requests must not both
     // pass the earlier busy guard and register independent generators.
-    if(loadBusy(p.id)||[...active.values()].some(a=>a.projectId===p.id))throw new Error('PROJECT_BUSY');
+    if(preparations.has(p.id)||loadBusy(p.id)||[...active.values()].some(a=>a.projectId===p.id))throw new Error('PROJECT_BUSY');
     const h=startTargetLoad({...settings,sourceRun,environment:env(p),registry,directory:loads.directory},p.mapping);activeLoads.set(h.id,h);
     void h.result.finally(()=>activeLoads.delete(h.id)).catch(()=>{});res.status(202).json({loadId:h.id});
   });
   app.get('/api/loads/:id',async(req,res)=>{validId(req.params.id);res.json(activeLoads.get(req.params.id)?.snapshot()??await loads.getLoad(req.params.id));});
   app.get('/api/loads/:id/report',async(req,res)=>res.type('text/markdown').send(renderLoadReport(await loads.getLoad(req.params.id))));
   app.post('/api/loads/:id/stop',async(req,res)=>{const h=activeLoads.get(req.params.id);if(!h)throw new Error('LOAD_NOT_ACTIVE');res.json(await h.stop('manual_cancel'));});
-  const closeSecrets=async()=>{await Promise.all([...activeLoads.values()].map(h=>h.stop('session_closed')));await Promise.all([...active.values()].map(a=>a.executor.stop()));await Promise.all([...active.values()].map(a=>a.promise));credentials.close();modelKeys.close();};
-  app.post('/api/session/close',async(_req,res)=>{if(candidateJobs.size)throw new Error('MODEL_WORK_ACTIVE');await closeSecrets();res.json({closed:true});});
+  const closeSecrets=async()=>{folderController?.abort();await Promise.allSettled([...preparations.values()]);await Promise.all([...activeLoads.values()].map(h=>h.stop('session_closed')));await Promise.all([...active.values()].map(a=>a.executor.stop()));await Promise.all([...active.values()].map(a=>a.promise));credentials.close();modelKeys.close();};
+  app.post('/api/session/close',async(_req,res)=>{if(candidateJobs.size||preparations.size)throw new Error('MODEL_WORK_ACTIVE');await closeSecrets();res.json({closed:true});});
   app.use('/api',(_req,res)=>res.status(404).json({error:'NOT_FOUND'}));
   app.use(express.static(options.uiDirectory??join(projectRoot,'apps/ui/dist')));
   app.use((error:Error,_req:express.Request,res:express.Response,_next:express.NextFunction)=>{res.status(400).json({error:scrubSecrets(error.message)});});
