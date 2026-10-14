@@ -24,6 +24,14 @@ export const discoveryApi={
   select:(id:string,suggestionId:string,revision:number)=>api(`/discovery/${id}/selection`,{suggestionId,revision}),
   excerpt:(id:string,index:number)=>api(`/discovery/${id}/excerpts/${index}`)
 };
+export const projectRulesApi={
+  list:(projectId:string)=>api(`/projects/${encodeURIComponent(projectId)}/rules`),
+  confirm:(projectId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/confirm`,body),
+  revise:(projectId:string,ruleId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/${encodeURIComponent(ruleId)}/revise`,body),
+  confirmVersion:(projectId:string,ruleId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/${encodeURIComponent(ruleId)}/confirm-version`,body),
+  select:(projectId:string,body:unknown)=>api(`/projects/${encodeURIComponent(projectId)}/rules/selection`,body),
+  version:(projectId:string,ruleId:string,version:number)=>api(`/projects/${encodeURIComponent(projectId)}/rules/${encodeURIComponent(ruleId)}/versions/${version}`)
+};
 export const ruleNames:Record<string,string>={'save-rule':'提交结果保存','duplicate-rule':'重复提交不重复创建','permission-rule':'账号之间权限隔离','title-update-rule':'只改标题，优先级和所有者不变'};
 export const statusNames:Record<string,string>={completed:'已完成',running:'进行中',preparing:'准备中',blocked:'受阻',paused:'已暂停',cancelled:'已停止',interrupted:'上次运行未完成',pass:'通过',fail:'发现问题',inconclusive:'无法验证',ready_for_review:'等待双重审核',draft:'草稿',rejected:'未获准入',needs_rule:'等待规则确认',needs_capability:'缺少能力',validating:'验证中',not_checked:'尚未检查',connected:'连接已通过',failed:'连接失败'};
 export type CommonProps={state:Data;project?:Data;run?:Data;refresh:()=>Promise<void>;act:(work:()=>Promise<void>)=>void;settingsReturn?:string;select:(projectId:string,runId?:string,page?:string)=>void};
@@ -31,6 +39,21 @@ export type CommonProps={state:Data;project?:Data;run?:Data;refresh:()=>Promise<
 export function friendlyError(code:string):string{
   const messages:Record<string,string>={
     SESSION_REQUIRED:'工作台连接已失效，当前输入已保留。请先重新连接，再决定如何保存。',
+    RULE_ALREADY_EXISTS:'此分析建议已保存为项目规则，请核对最新版本并修订已有规则。',
+    RULE_ALREADY_CONFIRMED:'此版本已确认，请加载最新规则，选择当前精确版本。',
+    RULE_CORRECTION_REQUIRED:'请填写本次业务预期修订的纠正说明。',
+    STALE_PROJECT_RULE:'此规则已有新版本，本页输入已保留，请核对最新版本后再保存。',
+    INVALID_PROJECT_RULE:'项目规则内容无效，请核对关键问题、预期行为和规则结构。',
+    CORRUPT_PROJECT_RULES:'项目规则存档完整性核对失败，已阻止保存和使用。请保留存档并联系开发者核对。',
+    RULE_NOT_FOUND:'未找到该规则版本，请核对当前项目与历史版本。',
+    SUGGESTION_NOT_FOUND:'未找到此分析建议，请加载最新分析后核对。',
+    RULE_REVISION_CONFLICT:'另一页面已更新项目规则。本页输入已保留，请核对最新版本，再显式确认或保存。',
+    RULE_CONFIRMATION_REQUIRED:'项目规则尚未确认。请回答关键问题并核对业务预期；修订后需要重新确认。',
+    RULE_CAPABILITY_GAP:'当前能力不能可靠执行此规则，请补齐动作、角色、参数和观察字段。',
+    VALIDATION_RESOURCE_GAP:'缺少此规则精确版本的独立验证资源，暂不能生成合格方案或执行。',
+    RULE_VERSION_MISMATCH:'规则版本或内容已变化，请核对最新版本并重新选择。',
+    RULE_PROJECT_MISMATCH:'这条规则属于其他项目，请选择当前项目的规则。',
+    INVALID_RULE_INPUT:'项目规则内容无效，请核对关键问题、预期行为和纠正说明。',
     ANALYSIS_CONFLICT:'另一页面已修改分析范围。本页输入已保留，请加载最新范围或保留本页重新保存。',
     ANALYSIS_BUDGET_EXHAUSTED:'本次分析预算已耗尽，已保存读取记录和部分结果；继续原任务不会重置预算。',
     ANALYSIS_PAUSED:'分析已暂停，在途请求已取消或记录未知用量。',

@@ -74,3 +74,43 @@ export function validateDiscoveryContract(name:'SourceSnapshot'|'SourceRef'|'Sou
   }
   return {valid,issues:valid?[]:[{path:'',code:'INVALID_'+name.replace(/([a-z])([A-Z])/g,'$1_$2').toUpperCase()}]};
 }
+
+/** Project-local semantics are versioned separately from public executable contracts. */
+export interface ProjectRuleRef {projectId:string;id:string;version:number;contentHash:string}
+export interface RuleRequirements {
+  operations:{operationId:string;actorRef:string;parameters:string[]}[];
+  observations:{operationId:string;field:string;requiresComplete:boolean}[];
+  assertions:string[];dataConditions:string[];
+}
+export interface RuleCorrection {time:string;note:string;previousVersion:number}
+export interface ProjectRuleVersion extends ProjectRuleRef {
+  suggestionRef:{discoveryId:string;suggestionId:string};sourceRefs:SourceRef[];flow:string;
+  facts:DiscoveryStatement[];expectations:DiscoveryExpectation[];openQuestions:string[];answers:Record<string,string>;
+  expectedBehavior:string[];operationNeeds:string[];observationNeeds:string[];requirements?:RuleRequirements;
+  confirmation:{status:'pending'|'confirmed';time?:string;actor?:'local_user'};corrections:RuleCorrection[];
+}
+export interface RuleReadiness {
+  ruleRef:ProjectRuleRef;status:'reusable'|'generatable'|'needs_conditions'|'needs_capability';
+  missing:{code:string;detail:string}[];matchedTemplateRef?:{id:string;version:string;hash:string};
+}
+const ruleText=(v:unknown):v is string=>typeof v==='string'&&v.trim().length>0&&v.length<=8000;
+const ruleStrings=(v:unknown)=>Array.isArray(v)&&v.length<=64&&v.every(ruleText);
+const boundedId=(v:unknown)=>typeof v==='string'&&/^[A-Za-z0-9_-]{1,200}$/.test(v)&&!['__proto__','constructor','prototype'].includes(v);
+export function validRuleRequirements(v:unknown):v is RuleRequirements {
+  return object(v)&&list(v.operations,o=>object(o)&&boundedId(o.operationId)&&boundedId(o.actorRef)&&Array.isArray(o.parameters)&&o.parameters.length<=32&&o.parameters.every(boundedId))&&(v.operations as unknown[]).length<=32
+    &&list(v.observations,o=>object(o)&&boundedId(o.operationId)&&boundedId(o.field)&&typeof o.requiresComplete==='boolean')&&(v.observations as unknown[]).length<=64
+    &&Array.isArray(v.assertions)&&v.assertions.length<=32&&v.assertions.every(boundedId)&&ruleStrings(v.dataConditions);
+}
+export function validProjectRuleVersion(v:unknown):v is ProjectRuleVersion {
+  const statement=(s:any)=>object(s)&&ruleText(s.text)&&Array.isArray(s.sourceRefs)&&s.sourceRefs.length>0&&s.sourceRefs.length<=64&&s.sourceRefs.every(ref);
+  return object(v)&&boundedId(v.projectId)&&boundedId(v.id)&&integer(v.version,1)&&hash(v.contentHash)&&ruleText(v.flow)
+    &&object(v.suggestionRef)&&boundedId(v.suggestionRef.discoveryId)&&boundedId(v.suggestionRef.suggestionId)
+    &&Array.isArray(v.sourceRefs)&&v.sourceRefs.length>0&&v.sourceRefs.length<=64&&v.sourceRefs.every(ref)
+    &&list(v.facts,statement)&&(v.facts as unknown[]).length>0&&(v.facts as unknown[]).length<=64
+    &&list(v.expectations,e=>statement(e)&&['documentation','project_test','ai_hypothesis'].includes(e.source)&&e.confirmation==='pending')&&(v.expectations as unknown[]).length<=64
+    &&ruleStrings(v.openQuestions)&&new Set(v.openQuestions as string[]).size===(v.openQuestions as unknown[]).length&&object(v.answers)&&Object.keys(v.answers).length<=64&&Object.entries(v.answers).every(([key,value])=>ruleText(key)&&ruleText(value)&&(v.openQuestions as string[]).includes(key))
+    &&ruleStrings(v.expectedBehavior)&&(v.expectedBehavior as unknown[]).length>0&&ruleStrings(v.operationNeeds)&&ruleStrings(v.observationNeeds)
+    &&(v.requirements===undefined||validRuleRequirements(v.requirements))&&object(v.confirmation)&&['pending','confirmed'].includes(String(v.confirmation.status))
+    &&(v.confirmation.status!=='confirmed'||v.confirmation.actor==='local_user'&&typeof v.confirmation.time==='string'&&Number.isFinite(Date.parse(v.confirmation.time))&&(v.openQuestions as string[]).every(q=>ruleText((v.answers as Record<string,string>)[q])))
+    &&list(v.corrections,c=>object(c)&&ruleText(c.note)&&integer(c.previousVersion,1)&&Number(c.previousVersion)<Number(v.version)&&typeof c.time==='string'&&Number.isFinite(Date.parse(c.time)))&&(v.corrections as unknown[]).length<=256;
+}

@@ -1,0 +1,12 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+Running 4 tests using 1 worker
+
+(node:326) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/project-rules.spec.ts:14:1 › project rule API preserves exact version references and explicit confirmations (87ms)
+  ✓  2 tests/e2e/project-rules.spec.ts:55:1 › server-rendered discovery requires unanswered questions and explicit independent expectations (159ms)
+  ✓  3 tests/e2e/project-rules.spec.ts:66:1 › server-rendered project rule library shows four readiness states and keeps pending versions blocked (66ms)
+  ✓  4 tests/e2e/project-rules.spec.ts:80:1 › unsaved rule semantics stay distinguishable from the persisted version being confirmed (38ms)
+
+  4 passed (1.5s)

@@ -1,0 +1,23 @@
+(node:55) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a new project-specific rule is confirmed, selected and restored outside the public catalog (11.933357ms)
+✔ critical unanswered questions and inferred expectations cannot be auto-confirmed (1.853924ms)
+✔ project isolation, exact refs and concurrent revision conflicts fail closed (3.502977ms)
+✔ corrections append a pending immutable version, invalidate selection and preserve conflicting facts (7.711202ms)
+✔ draft input objects cannot mutate saved semantics after an await (1.593542ms)
+(node:56) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ four preparation states distinguish expressive gaps, conditions, generation and exact qualified reuse (1.827105ms)
+✔ same-named operations and old semantic versions do not qualify a new business (0.317827ms)
+✔ HTTP 200 and incomplete observation never replace business evidence (0.221616ms)
+✔ actions, roles, parameters, assertions and independent cases must all match (0.271519ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 320.416105

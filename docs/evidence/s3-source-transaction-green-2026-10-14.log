@@ -1,0 +1,13 @@
+(node:35) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:35) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a root changed between optimistic source validation and rule locking cannot be selected (245.648212ms)
+✔ source rebinding cannot mutate identity while locked rule validation is awaiting I/O (177.745963ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 790.483151

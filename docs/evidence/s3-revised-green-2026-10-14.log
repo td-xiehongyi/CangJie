@@ -1,0 +1,36 @@
+(node:77) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:77) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ authenticated APIs preserve project-local confirmation, history and selection without executing (461.921488ms)
+✔ forged projects, stale revisions, stale source and client qualification cannot bypass rule gates (234.730711ms)
+✔ moving a source-only project ID to another directory cannot carry old rules or confirmation (172.63713ms)
+✔ runtime response mappings and completeness declarations are not verified business observations (464.380828ms)
+✔ risk-only source citations remain audited and become stale when their file changes (122.243204ms)
+(node:78) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a new project-specific rule is confirmed, selected and restored outside the public catalog (18.433151ms)
+✔ critical unanswered questions and inferred expectations cannot be auto-confirmed (3.161028ms)
+✔ project isolation, exact refs and concurrent revision conflicts fail closed (8.069384ms)
+✔ corrections append a pending immutable version, invalidate selection and preserve conflicting facts (18.651132ms)
+✔ draft input objects cannot mutate saved semantics after an await (9.010257ms)
+✔ simultaneous independent stores cannot overwrite the same project revision (7.791656ms)
+(node:79) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ four preparation states distinguish expressive gaps, conditions, generation and exact qualified reuse (6.675746ms)
+✔ same-named operations and old semantic versions do not qualify a new business (0.517891ms)
+✔ HTTP 200 and incomplete observation never replace business evidence (0.351246ms)
+✔ actions, roles, parameters, assertions and independent cases must all match (0.285951ms)
+(node:85) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:85) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ S3 rule and capability suites run in both discovery and all dispatch (8.161409ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2042.524075

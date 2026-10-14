@@ -1,6 +1,6 @@
 # 源码业务分析与项目特有检查分阶段实施计划
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans only after explicit authorization to implement the named stage. Steps use checkbox syntax. 用户于2026-10-14后续明确授权核对S1/D1并实施S2/D2、D3及所需测试、档案更新；最新推进顺序为先修当前状态问题并补回归、同步过时文档、完成真实候选和源码分析验收，再推进S3项目规则。S3尚未启动，须先完成前置修复及验收；S4—S5未实施、待另行授权。真实模型调用与源码外发仍须确认实际范围，本轮状态修复已获授权单提交同步至`fix/discovery-analysis-state`分支，main不合并、不强推；发布或替换正式交付包须另获授权；保留历史改动与证据，不自动跨阶段。
+> **For agentic workers:** 用户于2026-10-14先授权状态修复与统一分支同步，随后明确“请继续后续的开发，验收部分可以先跳过”。据此S3可在正式验收延期状态下开发，不能将延期项目记为通过。S3阶段结束仍需开发回归、独立审查并单独同步，再由后续任务按阶段推进S4/S5。真实模型调用与源码外发、实际人员审核、正式运行和交付仍须对应授权；不自动合并main、不强推、不覆盖历史改动与证据。
 
 **Goal:** 从JS/TS网站源码生成带引用的业务概览和项目特有检查，确认后保存项目规则，并使一条超出现有种子语义的新业务进入可信执行与复测。
 
@@ -10,7 +10,7 @@
 
 **Spec:** [需求v0.44](../../业务与容量验证系统需求与设计讨论稿.md) R53—R60；[源码分析设计](../specs/2026-10-14-code-grounded-business-discovery.md)；[总体架构](../specs/2026-10-14-extensible-verification-architecture.md)。
 
-版本：1.4；状态：S1/D1与S2/D2、D3已实现，保留历史离线验收。推送前专项36/38、API4/6的时序问题已在本地补回归并最小修复；本轮7项回归通过，4份专项38/38仅为明确OS互斥替身下的Linux结果，原生Windows完整续验尚未完成。真实候选与源码分析效果仍待验收，S2未完整验收。S3—S5未实施；完成原生续验及真实验收后再推进S3。本轮证据见[状态修复](../../evidence/discovery-state-fix-2026-10-14.md)，历史见[源码索引](../../evidence/discovery-source.md)、[业务分析](../../evidence/discovery-analysis.md)和[推送前核验](../../evidence/remote-push-2026-10-15.md)。
+版本：1.5；状态：S1/D1、S2/D2—D3与S3/D4—D5已开发实现。S3新增后端及runner、身份事务20项，前状态7项、旧四专项38项和4项无浏览器UI检查通过，均按明确Linux OS互斥替身口径，不是原生Windows验收。7项浏览器交互在Chromium启动时受阻，完整check/test因缺仓颉SDK未完成。真实候选与源码分析效果、原生Windows及正式人员审核延期未验证。S4—S5尚未实施；用户允许跳过正式验收继续开发，仍按阶段审查与同步。详见[项目规则证据](../../evidence/project-rules.md)、[状态修复](../../evidence/discovery-state-fix-2026-10-14.md)及保留的历史证据。
 
 ## Global Constraints
 
@@ -47,7 +47,7 @@
 
 ## 文件与接口约定
 
-以下接口按阶段新增；S1源码相关契约、index/access与S2会话、API/UI已实现；S3—S5接口尚未实现。只拆与本主线直接相关的责任，不整体重写api.ts。
+以下接口按阶段新增；S1源码相关契约、index/access与S2会话、API/UI已实现；S3项目规则与准备状态接口已实现；S4—S5执行/复用接口尚未实现。只拆与本主线直接相关的责任，不整体重写api.ts。
 
 | 文件 | 责任 |
 | --- | --- |
@@ -132,7 +132,7 @@ S1历史验收结果：源码专项12/12，旧access37/37，`npm run check`完�
 
 本轮状态修复：持久running读取与任务结束竞争、终态保存与互斥释放竞争及恢复注册窗口已新增确定性屏障回归并最小修复。7项新增回归通过；四份专项在明确OS互斥替身下38/38通过。Linux正式check/test因缺仓颉Windows工具链中止，UI尝试被浏览器启动限制阻断；均不记原生Windows通过。原历史证据未覆盖，详见[本轮修复与续验命令](../../evidence/discovery-state-fix-2026-10-14.md)。
 
-S2已有分析模型响应为本机确定性模拟；两份合成源码的真实发送清单、服务及预算已准备，历史证据记录未同意、未发送。真实候选与源码分析效果仍待实际验收，真实效果复选框保持未完成。本地修复回归和文档同步后，须先完成原生Windows完整续验，再核对真实发送范围、完成真实候选与源码分析验收，再推进尚未启动的S3；不据此进入S4/S5或关闭原T9/T10。
+S2已有分析模型响应为本机确定性模拟；两份合成源码的真实发送清单、服务及预算已准备，历史证据记录未同意、未发送。真实候选与源码分析效果仍待实际验收，真实效果复选框保持未完成。最新授权允许上述正式验收延期未验证、继续阶段开发；S3已推进项目规则准备，但没有运行新规则。按阶段审查与同步后再交后续S4/S5任务，不关闭原T9/T10。
 
 ## S3 项目规则
 
@@ -142,10 +142,11 @@ S2已有分析模型响应为本机确定性模拟；两份合成源码的真实
 
 接口：confirmProjectRule(projectId,suggestion,answers,expectedRevision)→ProjectRuleVersion；getProjectRule(projectId,id,version)→ProjectRuleVersion；reviseProjectRule(ref,changes,expectedRevision)→新版本。未决答案不生成已确认规则；修改语义保留旧版本并清除受影响确认。
 
-- [ ] 测试规则不在既有公共目录仍可保存和被选择；不同项目规则不可串用；双标签revision冲突不覆盖；用户改预期后旧计划失效；未回答关键问题保持待确认。
-- [ ] 测试源码事实“任何人可修改”与需求“仅所有者”冲突时，AI不得自动选实现为正确答案；人工纠正存为追加记录。
-- [ ] 运行`node --test tests/integration/project-rules.test.mjs`确认缺行为，再实现并编译重跑；运行`npx playwright test tests/e2e/project-rules.spec.ts`。
-- [ ] 写`docs/evidence/project-rules.md`：显示规则来源、用户确认及版本；不宣称已执行新规则。
+- [x] 测试规则不在既有公共目录仍可保存和被选择；不同项目规则不可串用；双标签revision冲突不覆盖；用户改预期后旧计划失效；未回答关键问题保持待确认。
+- [x] 测试源码事实“任何人可修改”与需求“仅所有者”冲突时，AI不得自动选实现为正确答案；人工纠正存为追加记录。
+- [x] 规则与API先红后绿，编译与开发回归通过；测试来源合并、同项目共用事务锁及并发切换目录。
+- [ ] 原生Windows `node --test tests/integration/project-rules.test.mjs`与浏览器交互续验；4项无浏览器检查已通过，7项浏览器在启动时受阻，未进入页面。
+- [x] 写`docs/evidence/project-rules.md`：显示规则来源、用户确认及版本；不宣称已执行新规则。
 
 ### D5 规则能力和验证资格分级
 
@@ -153,9 +154,9 @@ S2已有分析模型响应为本机确定性模拟；两份合成源码的真实
 
 接口：assessRule(ruleVersion,projectCapabilities,templateCatalog,validationCatalog)→RuleReadiness。匹配语义和精确版本，检查动作、角色、参数、可观察字段、断言表达能力、验证资源；有接口但无可靠查询证据不能判可执行。
 
-- [ ] 测试四种准备状态及理由；新业务不同语义不能仅按同名动作匹配旧模板；缺私有独立验证资源返回VALIDATION_RESOURCE_GAP；缺查询不能用HTTP200替代断言。
-- [ ] 先运行`node --test tests/integration/rule-readiness.test.mjs`确认失败，实现接口和UI后编译重跑。
-- [ ] UI区分“可生成”与“已有合格方案”，显示未选/受阻范围；S3验收不启动任何无资格规则。记录证据并停止。
+- [x] 测试四种准备状态及理由；新业务不同语义不能仅按同名动作匹配旧模板；缺私有独立验证资源返回VALIDATION_RESOURCE_GAP；缺查询不能用HTTP200替代断言。
+- [x] 先运行`node --test tests/integration/rule-readiness.test.mjs`确认失败，实现接口和UI后编译重跑。
+- [x] UI区分“可生成”与“已有合格方案”，显示未选/受阻范围；S3验收不启动任何无资格规则。记录证据并停止。
 
 ## S4 新业务闭环
 
@@ -203,4 +204,4 @@ S1—S3可以先交付只读分析和推荐，但必须标注新规则尚未实�
 
 ## 文档自审结果
 
-R53→D2/D3；R54→D1/D2；R55→D2/D4；R56→D4/D5/D6；R57→D1/D3；R58→D5/D6；R59→D4/D7；R60→阶段停止点/D8。五项Review Focus均有对应测试任务。预算、规则版本与引用契约集中定义，后续任务复用；D1—D3已实现且保留历史验收记录，本地状态回归已修复，原生Windows完整续验和D3真实模型效果待验收。D4—D8保持未完成；S3在状态修复、回归及真实验收完成后推进，S4/S5不自动启动。
+R53→D2/D3；R54→D1/D2；R55→D2/D4；R56→D4/D5/D6；R57→D1/D3；R58→D5/D6；R59→D4/D7；R60→阶段停止点/D8。五项Review Focus均有对应测试任务。预算、规则版本与引用契约集中定义，后续任务复用；D1—D3已实现且保留历史验收记录，本地状态回归已修复，原生Windows完整续验和D3真实模型效果待验收。D4/D5开发实现与离线回归已完成，正式验收延期未验证；D6—D8未实施。最新授权允许按阶段继续开发，S3审查同步后再推进S4/S5；不把跳过的验收勾为完成。

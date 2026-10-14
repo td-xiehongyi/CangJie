@@ -1,0 +1,28 @@
+(node:56) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ authenticated APIs preserve project-local confirmation, history and selection without executing (290.974454ms)
+✔ forged projects, stale revisions, stale source and client qualification cannot bypass rule gates (134.483432ms)
+(node:57) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a new project-specific rule is confirmed, selected and restored outside the public catalog (20.821666ms)
+✔ critical unanswered questions and inferred expectations cannot be auto-confirmed (2.605132ms)
+✔ project isolation, exact refs and concurrent revision conflicts fail closed (4.726926ms)
+✔ corrections append a pending immutable version, invalidate selection and preserve conflicting facts (11.643505ms)
+✔ draft input objects cannot mutate saved semantics after an await (1.915361ms)
+(node:58) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ four preparation states distinguish expressive gaps, conditions, generation and exact qualified reuse (2.752759ms)
+✔ same-named operations and old semantic versions do not qualify a new business (0.328051ms)
+✔ HTTP 200 and incomplete observation never replace business evidence (0.414859ms)
+✔ actions, roles, parameters, assertions and independent cases must all match (0.376262ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 797.85794

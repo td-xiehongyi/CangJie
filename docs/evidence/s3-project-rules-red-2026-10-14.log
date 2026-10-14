@@ -1,0 +1,124 @@
+(node:60) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:60) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✖ a new project-specific rule is confirmed, selected and restored outside the public catalog (5.30112ms)
+✖ critical unanswered questions and inferred expectations cannot be auto-confirmed (2.202386ms)
+✖ project isolation, exact refs and concurrent revision conflicts fail closed (1.29275ms)
+✖ corrections append a pending immutable version, invalidate selection and preserve conflicting facts (1.725416ms)
+✖ draft input objects cannot mutate saved semantics after an await (1.192682ms)
+(node:61) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✖ four preparation states distinguish expressive gaps, conditions, generation and exact qualified reuse (0.83682ms)
+✖ same-named operations and old semantic versions do not qualify a new business (0.571505ms)
+✖ HTTP 200 and incomplete observation never replace business evidence (0.173425ms)
+✖ actions, roles, parameters, assertions and independent cases must all match (0.128409ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 0
+ℹ fail 9
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 93.860465
+
+✖ failing tests:
+
+test at tests/integration/project-rules.test.mjs:5:1
+✖ a new project-specific rule is confirmed, selected and restored outside the public catalog (5.30112ms)
+  Error: S3_RULE_STORE_NOT_IMPLEMENTED
+      at ProjectRuleStore.list (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/store.js:6:34)
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/project-rules.test.mjs:5:174)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/integration/project-rules.test.mjs:6:1
+✖ critical unanswered questions and inferred expectations cannot be auto-confirmed (2.202386ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /RULE_CONFIRMATION_REQUIRED/. Input:
+  
+  'Error: S3_RULE_STORE_NOT_IMPLEMENTED'
+  
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/project-rules.test.mjs:6:138)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: S3_RULE_STORE_NOT_IMPLEMENTED
+        at ProjectRuleStore.confirmProjectRule (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/store.js:7:48)
+        at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/project-rules.test.mjs:6:165)
+        at async Test.run (node:internal/test_runner/test:1389:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:960:7),
+    expected: /RULE_CONFIRMATION_REQUIRED/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/integration/project-rules.test.mjs:7:1
+✖ project isolation, exact refs and concurrent revision conflicts fail closed (1.29275ms)
+  Error: S3_RULE_STORE_NOT_IMPLEMENTED
+      at ProjectRuleStore.confirmProjectRule (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/store.js:7:48)
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/project-rules.test.mjs:7:153)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/integration/project-rules.test.mjs:8:1
+✖ corrections append a pending immutable version, invalidate selection and preserve conflicting facts (1.725416ms)
+  Error: S3_RULE_STORE_NOT_IMPLEMENTED
+      at ProjectRuleStore.confirmProjectRule (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/store.js:7:48)
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/project-rules.test.mjs:8:181)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/integration/project-rules.test.mjs:9:1
+✖ draft input objects cannot mutate saved semantics after an await (1.192682ms)
+  Error: S3_RULE_STORE_NOT_IMPLEMENTED
+      at ProjectRuleStore.confirmProjectRule (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/store.js:7:48)
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/project-rules.test.mjs:9:175)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/integration/rule-readiness.test.mjs:4:1
+✖ four preparation states distinguish expressive gaps, conditions, generation and exact qualified reuse (0.83682ms)
+  Error: S3_READINESS_NOT_IMPLEMENTED
+      at assessRule (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/readiness.js:1:46)
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/rule-readiness.test.mjs:4:180)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+
+test at tests/integration/rule-readiness.test.mjs:5:1
+✖ same-named operations and old semantic versions do not qualify a new business (0.571505ms)
+  Error: S3_READINESS_NOT_IMPLEMENTED
+      at assessRule (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/readiness.js:1:46)
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/rule-readiness.test.mjs:5:251)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/integration/rule-readiness.test.mjs:6:1
+✖ HTTP 200 and incomplete observation never replace business evidence (0.173425ms)
+  Error: S3_READINESS_NOT_IMPLEMENTED
+      at assessRule (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/readiness.js:1:46)
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/rule-readiness.test.mjs:6:208)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/integration/rule-readiness.test.mjs:7:1
+✖ actions, roles, parameters, assertions and independent cases must all match (0.128409ms)
+  Error: S3_READINESS_NOT_IMPLEMENTED
+      at assessRule (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/rules/readiness.js:1:46)
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/rule-readiness.test.mjs:7:161)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

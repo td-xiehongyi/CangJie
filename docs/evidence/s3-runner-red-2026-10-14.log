@@ -1,0 +1,29 @@
+(node:15) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:15) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ full verification includes state regressions and retains its fifteen-minute timeout (5.231783ms)
+✖ S3 project rule and capability suites are included in discovery and all dispatch (0.526974ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 113.767504
+
+✖ failing tests:
+
+test at tests/unit/verify-discovery-runner.test.mjs:15:1
+✖ S3 project rule and capability suites are included in discovery and all dispatch (0.526974ms)
+  Error [ERR_INVALID_STATE]: Invalid state: Cannot mock 'node:child_process'. The module is already mocked.
+      at MockTracker.module (node:internal/test_runner/mock/mock:676:13)
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/unit/verify-discovery-runner.test.mjs:16:23)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    code: 'ERR_INVALID_STATE'
+  }

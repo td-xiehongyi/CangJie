@@ -1,0 +1,17 @@
+(node:55) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ authenticated APIs preserve project-local confirmation, history and selection without executing (330.618387ms)
+✔ forged projects, stale revisions, stale source and client qualification cannot bypass rule gates (184.749182ms)
+✔ moving a source-only project ID to another directory cannot carry old rules or confirmation (161.595806ms)
+✔ runtime response mappings and completeness declarations are not verified business observations (421.128589ms)
+✔ risk-only source citations remain audited and become stale when their file changes (146.286789ms)
+✔ an update endpoint without title parameter binding remains a missing mapping condition (356.69073ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1993.575027

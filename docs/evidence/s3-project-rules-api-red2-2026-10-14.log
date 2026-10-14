@@ -1,0 +1,53 @@
+(node:13) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✖ authenticated APIs preserve project-local confirmation, history and selection without executing (205.33415ms)
+✖ forged projects, stale revisions, stale source and client qualification cannot bypass rule gates (158.577925ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 755.011383
+
+✖ failing tests:
+
+test at tests/integration/project-rules-api.test.mjs:10:1
+✖ authenticated APIs preserve project-local confirmation, history and selection without executing (205.33415ms)
+  AssertionError [ERR_ASSERTION]: {"error":"NOT_FOUND"}
+  
+  404 !== 200
+  
+      at Object.request (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/project-rules-api.test.mjs:6:307)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/project-rules-api.test.mjs:10:151)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 404,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/project-rules-api.test.mjs:11:1
+✖ forged projects, stale revisions, stale source and client qualification cannot bypass rule gates (158.577925ms)
+  AssertionError [ERR_ASSERTION]: {"error":"NOT_FOUND"}
+  
+  404 !== 400
+  
+      at Object.request (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/project-rules-api.test.mjs:6:307)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/project-rules-api.test.mjs:11:351)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 404,
+    expected: 400,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

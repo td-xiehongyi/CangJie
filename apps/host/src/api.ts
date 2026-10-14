@@ -31,6 +31,10 @@ import {pickProjectDirectory} from './projects/folder-picker.js';
 import {DiscoveryStore} from './discovery/store.js';
 import {DiscoveryService} from './discovery/service.js';
 import {mountDiscoveryRoutes} from './discovery/routes.js';
+import {ProjectRuleStore} from './rules/store.js';
+import {mountProjectRuleRoutes} from './rules/routes.js';
+import type {ProjectCapabilities} from './rules/readiness.js';
+import {validateSourceRefs} from './discovery/access.js';
 
 interface Project {workflow?:WorkflowDraft;preparation?:PreparationResult;accountMode?:'automatic'|'manual';id:string;purpose:string;profile:ProjectProfile;mapping:HttpMapping;accounts:RunEnvironment['accounts'];data:RunEnvironment['data'];entries:ContextRequest['entries'];environmentHash:string;environmentConfirmed?:string;consent?:DisclosureConsent;analysis?:{status:string;code?:string;proposal?:unknown;budget?:BudgetUsage;environmentHash?:string};analysisHistory?:unknown[];candidateId?:string;candidateIds?:Record<string,string>;draft?:RegistryDraft;reviewDrafts?:Record<string,RegistryDraft>}
 const ruleIds=['save-rule','duplicate-rule','permission-rule','title-update-rule'];
@@ -44,6 +48,12 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   const projects=new Map<string,Project>(),active=new Map<string,{executor:RunExecutor;record?:RunRecord;projectId:string;promise:Promise<unknown>}>(),candidateJobs=new Map<string,Promise<unknown>>();
   let config:ModelConfig={serviceUrl:'https://api.deepseek.com',model:''},connection={status:'not_checked',code:''};
   const discoveryStore=new DiscoveryStore(join(directory,'discovery'));
+  const projectRuleStore=new ProjectRuleStore(join(directory,'project-rules'),{validateSources:async rule=>{
+    // Called while holding the same project mutex used by source-project save and runtime import.
+    const record=await discoveryStore.get(rule.suggestionRef.discoveryId),currentDirectory=projects.get(rule.projectId)?.profile.root??(await discoveryStore.getProject(rule.projectId)).directory;
+    if(record.session.projectId!==rule.projectId||currentDirectory.toLowerCase()!==record.snapshot.root.toLowerCase())throw new Error('STALE_SOURCE');
+    if(!(await validateSourceRefs(record.snapshot,record.session.reads,rule.sourceRefs)).valid)throw new Error('STALE_SOURCE');
+  }});
   let discovery=new DiscoveryService({store:discoveryStore,config:()=>config,credentials:modelKeys});
   const configFile=join(directory,'state.json');
   try{const saved=JSON.parse(await readFile(configFile,'utf8'));config=saved.config;for(const p of saved.projects??[]){if(preparations.has(p.id))throw new Error('PROJECT_BUSY');if(p.analysis?.status==='running'){p.analysis.status='paused';p.analysis.code='INTERRUPTED_MODEL_CALL';}if(p.preparation?.status==='preparing'){p.preparation.status='interrupted';p.preparation.code='PREPARATION_INTERRUPTED';}projects.set(p.id,p);}}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
@@ -77,6 +87,19 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   app.get('/api/session',(_req,res)=>res.json({token}));
   app.use('/api',(req,res,next)=>{const given=req.headers.authorization?.replace(/^Bearer /,'')??'';if(given.length!==token.length||!timingSafeEqual(Buffer.from(given),Buffer.from(token)))return void res.status(401).json({error:'SESSION_REQUIRED'});next();});
   const discoveryRoutes=mountDiscoveryRoutes(app,{store:discoveryStore,service:()=>discovery,config:()=>config,runtimeProject:id=>{const p=projects.get(id);return p?{directory:p.profile.root,name:p.profile.name}:undefined},runtimeProjects:()=>[...projects.values()].map(p=>({id:p.id,directory:p.profile.root}))});
+  const projectRuleCapabilities=(id:string):ProjectCapabilities=>{
+    const p=projects.get(id),mapping=p?.mapping;
+    // Executor grammar, not an arbitrary mapping declaration, defines supported inputs.
+    const operationInputs:Record<string,string[]>={create:['title'],query:['id'],update:['id','title']};
+    return {operations:Object.entries(operationInputs).map(([operationId,parameters])=>{
+        const op=mapping?.operations.find(o=>o.operationId===operationId),bindings=new Set([...Object.values(op?.bodyBindings??{}),...Object.values(op?.queryBindings??{}),...(op?.path.match(/:[A-Za-z0-9_-]+/g)??[]).map(v=>v.slice(1))]);
+        return {operationId,parameters,mapped:!!op&&parameters.every(p=>bindings.has(p))};
+      }),
+      actorRefs:p?.preparation?.status==='ready'&&preparedInSession.has(id)&&p.environmentHash===p.environmentConfirmed?p.accounts.filter(a=>credentials.has(id,a.actorRef)).map(a=>a.actorRef):[],
+      observations:Object.entries(mapping?.resultBindings??{}).flatMap(([operationId,fields])=>Object.keys(fields).map(field=>({operationId,field,businessEvidence:false,complete:false}))),
+      assertions:[...capabilities.expressions],dataConditions:[]};
+  };
+  const projectRuleRoutes=mountProjectRuleRoutes(app,{store:projectRuleStore,discoveryStore,discovery:()=>discovery,ensureProject:async id=>{if(projects.has(id))return {directory:project(id).profile.root};try{return await discoveryStore.getProject(id)}catch(e){if((e as NodeJS.ErrnoException).code==='ENOENT')throw new Error('PROJECT_NOT_FOUND');throw e}},capabilities:projectRuleCapabilities});
   app.get('/api/state',async(_req,res)=>{
     const catalog=await registry.matchReport(capabilities,rules),runs=await store.list();
     const hashes=new Map(rules.map(r=>[r.id,digest(r)])),versions=new Set(catalog.matches.map(m=>`${rules.find(r=>digest(r)===m.ruleHash)?.id}:${m.ref.hash}`));let reconciled=false;
@@ -85,8 +108,9 @@ export async function startWorkbench(options:{directory?:string;registryDirector
     const {readdir}=await import('node:fs/promises');await mkdir(loads.directory,{recursive:true});const loadIds=new Set((await readdir(loads.directory)).filter(n=>/^[a-f0-9-]{36}(\.pending)?\.json$/.test(n)).map(n=>n.slice(0,36)));for(const id of activeLoads.keys())loadIds.add(id);
     const loadRecords=await Promise.all([...loadIds].map(async id=>{const r=activeLoads.get(id)?.snapshot()??await loads.getLoad(id);return {...r,ledger:undefined,evidence:undefined,environment:undefined};}));
     const sourceProjects=await discoveryRoutes.publicProjects();
+    const projectRules=Object.fromEntries(await Promise.all([...new Set([...projects.keys(),...sourceProjects.map(p=>p.id)])].map(async id=>[id,await projectRuleRoutes.publicRules(id)])));
     const runtimeProjects=await Promise.all([...projects.values()].map(async p=>({...sourceProjects.find(v=>v.id===p.id),id:p.id,sourceOnly:false,accountMode:p.accountMode??'manual',purpose:p.purpose,directory:p.profile.root,name:p.profile.name,supported:p.profile.supported,gaps:p.profile.gaps,gapMarkdown:p.profile.gapMarkdown,sourceHash:p.profile.sourceHash,workflow:p.workflow??emptyWorkflow(),preparation:p.preparation?{...p.preparation,sessionCurrent:preparedInSession.has(p.id)&&p.preparation.environmentHash===p.environmentHash}:undefined,mapping:p.mapping,accounts:p.accounts.map(a=>({...a,hasPassword:credentials.has(p.id,a.actorRef)})),data:p.data,entries:p.entries,environmentHash:p.environmentHash,environmentConfirmed:p.environmentHash===p.environmentConfirmed,consent:p.consent,analysis:p.analysis,candidate:await publicCandidate(p)})));
-    res.json({loadPreset:LOAD_PRESET,loads:loadRecords,projects:[...runtimeProjects,...sourceProjects.filter(p=>!projects.has(p.id))],rules:rules.map(r=>({...r,hash:digest(r)})),catalog,runs:runs.sort((a,b)=>b.startedAt.localeCompare(a.startedAt)),settings:{serviceUrl:config.serviceUrl,model:config.model,remembered:config.credentialRef?.startsWith('windows:')??false,hasKey:!!config.credentialRef,connection},preset:MODEL_PRESET});
+    res.json({projectRules,loadPreset:LOAD_PRESET,loads:loadRecords,projects:[...runtimeProjects,...sourceProjects.filter(p=>!projects.has(p.id))],rules:rules.map(r=>({...r,hash:digest(r)})),catalog,runs:runs.sort((a,b)=>b.startedAt.localeCompare(a.startedAt)),settings:{serviceUrl:config.serviceUrl,model:config.model,remembered:config.credentialRef?.startsWith('windows:')??false,hasKey:!!config.credentialRef,connection},preset:MODEL_PRESET});
   });
   app.post('/api/projects/pick-directory',async(_req,res)=>{if(pickingFolder)throw new Error('FOLDER_PICKER_BUSY');pickingFolder=true;const controller=new AbortController();folderController=controller;res.once('close',()=>{if(!res.writableEnded)controller.abort();});try{res.json({directory:await (options.pickDirectory??pickProjectDirectory)(controller.signal)});}finally{pickingFolder=false;if(folderController===controller)folderController=undefined;}});
   app.post('/api/projects/:id/workflow',async(req,res)=>{project(req.params.id);const catalog=await registry.matchReport(capabilities,rules),p=project(req.params.id),hashes=new Map(rules.map(r=>[r.id,digest(r)])),versions=new Set(catalog.matches.map(m=>`${rules.find(r=>digest(r)===m.ruleHash)?.id}:${m.ref.hash}`));p.workflow=writeWorkflow(p.workflow??emptyWorkflow(),req.body,hashes,p.environmentHash,versions);await save();res.json(p.workflow);});
@@ -118,8 +142,12 @@ export async function startWorkbench(options:{directory?:string;registryDirector
     const environmentHash=digest({sourceHash:profile.sourceHash,mapping,accounts:publicAccounts,data});
     const p:Project={id,accountMode,purpose:String(req.body.purpose??old?.purpose??''),profile,mapping,accounts:publicAccounts,data,entries:req.body.entries??old?.entries??[{path:'verification.json',contentType:'summary'}],environmentHash,...(old?.environmentHash===environmentHash?{environmentConfirmed:old.environmentConfirmed}:{}),...(old?{workflow:old.workflow,preparation:old.preparation,consent:old.consent,candidateId:old.candidateId,candidateIds:old.candidateIds,draft:old.draft,reviewDrafts:old.reviewDrafts,analysis:old.analysis,analysisHistory:old.analysisHistory}: {})};
     if(old&&digest(old.entries)!==digest(p.entries)||old&&old.profile.root!==profile.root)delete p.consent;
-    if(accountMode==='automatic'&&old?.accountMode!=='automatic')for(const a of accounts)credentials.set(id,a.actorRef,randomBytes(24).toString('base64url'));
-    for(const a of accounts)if(a.password)credentials.set(id,a.actorRef,a.password);automaticPasswords(p);projects.set(id,p);await save();res.json({projectId:id});
+    const persist=async()=>{
+      if(accountMode==='automatic'&&old?.accountMode!=='automatic')for(const a of accounts)credentials.set(id,a.actorRef,randomBytes(24).toString('base64url'));
+      for(const a of accounts)if(a.password)credentials.set(id,a.actorRef,a.password);automaticPasswords(p);projects.set(id,p);await save();
+    };
+    // Existing project identity changes share the source/rule transaction boundary.
+    if(old||sourceOnly)await discoveryStore.exclusive(id,persist);else await persist();res.json({projectId:id});
   });
   app.post('/api/projects/:id/prepare',async(req,res)=>{
     const p=project(req.params.id);modelIdle(p.id);

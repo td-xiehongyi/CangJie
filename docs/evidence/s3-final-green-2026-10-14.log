@@ -1,0 +1,56 @@
+(node:123) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:123) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ authenticated APIs preserve project-local confirmation, history and selection without executing (348.097135ms)
+✔ forged projects, stale revisions, stale source and client qualification cannot bypass rule gates (182.661353ms)
+✔ moving a source-only project ID to another directory cannot carry old rules or confirmation (139.098922ms)
+✔ runtime response mappings and completeness declarations are not verified business observations (361.557519ms)
+✔ risk-only source citations remain audited and become stale when their file changes (115.700074ms)
+✔ an update endpoint without title parameter binding remains a missing mapping condition (260.608327ms)
+(node:135) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:135) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a new project-specific rule is confirmed, selected and restored outside the public catalog (12.650931ms)
+✔ critical unanswered questions and inferred expectations cannot be auto-confirmed (1.794737ms)
+✔ project isolation, exact refs and concurrent revision conflicts fail closed (3.960631ms)
+✔ corrections append a pending immutable version, invalidate selection and preserve conflicting facts (7.76407ms)
+✔ draft input objects cannot mutate saved semantics after an await (2.126405ms)
+✔ simultaneous independent stores cannot overwrite the same project revision (3.684754ms)
+✔ exact semantic references compare fields independently of JSON property order (4.937846ms)
+(node:147) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:147) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ four preparation states distinguish expressive gaps, conditions, generation and exact qualified reuse (2.320891ms)
+✔ same-named operations and old semantic versions do not qualify a new business (0.305259ms)
+✔ HTTP 200 and incomplete observation never replace business evidence (0.236658ms)
+✔ actions, roles, parameters, assertions and independent cases must all match (0.241675ms)
+(node:155) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:155) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a read that captured running before completion cannot report an orphaned pause (100.547841ms)
+✔ a persisted terminal state stays running until the task mutex is released (52.643966ms)
+✔ API observation of a terminal discovery allows settings and runtime import immediately (355.937577ms)
+✔ explicit resume stays running before the initial persisted running checkpoint (62.655277ms)
+✔ idempotent run of a completed discovery returns its terminal state without another request (58.735929ms)
+✔ a complete job lifecycle during an initially idle read cannot produce an ABA orphan pause (36.008826ms)
+(node:167) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:167) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a root changed between optimistic source validation and rule locking cannot be selected (260.137957ms)
+✔ source rebinding cannot mutate identity while locked rule validation is awaiting I/O (174.28558ms)
+(node:179) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:179) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ full verification includes state regressions and retains its fifteen-minute timeout (4.741658ms)
+(node:187) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:187) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ S3 rule and capability suites run in both discovery and all dispatch (5.605727ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4377.564782

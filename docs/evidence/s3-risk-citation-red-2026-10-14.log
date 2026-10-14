@@ -1,0 +1,33 @@
+(node:35) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:35) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✖ risk-only source citations remain audited and become stale when their file changes (236.785598ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 602.803865
+
+✖ failing tests:
+
+test at tests/integration/project-rules-api.test.mjs:14:1
+✖ risk-only source citations remain audited and become stale when their file changes (236.785598ms)
+  AssertionError [ERR_ASSERTION]: {"projectId":"a935d66b-b4b3-4ebf-9fe5-f6ed66e8ddf1","revision":2,"versions":[{"projectId":"a935d66b-b4b3-4ebf-9fe5-f6ed66e8ddf1","id":"db7f58f8-7485-4ec7-8d36-3c1f30285baa","version":1,"contentHash":"e754d42e1664622c7169b9c718db6d5c0c381f841c0daef710e2401f8484cfe2","suggestionRef":{"discoveryId":"4ed7c131-122f-47b5-94ff-1e0137cbf76c","suggestionId":"cancel-order-once"},"sourceRefs":[{"snapshotId":"939fa931-750f-4bfe-a6bd-106e9297c000","path":"src/orders.ts","fileHash":"b51424e1a76feae3342f6b750aa6a9272ad8db5c8aa9710b2ce4f1d633d16400","startLine":1,"endLine":9,"excerptHash":"ea62da3e0a1e41c529425c26ea5286cc478fc05a6f362c99467b4cf60139047c"}],"flow":"取消订单","facts":[{"text":"当前实现按unpaid状态取消，没有在此函数核对所有者。","sourceRefs":[{"snapshotId":"939fa931-750f-4bfe-a6bd-106e9297c000","path":"src/orders.ts","fileHash":"b51424e1a76feae3342f6b750aa6a9272ad8db5c8aa9710b2ce4f1d633d16400","startLine":1,"endLine":9,"excerptHash":"ea62da3e0a1e41c529425c26ea5286cc478fc05a6f362c99467b4cf60139047c"}]}],"expectations":[{"text":"仅订单所有者可以取消，库存至多释放一次。","source":"ai_hypothesis","confirmation":"pending","sourceRefs":[{"snapshotId":"939fa931-750f-4bfe-a6bd-106e9297c000","path":"src/orders.ts","fileHash":"b51424e1a76feae3342f6b750aa6a9272ad8db5c8aa9710b2ce4f1d633d16400","startLine":1,"endLine":9,"excerptHash":"ea62da3e0a1e41c529425c26ea5286cc478fc05a6f362c99467b4cf60139047c"}]}],"openQuestions":["请确认未付款订单可取消及库存恢复规则。"],"answers":{"请确认未付款订单可取消及库存恢复规则。":"仅所有者可取消，库存至多恢复一次"},"expectedBehavior":["仅所有者可取消，库存至多恢复一次"],"operationNeeds":["取消订单入口"],"observationNeeds":["可核对库存及订单归属"],"confirmation":{"status":"confirmed","time":"2026-10-14T16:59:38.639Z","actor":"local_user"},"corrections":[]}],"selectedRule":{"projectId":"a935d66b-b4b3-4ebf-9fe5-f6ed66e8ddf1","id":"db7f58f8-7485-4ec7-8d36-3c1f30285baa","version":1,"contentHash":"e754d42e1664622c7169b9c718db6d5c0c381f841c0daef710e2401f8484cfe2"},"readiness":[{"ruleRef":{"projectId":"a935d66b-b4b3-4ebf-9fe5-f6ed66e8ddf1","id":"db7f58f8-7485-4ec7-8d36-3c1f30285baa","version":1,"contentHash":"e754d42e1664622c7169b9c718db6d5c0c381f841c0daef710e2401f8484cfe2"},"status":"needs_capability","missing":[{"code":"RULE_CAPABILITY_GAP","detail":"业务语义尚未映射为明确动作、角色、参数、观察字段与断言。"},{"code":"VALIDATION_RESOURCE_GAP","detail":"缺此精确规则版本的独立正常、缺陷和证据不足验证资源；旧规则资源不得借用。"}]}]}
+  
+  200 !== 400
+  
+      at Object.request (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/project-rules-api.test.mjs:6:307)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/project-rules-api.test.mjs:14:508)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 400,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

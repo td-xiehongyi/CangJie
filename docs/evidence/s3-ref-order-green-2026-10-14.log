@@ -1,0 +1,12 @@
+(node:76) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:76) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ exact semantic references compare fields independently of JSON property order (17.483652ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 309.595735

@@ -1,0 +1,32 @@
+(node:61) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✖ runtime response mappings and completeness declarations are not verified business observations (494.677685ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 879.925648
+
+✖ failing tests:
+
+test at tests/integration/project-rules-api.test.mjs:13:1
+✖ runtime response mappings and completeness declarations are not verified business observations (494.677685ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(readiness.missing.some(m=>m.code==='BUSINESS_EVIDENCE_GAP'))
+  
+      at TestContext.<anonymous> (file:///workspace/shared/cangjie-s3-verification/tests/integration/project-rules-api.test.mjs:13:722)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
