@@ -1,6 +1,6 @@
 import {useEffect,useRef,useState} from 'react';
 import {api,friendlyError,subscribeSession,type Data} from '../api/client';
-export default function PreparationCard({project,title='执行前准备',onReady,includeSending=false,actionLabel='开始检查'}:{project:Data;title?:string;onReady:()=>Promise<void>;includeSending?:boolean;actionLabel?:string}){
+export default function PreparationCard({project,title='执行前准备',onReady,includeSending=false,actionLabel='执行检查',onCancel}:{project:Data;title?:string;onReady:()=>Promise<void>;includeSending?:boolean;actionLabel?:string;onCancel?:()=>void}){
   const [environment,setEnvironment]=useState(false),[sending,setSending]=useState(false),[disclosure,setDisclosure]=useState<Data>(),[error,setError]=useState(''),[busy,setBusy]=useState(false),[passwords,setPasswords]=useState<Record<string,string>>({});
   const active=useRef(false);
   useEffect(()=>{if(includeSending&&!project.consent)void api(`/projects/${project.id}/disclosure`).then(setDisclosure).catch(e=>setError(e.message));},[project.id,project.consent,includeSending]);
@@ -16,5 +16,5 @@ export default function PreparationCard({project,title='执行前准备',onReady
     {project.environmentConfirmed&&<p className="success">已确认使用独立测试环境；每次检查前会重新准备数据。</p>}
     {project.accounts.filter((a:Data)=>project.accountMode!=='automatic'&&!a.hasPassword).map((a:Data)=><label className="field" key={a.actorRef}>{a.username} 的测试密码<input type="password" autoComplete="off" value={passwords[a.actorRef]??''} onChange={e=>setPasswords({...passwords,[a.actorRef]:e.target.value})}/></label>)}
     {includeSending&&!project.consent&&<><button className="text-button" onClick={()=>void api(`/projects/${project.id}/disclosure`).then(setDisclosure).catch(e=>setError(e.message))}>刷新 AI 读取范围</button>{disclosure&&<div className="notice"><p>AI 服务：{disclosure.serviceUrl}</p>{disclosure.entries.map((e:Data)=><p key={e.path}>{e.path} · {e.contentType}</p>)}<label className="check"><input type="checkbox" checked={sending} onChange={e=>setSending(e.target.checked)}/>同意向该服务发送以上范围内经过过滤的内容</label></div>}</>}
-    {error&&<p role="alert" className="error">{friendlyError(error)}</p>}<div className="actions"><button className="btn primary" disabled={busy} onClick={()=>void prepare()}>{busy?'正在准备环境并验证登录…':actionLabel}</button></div></section>;
+    {error&&<p role="alert" className="error">{friendlyError(error)}</p>}<div className="actions">{onCancel&&<button className="btn" disabled={busy} onClick={onCancel}>取消准备</button>}<button className="btn primary" disabled={busy} onClick={()=>void prepare()}>{busy?'正在准备环境并验证登录…':actionLabel}</button></div></section>;
 }

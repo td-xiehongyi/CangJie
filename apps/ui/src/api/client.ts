@@ -40,6 +40,8 @@ export type CommonProps={step?:number;state:Data;project?:Data;run?:Data;refresh
 
 export function friendlyError(code:string):string{
   const messages:Record<string,string>={
+    TRUNCATED_OUTPUT:'模型输出不完整，未形成完整分析结果；已有进度保留。继续会再次调用模型，累计预算不重置。（TRUNCATED_OUTPUT）',
+    REVISION_LIMIT_REACHED:'方案已达到修订次数上限，尚未取得准入资格。请核对失败证据，再处理方案与条件。（REVISION_LIMIT_REACHED）',
     FULL_INPUT_TOO_LARGE:'02 完整文件材料超过输入上限，请缩小确认范围后重新预览；没有截断或发送。',
     EMPTY_ANALYSIS_INPUT:'02 没有可分析的授权文本文件，请检查范围和排除原因。',
     INVALID_ANALYSIS_INPUT:'02 请选择分析方式并填写有效提示词。',
@@ -62,7 +64,8 @@ export function friendlyError(code:string):string{
     RULE_PROJECT_MISMATCH:'这条规则属于其他项目，请选择当前项目的规则。',
     INVALID_RULE_INPUT:'项目规则内容无效，请核对关键问题、预期行为和纠正说明。',
     ANALYSIS_CONFLICT:'另一页面已修改分析范围。本页输入已保留，请加载最新范围或保留本页重新保存。',
-    ANALYSIS_BUDGET_EXHAUSTED:'本次分析预算已耗尽，已保存读取记录和部分结果；继续原任务不会重置预算。',
+    ANALYSIS_BUDGET_EXHAUSTED:'本次分析预算不足，读取与调用记录已保留。请检查材料后重新分析，或自行填写业务。',
+    ANALYSIS_RESUME_BLOCKED:'原任务已无法继续。请刷新状态，检查材料后重新分析，或自行填写业务。',
     ANALYSIS_PAUSED:'分析已暂停，在途请求已取消或记录未知用量。',
     STALE_SOURCE:'源码已变化，请重新索引后创建新分析。',
     INVALID_DISCOVERY_OUTPUT:'模型返回的业务分析格式无效，进度已保留；可在原预算内显式重试。',

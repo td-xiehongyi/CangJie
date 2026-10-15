@@ -11,7 +11,8 @@ export class ModelProvider {
   readonly config:ModelConfig;readonly audit:Record<string,unknown>[]=[];
   constructor(config:ModelConfig,readonly credentials:ModelCredentials,readonly budget:ModelBudget,private readonly checkpoint:()=>Promise<void>=async()=>{}){this.config=Object.freeze({...config,serviceUrl:serviceUrl(config.serviceUrl)});}
   async checkConnection(){const result=await this.json({purpose:'connection',instructions:'Return JSON only: {"ok":true}.',payload:{}});if(result.value.ok!==true)throw new ModelFault('INCOMPATIBLE_STRUCTURED_OUTPUT','output');return result;}
-  async json(request:ModelRequest):Promise<{value:any;usage:{totalTokens:number};audit:Record<string,unknown>}>{
+  /** Local request construction only; no reservation, checkpoint or network. */
+  async prepare(request:ModelRequest){
     if(!this.config.model||this.config.model!==this.config.model.trim())throw new ModelFault('MODEL_REQUIRED','config');
     const key=await this.credentials.get(this.config.credentialRef,this.config.serviceUrl);
     let context:{files:unknown[];manifest:unknown[];index?:unknown[];sourceBytes?:number}={files:[],manifest:[]};
@@ -27,7 +28,10 @@ export class ModelProvider {
     if(request.purpose==='discovery'&&encodedMaterial.includes(key))throw new ModelFault('SENSITIVE_FILE','scope');
     const messages=[{role:'system',content:this.credentials.redact(request.instructions+'\nRespond with a JSON object only.')},{role:'user',content:encodedMaterial}];
     const body={model:this.config.model,messages,response_format:{type:'json_object'},max_tokens:this.budget.preset.maxOutputTokens,stream:false,...(new URL(this.config.serviceUrl).origin===OFFICIAL_SERVICE?{thinking:{type:'disabled'}}:{})};
-    const encoded=JSON.stringify(body),reservation=this.budget.reserve(Buffer.byteLength(encoded));
+    return {encoded:JSON.stringify(body),context,key};
+  }
+  async json(request:ModelRequest):Promise<{value:any;usage:{totalTokens:number};audit:Record<string,unknown>}>{
+    const {encoded,context,key}=await this.prepare(request),reservation=this.budget.reserve(Buffer.byteLength(encoded));
     const audit:Record<string,unknown>={id:randomUUID(),purpose:request.purpose,model:this.config.model,serviceUrl:this.config.serviceUrl,presetVersion:this.budget.preset.version,manifest:context.manifest,inputBytes:Buffer.byteLength(encoded),sourceBytes:context.sourceBytes??0,startedAt:new Date().toISOString(),status:'started',usageUnknown:true};this.audit.push(audit);
     // Durably reserve the call before the network side effect. A crashed task
     // retains that reservation; reopening never resets spent/uncertain usage.

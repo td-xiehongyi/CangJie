@@ -4,7 +4,9 @@ test('actual settings save-only handler persists without making a model connecti
  const dir=await mkdtemp(join(tmpdir(),'cangjie-settings-ui-'));t.after(()=>rm(dir,{recursive:true,force:true}));await symlink(resolve('node_modules'),join(dir,'node_modules'),process.platform==='win32'?'junction':'dir');
  await writeFile(join(dir,'hooks.mjs'),`let i=0;const values=[];export function reset(){i=0}export function useState(v){const n=i++;if(!(n in values))values[n]=v;return [values[n],v=>values[n]=v]}export function useEffect(){};`);
  await writeFile(join(dir,'client.mjs'),`export const calls=[];export async function api(path,body){calls.push({path,body})}export const statusNames={not_checked:'未检查'};export const friendlyError=x=>x;`);
- const code=ts.transpileModule(await readFile('apps/ui/src/SettingsView.tsx','utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2023,jsx:ts.JsxEmit.ReactJSX}}).outputText.replace("from 'react'","from './hooks.mjs'").replace("from './api/client'","from './client.mjs'");await writeFile(join(dir,'view.mjs'),code);
+ const compilerOptions={module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2023,jsx:ts.JsxEmit.ReactJSX};
+ await writeFile(join(dir,'workflowJourney.mjs'),ts.transpileModule(await readFile('apps/ui/src/workflowJourney.ts','utf8'),{compilerOptions}).outputText);
+ const code=ts.transpileModule(await readFile('apps/ui/src/SettingsView.tsx','utf8'),{compilerOptions}).outputText.replace("from 'react'","from './hooks.mjs'").replace("from './api/client'","from './client.mjs'").replace("from './workflowJourney'","from './workflowJourney.mjs'");await writeFile(join(dir,'view.mjs'),code);
  const {default:View}=await import(pathToFileURL(join(dir,'view.mjs'))),{reset}=await import(pathToFileURL(join(dir,'hooks.mjs'))),{calls}=await import(pathToFileURL(join(dir,'client.mjs')));let pending;
  const props={state:{settings:{hasKey:false,connection:{status:'not_checked',code:''}},preset:{}},act:fn=>pending=fn(),refresh:async()=>{},select:()=>{}};
  const nodes=t=>Array.isArray(t)?t.flatMap(nodes):t&&typeof t==='object'?[t,...nodes(t.props?.children)]:[];

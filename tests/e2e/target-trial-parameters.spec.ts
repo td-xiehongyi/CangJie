@@ -18,10 +18,16 @@ for(const width of [1280,390])test(`inconclusive trial explains request rejectio
     await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('edit');
     await goStep(page,8);
     const review=page.getByRole('region',{name:'检查方案验证与审核',exact:true});
-    await expect(review.getByText('试运行待处理',{exact:true})).toBeVisible();
+    await expect(review.getByRole('status')).toHaveText('已暂停');
+    await expect(review.getByText('项目试运行有证据缺口，请核对限制。',{exact:true})).toBeVisible();
     await expect(review.getByText('接口的接受或拒绝结果与步骤预期不符，请核对请求参数、权限和接口限制。',{exact:false})).toHaveCount(3);
     await expect(review.getByRole('textbox',{name:'业务确认人',exact:true})).toHaveCount(0);
     await expect(review.getByText('试运行暂时无法得出结论，请查看下方具体原因与技术证据，处理后继续原方案。',{exact:true})).toBeVisible();
+    await goStep(page,9);
+    await expect(review.getByRole('textbox',{name:'业务确认人',exact:true})).toHaveCount(0);
+    await expect(review.getByRole('button',{name:'审核通过，保存为可复用方案',exact:true})).toHaveCount(0);
+    await expect(review.getByRole('status')).toHaveText('已暂停');
+    await goStep(page,8);
     await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     await mkdir('output/target-trial-parameters/screenshots',{recursive:true});await review.screenshot({path:`output/target-trial-parameters/screenshots/paused-${width}.png`});
   }finally{await host.close();}

@@ -118,7 +118,7 @@ for(const width of [1280,390])test(`explicit owner expectation is saved without 
   await page.setViewportSize({width,height:900});const x=await setupUi(page);
   try{
     const form=page.getByRole('region',{name:'规则预期核对 修改订单'});
-    await expect(form).toBeVisible();await form.getByText('核对建议的源码事实与候选预期',{exact:true}).click();await expect(form.getByText('当前源码允许任何人修改订单。',{exact:true})).toBeVisible();await expect(form.getByText('仅所有者可修改订单。',{exact:true})).toBeVisible();
+    await expect(form).toBeVisible();await form.getByText('核对建议的源码事实与候选预期',{exact:true}).click();await expect(form.getByText('源码事实：当前源码允许任何人修改订单。',{exact:true})).toBeVisible();await expect(form.getByText('文档预期 · 待确认：仅所有者可修改订单。',{exact:true})).toBeVisible();
     expect(x.writes).toHaveLength(0);await expect(form.getByLabel('已核对关键问题与业务预期')).not.toBeChecked();await expect(form.getByRole('button',{name:'确认并保存项目规则'})).toBeDisabled();
     await form.getByLabel('谁可以修改订单？',{exact:true}).fill('仅所有者');await form.getByLabel('确认后的预期行为（每行一条）').fill('仅所有者可修改订单');await form.getByLabel('已核对关键问题与业务预期').check();await form.getByRole('button',{name:'确认并保存项目规则'}).click();
     await expect(page.getByRole('heading',{name:'项目规则版本库'})).toBeVisible();const saved=page.getByRole('article',{name:'项目规则 修改订单 v1'});await expect(saved).toContainText('已由你确认');await saved.getByRole('button',{name:'选择此版本（仅保存草稿）'}).click();await expect(saved).toContainText('已选为项目规则草稿');

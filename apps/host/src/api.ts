@@ -131,6 +131,9 @@ export async function startWorkbench(options:{directory?:string;registryDirector
     const catalog=await registry.matchReport(capabilities,rules),runs=await store.list();
     const local=new Map<string,{rules:Awaited<ReturnType<typeof executableRules>>;catalog:typeof catalog}>();let reconciled=false;
     for(const p of projects.values()){const compiled=await executableRules(p),available=[...rules,...compiled.map(({hash:_hash,ruleRef:_ref,...r})=>r)],projectCatalog=await registry.matchReport(capabilities,available);local.set(p.id,{rules:compiled,catalog:projectCatalog});const hashes=new Map(available.map(r=>[r.id,digest(r)])),versions=new Set(projectCatalog.matches.map(m=>`${available.find(r=>hashes.get(r.id)===m.ruleHash)?.id}:${m.ref.hash}`));const previous=p.workflow??emptyWorkflow();const next=reconcileWorkflow(previous,hashes,p.environmentHash,versions);if(next!==previous){p.workflow=next;reconciled=true;}}if(reconciled)await save();
+    // A run may finish and leave active while history/project reads are in flight.
+    // Reconcile pending snapshots with live progress or the committed terminal record.
+    for(let i=0;i<runs.length;i++){const run=runs[i]!;if(run.status==='interrupted')runs[i]=active.get(run.id)?.record??await store.get(run.id);}
     for(const [id,r]of active){if(r.record){const index=runs.findIndex(v=>v.id===id);if(index<0)runs.push(r.record);else runs[index]=r.record;}}
     const {readdir}=await import('node:fs/promises');await mkdir(loads.directory,{recursive:true});const loadIds=new Set((await readdir(loads.directory)).filter(n=>/^[a-f0-9-]{36}(\.pending)?\.json$/.test(n)).map(n=>n.slice(0,36)));for(const id of activeLoads.keys())loadIds.add(id);
     const loadRecords=await Promise.all([...loadIds].map(async id=>{const r=activeLoads.get(id)?.snapshot()??await loads.getLoad(id);return {...r,ledger:undefined,evidence:undefined,environment:undefined};}));

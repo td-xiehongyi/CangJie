@@ -14,6 +14,27 @@ async function hostFor(t,respond){
 async function start(x,p,requestId=crypto.randomUUID()){
   return x.request(`/projects/${p.id}/discovery`,{confirmed:true,scopeHash:p.scope.scopeHash,expectedRevision:p.revision,requestId},202);
 }
+test('directory-only import reopens an existing project without replacing its saved scope',async t=>{
+  const x=await hostFor(t,()=>({kind:'insufficient',unresolved:[],limitations:[]}));
+  const p=await x.request('/source-projects',{directory:x.root},201);
+  const saved=await x.request(`/projects/${p.id}/discovery-scope`,{expectedRevision:p.revision,allowedPaths:['src'],excludedPaths:['src/storage.ts'],includeProjectTests:false});
+  const recordPath=join(x.directory,'host','discovery','source-'+p.id+'.json');
+  const before=await readFile(recordPath,'utf8');
+  await x.restart();
+  const reopened=await x.request('/source-projects',{directory:join(x.root,'.')});
+  assert.equal(reopened.id,p.id);
+  assert.equal(reopened.revision,saved.revision);
+  assert.deepEqual(reopened.scope,saved.scope);
+  assert.equal(await readFile(recordPath,'utf8'),before);
+  assert.equal((await x.request('/state')).projects.length,1);
+  assert.equal(x.requests.length,0);
+  const stale=await x.request('/source-projects',{id:p.id,directory:x.root,expectedRevision:p.revision},400);
+  assert.equal(stale.error,'ANALYSIS_CONFLICT');
+  const missing=await x.request('/source-projects',{directory:x.root,allowedPaths:['.']},400);
+  assert.equal(missing.error,'ANALYSIS_CONFLICT');
+  assert.equal(await readFile(recordPath,'utf8'),before);
+});
+
 test('source-only import needs no run configuration and analysis APIs retain session authentication',async t=>{
   const x=await hostFor(t,()=>({kind:'insufficient',unresolved:['需要更多资料'],limitations:[]}));
   const p=await x.request('/source-projects',{directory:x.root},201);assert.ok(p.id&&p.snapshot.files.length);assert.equal(x.requests.length,0);

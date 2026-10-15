@@ -28,6 +28,8 @@ export interface BusinessOverview {
   sourceRefs:SourceRef[];suggestions:BusinessSuggestion[];limitations:string[];unresolved:string[];
 }
 export interface DiscoverySession {
+  /** Computed when reading; never grants authority to bypass server checks. */
+  recovery?:{allowed:boolean;reason:string;message:string};
   id:string;projectId:string;revision:number;snapshotId:string;scopeHash:string;
   status:'draft'|'running'|'partial'|'completed'|'paused'|'stale'|'failed';
   budget:{calls:number;tokens:number;startedAt:number;inputBytes:number;sourceBytes:number};

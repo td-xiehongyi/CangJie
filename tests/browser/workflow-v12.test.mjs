@@ -24,16 +24,27 @@ test('numbered workbench preserves drafts, scopes goals and never auto-dispatche
  await page.waitForURL(/project=/);
  const pid=new URL(page.url()).searchParams.get('project');
  await nav.getByRole('button',{name:/^02 /}).click();
- await page.getByRole('button',{name:'查看读取与发送范围',exact:true}).click();
- await page.getByLabel('按我的提示词分析',{exact:true}).check();
- await page.getByLabel('分析提示词',{exact:true}).fill('识别取消订单业务');
- await nav.getByRole('button',{name:/^05 /}).click();
+ await page.getByLabel('重点关注什么（可选）',{exact:true}).fill('识别取消订单业务');
+ await nav.getByRole('button',{name:/^05 /}).click(); await page.waitForURL(/step=5/);
  await nav.getByRole('button',{name:/^02 /}).click();
- assert.equal(await page.getByLabel('分析提示词',{exact:true}).inputValue(),'识别取消订单业务');
+ await page.waitForURL(/step=2/);
+
+ assert.equal(await page.getByLabel('重点关注什么（可选）',{exact:true}).inputValue(),'识别取消订单业务');
+ assert.equal(await page.getByLabel('重点关注什么（可选）',{exact:true}).inputValue(),'识别取消订单业务');
+ await page.getByRole('button',{name:'检查材料',exact:true}).click();
+ await page.getByRole('button',{name:'查看完整文件清单与正文',exact:true}).click();
+ await page.getByRole('dialog',{name:'查看完整文件清单与正文',exact:true}).waitFor();
+ await page.keyboard.press('Escape');
+ assert.equal(await page.getByRole('button',{name:'查看完整文件清单与正文',exact:true}).evaluate(e=>e===document.activeElement),true);
  await page.getByRole('button',{name:'配置分析模型',exact:true}).click();
- await page.getByRole('button',{name:'返回2 原步骤',exact:true}).click();
+ await page.getByLabel('模型名称',{exact:true}).fill('synthetic-unsent-model');
+ await page.getByRole('button',{name:'保存到本机',exact:true}).click();
+ await page.getByRole('status').filter({hasText:'未发送连接检查'}).waitFor();
+ await page.getByRole('button',{name:'返回02 了解与分析业务',exact:true}).click();
  assert.equal(new URL(page.url()).searchParams.get('step'),'2');
- assert.equal(await page.getByLabel('分析提示词',{exact:true}).inputValue(),'识别取消订单业务');
+ assert.equal(await page.getByRole('button',{name:'同意发送并开始分析',exact:true}).count(),0);
+ assert.equal(await page.getByRole('button',{name:'查看完整文件清单与正文',exact:true}).count(),0);
+ assert.equal(await page.getByLabel('重点关注什么（可选）',{exact:true}).inputValue(),'识别取消订单业务');
  await nav.getByRole('button',{name:/^03 /}).click();
  await page.getByLabel('测试目标',{exact:true}).selectOption('both');
  await page.getByLabel('计划每秒完整检查次数').fill('2');
@@ -46,12 +57,14 @@ test('numbered workbench preserves drafts, scopes goals and never auto-dispatche
  await page.waitForFunction(()=>document.querySelector('select')&&Array.from(document.querySelectorAll('select')).some(s=>s.value==='both'));
  assert.equal(await page.getByLabel('测试目标',{exact:true}).inputValue(),'both');
  assert.equal(new URL(page.url()).searchParams.get('project'),pid);
+ // Clicking the already-current step must not swallow the next navigation.
+ await nav.getByRole('button',{name:/^03 /}).click();
  await nav.getByRole('button',{name:/^12 /}).click();
- await page.getByRole('heading',{name:'12 可选修复与复测',exact:true}).waitFor();
+ await page.getByRole('heading',{name:'核对变化并复测',exact:true}).waitFor();
  assert.match(await nav.getByRole('button',{name:/^12 /}).innerText(),/未启用/);
  await nav.getByRole('button',{name:/^11 /}).click();
  await page.getByRole('heading',{name:'尚无验证结果',exact:true}).waitFor();
- for(const width of [1280,1920]){
+ for(const width of [390,800,1280,1920]){
   await page.setViewportSize({width,height:720});
   for(const zoom of [1,1.25,1.5]){
    await page.evaluate(z=>document.body.style.zoom=String(z),zoom);
@@ -59,10 +72,11 @@ test('numbered workbench preserves drafts, scopes goals and never auto-dispatche
   }
  }
  await page.evaluate(()=>document.body.style.zoom='1');
- await mkdir('output/workflow-v12',{recursive:true});
- await page.screenshot({path:'output/workflow-v12/11-results.png',fullPage:true});
+ await page.setViewportSize({width:1280,height:720});
+ await mkdir('output/ux-workflow-v12-20261015-01a13f78/automated',{recursive:true});
+ await page.screenshot({path:'output/ux-workflow-v12-20261015-01a13f78/automated/11-results.png',fullPage:true});
  await nav.getByRole('button',{name:/^02 /}).click();
- await page.screenshot({path:'output/workflow-v12/02-analysis.png',fullPage:true});
+ await page.screenshot({path:'output/ux-workflow-v12-20261015-01a13f78/automated/02-analysis.png',fullPage:true});
  assert.equal(modelOrRunCalls,0,'navigation and configuration must not launch work');
  assert.deepEqual(errors,[]);
 });

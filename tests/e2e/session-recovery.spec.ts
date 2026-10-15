@@ -12,7 +12,7 @@ for(const mode of ['save','load'])test(`session restart preserves local choices 
   try{
     const {projectId}=await request('/projects',{directory:join(process.cwd(),'samples/ticket'),accountMode:'automatic'});
     await page.setViewportSize({width:mode==='save'?1280:390,height:900});await page.goto(host.url+`/?page=verify&project=${projectId}`);
-    await expect(page.getByRole('heading',{name:'你想检查什么？'})).toBeVisible();
+    await expect(page.getByRole('heading',{name:'03 确认业务与测试目标'})).toBeVisible();
     const port=Number(new URL(host.url).port);await host.close();host=await startWorkbench({directory,registryDirectory,port});
     await page.getByLabel('提交结果保存',{exact:true}).check();
     await expect(page.getByRole('button',{name:'重新连接工作台',exact:true})).toBeVisible();
@@ -34,9 +34,9 @@ for(const mode of ['save','load'])test(`session restart preserves local choices 
     await expect(page.getByText('检查选择已保存',{exact:true})).toBeVisible();
     await expect(page.getByLabel(mode==='save'?'提交结果保存':'重复提交不重复创建',{exact:true})).toBeChecked();
     await expect(page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true})).toBeVisible();
-    await expect(page.getByText('这里选择网站中的业务操作，不是提交或修改检查方案。',{exact:true})).toBeVisible();
+    await expect(page.getByText('选入本轮并确认预期后才判对错；未确认项仅观察。',{exact:true})).toBeVisible();
     const current=await request('/state');expect(current.runs).toHaveLength(0);expect(current.projects[0].candidate).toBeFalsy();
-    await mkdir('output/session-recovery/screenshots',{recursive:true});await page.screenshot({path:`output/session-recovery/screenshots/${mode}.png`,fullPage:true});
+    await mkdir('output/ux-workflow-v12-20261015-01a13f78/automated/recovery/screenshots',{recursive:true});await page.screenshot({path:`output/ux-workflow-v12-20261015-01a13f78/automated/recovery/screenshots/${mode}.png`,fullPage:true});
     await page.reload();await expect(page.getByLabel(mode==='save'?'提交结果保存':'重复提交不重复创建',{exact:true})).toBeChecked();
   }finally{await host.close();}
 });

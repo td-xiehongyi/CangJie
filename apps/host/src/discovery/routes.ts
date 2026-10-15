@@ -21,6 +21,8 @@ export function mountDiscoveryRoutes(app:Express,options:{store:DiscoveryStore;s
   const disclose=(p:SourceProject)=>({...p,snapshot:{...p.snapshot,files:scopedSourceFiles(p.snapshot,p.scope!)},preset:{...MODEL_PRESET,maxSourceBytes:196608,maxExcerptBytes:8192,maxExcerptsPerRound:4},summarySending:true,fullInputLimits});
   app.post('/api/source-projects',async(req,res)=>{
     const input=String(req.body.directory??''),existing=(await store.projects()).find(p=>resolve(p.directory).toLowerCase()===resolve(input).toLowerCase()),runtime=options.runtimeProjects().find(p=>resolve(p.directory).toLowerCase()===resolve(input).toLowerCase());
+    // Opening an already imported directory is read-only; reindexing still needs its revision.
+    if(existing&&Object.keys(req.body).every(key=>key==='directory')){res.json(disclose(existing));return;}
     const id=req.body.id??existing?.id??runtime?.id??randomUUID();let previous:SourceProject|undefined;
     try{previous=await store.getProject(id)}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e}
     if(previous&&req.body.expectedRevision!==previous.revision)throw new Error('ANALYSIS_CONFLICT');

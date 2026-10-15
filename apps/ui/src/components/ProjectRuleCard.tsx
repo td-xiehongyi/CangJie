@@ -30,12 +30,12 @@ export default function ProjectRuleCard({projectId,session,refresh,readOnly=fals
   }
   async function saved(message:string){await load();await refresh?.();setNotice(message);}
   function update(id:string,patch:Partial<SuggestionDraft>){setDrafts(previous=>({...previous,[id]:{...(previous[id]??{answers:{},behavior:'',confirmed:false,controlled:false}),...patch,confirmed:patch.confirmed??false}}));}
-  const suggestions:Data[]=session?.result?.suggestions??[];
+  const suggestions:Data[]=[...(session?.result?.suggestions??[])].sort((a,b)=>Number(b.id===session?.selectedSuggestionId)-Number(a.id===session?.selectedSuggestionId));
   const revision=library?.revision,versions:Data[]=library?.versions??[],readiness:Data[]=library?.readiness??[];
   return <section className="card stack" aria-label={readOnly?'项目特有规则选择与缺口':'项目规则确认与版本库'}>
     {!readOnly&&suggestions.map(s=>{const draftId=`${session!.id}:${s.id}`,draft=drafts[draftId]??{answers:{},behavior:'',confirmed:false,controlled:false},complete=s.openQuestions.every((q:string)=>typeof draft.answers[q]==='string'&&!!draft.answers[q].trim())&&(draft.controlled||lines(draft.behavior).length>0),alreadySaved=versions.some(v=>v.suggestionRef.discoveryId===session!.id&&v.suggestionRef.suggestionId===s.id);
-      return <section key={`${session!.id}:${s.id}`} role="region" aria-label={`规则预期核对 ${s.flow}`} className="discovery-suggestion"><h3>核对业务预期：{s.flow}</h3><p>请独立填写正确业务要求。源码事实与候选预期已在建议中分列，不能把当前实现自动视为正确答案。</p>
-        <details><summary>核对建议的源码事实与候选预期</summary>{s.facts?.map((f:Data,i:number)=><p key={'fact'+i}>{f.text}</p>)}{s.expectations?.map((e:Data,i:number)=><p key={'expectation'+i}>{e.text}</p>)}</details>
+      return <section key={`${session!.id}:${s.id}`} role="region" aria-label={`规则预期核对 ${s.flow}`} className="discovery-suggestion"><h3>核对业务预期：{s.flow}</h3><p className="fine">来自02业务草稿 · 待你确认</p><p>请独立填写正确业务要求。源码事实与候选预期已在建议中分列，不能把当前实现自动视为正确答案。</p>
+        <details><summary>核对建议的源码事实与候选预期</summary>{s.facts?.map((f:Data,i:number)=><div key={'fact'+i}><p>源码事实：{f.text}</p>{f.sourceRefs?.map((r:Data,j:number)=><p className="fine" key={j}>{r.path}:{r.startLine}-{r.endLine}</p>)}</div>)}{s.expectations?.map((e:Data,i:number)=><div key={'expectation'+i}><p>{e.source==='documentation'?'文档预期':e.source==='project_test'?'项目测试预期':'AI推断'} · 待确认：{e.text}</p>{e.sourceRefs?.map((r:Data,j:number)=><p className="fine" key={j}>{r.path}:{r.startLine}-{r.endLine}</p>)}</div>)}</details>
         {alreadySaved&&<p className="info-strip">此建议已有项目规则，请在版本库修订已有规则。</p>}
         {s.openQuestions.map((q:string)=><label key={q} className="field">{q}<textarea aria-label={q} disabled={working||alreadySaved} value={typeof draft.answers[q]==='string'?draft.answers[q]:''} onChange={e=>update(draftId,{answers:{...draft.answers,[q]:e.target.value}})}/></label>)}
         <label className="check"><input type="checkbox" checked={draft.controlled} disabled={working||alreadySaved} onChange={e=>update(draftId,{controlled:e.target.checked})}/>采用受控工单关闭契约</label>

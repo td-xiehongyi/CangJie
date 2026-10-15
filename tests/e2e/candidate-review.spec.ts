@@ -26,7 +26,7 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     await page.getByLabel('提交结果保存',{exact:true}).check();
     await page.getByText('这就是我期望的网站行为',{exact:true}).first().check();
     await goStep(page,6);
-    await page.getByRole('button',{name:'为这条规则创建检查方案',exact:true}).first().click();
+    await page.getByRole('button',{name:'调用模型创建检查方案',exact:true}).first().click();
     expect(new URL(page.url()).searchParams.get('step')).toBe('6');await goStep(page,9);
     const review=page.getByRole('region',{name:'检查方案验证与审核',exact:true});
     await expect(review).toBeVisible();
@@ -58,8 +58,8 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     project=(await request('/state')).projects[0];
     const stale=await fetch(host.url+`/api/projects/${projectId}/review`,{method:'POST',headers:{authorization:`Bearer ${host.token}`,'content-type':'application/json'},body:JSON.stringify({candidateId:project.candidate.id,candidateHash:'stale',metadata:project.candidate.metadata})});
     expect(stale.ok).toBe(false);
-    await mkdir('output/template-review/screenshots',{recursive:true});
-    for(const width of [1280,768,390]){await page.setViewportSize({width,height:1000});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();scrollTo(0,0);});await page.screenshot({fullPage:true,path:`output/template-review/screenshots/review-${width}.png`});}
+    await mkdir('output/ux-workflow-v12-20261015-01a13f78/automated/review/screenshots',{recursive:true});
+    for(const width of [1280,768,390]){await page.setViewportSize({width,height:1000});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();scrollTo(0,0);});await page.screenshot({fullPage:true,path:`output/ux-workflow-v12-20261015-01a13f78/automated/review/screenshots/review-${width}.png`});}
     await page.setViewportSize({width:1280,height:1000});
     await host.close();host=await startWorkbench({directory,registryDirectory:join(directory,'registry'),port:0});
     await page.goto(host.url+`/?page=verify&step=9&project=${projectId}`);
@@ -80,7 +80,7 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     await page.getByLabel('这就是我期望的网站行为',{exact:true}).check();
     await goStep(page,10);await page.getByRole('button',{name:'准备本轮检查',exact:true}).click();
     await expect(page.getByRole('heading',{name:'本轮运行准备',exact:true})).toBeVisible();
-    await page.getByRole('button',{name:'开始检查',exact:true}).click();
+    await page.getByRole('button',{name:'执行检查',exact:true}).click();
     await expect.poll(()=>new URL(page.url()).searchParams.get('run')).toBeTruthy();
     expect(new URL(page.url()).searchParams.get('page')).toBe('verify');
     expect(calls).toBe(1);

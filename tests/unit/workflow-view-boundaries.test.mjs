@@ -17,9 +17,9 @@ test('step11 does not mount a hidden second load-execution form',()=>{
  const run={id:'r',projectId:'p',status:'completed',kind:'verification',flow:{title:'示例'},plan:{sourceHash:'h',mapping:{}},checks:[],uncovered:[],startedAt:'2026-10-15',events:[]};
  const props={step:11,project:{id:'p',sourceHash:'h',mapping:{}},run,state:{runs:[run],loads:[],catalog:{matches:[]}},refresh:async()=>{},act:()=>{},select:()=>{}};
  const html=renderToStaticMarkup(React.createElement(Report,props));
- assert.match(html,/11 导出报告/);assert.match(html,/进入12 修复与复测/);
+ assert.match(html,/导出与保存/);assert.match(html,/进入12 修复与复测/);
  assert.doesNotMatch(html,/本轮存在失败、未知、待定项或未完成，不能开始目标负载验证/);
- assert.doesNotMatch(html,/设置并开始负载检查/);
+ assert.doesNotMatch(html,/执行目标负载检查|核对目标与限制/);
 });
 
 test('actual runtime import handler remains on04 instead of jumping to01',async()=>{

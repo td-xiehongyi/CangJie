@@ -1,7 +1,7 @@
 import {prepareFullFileInput,type FullAnalysisInput} from './full-input.js';
 import {resolve} from 'node:path';
 import {randomUUID} from 'node:crypto';
-import {ModelProvider,type ModelConfig} from '../model/provider.js';
+import {ModelProvider,type ModelConfig,type ModelRequest} from '../model/provider.js';
 import {ModelBudget,MODEL_PRESET,type ModelPreset} from '../model/budget.js';
 import {ModelCredentials} from '../model/credentials.js';
 import {serviceUrl} from '../model/endpoint.js';
@@ -47,9 +47,36 @@ export class DiscoveryService {
     // until finalization completes, matching the model configuration guard.
     if(active&&active.controller!==ownController&&!['draft','running'].includes(s.status))s.status='running';
     const failure=this.failures.get(id);if(failure)s.unresolved=[...new Set([...s.unresolved,failure])];
+    if(['paused','partial','failed','stale'].includes(s.status))s.recovery=await this.recovery(r,s);
     return s;
   }
-  async assertResumable(id:string,revision:number){const r=await this.store.get(id);if(r.session.revision!==revision)throw new Error('ANALYSIS_CONFLICT');this.checkConfig(r);const session=await this.getDiscovery(id);if(session.status==='stale'||!session.referencesValid)throw new Error('STALE_SOURCE');return session}
+  private requestFor(r:DiscoveryRecord,s:DiscoverySession,signal?:AbortSignal):ModelRequest{return {purpose:'discovery',instructions:(r.input?instructions.replace(/Return one JSON object:.*?Use search then follow/s,'Return only {kind:"result",result:BusinessOverview} using all supplied complete files. Do not request actions or additional reads. Each suggestion must also include preconditions:string[], exceptions:string[], stateChanges:string[]; mark uncertain behavior as a hypothesis, not a requirement. Follow'):instructions)+' If there is not enough evidence even for a flow, return {kind:"insufficient",unresolved:["specific missing information"],limitations:["unread scope"]}.',payload:{...(r.input?{analysisMode:r.input.mode,userPrompt:r.input.prompt,inputCoverage:'complete authorized files; not a guarantee of all businesses'}:{}),lastActions:s.rounds.at(-1)?.results??[],partial:s.result??null,knownSourceRefs:s.reads.map(v=>v.ref)},discovery:{snapshot:r.snapshot,scope:r.scope,reads:s.reads},signal};}
+  private async recovery(r:DiscoveryRecord,s:DiscoverySession):Promise<NonNullable<DiscoverySession['recovery']>>{
+    const blocked=(reason:string,message:string)=>({allowed:false,reason,message});
+    if(s.status==='stale'||!s.referencesValid)return blocked('source','源码已变化，请检查材料后重新分析。');
+    if(!['paused','partial','failed'].includes(s.status))return blocked('status','当前任务不能恢复。');
+    if(Date.now()-s.budget.startedAt>=r.preset.deadlineMs)return blocked('deadline','本次分析已超过时间上限，无法继续原任务。');
+    if(s.budget.tokens>r.preset.maxTokens)return blocked('tokens','本次分析已达到 token 预算上限。');
+    // A checkpointed result can still be processed locally; no call is needed.
+    if(s.pendingResponse===undefined||s.status==='failed'){
+      if(s.budget.calls>=r.preset.maxCalls)return blocked('calls','本次分析已达到请求次数上限。');
+      if(s.budget.tokens+r.preset.maxOutputTokens+1>r.preset.maxTokens)return blocked('tokens','剩余 token 预算不足以启动下一次请求。');
+      if(s.budget.sourceBytes+s.reads.reduce((n,read)=>n+read.bytes,0)>r.sourceByteLimit)return blocked('source_bytes','累计发送源码量已达到上限。');
+      if(s.unresolved.includes('ANALYSIS_BUDGET_EXHAUSTED'))return blocked('budget','剩余预算不足以发送下一次完整请求，无法继续原任务。');
+    }
+    try{this.checkConfig(r)}catch{return blocked('configuration','模型接收方或模型已变化，请重新检查材料并确认发送。');}
+    if(s.pendingResponse===undefined||s.status==='failed'){
+      try{
+        const provider=new ModelProvider(this.config(),this.credentials,new ModelBudget(r.preset,{calls:s.budget.calls,tokens:s.budget.tokens,startedAt:s.budget.startedAt}));
+        const {encoded}=await provider.prepare(this.requestFor(r,s));
+        const bytes=Buffer.byteLength(encoded);
+        if(bytes>r.preset.maxInputBytes)return blocked('input_bytes','当前完整请求超过材料上限，请调整范围后重新分析。');
+        if(s.budget.tokens+bytes+r.preset.maxOutputTokens>r.preset.maxTokens)return blocked('tokens','剩余 token 预算不足以发送下一次完整请求。');
+      }catch(e){return blocked('configuration','继续前需要解决模型配置或材料问题：'+(e as Error).message.split(':')[0]);}
+    }
+    return {allowed:true,reason:'resumable',message:s.pendingResponse!==undefined&&s.status!=='failed'?'可以继续处理已保存的响应。':'可以继续分析；将再次调用模型，沿用原任务预算。'};
+  }
+  async assertResumable(id:string,revision:number){const r=await this.store.get(id);if(r.session.revision!==revision)throw new Error('ANALYSIS_CONFLICT');this.checkConfig(r);const session=await this.getDiscovery(id);if(session.status==='stale'||!session.referencesValid)throw new Error('STALE_SOURCE');if(!(await this.recovery(r,session)).allowed)throw new Error('ANALYSIS_RESUME_BLOCKED');return session}
   private checkConfig(r:DiscoveryRecord){const current=this.config();if(serviceUrl(current.serviceUrl)!==r.config.serviceUrl||current.model!==r.config.model)throw new Error('SERVICE_CONFIRMATION_REQUIRED');return current}
   runDiscovery(id:string,expectedRevision:number):Promise<DiscoverySession>{
     const key=this.key(id),active=jobs.get(key);if(active){if(active.initialRevision===expectedRevision)return active.promise;return Promise.reject(new Error('ANALYSIS_CONFLICT'))}
@@ -99,7 +126,7 @@ export class DiscoveryService {
         }
         const bytes=s.reads.reduce((n,read)=>n+read.bytes,0);if(s.budget.sourceBytes+bytes>r.sourceByteLimit)throw new Error('ANALYSIS_BUDGET_EXHAUSTED');
         if((await currentDiscovery(r)).reanalysisRequired)throw new Error('STALE_SOURCE');
-        await provider.json({purpose:'discovery',instructions:(r.input?instructions.replace(/Return one JSON object:.*?Use search then follow/s,'Return only {kind:"result",result:BusinessOverview} using all supplied complete files. Do not request actions or additional reads. Each suggestion must also include preconditions:string[], exceptions:string[], stateChanges:string[]; mark uncertain behavior as a hypothesis, not a requirement. Follow'):instructions)+' If there is not enough evidence even for a flow, return {kind:"insufficient",unresolved:["specific missing information"],limitations:["unread scope"]}.',payload:{...(r.input?{analysisMode:r.input.mode,userPrompt:r.input.prompt,inputCoverage:'complete authorized files; not a guarantee of all businesses'}:{}),lastActions:s.rounds.at(-1)?.results??[],partial:s.result??null,knownSourceRefs:s.reads.map(v=>v.ref)},discovery:{snapshot:r.snapshot,scope:r.scope,reads:s.reads},signal:controller.signal});
+        await provider.json(this.requestFor(r,s,controller.signal));
       }
     }catch(error){
       const code=(error as Error).message.split(':')[0]!;

@@ -20,8 +20,8 @@ test('T8 browser config, real k6, evidence and server restart',{tag:'@t8'},async
     await expect.poll(async()=>(await request('/state')).runs.find((r:any)=>r.id===runId)?.status,{timeout:30000}).toBe('completed');
     const goal=await request('/projects/'+projectId+'/journey');await request('/projects/'+projectId+'/journey',{...goal,goal:'both',rate:'1',durationSeconds:'8'});
     await page.goto(host.url+`/?page=verify&step=10&project=${projectId}&run=${runId}`);
-    await page.getByText('设置并开始负载检查',{exact:true}).click();
-    await expect(page.getByRole('button',{name:'开始目标负载验证',exact:true})).toBeDisabled();
+    await expect(page.getByRole('heading',{name:'核对目标与限制',exact:true})).toBeVisible();
+    await expect(page.getByRole('button',{name:'执行目标负载检查',exact:true})).toBeDisabled();
     await page.getByLabel('验证目标是否达标',{exact:true}).check();
     // Keep eight real experiments across all four rules, without using UI coverage as a machine-speed benchmark.
     const fields=[['每秒完整业务检查次数','1'],['持续秒数（最多300）','8'],['完成等待上限（毫秒）','3000'],['允许错误百分比（0—100）','0']];
@@ -29,7 +29,7 @@ test('T8 browser config, real k6, evidence and server restart',{tag:'@t8'},async
     for(const input of await page.getByLabel(/占比 %/).all())await input.fill('25');
     await page.getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限').check();
     await page.getByLabel('每秒完整业务检查次数',{exact:true}).fill('2');await expect(page.getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限')).not.toBeChecked();await page.getByLabel('每秒完整业务检查次数',{exact:true}).fill('1');await page.getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限').check();
-    await page.getByRole('button',{name:'开始目标负载验证',exact:true}).click();
+    await page.getByRole('button',{name:'执行目标负载检查',exact:true}).click();
     await expect(page.getByRole('heading',{name:'目标达标',exact:true})).toBeVisible({timeout:30000});
     const result=(await request('/state')).loads[0];expect(result.metrics.started).toBe(8);const detail=await request(`/loads/${result.id}`);expect(new Set(detail.ledger.map((e:any)=>e.ruleId)).size).toBe(4);expect(detail.settlement.unknown).toBe(0);expect(JSON.stringify(detail)).not.toContain('synthetic-t8-browser-owner');
     await mkdir('output/ui-refresh/target-load',{recursive:true});for(const width of [1280,768,390]){await page.setViewportSize({width,height:900});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`output/ui-refresh/target-load/report-${width}.png`,fullPage:true});}

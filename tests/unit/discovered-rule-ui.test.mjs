@@ -102,7 +102,7 @@ test('compilation gaps show semantic details without presenting the rule as exec
 
 test('compiled rules remain behind candidate generation and dual-review template admission',()=>{
   const choice={enabled:true,confirmed:true,ruleHash:dynamic.hash,environmentHash:'environment-hash'};
-  const html=render(fixture({compiled:[dynamic],choice}));assert.match(html,/关闭已解决工单/);assert.match(html,/已编译，尚需生成与审核检查方案/);assert.ok(button(html,'为这条规则创建检查方案'));assert.match(button(html,'准备本轮检查'),/disabled/);
+  const html=render(fixture({compiled:[dynamic],choice}));assert.match(html,/关闭已解决工单/);assert.match(html,/已编译，尚需生成与审核检查方案/);assert.ok(button(html,'调用模型创建检查方案'));assert.match(button(html,'准备本轮检查'),/disabled/);
   const ready=render(fixture({compiled:[dynamic],matches:[template],choice:{...choice,version:template.ref.hash}}));assert.doesNotMatch(button(ready,'准备本轮检查'),/disabled/);assert.match(ready,/close-status-template/);
 });
 
@@ -119,7 +119,7 @@ test('an old dynamic candidate cannot appear as the current exact version review
   assert.equal(view.candidateMatchesRule({...stale,ruleRef:undefined},dynamic),false);
   assert.equal(view.candidateMatchesRule({ruleId:legacy.id},legacy),true);
   const value=fixture({compiled:[dynamic],choice:{enabled:true,confirmed:true,ruleHash:dynamic.hash,environmentHash:'environment-hash'}});value.project.candidate=stale;
-  const html=render(value);assert.doesNotMatch(html,/审核这条检查方案<\/button>/);assert.ok(button(html,'为这条规则创建检查方案'));assert.match(html,/<div hidden=""><section class="card candidate-review"/);
+  const html=render(value);assert.doesNotMatch(html,/审核这条检查方案<\/button>/);assert.ok(button(html,'调用模型创建检查方案'));assert.match(html,/<div hidden=""><section class="card candidate-review"/);
 });
 
 test('controlled contract is visible and unchecked by default without inferring arbitrary suggestion semantics',()=>{
