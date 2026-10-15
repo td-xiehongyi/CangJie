@@ -3,7 +3,7 @@ import {api,download,ruleNames,type CommonProps,type Data} from '../api/client';
 const phases:Record<string,string>={preflight:'低负载业务检查',running:'目标负载进行中',settling:'停止派发，结算中',completed:'已结束',blocked:'执行受阻',interrupted:'上次运行中断'};
 const reasons:Record<string,string>={business_error:'发现业务违规',sustained_latency:'完成等待连续超限',sustained_errors:'错误比例连续超限',manual_cancel:'人工停止',operation_limit:'达到操作上限',generator_limited:'压测执行端受限',host_memory_limit:'达到宿主内存上限',session_closed:'会话退出',target_finished:'目标运行结束',OBSERVATION_ONLY:'仅记录表现，不判断达标',preflight_not_passed:'低负载检查未通过',HOST_EXITED_BEFORE_SETTLEMENT:'结算前宿主退出'};
 export default function TargetLoadCard({state,project,run,act,refresh}:CommonProps){
-  const [values,setValues]=useState<Record<string,string>>({}),[ratios,setRatios]=useState<Record<string,string>>(run?.checks.length===1?{[run.checks[0].rule.id]:'100'}:{}),[confirmed,setConfirmed]=useState(false),[mode,setMode]=useState('record');
+  const [values,setValues]=useState<Record<string,string>>({rate:project?.journey?.rate??'',durationSeconds:project?.journey?.durationSeconds??''}),[ratios,setRatios]=useState<Record<string,string>>(run?.checks.length===1?{[run.checks[0].rule.id]:'100'}:{}),[confirmed,setConfirmed]=useState(false),[mode,setMode]=useState('record');
   const starting=useRef(false);
   const eligible=run?.status==='completed'&&run.checks.length>0&&run.checks.every((c:Data)=>c.mode==='verify'&&c.verdicts.length>0&&c.verdicts.every((v:Data)=>v.status==='pass'));
   const records=(state.loads??[]).filter((l:Data)=>l.sourceRunId===run?.id),active=records.some((l:Data)=>['preflight','running','settling'].includes(l.status));

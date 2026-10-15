@@ -36,10 +36,15 @@ export const projectRulesApi={
 };
 export const ruleNames:Record<string,string>={'save-rule':'提交结果保存','duplicate-rule':'重复提交不重复创建','permission-rule':'账号之间权限隔离','title-update-rule':'只改标题，优先级和所有者不变'};
 export const statusNames:Record<string,string>={completed:'已完成',running:'进行中',preparing:'准备中',blocked:'受阻',paused:'已暂停',cancelled:'已停止',interrupted:'上次运行未完成',pass:'通过',fail:'发现问题',inconclusive:'无法验证',ready_for_review:'等待双重审核',draft:'草稿',rejected:'未获准入',needs_rule:'等待规则确认',needs_capability:'缺少能力',validating:'验证中',not_checked:'尚未检查',connected:'连接已通过',failed:'连接失败'};
-export type CommonProps={state:Data;project?:Data;run?:Data;refresh:()=>Promise<void>;act:(work:()=>Promise<void>)=>void;settingsReturn?:string;select:(projectId:string,runId?:string,page?:string)=>void};
+export type CommonProps={step?:number;state:Data;project?:Data;run?:Data;refresh:()=>Promise<void>;act:(work:()=>Promise<void>)=>void;settingsReturn?:string;select:(projectId:string,runId?:string,page?:string)=>void};
 
 export function friendlyError(code:string):string{
   const messages:Record<string,string>={
+    FULL_INPUT_TOO_LARGE:'02 完整文件材料超过输入上限，请缩小确认范围后重新预览；没有截断或发送。',
+    EMPTY_ANALYSIS_INPUT:'02 没有可分析的授权文本文件，请检查范围和排除原因。',
+    INVALID_ANALYSIS_INPUT:'02 请选择分析方式并填写有效提示词。',
+    INVALID_JOURNEY:'03 测试目标无效，请核对请求率和1—300秒时长。',
+    JOURNEY_CONFLICT:'测试目标已被另一页面更新。本页输入保留，请重新加载后核对。',
     SESSION_REQUIRED:'工作台连接已失效，当前输入已保留。请先重新连接，再决定如何保存。',
     RULE_ALREADY_EXISTS:'此分析建议已保存为项目规则，请核对最新版本并修订已有规则。',
     RULE_ALREADY_CONFIRMED:'此版本已确认，请加载最新规则，选择当前精确版本。',
@@ -104,7 +109,7 @@ export function friendlyError(code:string):string{
     TARGET_TRIAL_INCOMPLETE:'试运行未完成，请检查测试环境后继续原方案。',
     TEMPLATE_SCHEMA_OR_RULE_BINDING_INVALID:'方案定义或默认参数无效，请开发者修正并重新验证后继续。',
     VERSION_EXISTS:'该固定版本已经发布，请查看已发布的方案；不同版本需重新保存审核材料。'
-  };return messages[code]??code;
+  };if(code?.startsWith('FULL_INPUT_TOO_LARGE:'))return messages.FULL_INPUT_TOO_LARGE+' 详情：'+code.slice(code.indexOf(':')+1);return messages[code]??code;
 }
 
 export const ruleDescriptions:Record<string,string>={

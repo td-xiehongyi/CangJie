@@ -35,3 +35,29 @@ summary{min-height:44px;padding:10px 0}.actions{gap:12px}.text-button{text-align
 @media(max-width:600px){.workflow-journey{grid-template-columns:repeat(5,minmax(0,1fr));margin-bottom:14px}.workflow-journey li{gap:4px}.workflow-journey small{font-size:9px}.workflow-journey li>div{line-height:1.4}.verify-layout .card-header{flex-wrap:wrap}.notice .btn{margin-top:12px}}
 .published-evidence>summary{color:var(--blue);font-weight:500}
 .business-discovery{min-width:0}.business-discovery .card{min-width:0}.business-discovery dd{overflow-wrap:anywhere}.business-discovery .form-grid{align-items:start}.business-discovery textarea{min-height:100px}.business-discovery pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:420px;overflow:auto}.discovery-flow,.discovery-suggestion{padding:20px 0;border-top:1px solid var(--border,#dfe5ef)}.source-citation{margin:6px 0}.source-citation button{text-align:left;overflow-wrap:anywhere;min-height:36px}.business-discovery h4{margin-bottom:8px}.business-discovery .actions{flex-wrap:wrap}.business-discovery li{overflow-wrap:anywhere}
+
+/* View selection and execution status remain independent. */
+.workflow-nav section {margin:16px 0}
+.workflow-nav h2 {font-size:12px;color:#657084;margin:12px 10px}
+.workflow-nav ol {list-style:none;margin:0;padding:0}
+.workflow-nav button {display:flex;gap:10px;align-items:flex-start;width:100%;border:0;background:transparent;text-align:left;border-radius:8px;padding:9px;color:inherit;cursor:pointer;font:inherit;font-size:13px}
+.workflow-nav button.active {background:#e9efff;color:#244eac}
+.workflow-nav button:hover {background:#f0f3f8}
+.workflow-nav button:focus-visible {outline:2px solid #315fc5;outline-offset:2px}
+.workflow-nav small {display:block;font-size:11px;color:#657084;margin-top:3px}
+.step-number {font-variant-numeric:tabular-nums;font-weight:700;min-width:22px}
+.sidebar {overflow-y:auto}
+.step-heading {margin-bottom:20px}
+.step-heading h1 {font-size:24px;margin:8px 0}
+.step-heading p {color:#57647a}
+@media(max-width:1050px){.report-columns{grid-template-columns:1fr}.sidebar{width:220px}.main{min-width:0}}
+@media(max-width:760px){.app{display:block}.sidebar{position:relative;width:auto;max-height:240px}.main{margin-left:0}.workflow-nav{display:flex;gap:12px;overflow-x:auto}.workflow-nav section{min-width:200px}.page{padding:16px}}
+
+/* Keep the full navigator readable, including at enlarged text sizes. */
+@media(min-width:801px){.sidebar{width:260px;padding:20px 12px}.main{margin-left:260px}.brand{margin-bottom:12px}.workflow-nav{flex:1}}
+@media(max-width:800px){.sidebar{position:relative;width:100%;max-height:260px;display:block}.main{margin-left:0}.workflow-nav{display:flex;overflow-x:auto;gap:12px}.workflow-nav section{min-width:200px}.workflow-nav h2{white-space:normal}}
+.step-heading~div>.page-heading h1{font-size:20px}
+.journey-details{position:fixed;right:0;top:0;bottom:0;width:340px;padding:24px;background:white;border-left:1px solid var(--line);overflow:auto;z-index:20;box-shadow:-6px 0 24px #18274312}
+.journey-details h2{margin-top:20px}.journey-details h3{margin-top:24px}.journey-details p{overflow-wrap:anywhere}
+@media(min-width:1280px){.details-open .main{margin-right:340px}}
+@media(max-width:600px){.journey-details{width:min(100%,360px)}}
