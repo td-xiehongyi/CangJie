@@ -39,7 +39,7 @@ test('result exports, optional repair cancel and explicit replay preserve origin
  const req=async(path:string,body?:any)=>{const r=await fetch(host.url+'/api'+path,{method:body?'POST':'GET',headers:{authorization:`Bearer ${host.token}`,'content-type':'application/json'},body:body?JSON.stringify(body):undefined});expect(r.ok).toBe(true);return r.json()};
  try{
  const {projectId}=await req('/projects',{directory:join(process.cwd(),'samples/ticket'),accountMode:'automatic'});const state=await req('/state');await req(`/projects/${projectId}/confirm`,{environment:true,environmentHash:state.projects[0].environmentHash});
- await page.goto(host.url+`/?page=verify&step=3&project=${projectId}`);await page.getByLabel('提交结果保存',{exact:true}).check();await page.getByLabel('这就是我期望的网站行为',{exact:true}).check();await goStep(page,10);
+ await page.goto(host.url+`/?page=verify&step=3&project=${projectId}`);await page.getByLabel('提交结果保存',{exact:true}).selectOption('observe');await page.getByRole('combobox',{name:'提交结果保存',exact:true}).selectOption('confirm');await goStep(page,10);
  await page.getByRole('button',{name:'准备本轮检查',exact:true}).click();await page.getByRole('button',{name:'执行检查',exact:true}).click();await page.getByRole('button',{name:'查看检查结果',exact:true}).click();await expect(page.getByRole('heading',{name:'本轮所选检查通过',exact:true})).toBeVisible();
  const original=new URL(page.url()).searchParams.get('run');
  for(const label of ['导出报告 Markdown','导出外部修复报告','导出验证包']){const download=page.waitForEvent('download');await page.getByRole('button',{name:label,exact:true}).click();const file=await download;expect(file.suggestedFilename()).toContain(original!);await file.saveAs(join(output,'automated',file.suggestedFilename()));}

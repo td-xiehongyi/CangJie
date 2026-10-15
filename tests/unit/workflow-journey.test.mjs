@@ -8,7 +8,7 @@ test('fixed main steps and an optional repair loop share one catalog',()=>{
 });
 test('invalid deep links fall back without triggering work',()=>{
  for(const raw of ['0','13','-1','1.5','NaN','2evil'])assert.equal(parseStep(raw),1);
- assert.equal(parseStep('07'),7);assert.equal(stepPage(11),'report');assert.equal(stepPage(12),'repair');
+ for(const raw of ['5','6','07','8'])assert.equal(parseStep(raw),5);assert.equal(stepPage(11),'report');assert.equal(stepPage(12),'repair');
 });
 test('source import does not claim runtime readiness or business success',()=>{
  const statuses=journeyState({id:'p',sourceOnly:true},{},undefined,false);

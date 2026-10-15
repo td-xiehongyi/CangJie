@@ -23,11 +23,19 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     let project=(await request('/state')).projects[0];const disclosure=await request(`/projects/${projectId}/disclosure`);
     await request(`/projects/${projectId}/confirm`,{environment:true,environmentHash:project.environmentHash,send:true,scopeHash:disclosure.scopeHash});
     await page.goto(host.url+`/?page=verify&project=${projectId}`);
-    await page.getByLabel('提交结果保存',{exact:true}).check();
-    await page.getByText('这就是我期望的网站行为',{exact:true}).first().check();
+    await page.getByLabel('提交结果保存',{exact:true}).selectOption('observe');
+    await page.getByRole('combobox',{name:'提交结果保存',exact:true}).selectOption('confirm');
     await goStep(page,6);
     await page.getByRole('button',{name:'调用模型创建检查方案',exact:true}).first().click();
-    expect(new URL(page.url()).searchParams.get('step')).toBe('6');await goStep(page,9);
+    expect(new URL(page.url()).searchParams.get('step')).toBe('5');
+    await expect(page.getByRole('button',{name:'审核这条检查方案',exact:true})).toBeVisible({timeout:40000});
+    await page.getByText('查看验证与试运行证据',{exact:true}).click();
+    await expect(page.getByRole('heading',{name:'独立验证结果',exact:true})).toBeVisible();
+    await expect(page.getByRole('heading',{name:'当前项目试运行',exact:true})).toBeVisible();
+    await mkdir('output/plan-preparation-20261016/screenshots',{recursive:true});
+    for(const width of [1280,390]){await page.setViewportSize({width,height:1000});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();scrollTo(0,0);});await page.screenshot({fullPage:true,path:`output/plan-preparation-20261016/screenshots/preparation-${width}.png`});}
+    await page.setViewportSize({width:1280,height:1000});
+    await page.getByRole('button',{name:'审核这条检查方案',exact:true}).click();
     const review=page.getByRole('region',{name:'检查方案验证与审核',exact:true});
     await expect(review).toBeVisible();
     await expect(review.getByText('等待双重审核',{exact:true})).toBeVisible({timeout:40000});
@@ -58,8 +66,8 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     project=(await request('/state')).projects[0];
     const stale=await fetch(host.url+`/api/projects/${projectId}/review`,{method:'POST',headers:{authorization:`Bearer ${host.token}`,'content-type':'application/json'},body:JSON.stringify({candidateId:project.candidate.id,candidateHash:'stale',metadata:project.candidate.metadata})});
     expect(stale.ok).toBe(false);
-    await mkdir('output/ux-workflow-v12-20261015-01a13f78/automated/review/screenshots',{recursive:true});
-    for(const width of [1280,768,390]){await page.setViewportSize({width,height:1000});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();scrollTo(0,0);});await page.screenshot({fullPage:true,path:`output/ux-workflow-v12-20261015-01a13f78/automated/review/screenshots/review-${width}.png`});}
+    await mkdir('output/plan-preparation-20261016/regression/automated/review/screenshots',{recursive:true});
+    for(const width of [1280,768,390]){await page.setViewportSize({width,height:1000});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();scrollTo(0,0);});await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();scrollTo(0,0);});await page.screenshot({fullPage:true,path:`output/plan-preparation-20261016/regression/automated/review/screenshots/review-${width}.png`});}
     await page.setViewportSize({width:1280,height:1000});
     await host.close();host=await startWorkbench({directory,registryDirectory:join(directory,'registry'),port:0});
     await page.goto(host.url+`/?page=verify&step=9&project=${projectId}`);
@@ -71,13 +79,13 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     await review.getByLabel('已审查定义、正反例、端到端证据及限制',{exact:true}).check();
     await review.getByRole('button',{name:'审核通过，保存为可复用方案',exact:true}).click();
     await expect(review.getByText('已发布固定版本 1.0.0',{exact:true})).toBeVisible();
-    await goStep(page,3);await page.getByLabel('重复提交不重复创建',{exact:true}).check();await goStep(page,10);
+    await goStep(page,3);await page.getByLabel('重复提交不重复创建',{exact:true}).selectOption('observe');await goStep(page,10);
     await expect(page.getByRole('button',{name:'准备本轮检查',exact:true})).toBeDisabled();
     await goStep(page,9);await expect(review.locator('.published-evidence')).not.toHaveAttribute('open');
     await expect(review.getByRole('button',{name:'准备运行所选检查',exact:true})).toHaveCount(0);
     await expect(review.getByText('请先完成其它已选检查的方案：重复提交不重复创建',{exact:true})).toBeVisible();
-    await goStep(page,3);await page.getByLabel('重复提交不重复创建',{exact:true}).uncheck();
-    await page.getByLabel('这就是我期望的网站行为',{exact:true}).check();
+    await goStep(page,3);await page.getByLabel('重复提交不重复创建',{exact:true}).selectOption('off');
+    await page.getByRole('combobox',{name:'提交结果保存',exact:true}).selectOption('confirm');
     await goStep(page,10);await page.getByRole('button',{name:'准备本轮检查',exact:true}).click();
     await expect(page.getByRole('heading',{name:'本轮运行准备',exact:true})).toBeVisible();
     await page.getByRole('button',{name:'执行检查',exact:true}).click();

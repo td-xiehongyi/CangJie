@@ -37,16 +37,16 @@ test('incomplete target evidence pauses and resumes the same candidate without a
   const {chromium,expect}=await import('@playwright/test');
   const browser=await chromium.launch({channel:'msedge',headless:true});t.after(()=>browser.close());
   const page=await browser.newPage();await page.goto(host.url+`/?page=verify&project=${projectId}`);
-  const goStep=async step=>{await page.getByRole('navigation',{name:'完整业务验证流程'}).getByRole('button',{name:new RegExp('^'+String(step).padStart(2,'0')+' ')}).click();await expect(page.locator('.step-heading h1')).toContainText(String(step).padStart(2,'0')+' ');};
+  const goStep=async step=>{step=[6,7,8].includes(step)?5:step;await page.getByRole('navigation',{name:'完整业务验证流程'}).getByRole('button',{name:new RegExp('^'+String(step).padStart(2,'0')+' ')}).click();await expect(page.locator('.step-heading h1')).toContainText(String(step).padStart(2,'0')+' ');};
   await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('edit');
-  await page.getByLabel('只改标题，优先级和所有者不变',{exact:true}).check();
-  await page.getByLabel('这就是我期望的网站行为',{exact:true}).check();
+  await page.getByLabel('只改标题，优先级和所有者不变',{exact:true}).selectOption('observe');
+  await page.getByRole('combobox',{name:'只改标题，优先级和所有者不变',exact:true}).selectOption('confirm');
   await expect(page.getByRole('status').filter({hasText:'检查选择已保存'})).toBeVisible();
   await goStep(6);
   await expect(page.getByRole('status').filter({hasText:'当前方案进度'})).toContainText('已暂停');
   const resume=page.getByRole('button',{name:'执行原方案的试运行',exact:true});await expect(resume).toBeEnabled();
-  await mkdir('output/t9-ui-acceptance/screenshots',{recursive:true});
-  await page.screenshot({path:'output/t9-ui-acceptance/screenshots/trial-paused.png',fullPage:true});
+  await mkdir('output/plan-preparation-20261016/recovery/screenshots',{recursive:true});
+  await page.screenshot({path:'output/plan-preparation-20261016/recovery/screenshots/trial-paused.png',fullPage:true});
   mapping.resultBindings.query.priority=['items','0','priority'];mapping.resultBindings.query.ownerId=['items','0','ownerId'];
   await request('/projects',{id:projectId,directory:project.directory,mapping});
   project=(await request('/state')).projects[0];assert.equal(project.environmentConfirmed,false);
@@ -54,8 +54,8 @@ test('incomplete target evidence pauses and resumes the same candidate without a
   // Reconnection changes the environment fingerprint and invalidates the old rule confirmation.
   await page.waitForResponse(async response=>response.url().endsWith('/api/state')&&response.ok()&&(await response.json()).projects.some(p=>p.id===projectId&&p.environmentHash===project.environmentHash&&p.environmentConfirmed));
   await goStep(3);
-  await expect(page.getByLabel('这就是我期望的网站行为',{exact:true})).not.toBeChecked();
-  await page.getByLabel('这就是我期望的网站行为',{exact:true}).check();
+  await expect(page.getByRole('combobox',{name:'只改标题，优先级和所有者不变',exact:true})).toHaveValue('observe');
+  await page.getByRole('combobox',{name:'只改标题，优先级和所有者不变',exact:true}).selectOption('confirm');
   await expect(page.getByRole('status').filter({hasText:'检查选择已保存'})).toBeVisible();
   await goStep(6);
   await expect(resume).toBeEnabled();await resume.click();
@@ -67,5 +67,5 @@ test('incomplete target evidence pauses and resumes the same candidate without a
   assert.ok(project.candidate.trial.verdicts.every(v=>v.status==='pass'));
   await goStep(9);
   await expect(page.getByText('等待双重审核',{exact:true})).toBeVisible();
-  await page.screenshot({path:'output/t9-ui-acceptance/screenshots/trial-recovered.png',fullPage:true});
+  await page.screenshot({path:'output/plan-preparation-20261016/recovery/screenshots/trial-recovered.png',fullPage:true});
 });

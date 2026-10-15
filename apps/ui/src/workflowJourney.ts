@@ -5,7 +5,7 @@ export const journeySteps=[
  {id:2,title:'了解与分析业务',group:'A 明确要测什么',purpose:'选择分析范围并了解业务；调用模型前明确确认。'},
  {id:3,title:'确认业务与测试目标',group:'A 明确要测什么',purpose:'确认正确行为并选择正确性或目标负载。'},
  {id:4,title:'检查运行条件',group:'B 准备怎么测',purpose:'补齐隔离环境、测试账号和接口映射。'},
- {id:5,title:'匹配方案与支持能力',group:'B 准备怎么测',purpose:'核对可复用方案，区分适配缺口与能力缺口。'},
+ {id:5,title:'准备检查方案',group:'B 准备怎么测',purpose:'匹配已有方案，按需创建，并在这里查看验证与试运行进度。'},
  {id:6,title:'创建或适配检查方案',group:'B 准备怎么测',purpose:'创建候选方案或复用精确版本；此时不代表业务通过。'},
  {id:7,title:'独立验证方案',group:'B 准备怎么测',purpose:'查看独立正常、错误及证据不足案例的验证。'},
  {id:8,title:'在当前项目试运行',group:'B 准备怎么测',purpose:'核对方案与当前项目的接口、身份和证据适配。'},
@@ -14,9 +14,11 @@ export const journeySteps=[
  {id:11,title:'结果、导出与保存复用',group:'C 执行与结果',purpose:'查看结果和未覆盖范围，导出或保存后即可结束。'},
  {id:12,title:'修复与复测',group:'可选分支',optional:true,purpose:'主动选择修复，核对变化后复测，再返回11对比。'}
 ] as const;
+// Retain old step IDs for saved positions and URLs; only one preparation destination is shown.
+export const navigationSteps=journeySteps.filter(s=>![6,7,8].includes(s.id));
 export function parseStep(value:string|null|undefined):number{
  if(!value||!/^0?[1-9]$|^1[0-2]$/.test(value))return 1;
- return Number(value);
+ return [6,7,8].includes(Number(value))?5:Number(value);
 }
 export function stepPage(step:number):string{return step===11?'report':step===12?'repair':[1,2,4].includes(step)?'project':'verify';}
 export const stepStatusLabels:Record<StepStatus,string>={skipped:'已跳过',pending:'未开始',running:'进行中',completed:'已完成',evidence:'已有证据满足',blocked:'已阻断',stale:'已失效',available:'可查看',optional:'可选 · 未启用'};

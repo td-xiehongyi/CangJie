@@ -14,7 +14,7 @@ for(const mode of ['save','load'])test(`session restart preserves local choices 
     await page.setViewportSize({width:mode==='save'?1280:390,height:900});await page.goto(host.url+`/?page=verify&project=${projectId}`);
     await expect(page.getByRole('heading',{name:'03 确认业务与测试目标'})).toBeVisible();
     const port=Number(new URL(host.url).port);await host.close();host=await startWorkbench({directory,registryDirectory,port});
-    await page.getByLabel('提交结果保存',{exact:true}).check();
+    await page.getByLabel('提交结果保存',{exact:true}).selectOption('observe');
     await expect(page.getByRole('button',{name:'重新连接工作台',exact:true})).toBeVisible();
     await expect(page.getByText('检查选择尚未保存',{exact:true})).toBeVisible();
     const state=await request('/state'),project=state.projects[0],rule=state.rules.find((r:any)=>r.id==='duplicate-rule');
@@ -23,21 +23,21 @@ for(const mode of ['save','load'])test(`session restart preserves local choices 
     await page.route('**/api/session',route=>route.fulfill({status:503,json:{error:'offline'}}));
     await page.getByRole('button',{name:'重新连接工作台',exact:true}).click();
     await expect(page.getByText('暂时无法重新连接，请确认工作台正在运行后重试。',{exact:true})).toBeVisible();
-    await expect(page.getByLabel('提交结果保存',{exact:true})).toBeChecked();
+    await expect(page.getByLabel('提交结果保存',{exact:true})).not.toHaveValue('off');
     await page.unroute('**/api/session');await page.getByRole('button',{name:'重新连接工作台',exact:true}).click();
     await expect(page.getByText('连接已恢复，本页选择尚未保存。请选择保留本页，或加载已保存的选择。',{exact:true})).toBeVisible();
-    expect(writes).toBe(0);await expect(page.getByLabel('提交结果保存',{exact:true})).toBeChecked();
-    await page.getByLabel('账号之间权限隔离',{exact:true}).check();await expect(page.getByText('检查选择尚未保存',{exact:true})).toBeVisible();
+    expect(writes).toBe(0);await expect(page.getByLabel('提交结果保存',{exact:true})).not.toHaveValue('off');
+    await page.getByLabel('账号之间权限隔离',{exact:true}).selectOption('observe');await expect(page.getByText('检查选择尚未保存',{exact:true})).toBeVisible();
     // Editing after reconnect still waits for an explicit resolution.
     await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).focus();expect(writes).toBe(0);
     await page.getByRole('button',{name:mode==='save'?'保留本页并重新保存':'加载已保存的选择',exact:true}).click();
     await expect(page.getByText('检查选择已保存',{exact:true})).toBeVisible();
-    await expect(page.getByLabel(mode==='save'?'提交结果保存':'重复提交不重复创建',{exact:true})).toBeChecked();
+    await expect(page.getByLabel(mode==='save'?'提交结果保存':'重复提交不重复创建',{exact:true})).toHaveValue('observe');
     await expect(page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true})).toBeVisible();
     await expect(page.getByText('选入本轮并确认预期后才判对错；未确认项仅观察。',{exact:true})).toBeVisible();
     const current=await request('/state');expect(current.runs).toHaveLength(0);expect(current.projects[0].candidate).toBeFalsy();
     await mkdir('output/ux-workflow-v12-20261015-01a13f78/automated/recovery/screenshots',{recursive:true});await page.screenshot({path:`output/ux-workflow-v12-20261015-01a13f78/automated/recovery/screenshots/${mode}.png`,fullPage:true});
-    await page.reload();await expect(page.getByLabel(mode==='save'?'提交结果保存':'重复提交不重复创建',{exact:true})).toBeChecked();
+    await page.reload();await expect(page.getByLabel(mode==='save'?'提交结果保存':'重复提交不重复创建',{exact:true})).toHaveValue('observe');
   }finally{await host.close();}
 });
 
