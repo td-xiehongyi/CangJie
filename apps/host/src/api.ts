@@ -15,6 +15,7 @@ import {validateMapping,type HttpMapping} from './execution/mapping.js';
 import {CredentialSession} from './execution/session.js';
 import {ModelCredentials} from './model/credentials.js';
 import {ModelProvider,type ModelConfig} from './model/provider.js';
+import {serviceUrl} from './model/endpoint.js';
 import {ModelBudget,MODEL_PRESET,type BudgetUsage} from './model/budget.js';
 import {disclose,confirmDisclosure,scrubSecrets,type DisclosureConsent,type ContextRequest} from './model/context.js';
 import {propose} from './model/proposal.js';
@@ -52,6 +53,7 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   const preparations=new Map<string,Promise<unknown>>(),preparedInSession=new Set<string>();let pickingFolder=false;let folderController:AbortController|undefined;
   const projects=new Map<string,Project>(),active=new Map<string,{executor:RunExecutor;record?:RunRecord;projectId:string;promise:Promise<unknown>}>(),candidateJobs=new Map<string,Promise<unknown>>();
   let config:ModelConfig={serviceUrl:'https://api.deepseek.com',model:''},connection={status:'not_checked',code:''};
+  let configRevision=0,settingsSaving=false,connectionController:AbortController|undefined;
   const discoveryStore=new DiscoveryStore(join(directory,'discovery'));
   const projectRuleStore=new ProjectRuleStore(join(directory,'project-rules'),{validateSources:async rule=>{
     // Called while holding the same project mutex used by source-project save and runtime import.
@@ -145,17 +147,26 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   app.post('/api/projects/pick-directory',async(_req,res)=>{if(pickingFolder)throw new Error('FOLDER_PICKER_BUSY');pickingFolder=true;const controller=new AbortController();folderController=controller;res.once('close',()=>{if(!res.writableEnded)controller.abort();});try{res.json({directory:await (options.pickDirectory??pickProjectDirectory)(controller.signal)});}finally{pickingFolder=false;if(folderController===controller)folderController=undefined;}});
   app.post('/api/projects/:id/workflow',async(req,res)=>{for(;;){const p=project(req.params.id),compiled=await executableRules(p),available=[...rules,...compiled.map(({hash:_hash,ruleRef:_ref,...r})=>r)],catalog=await registry.matchReport(capabilities,available),hashes=new Map(available.map(r=>[r.id,digest(r)])),versions=new Set(catalog.matches.map(m=>`${available.find(r=>digest(r)===m.ruleHash)?.id}:${m.ref.hash}`));if(project(p.id)!==p)continue;p.workflow=writeWorkflow(p.workflow??emptyWorkflow(),req.body,hashes,p.environmentHash,versions);await save();res.json(p.workflow);return;}});
   app.post('/api/settings',async(req,res)=>{
-    modelIdle();const next={serviceUrl:String(req.body.serviceUrl??''),model:String(req.body.model??'')};new ModelProvider(next,modelKeys,new ModelBudget());
-    const changed=next.serviceUrl!==config.serviceUrl||next.model!==config.model||!!req.body.key;
-    let credentialRef=next.serviceUrl===config.serviceUrl?config.credentialRef:undefined;
+    modelIdle();if(settingsSaving)throw new Error('MODEL_SETTINGS_BUSY');settingsSaving=true;try{
+    const next={serviceUrl:serviceUrl(String(req.body.serviceUrl??'')),model:String(req.body.model??'').trim()};new ModelProvider(next,modelKeys,new ModelBudget());
+    const changed=next.serviceUrl!==serviceUrl(config.serviceUrl)||next.model!==config.model||!!req.body.key;
+    let credentialRef=next.serviceUrl===serviceUrl(config.serviceUrl)?config.credentialRef:undefined;
     if(typeof req.body.key==='string'&&req.body.key)credentialRef=await modelKeys.set(next.serviceUrl,req.body.key,{remember:req.body.remember===true});
     if(credentialRef&&!req.body.key&&(req.body.remember===true)!==credentialRef.startsWith('windows:'))credentialRef=await modelKeys.set(next.serviceUrl,await modelKeys.get(credentialRef,next.serviceUrl),{remember:req.body.remember===true});
     if(config.credentialRef&&config.credentialRef!==credentialRef)await modelKeys.clear(config.credentialRef);
-    if(next.serviceUrl!==config.serviceUrl)for(const p of projects.values())delete p.consent;
-    config={...next,...(credentialRef?{credentialRef}:{})};if(changed)connection={status:'not_checked',code:''};await save();res.json({saved:true});
+    if(next.serviceUrl!==serviceUrl(config.serviceUrl))for(const p of projects.values())delete p.consent;
+    config={...next,...(credentialRef?{credentialRef}:{})};if(changed){configRevision++;connection={status:'not_checked',code:''};}await save();res.json({saved:true});
+    }finally{settingsSaving=false;}
   });
-  app.post('/api/settings/clear',async(_req,res)=>{modelIdle();if(config.credentialRef)await modelKeys.clear(config.credentialRef);delete config.credentialRef;connection={status:'not_checked',code:''};await save();res.json({cleared:true});});
-  app.post('/api/settings/check',async(_req,res)=>{connection={status:'running',code:''};try{await new ModelProvider(config,modelKeys,new ModelBudget()).checkConnection();connection={status:'connected',code:''};res.json(connection);}catch(e){connection={status:'failed',code:(e as Error).message};throw e;}});
+  app.post('/api/settings/clear',async(_req,res)=>{modelIdle();if(settingsSaving)throw new Error('MODEL_SETTINGS_BUSY');settingsSaving=true;try{if(config.credentialRef)await modelKeys.clear(config.credentialRef);delete config.credentialRef;configRevision++;connection={status:'not_checked',code:''};await save();res.json({cleared:true});}finally{settingsSaving=false;}});
+  app.post('/api/settings/check',async(_req,res)=>{if(settingsSaving)throw new Error('MODEL_SETTINGS_BUSY');if(connectionController)throw new Error('MODEL_CHECK_BUSY');
+    const revision=configRevision,controller=new AbortController();connectionController=controller;
+    connection={status:'running',code:''};try{
+      await new ModelProvider(config,modelKeys,new ModelBudget()).checkConnection(controller.signal);
+      if(revision!==configRevision)throw new Error('MODEL_CONFIGURATION_CHANGED');
+      connection={status:'connected',code:''};res.json(connection);
+    }catch(e){if(revision===configRevision)connection={status:'failed',code:(e as Error).message};throw e;}
+    finally{if(connectionController===controller)connectionController=undefined;}});
   app.post('/api/projects',async(req,res)=>{
     const old=req.body.id?projects.get(String(req.body.id)):undefined;const sourceOnly=req.body.id&&!old?await discoveryStore.getProject(String(req.body.id)):undefined;if(old||sourceOnly)modelIdle(old?.id??sourceOnly!.id);if(old&&(preparations.has(old.id)||loadBusy(old.id)||[...active.values()].some(a=>a.projectId===old.id)))throw new Error('PROJECT_BUSY');
     const profile=await inspectProject(String(req.body.directory??'')),id=old?.id??sourceOnly?.id??randomUUID();
@@ -253,7 +264,7 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   app.get('/api/loads/:id',async(req,res)=>{validId(req.params.id);res.json(activeLoads.get(req.params.id)?.snapshot()??await loads.getLoad(req.params.id));});
   app.get('/api/loads/:id/report',async(req,res)=>res.type('text/markdown').send(renderLoadReport(await loads.getLoad(req.params.id))));
   app.post('/api/loads/:id/stop',async(req,res)=>{const h=activeLoads.get(req.params.id);if(!h)throw new Error('LOAD_NOT_ACTIVE');res.json(await h.stop('manual_cancel'));});
-  const closeSecrets=async()=>{folderController?.abort();await discovery.close();await Promise.allSettled([...preparations.values()]);await Promise.all([...activeLoads.values()].map(h=>h.stop('session_closed')));await Promise.all([...active.values()].map(a=>a.executor.stop()));await Promise.all([...active.values()].map(a=>a.promise));credentials.close();modelKeys.close();};
+  const closeSecrets=async()=>{configRevision++;connectionController?.abort();folderController?.abort();await discovery.close();await Promise.allSettled([...preparations.values()]);await Promise.all([...activeLoads.values()].map(h=>h.stop('session_closed')));await Promise.all([...active.values()].map(a=>a.executor.stop()));await Promise.all([...active.values()].map(a=>a.promise));credentials.close();modelKeys.close();};
   app.post('/api/session/close',async(_req,res)=>{
     if(candidateJobs.size||preparations.size)throw new Error('MODEL_WORK_ACTIVE');
     await closeSecrets();

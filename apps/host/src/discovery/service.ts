@@ -131,7 +131,7 @@ export class DiscoveryService {
     }catch(error){
       const code=(error as Error).message.split(':')[0]!;
       if(/write failure|ANALYSIS_SAVE_FAILED/.test(code))throw error;
-      s.status=['BUDGET_EXHAUSTED','ANALYSIS_BUDGET_EXHAUSTED'].includes(code)?'partial':['STALE_SOURCE','PATH_ESCAPE'].includes(code)?'stale':code==='ANALYSIS_PAUSED'?'paused':code==='PROVIDER_UNAVAILABLE'?'paused':'failed';
+      s.status=['BUDGET_EXHAUSTED','ANALYSIS_BUDGET_EXHAUSTED'].includes(code)?'partial':['STALE_SOURCE','PATH_ESCAPE'].includes(code)?'stale':code==='ANALYSIS_PAUSED'?'paused':['PROVIDER_UNAVAILABLE','MODEL_TIMEOUT','MODEL_RATE_LIMITED'].includes(code)?'paused':'failed';
       s.unresolved.push(code==='BUDGET_EXHAUSTED'?'ANALYSIS_BUDGET_EXHAUSTED':code);if(s.status==='stale')s.referencesValid=false;
     }finally{clearInterval(pauseTimer)}
     s.unresolved=[...new Set(s.unresolved)];await save();return structuredClone(s);

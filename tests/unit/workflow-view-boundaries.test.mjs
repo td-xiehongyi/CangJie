@@ -37,7 +37,7 @@ test('actual runtime import handler remains on04 instead of jumping to01',async(
  const shell=Project(props),runtime=nodes(shell).find(n=>typeof n.type==='function'&&n.type.name==='RuntimeProjectView');
  assert.ok(runtime);
  const render=()=>{reset();return runtime.type(runtime.props)};
- let tree=render();const input=nodes(tree).find(n=>n.type==='input'&&n.props.placeholder?.startsWith('例如'));
+ let tree=render();const input=nodes(tree).find(n=>n.type==='input'&&n.props.placeholder?.startsWith('粘贴完整路径'));
  input.props.onChange({target:{value:'synthetic-project'}});tree=render();
  const button=nodes(tree).find(n=>n.type==='button'&&text(n)==='检查并准备环境');
  assert.ok(button);assert.equal(button.props.disabled,false);button.props.onClick();await pending;

@@ -36,10 +36,10 @@ async function normalize(request:ContextRequest):Promise<Disclosure>{
     const normalized=rel.split(sep).join('/');if(denied.test(normalized))throw new Error('SENSITIVE_FILE');
     let current=root;for(const part of rel.split(sep)){current=resolve(current,part);if((await lstat(current)).isSymbolicLink())throw new Error('PATH_ESCAPE');}
     const actual=await realpath(path),outside=relative(root,actual);if(protectedPath(actual))throw new Error('SENSITIVE_FILE');if(outside.startsWith('..')||isAbsolute(outside)||!(await lstat(actual)).isFile())throw new Error('PATH_ESCAPE');
-    entries.push({path:normalized.toLowerCase(),contentType:entry.contentType});
+    entries.push({path:process.platform==='win32'?normalized.toLowerCase():normalized,contentType:entry.contentType});
   }
   entries.sort((a,b)=>a.path.localeCompare(b.path));if(new Set(entries.map(e=>e.path)).size!==entries.length)throw new Error('INVALID_SCOPE');
-  const scope={projectId:request.projectId,root:root.toLowerCase(),serviceUrl:serviceUrl(request.serviceUrl),entries};return {...scope,scopeHash:digest(scope)};
+  const scope={projectId:request.projectId,root:process.platform==='win32'?root.toLowerCase():root,serviceUrl:serviceUrl(request.serviceUrl),entries};return {...scope,scopeHash:digest(scope)};
 }
 export async function disclose(request:ContextRequest):Promise<Disclosure>{return normalize(request);}
 export function confirmDisclosure(disclosure:Disclosure,confirmed:boolean):DisclosureConsent{

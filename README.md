@@ -4,6 +4,8 @@
 
 `fix/workflow-ux-ponytail` 基于远端 `main@cb8e23e`，修复导航状态、项目确认显示与负载目标同步，精简04、05、11入口。变更及验证范围见[本轮记录](docs/evidence/ponytail-ux-2026-10-16.md)。本分支未合并main，旧基线Windows成绩不覆盖本轮修改。
 
+本分支另含 AI 调用可靠性与 Windows 原生目录选择修复，范围及未验项见[AI与目录修复记录](docs/evidence/model-reliability-2026-10-16.md)。
+
 下方“本机main/未推送”是历史记录；基线提交已经从远端拉取核实，不代表当前远端仍未同步。
 
 ## 当前分支状态与阅读入口（2026-10-15）
