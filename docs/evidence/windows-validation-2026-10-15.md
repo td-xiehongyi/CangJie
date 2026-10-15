@@ -38,4 +38,8 @@ Windows、Node 24.19.0、npm 11.17.0、仓颉 1.0.5/stdx 1.0.5.1、k6 2.3.0、Ed
 
 ## 主版本保护与合并
 
-待最终验收通过后执行。原主目录5份未提交生成证据的SHA-256存于`preserved-before-fix.json`；合并前已核对一致，远端两个分支SHA未变，204份入站改动与现有未跟踪文件无路径碰撞。合并后须再次核对原证据、提交关系和主目录构建。
+已完成：修复提交34b8310dd10bb6ae5e6aef3f66b34d9e11ef9d5c包含25份明确修复/证据文件；本机main由d257eb7快进到该提交，保留远程7个提交历史。合并前路径检查无冲突；未执行reset、clean或stash，未推送。
+
+合并后主目录源码与该提交一致，npm run check通过，启动器/端口12项冒烟通过；三份suite-lock共25项冻结摘要全部匹配。原5份未提交证据及5份主版本运行数据的SHA-256全部保持一致，运行数据文件数量未变。证据：main-after-merge-check.log、main-after-merge-smoke.log、main-frozen-check.log、merge-preservation-result.json。冒烟首次命令遗漏experimental-test-module-mocks参数而失败，按既有套件参数重跑12/12，原命令日志保留main-smoke-missing-flag.log。
+
+随后仅更新README、主版本说明、快速开始和本记录/计划的本机状态；无进一步产品代码变化。未重启既有用户会话，未发起真实模型请求。双击Shell与系统默认浏览器打开未人工验收；正常入口仍为Start-CangJie.cmd或npm run start:oneclick。
