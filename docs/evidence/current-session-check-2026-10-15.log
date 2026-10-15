@@ -1,0 +1,59 @@
+(node:192) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:192) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ D8 actual controlled discovery without runtime configuration reaches validation, HTTP run, immutable export and reopened replay (13894.662058ms)
+ℹ {"sourceOnlyAnalysis":true,"actualDiscoveryHttpCalls":3,"scope":["readme.md","src"],"independentValidationPhases":20,"actualRunObservations":6,"reopenedReplayObservations":6,"privateModelInputLeak":false,"immutableOriginals":true,"relocatedPackageView":true,"foreignRootExecution":"RULE_PROJECT_MISMATCH","core":"test-only-model","formalHumanReview":false,"realModel":false}
+✔ source-only delivery is explicit, contains public contracts and all sample build sources, excludes private answers (370.198616ms)
+✔ moved delivery installs only production dependencies and actually indexes TSX with exact source references (1191.558242ms)
+✔ developer package freezes both facilities, installs after relocation and builds private sources (16400.9506ms)
+✔ private resource lock rejects tampering even when delivery file hashes are recomputed (48.379253ms)
+✔ v1 developer resource packages remain installable without silent upgrading (57.201419ms)
+✔ unknown manifest and private facility versions fail before any installation (39.055044ms)
+✔ resource installation refuses linked source ancestors and destination ancestors (45.699819ms)
+✔ delivery manifest rejects unsafe Windows names and malformed digest records before reading them (4.466116ms)
+✔ unknown declared delivery and contract formats are rejected while legacy v1 without declarations stays readable (2.130738ms)
+✔ resource bytes changed after source preflight cannot report successful installation (73.215869ms)
+(node:684) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:684) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ uncited selected-business source changes conservatively invalidate a view without rewriting historical analysis (174.499532ms)
+✔ unchanged analysis is readable and new business files invalidate while excluded files do not (107.62393ms)
+✔ project-local correction appends a pending version and does not alter selected historical semantics (7.592256ms)
+✔ API refuses uncited changes for rule selection but permits append-only correction and history (209.40554ms)
+✔ source and data/identity changes cannot reuse a prior business pass as load qualification (1.275182ms)
+✔ a disabled exact publication remains readable but is rejected before any core or adapter call (4.281125ms)
+✔ v1 history can be inspected with no tools while unknown package versions are never executable (8.295538ms)
+✔ load start snapshots caller data and identity before asynchronous preflight and preserves its blocking reason (398.156162ms)
+✔ stale suggestion selection is rejected inside its transaction without changing saved report bytes (78.77137ms)
+✔ default whole-root business scope never exempts newly added package or runtime configuration (43.099742ms)
+✔ a missing or renamed source root leaves historical analysis readable, unmodified and unusable for resume (59.069546ms)
+✔ compile API sends the exact reference to the project-specific endpoint (4.066921ms)
+✔ verification only exposes legacy plus compiled exact current confirmed local versions (0.329413ms)
+✔ catalog selection uses current project matches and never globally exposes dynamic matches (0.220233ms)
+✔ candidate and run request builders preserve exact dynamic refs without legacy title defaults (0.220564ms)
+✔ confirmed project versions require explicit compilation and cannot prepare a run from resources alone (11.438392ms)
+✔ compilation gaps show semantic details without presenting the rule as executable (1.793633ms)
+✔ compiled rules remain behind candidate generation and dual-review template admission (4.019581ms)
+✔ a dynamic candidate continues in the existing automatic validation and review chain (3.760731ms)
+✔ an old dynamic candidate cannot appear as the current exact version review or resume (3.907256ms)
+✔ controlled contract is visible and unchecked by default without inferring arbitrary suggestion semantics (1.692234ms)
+✔ actual confirm handler sends controlled exact behavior and requirements only after explicit opt-in (8.217614ms)
+✔ unchecked actual confirm stays free-text without requirements and changing opt-in clears confirmation (6.387407ms)
+✔ actual free revision preserves existing controlled bindings without implicitly adopting contract semantics (5.338677ms)
+✔ revision opt-in is unsaved semantic state and converts a free version through actual revision API before confirmation (7.342209ms)
+✔ discarding unsaved contract selection restores free current-version confirmation without issuing an API request (4.340101ms)
+✔ an unchecked free revision does not add controlled requirements to an unbound version (2.306886ms)
+✔ stale-source history blocks selection and confirmation while real correction handler appends exact reference (2.258346ms)
+✔ source-invalidated versions cannot be displayed as executable or offered for compilation (1.868003ms)
+(node:708) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:708) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ all source-business S1-S5 development tests are dispatched with sufficient package/HTTP timeout (5.201967ms)
+ℹ tests 41
+ℹ suites 0
+ℹ pass 41
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 34728.429607
