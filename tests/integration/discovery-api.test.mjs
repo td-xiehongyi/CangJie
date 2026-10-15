@@ -84,6 +84,7 @@ test('journey goals persist with revision conflicts and repair remains opt-in',a
  const p=await x.request('/source-projects',{directory:x.root},201),path='/projects/'+p.id+'/journey';
  const initial=await x.request(path);assert.equal(initial.repairEnabled,false);assert.equal(initial.goal,'correctness');
  const input={...initial,goal:'both',rate:'2',durationSeconds:'10',analysisMode:'prompt',analysisPrompt:'人工指定取消订单',businessNotes:'核对取消后的库存',lastStep:3,skipAnalysis:false};
+ const missingView=await x.request(path,{...initial,viewOnly:true},400);assert.equal(missingView.error,'INVALID_JOURNEY');
  const viewed=await x.request(path,{...initial,lastStep:4,viewOnly:true});assert.equal(viewed.revision,0);
  const next=await x.request(path,input);assert.equal(next.revision,1);assert.equal(next.lastStep,4);
  const conflict=await x.request(path,input,400);assert.equal(conflict.error,'JOURNEY_CONFLICT');

@@ -1,3 +1,4 @@
+import {goStep,visibleLabel} from './workflow-steps';
 import {test,expect} from '@playwright/test';
 import {join} from 'node:path';
 import {mkdir} from 'node:fs/promises';
@@ -11,7 +12,7 @@ import {TemplateRegistry} from '../../apps/host/dist/templates/store.js';
 
 test('an empty report does not mark unperformed workflow steps complete',async({page})=>{
   const directory=join(process.cwd(),'.local-data/natural-workflow-tests',randomUUID()),host=await startWorkbench({directory,registryDirectory:join(directory,'registry'),port:0});
-  try{await page.goto(host.url+'/?page=report');await expect(page.getByRole('heading',{name:'尚无验证结果',exact:true})).toBeVisible();await expect(page.locator('.workflow-journey li.done')).toHaveCount(0);}finally{await host.close();}
+  try{await page.goto(host.url+'/?page=report');await expect(page.getByRole('heading',{name:'尚无验证结果',exact:true})).toBeVisible();await expect(page.getByRole('navigation',{name:'完整业务验证流程'}).getByRole('button')).toHaveCount(12);await expect(page.getByRole('navigation',{name:'完整业务验证流程'})).not.toContainText('已完成');}finally{await host.close();}
 });
 
 for(const width of [1280,390])test(`candidate creation reveals sending confirmation and progress at ${width}px`,async({page})=>{
@@ -27,12 +28,12 @@ for(const width of [1280,390])test(`candidate creation reveals sending confirmat
     await page.route('**/api/state',async route=>{const response=await route.fetch(),value=await response.json();if(started)value.projects[0].candidate={id:'ui-start-fixture',ruleId:'title-update-rule',status:'validating',revisionIndex:0,budget:{calls:0,tokens:0}};await route.fulfill({json:value});});
     await page.setViewportSize({width,height:720});await page.goto(host.url+`/?page=verify&project=${projectId}`);
     await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('edit');await page.getByLabel('只改标题，优先级和所有者不变',{exact:true}).check();await page.getByLabel('这就是我期望的网站行为',{exact:true}).check();
-    await page.getByRole('button',{name:'为这条规则创建检查方案',exact:true}).click();
-    const preparation=page.locator('#candidate-preparation');await expect(preparation).toBeFocused();await expect(page.getByRole('heading',{name:'创建方案前准备',exact:true})).toBeInViewport();
+    await goStep(page,6);await page.getByRole('button',{name:'为这条规则创建检查方案',exact:true}).click();
+    const preparation=page.locator('#candidate-preparation');await expect(preparation).toBeVisible();expect(new URL(page.url()).searchParams.get('step')).toBe('6');
     expect(launches).toBe(0);const confirm=page.getByLabel('同意向该服务发送以上范围内经过过滤的内容',{exact:true});await expect(confirm).not.toBeChecked();await confirm.check();
     await mkdir('output/candidate-start-feedback/screenshots',{recursive:true});await page.screenshot({path:`output/candidate-start-feedback/screenshots/preparation-${width}.png`,fullPage:false});
     await page.getByRole('button',{name:'确认范围并创建方案',exact:true}).click();await expect.poll(()=>launches).toBe(1);
-    await expect(page.getByRole('heading',{name:'检查方案验证与审核',exact:true})).toBeFocused();await expect(page.getByText('正在生成检查方案并自动验证，完成后将在这里展开审核材料。',{exact:true})).toBeInViewport();
+    expect(new URL(page.url()).searchParams.get('step')).toBe('6');await goStep(page,7);await expect(page.getByText('正在生成检查方案并自动验证，完成后将在这里展开审核材料。',{exact:true})).toBeVisible();
     await page.screenshot({path:`output/candidate-start-feedback/screenshots/progress-${width}.png`,fullPage:false});
   }finally{await host.close();}
 });
@@ -40,18 +41,18 @@ for(const width of [1280,390])test(`candidate creation reveals sending confirmat
 test('leaving project selection cancels its pending folder chooser',async({page})=>{
   const directory=join(process.cwd(),'.local-data/natural-workflow-tests',randomUUID());let started=false,aborted=false;
   const host=await startWorkbench({directory,registryDirectory:join(directory,'registry'),port:0,pickDirectory:async(signal:AbortSignal)=>{started=true;return new Promise(resolve=>signal.addEventListener('abort',()=>{aborted=true;resolve(null);},{once:true}));}});
-  try{await page.goto(host.url);await page.getByRole('button',{name:'选择文件夹',exact:true}).click();await expect.poll(()=>started).toBe(true);await page.getByRole('link',{name:'业务验证',exact:true}).click();await expect(page.getByRole('heading',{name:'先接入一个项目',exact:true})).toBeVisible();await expect.poll(()=>aborted).toBe(true);await expect(page.getByRole('alert')).toHaveCount(0);}finally{await host.close();}
+  try{await page.goto(host.url);await page.getByRole('button',{name:'选择文件夹',exact:true}).click();await expect.poll(()=>started).toBe(true);await goStep(page,3);await expect(page.getByRole('heading',{name:'先接入一个项目',exact:true})).toBeVisible();await expect.poll(()=>aborted).toBe(true);await expect(page.getByRole('alert')).toHaveCount(0);}finally{await host.close();}
 });
 
 test('folder selection can be cancelled on the same page and other actions resume',async({page})=>{
   const directory=join(process.cwd(),'.local-data/natural-workflow-tests',randomUUID());let started=false,aborted=false;
   const host=await startWorkbench({directory,registryDirectory:join(directory,'registry'),port:0,pickDirectory:async(signal:AbortSignal)=>{started=true;return new Promise(resolve=>signal.addEventListener('abort',()=>{aborted=true;resolve(null);},{once:true}));}});
   try{
-    await page.goto(host.url);await page.getByLabel('项目目录',{exact:true}).fill(join(process.cwd(),'samples/ticket'));
+    await page.goto(host.url);await visibleLabel(page,'项目目录').fill(join(process.cwd(),'samples/ticket'));
     await page.getByRole('button',{name:'选择文件夹',exact:true}).click();await expect.poll(()=>started).toBe(true);
     await page.getByRole('button',{name:'取消选择文件夹',exact:true}).click();await expect.poll(()=>aborted).toBe(true);
-    await expect(page.getByRole('button',{name:'选择文件夹',exact:true})).toBeEnabled();await expect(page.getByLabel('项目目录',{exact:true})).toHaveValue(join(process.cwd(),'samples/ticket'));
-    await page.getByRole('button',{name:'检查项目并继续',exact:true}).click();await expect(page.getByRole('heading',{name:'准备测试环境',exact:true})).toBeVisible();await expect(page.getByRole('alert')).toHaveCount(0);
+    await expect(page.getByRole('button',{name:'选择文件夹',exact:true})).toBeEnabled();await expect(visibleLabel(page,'项目目录')).toHaveValue(join(process.cwd(),'samples/ticket'));
+    await page.getByRole('button',{name:'导入源码',exact:true}).click();await expect.poll(()=>new URL(page.url()).searchParams.get('project')).toBeTruthy();await goStep(page,4);await page.getByRole('button',{name:'检查项目并继续',exact:true}).click();await expect(page.getByRole('heading',{name:'准备测试环境',exact:true})).toBeVisible();await expect(page.getByRole('alert')).toHaveCount(0);
   }finally{await host.close();}
 });
 
@@ -61,26 +62,26 @@ test('empty library, preparation history, settings return and draft restoration'
   try{
     await page.goto(host.url);
     await page.getByRole('button',{name:'选择文件夹',exact:true}).click();
-    await expect(page.getByLabel('项目目录',{exact:true})).toHaveValue(join(process.cwd(),'samples/ticket'));
-    await page.getByRole('button',{name:'检查项目并继续',exact:true}).click();
-    await expect(page.getByText('还没有可用检查方案，可先选择要检查的行为，再创建方案。',{exact:true})).toBeVisible();
+    await expect(visibleLabel(page,'项目目录')).toHaveValue(join(process.cwd(),'samples/ticket'));
+    await page.getByRole('button',{name:'导入源码',exact:true}).click();await expect.poll(()=>new URL(page.url()).searchParams.get('project')).toBeTruthy();await goStep(page,4);await page.getByRole('button',{name:'检查项目并继续',exact:true}).click();
+    await expect(page.locator('.step-heading h1')).toHaveText('04 检查运行条件');
     await page.getByRole('checkbox',{name:'我同意在独立测试副本中创建用户并重置测试数据'}).check();
-    await page.getByRole('button',{name:'确认并准备测试环境',exact:true}).click();
+    await page.getByRole('button',{name:'确认并准备测试环境',exact:true}).click();await expect(page.getByText('最近一次环境检查通过，两个测试用户登录成功。',{exact:true})).toBeVisible();await goStep(page,3);
     await expect(page.getByRole('heading',{name:'你想检查什么？'})).toBeVisible();
     const projectId=new URL(page.url()).searchParams.get('project')!;
     await page.getByLabel('提交结果保存',{exact:true}).check();
     await page.getByText('这就是我期望的网站行为',{exact:true}).check();
     await expect(page.getByText('检查选择已保存',{exact:true})).toBeVisible();
     await page.getByRole('button',{name:'先设置模型连接',exact:true}).click();
-    await expect(page.getByRole('button',{name:'返回检查方案',exact:true})).toBeVisible();
-    await page.getByRole('button',{name:'返回检查方案',exact:true}).click();
+    await expect(page.getByRole('button',{name:'返回3 原步骤',exact:true})).toBeVisible();
+    await page.getByRole('button',{name:'返回3 原步骤',exact:true}).click();
     await page.reload();await expect(page.getByLabel('提交结果保存',{exact:true})).toBeChecked();
     await expect(page.getByText('这就是我期望的网站行为',{exact:true}).locator('input')).toBeChecked();
     await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('edit');
     await page.getByLabel('只改标题，优先级和所有者不变',{exact:true}).check();
     await expect(page.getByText('检查选择已保存',{exact:true})).toBeVisible();
     await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('submit');await expect(page.getByLabel('提交结果保存',{exact:true})).toBeChecked();
-    await page.getByRole('link',{name:'项目接入',exact:true}).click();
+    await goStep(page,4);
     await expect(page.getByText('最近一次环境检查通过，两个测试用户登录成功。',{exact:true})).toBeVisible();
     await expect(page.getByRole('button',{name:'继续选择检查',exact:true})).toBeVisible();
     await page.reload();await expect(page.getByRole('button',{name:'继续选择检查',exact:true})).toBeVisible();
@@ -102,13 +103,13 @@ test('completion points to report, report tabs use keyboard and load percentages
     let state=await request('/state');await request(`/projects/${projectId}/confirm`,{environment:true,environmentHash:state.projects[0].environmentHash});
     await page.goto(host.url+`/?page=verify&project=${projectId}`);
     await page.getByLabel('提交结果保存',{exact:true}).check();await page.getByText('这就是我期望的网站行为',{exact:true}).check();
-    await page.getByRole('button',{name:'准备本轮检查',exact:true}).click();await page.getByRole('button',{name:'开始检查',exact:true}).dblclick();
+    await goStep(page,10);await page.getByRole('button',{name:'准备本轮检查',exact:true}).click();await page.getByRole('button',{name:'开始检查',exact:true}).dblclick();
     await expect(page.getByRole('button',{name:'查看检查结果',exact:true})).toBeVisible();
     await expect(page.getByRole('button',{name:'准备本轮检查',exact:true})).toHaveCount(0);
     state=await request('/state');expect(state.runs.length).toBe(1);
     await page.getByRole('button',{name:'查看检查结果',exact:true}).click();await expect(page.getByRole('heading',{name:'本轮所选检查通过',exact:true})).toBeVisible();
     await page.getByRole('tab',{name:'业务结果',exact:true}).focus();await page.keyboard.press('ArrowRight');await expect(page.getByRole('tab',{name:'方案与验证依据',exact:true})).toBeFocused();
-    await page.keyboard.press('ArrowLeft');await page.getByText('设置并开始负载检查',{exact:true}).click();
+    await page.keyboard.press('ArrowLeft');await goStep(page,3);await page.getByLabel('测试目标',{exact:true}).selectOption('both');await page.getByRole('button',{name:'保存测试目标',exact:true}).click();await expect(page.getByText('当前目标已保存；没有启动任何检查。',{exact:true})).toBeVisible();await goStep(page,10);await page.getByText('设置并开始负载检查',{exact:true}).click();
     await page.getByLabel('验证目标是否达标',{exact:true}).check();
     await page.getByLabel('每秒完整业务检查次数',{exact:true}).fill('1');await page.getByLabel('持续秒数（最多300）',{exact:true}).fill('2');
     await page.getByLabel('完成等待上限（毫秒）',{exact:true}).fill('1000');await page.getByLabel('允许错误百分比（0—100）',{exact:true}).fill('5');
@@ -145,7 +146,7 @@ test('polling another candidate preserves an unsaved reviewer and saves to its o
     let current:any=original,savedTask='';
     await page.route('**/api/state',route=>route.fulfill({json:{...raw,projects:[{...raw.projects[0],candidate:current}]}}));
     await page.route('**/api/projects/*/review',route=>{savedTask=route.request().postDataJSON().candidateId;return route.fulfill({json:{draftHash:'b'.repeat(64)}});});
-    await page.goto(host.url+`/?page=verify&project=${projectId}`);await page.getByRole('textbox',{name:'适用条件',exact:true}).fill('Unsaved input retained');
+    await page.goto(host.url+`/?page=verify&step=9&project=${projectId}`);await page.getByRole('textbox',{name:'适用条件',exact:true}).fill('Unsaved input retained');
     current={...original,id:'review-remote',ruleId:'title-update-rule',reference:{...original.reference,applicable:['Remote original']}};
     await expect(page.getByText('其他页面已更新当前方案；本页未保存的说明已保留。',{exact:true})).toBeVisible();
     await expect(page.getByRole('textbox',{name:'适用条件',exact:true})).toHaveValue('Unsaved input retained');

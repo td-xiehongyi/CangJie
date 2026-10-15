@@ -49,3 +49,14 @@ export function journeyState(project:Value|undefined,state:Value,run:Value|undef
  }
  return result;
 }
+
+/** UI navigation is immediate; best-effort position writes preserve click order. */
+export function createViewPositionWriter(write:(projectId:string,step:number)=>Promise<void>,onError:(error:Error)=>void){
+ let tail:Promise<void>=Promise.resolve();
+ return {
+  save(projectId:string,step:number):void{
+   tail=tail.then(()=>write(projectId,step)).catch(error=>{onError(error instanceof Error?error:new Error(String(error)));});
+  },
+  settled:()=>tail
+ };
+}

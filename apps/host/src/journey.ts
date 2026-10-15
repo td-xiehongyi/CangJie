@@ -19,7 +19,7 @@ export function mountJourneyRoutes(app:Express,directory:string,exists:(id:strin
   if(input.repairRunId!==undefined&&(typeof input.repairRunId!=='string'||!/^[a-f0-9-]{36}$/.test(input.repairRunId)))throw new Error('INVALID_JOURNEY');
   if(input.skipAnalysis!==undefined&&typeof input.skipAnalysis!=='boolean')throw new Error('INVALID_JOURNEY');
   if(input.analysisMode!==undefined&&!['automatic','prompt'].includes(input.analysisMode)||input.analysisPrompt!==undefined&&(typeof input.analysisPrompt!=='string'||input.analysisPrompt.length>8000||containsSecret(input.analysisPrompt))||input.lastStep!==undefined&&(!Number.isInteger(input.lastStep)||input.lastStep<1||input.lastStep>12))throw new Error('INVALID_JOURNEY');
-  if(input.viewOnly!==undefined&&input.viewOnly!==true)throw new Error('INVALID_JOURNEY');
+  if(input.viewOnly!==undefined&&(input.viewOnly!==true||!Number.isInteger(input.lastStep)))throw new Error('INVALID_JOURNEY');
   const prior=queue.get(id)??Promise.resolve();
   const job=prior.catch(()=>{}).then(async()=>{
    const previous=await read(id);if(!input.viewOnly&&previous.revision!==input.revision)throw new Error('JOURNEY_CONFLICT');

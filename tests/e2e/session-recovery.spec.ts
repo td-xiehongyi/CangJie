@@ -47,7 +47,7 @@ test('reconnecting keeps unsaved review materials without replaying review or pu
   try{
     const r=await fetch(host.url+'/api/projects',{method:'POST',headers:{authorization:`Bearer ${host.token}`,'content-type':'application/json'},body:JSON.stringify({directory:join(process.cwd(),'samples/ticket'),accountMode:'automatic'})}),{projectId}=await r.json();
     await page.route('**/api/state',async route=>{const response=await route.fetch();if(!response.ok()){await route.fulfill({response});return;}const value=await response.json();value.projects[0].candidate={id:'review-fixture',ruleId:'save-rule',candidateHash:'a'.repeat(64),status:'ready_for_review',reference:{applicable:['测试副本'],excluded:['线上环境'],instructions:'核对实际保存结果'}};await route.fulfill({json:value});});
-    await page.goto(host.url+`/?page=verify&project=${projectId}`);
+    await page.goto(host.url+`/?page=verify&step=9&project=${projectId}`);
     await page.getByRole('textbox',{name:'适用条件',exact:true}).fill('尚未保存的业务范围');await page.getByRole('textbox',{name:'业务确认人',exact:true}).fill('本页业务确认人');
     const port=Number(new URL(host.url).port);await host.close();host=await startWorkbench({directory,registryDirectory,port});
     await page.getByRole('button',{name:'保存本版审核材料',exact:true}).click();

@@ -1,3 +1,4 @@
+import {goStep} from './workflow-steps';
 import {test,expect} from '@playwright/test';
 import {join} from 'node:path';
 import {readFile,mkdir} from 'node:fs/promises';
@@ -24,7 +25,9 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     await page.goto(host.url+`/?page=verify&project=${projectId}`);
     await page.getByLabel('提交结果保存',{exact:true}).check();
     await page.getByText('这就是我期望的网站行为',{exact:true}).first().check();
+    await goStep(page,6);
     await page.getByRole('button',{name:'为这条规则创建检查方案',exact:true}).first().click();
+    expect(new URL(page.url()).searchParams.get('step')).toBe('6');await goStep(page,9);
     const review=page.getByRole('region',{name:'检查方案验证与审核',exact:true});
     await expect(review).toBeVisible();
     await expect(review.getByText('等待双重审核',{exact:true})).toBeVisible({timeout:40000});
@@ -33,7 +36,7 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     expect(new URL(page.url()).searchParams.get('page')).toBe('verify');
     expect(calls).toBe(1);
     await review.getByRole('textbox',{name:'适用条件',exact:true}).fill('人工限定：仅本地隔离的提交保存流程');
-    await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('edit');
+    await page.getByRole('navigation',{name:'完整业务验证流程'}).getByRole('button',{name:/^03 /}).click();
     await expect(page.getByRole('dialog',{name:'审核说明尚未保存',exact:true})).toBeVisible();
     await page.getByRole('button',{name:'留在本页',exact:true}).click();
     await expect(review.getByRole('textbox',{name:'适用条件',exact:true})).toHaveValue('人工限定：仅本地隔离的提交保存流程');
@@ -59,7 +62,7 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     for(const width of [1280,768,390]){await page.setViewportSize({width,height:1000});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();scrollTo(0,0);});await page.screenshot({fullPage:true,path:`output/template-review/screenshots/review-${width}.png`});}
     await page.setViewportSize({width:1280,height:1000});
     await host.close();host=await startWorkbench({directory,registryDirectory:join(directory,'registry'),port:0});
-    await page.goto(host.url+`/?page=verify&project=${projectId}`);
+    await page.goto(host.url+`/?page=verify&step=9&project=${projectId}`);
     await expect(review.getByRole('textbox',{name:'使用说明',exact:true})).toHaveValue('人工修订：先确认接口映射，再重置合成数据。');
     await expect(review.getByLabel('确认规则及本版适用条件',{exact:true})).not.toBeChecked();
     await review.getByLabel('业务确认人',{exact:true}).fill('fixture-business');
@@ -68,14 +71,14 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     await review.getByLabel('已审查定义、正反例、端到端证据及限制',{exact:true}).check();
     await review.getByRole('button',{name:'审核通过，保存为可复用方案',exact:true}).click();
     await expect(review.getByText('已发布固定版本 1.0.0',{exact:true})).toBeVisible();
-    await page.getByLabel('重复提交不重复创建',{exact:true}).check();
+    await goStep(page,3);await page.getByLabel('重复提交不重复创建',{exact:true}).check();await goStep(page,10);
     await expect(page.getByRole('button',{name:'准备本轮检查',exact:true})).toBeDisabled();
-    await expect(review.locator('.published-evidence')).not.toHaveAttribute('open');
+    await goStep(page,9);await expect(review.locator('.published-evidence')).not.toHaveAttribute('open');
     await expect(review.getByRole('button',{name:'准备运行所选检查',exact:true})).toHaveCount(0);
     await expect(review.getByText('请先完成其它已选检查的方案：重复提交不重复创建',{exact:true})).toBeVisible();
-    await page.getByLabel('重复提交不重复创建',{exact:true}).uncheck();
+    await goStep(page,3);await page.getByLabel('重复提交不重复创建',{exact:true}).uncheck();
     await page.getByLabel('这就是我期望的网站行为',{exact:true}).check();
-    await page.getByRole('button',{name:'准备本轮检查',exact:true}).click();
+    await goStep(page,10);await page.getByRole('button',{name:'准备本轮检查',exact:true}).click();
     await expect(page.getByRole('heading',{name:'本轮运行准备',exact:true})).toBeVisible();
     await page.getByRole('button',{name:'开始检查',exact:true}).click();
     await expect.poll(()=>new URL(page.url()).searchParams.get('run')).toBeTruthy();

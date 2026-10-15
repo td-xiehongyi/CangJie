@@ -18,7 +18,8 @@ test('T8 browser config, real k6, evidence and server restart',{tag:'@t8'},async
     const freeze=JSON.parse(await readFile('docs/evidence/t7-freeze.json','utf8'));
     const {runId}=await request(`/projects/${projectId}/run`,{flow:{id:'submit',title:'提交与编辑工单'},checks:freeze.publications.map((p:any)=>({ruleId:p.rule.id,confirmed:true,templateRef:p.ref}))});
     await expect.poll(async()=>(await request('/state')).runs.find((r:any)=>r.id===runId)?.status,{timeout:30000}).toBe('completed');
-    await page.goto(host.url+`/?page=report&project=${projectId}&run=${runId}`);
+    const goal=await request('/projects/'+projectId+'/journey');await request('/projects/'+projectId+'/journey',{...goal,goal:'both',rate:'1',durationSeconds:'8'});
+    await page.goto(host.url+`/?page=verify&step=10&project=${projectId}&run=${runId}`);
     await page.getByText('设置并开始负载检查',{exact:true}).click();
     await expect(page.getByRole('button',{name:'开始目标负载验证',exact:true})).toBeDisabled();
     await page.getByLabel('验证目标是否达标',{exact:true}).check();

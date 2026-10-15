@@ -31,3 +31,15 @@ test('manual analysis skip is explicit with a reason, never treated as coverage'
  const s=journeyState({id:'p',journey:{skipAnalysis:true}},{},undefined,false)[2];
  assert.equal(s.status,'skipped');assert.match(s.reason,/不代表已覆盖/);
 });
+
+test('view persistence is queued without blocking navigation and recovers after a failed save',async()=>{
+ const {createViewPositionWriter}=await import('../../apps/ui/src/workflowJourney.ts');
+ const calls=[],errors=[];let release;
+ const gate=new Promise(r=>release=r);
+ const writer=createViewPositionWriter(async(projectId,step)=>{calls.push([projectId,step]);if(step===2){await gate;throw new Error('offline');}},e=>errors.push(e.message));
+ assert.equal(writer.save('p',2),undefined);
+ writer.save('p',3);
+ await new Promise(r=>setImmediate(r));assert.deepEqual(calls,[['p',2]]);
+ release();await writer.settled();
+ assert.deepEqual(calls,[['p',2],['p',3]]);assert.deepEqual(errors,['offline']);
+});

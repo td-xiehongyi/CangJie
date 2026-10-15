@@ -7,16 +7,16 @@ import ProjectView from './ProjectView';
 import VerifyView from './VerifyView';
 import ReportView from './ReportView';
 import SettingsView from './SettingsView';
-import {journeySteps,parseStep,stepPage} from './workflowJourney';
+import {journeySteps,parseStep,stepPage,createViewPositionWriter} from './workflowJourney';
 const params=()=>new URLSearchParams(location.search);
-const titles:Record<string,string>={project:'项目接入',verify:'业务验证',report:'验证报告',settings:'模型设置',repair:'修复与复测'};
-const initialStep=()=>params().has('step')?parseStep(params().get('step')):params().get('page')==='report'?11:params().get('page')==='verify'?3:1;
-const validPage=(value:string|null)=>value&&titles[value]?value:'project';
+const initialStep=()=>params().has('step')?parseStep(params().get('step')):params().get('page')==='report'?11:params().get('page')==='verify'?3:params().get('page')==='repair'?12:1;
 type LeavePrompt={save:()=>Promise<void>;resolve:(leave:boolean)=>void};
 export default function App(){
   const [step,setStep]=useState(initialStep),[detailsOpen,setDetailsOpen]=useState(false);
   const detailsButton=useRef<HTMLButtonElement>(null);
   const [state,setState]=useState<Data>(),[page,setPage]=useState(params().get('page')==='settings'?'settings':stepPage(initialStep())),[projectId,setProjectId]=useState(params().get('project')??''),[runId,setRunId]=useState(params().get('run')??''),[error,setError]=useState(''),[busy,setBusy]=useState(false),[closed,setClosed]=useState(false),[leavePrompt,setLeavePrompt]=useState<LeavePrompt>(),[leaving,setLeaving]=useState(false);
+  const viewWriter=useRef<ReturnType<typeof createViewPositionWriter>|undefined>(undefined);
+  if(!viewWriter.current)viewWriter.current=createViewPositionWriter(async(pid,next)=>{const preferences=await api('/projects/'+pid+'/journey');await api('/projects/'+pid+'/journey',{...preferences,lastStep:next,viewOnly:true});},()=>setError('浏览位置尚未保存，但仍可继续查看。'));
   const [sessionLost,setSessionLost]=useState(isSessionExpired),[reconnecting,setReconnecting]=useState(false);
   const reconnectingRef=useRef(false),sessionNotice=useRef<HTMLDivElement>(null);
   useEffect(()=>{if(sessionLost){sessionNotice.current?.scrollIntoView({block:'start'});sessionNotice.current?.focus({preventScroll:true});}},[sessionLost]);
@@ -35,7 +35,7 @@ export default function App(){
     void (async()=>{if(!await canLeave())return;positions.current.set(projectId+':step:'+step,window.scrollY);const from=page==='settings'?params().get('from'):undefined;if(page==='settings'&&target===from)restorePosition.current=positions.current.get(pid+':'+target);const explicit=target.startsWith('step:')?parseStep(target.slice(5)):undefined;
       const next=explicit??(target==='report'?11:target==='repair'?12:target==='settings'?step:pid!==projectId?1:target===page?step:target==='verify'?(rid?10:3):4);
       const destination=target==='settings'?'settings':stepPage(next);
-      if(pid&&target!=='settings'){try{const preferences=await api('/projects/'+pid+'/journey');await api('/projects/'+pid+'/journey',{...preferences,lastStep:next,viewOnly:true});}catch{setError('浏览位置尚未保存，但仍可继续查看。');}}
+      if(pid&&target!=='settings')viewWriter.current!.save(pid,next);
 
       const q=new URLSearchParams({page:destination,step:String(next)});if(pid)q.set('project',pid);if(rid)q.set('run',rid);if(target==='settings'&&page!=='settings')q.set('from','step:'+step);history.pushState({},'',`?${q}`);applyLocation();})().catch(e=>setError(e.message)).finally(()=>{navigationBusy.current=false;});
   }

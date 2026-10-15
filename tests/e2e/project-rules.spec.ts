@@ -55,12 +55,16 @@ const moduleUrl=importUi;
 test('server-rendered discovery requires unanswered questions and explicit independent expectations',async()=>{
   const {default:BusinessDiscovery}=await import(await moduleUrl('apps/ui/src/components/BusinessDiscovery.tsx'));
   const html=renderToStaticMarkup(createElement(BusinessDiscovery,{state:{settings:{}},project:{id:'project-a',discovery:session},refresh:async()=>{},select:()=>{}}));
-  expect(html).toContain('规则预期核对 修改订单');
-  expect(html).toContain('确认后的预期行为（每行一条）');
+  expect(html).toContain('前往03 确认业务与目标');
+  expect(html).not.toContain('确认并保存项目规则');
+  const {default:ProjectRuleCard}=await import(await moduleUrl('apps/ui/src/components/ProjectRuleCard.tsx'));
+  const form=renderToStaticMarkup(createElement(ProjectRuleCard,{projectId:'project-a',session,collection:{revision:0,versions:[],readiness:[]}}));
+  expect(form).toContain('规则预期核对 修改订单');
+  expect(form).toContain('确认后的预期行为（每行一条）');
   expect(html).toContain('当前源码允许任何人修改订单。');
   expect(html).toContain('仅所有者可修改订单。');
   expect(html).not.toContain('checked=""');
-  expect(html).toMatch(/disabled=""[^>]*>确认并保存项目规则/);
+  expect(form).toMatch(/disabled=""[^>]*>确认并保存项目规则/);
 });
 
 test('server-rendered project rule library shows four readiness states and keeps pending versions blocked',async()=>{
@@ -96,7 +100,7 @@ async function setupUi(page:any,{versions=[],statuses=[]}:{versions?:any[];statu
     if(request.method()==='POST')writes.push({path,body});
     const reply=(value:any,status=200)=>route.fulfill({status,json:value});
     if(path==='/api/session')return reply({token:'synthetic-ui-token'});
-    if(path==='/api/state')return reply({projects:[project],rules:[],runs:[],catalog:{matches:[]},settings:{model:'',hasKey:false,serviceUrl:'',remembered:false,connection:{status:'not_checked',code:''}}});
+    if(path==='/api/state')return reply({projectRules:{[project.id]:{projectId:project.id,...store,readiness:readiness()}},projects:[project],rules:[],runs:[],catalog:{matches:[]},settings:{model:'',hasKey:false,serviceUrl:'',remembered:false,connection:{status:'not_checked',code:''}}});
     if(path.endsWith('/discovery-scope'))return reply({revision:0,scope:{allowedPaths:['.'],excludedPaths:[],includeProjectTests:false,serviceUrl:'https://model.invalid'},snapshot:{files:[],sourceHash:'hash',indexIssues:[]}});
     if(path.endsWith('/rules')&&request.method()==='GET')return reply({projectId:project.id,...store,readiness:readiness()});
     if(request.method()==='POST'&&body.expectedRevision!==store.revision)return reply({error:'RULE_REVISION_CONFLICT'},409);
@@ -107,14 +111,14 @@ async function setupUi(page:any,{versions=[],statuses=[]}:{versions?:any[];statu
     if(path.endsWith('/versions/1'))return reply(baseRule);
     return reply({error:'unexpected-fixture-request'},404);
   });
-  await page.goto(url+'/?page=project&project=project-a');
+  await page.goto(url+'/?page=verify&step=3&project=project-a');
   return {writes,store,async close(){await new Promise<void>(r=>{server.closeAllConnections();server.close(()=>r())})}};
 }
 for(const width of [1280,390])test(`explicit owner expectation is saved without execution at ${width}px`,async({page})=>{
   await page.setViewportSize({width,height:900});const x=await setupUi(page);
   try{
     const form=page.getByRole('region',{name:'规则预期核对 修改订单'});
-    await expect(form).toBeVisible();await expect(page.getByText('当前源码允许任何人修改订单。',{exact:true})).toBeVisible();await expect(page.getByText('仅所有者可修改订单。',{exact:true})).toBeVisible();
+    await expect(form).toBeVisible();await form.getByText('核对建议的源码事实与候选预期',{exact:true}).click();await expect(form.getByText('当前源码允许任何人修改订单。',{exact:true})).toBeVisible();await expect(form.getByText('仅所有者可修改订单。',{exact:true})).toBeVisible();
     expect(x.writes).toHaveLength(0);await expect(form.getByLabel('已核对关键问题与业务预期')).not.toBeChecked();await expect(form.getByRole('button',{name:'确认并保存项目规则'})).toBeDisabled();
     await form.getByLabel('谁可以修改订单？',{exact:true}).fill('仅所有者');await form.getByLabel('确认后的预期行为（每行一条）').fill('仅所有者可修改订单');await form.getByLabel('已核对关键问题与业务预期').check();await form.getByRole('button',{name:'确认并保存项目规则'}).click();
     await expect(page.getByRole('heading',{name:'项目规则版本库'})).toBeVisible();const saved=page.getByRole('article',{name:'项目规则 修改订单 v1'});await expect(saved).toContainText('已由你确认');await saved.getByRole('button',{name:'选择此版本（仅保存草稿）'}).click();await expect(saved).toContainText('已选为项目规则草稿');
@@ -136,7 +140,7 @@ test('revision conflict preserves answers and expects another explicit confirmat
 });
 test('all four readiness states display their gaps without generating or running',async({page})=>{
   const statuses=['reusable','generatable','needs_conditions','needs_capability'],versions=statuses.map((s,i)=>({...baseRule,id:`rule-${i}`,flow:`业务${i}`}));const x=await setupUi(page,{versions,statuses});try{
-    for(const label of ['已有合格方案','可生成方案','缺少测试条件','缺少执行能力'])await expect(page.getByText(label,{exact:true})).toBeVisible();await expect(page.getByText('缺少可靠的订单状态查询',{exact:true})).toHaveCount(4);expect(x.writes).toHaveLength(0);
+    for(const label of ['已有合格方案','可生成方案','缺少测试条件','缺少执行能力'])await expect(page.locator('div[data-page=verify]').getByText(label,{exact:true})).toBeVisible();await expect(page.locator('div[data-page=verify]').getByText('缺少可靠的订单状态查询',{exact:true})).toHaveCount(4);expect(x.writes).toHaveLength(0);
   }finally{await x.close()}
 });
 
