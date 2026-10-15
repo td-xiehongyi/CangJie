@@ -20,7 +20,7 @@ test('source-only import needs no run configuration and analysis APIs retain ses
   const state=await x.request('/state');assert.equal(state.projects.find(v=>v.id===p.id).sourceOnly,true);
   await x.request('/source-projects',{directory:x.root},401,'wrong-token');
   await x.request(`/projects/${p.id}/discovery`,{confirmed:false,scopeHash:p.scope.scopeHash,expectedRevision:p.revision,requestId:crypto.randomUUID()},400);assert.equal(x.requests.length,0);
-  const accepted=await start(x,p),done=await x.wait(accepted.id);assert.equal(done.status,'partial');assert.ok(done.unresolved.includes('需要更多资料'));
+  const accepted=await start(x,p),done=await x.wait(accepted.id);assert.equal(done.status,'partial',JSON.stringify(done));assert.ok(done.unresolved.includes('需要更多资料'));
   for(let i=0;i<3;i++)await x.request('/discovery/'+accepted.id);assert.equal(x.requests.length,1);
 });
 test('cited project-specific recommendations remain draft suggestions, never catalog rules or execution verdicts',async t=>{

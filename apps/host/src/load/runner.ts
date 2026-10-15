@@ -1,3 +1,4 @@
+import {availableLoopbackPort,listenLoopback} from '../execution/ports.js';
 import {randomUUID,randomBytes} from 'node:crypto';
 import {spawn,type ChildProcess} from 'node:child_process';
 import {createServer} from 'node:http';
@@ -44,7 +45,7 @@ export function assertLoadEnvironment(run:RunRecord,environment:RunEnvironment,p
 export class LoadStore extends ArtifactStore {
   async getLoad(id:string):Promise<LoadRecord>{validId(id);try{return await this.read(id+'.json');}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;const r=await this.read<LoadRecord>(id+'.pending.json');return {...r,status:'interrupted',verdict:'unknown',reason:'HOST_EXITED_BEFORE_SETTLEMENT'};}}
 }
-async function port(){const s=createServer();await new Promise<void>(r=>s.listen(0,'127.0.0.1',r));const p=(s.address() as {port:number}).port;await new Promise<void>(r=>s.close(()=>r()));return p;}
+const port=availableLoopbackPort;
 
 // Each concurrent experiment owns its action/attempt budget, while all share the
 // same initialized website and token sessions. No per-operation reset occurs.
@@ -137,7 +138,7 @@ export function startTargetLoad(input:TargetLoadPlan,mapping:MappingSpec):LoadHa
           try{await work;}finally{ledger.pending.delete(work);}res.end('settled');
         }catch{requestStop('execution_error');res.writeHead(400);res.end();}
       });
-      await new Promise<void>(r=>bridge!.listen(0,'127.0.0.1',r));const address=`http://127.0.0.1:${(bridge.address() as {port:number}).port}`;
+      await listenLoopback(bridge!);const address=`http://127.0.0.1:${(bridge.address() as {port:number}).port}`;
       let output='',summarySeen=false;
       process=spawn(join(projectRoot,'.local-tools/k6-v2.3.0-windows-amd64/k6.exe'),['run','--quiet','--no-color',join(projectRoot,'templates/load-http.js')],{cwd:projectRoot,windowsHide:true,shell:false,stdio:['ignore','pipe','pipe'],env:{...globalThis.process.env,K6_NO_USAGE_REPORT:'true',TARGET_CONFIG:JSON.stringify(target),BRIDGE_URL:address,BRIDGE_SECRET:secret}});
       process.stdout!.on('data',chunk=>{output=(output+chunk).slice(-32768);});process.stderr!.on('data',()=>{});

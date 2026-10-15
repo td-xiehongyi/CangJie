@@ -10,7 +10,7 @@ import {renderToStaticMarkup} from 'react-dom/server';
 
 // Transpile actual UI modules for pure SSR/behavior tests. No browser or socket is needed.
 const root=resolve('.'),source=join(root,'apps/ui/src'),output=await mkdtemp(join(tmpdir(),'cangjie-rule-ui-'));
-await symlink(join(root,'node_modules'),join(output,'node_modules'),'dir');
+await symlink(join(root,'node_modules'),join(output,'node_modules'),process.platform==='win32'?'junction':'dir');
 async function transpile(directory){for(const entry of await readdir(directory,{withFileTypes:true})){const path=join(directory,entry.name);if(entry.isDirectory()){await transpile(path);continue}if(!/\.tsx?$/.test(entry.name))continue;const destination=join(output,relative(source,path).replace(/\.tsx?$/,'.mjs'));await mkdir(dirname(destination),{recursive:true});const code=ts.transpileModule(await readFile(path,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2023,jsx:ts.JsxEmit.ReactJSX}}).outputText.replace(/(from\s+|import\s*)(['"])(\.\.?\/[^'"]+)\2/g,(_all,prefix,quote,specifier)=>`${prefix}${quote}${specifier.replace(/\.tsx?$/,'')}.mjs${quote}`);await writeFile(destination,code)}}
 await transpile(source);
 const view=await import(pathToFileURL(join(output,'VerifyView.mjs')).href),client=await import(pathToFileURL(join(output,'api/client.mjs')).href);

@@ -4,7 +4,8 @@ import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import {replaceFile} from './artifacts/replace.js';
 import {join} from 'node:path';
 import type {Server} from 'node:http';
-import {createServer as createPortServer} from 'node:net';
+import {createServer} from 'node:http';
+import {listenLoopback,availableLoopbackPort} from './execution/ports.js';
 import {prepareCopy} from './projects/copy.js';
 import {bindMapping,mappingHash} from './execution/mapping.js';
 import type {RuleContract} from '@website-verification/contracts';
@@ -137,7 +138,7 @@ export async function startWorkbench(options:{directory?:string;registryDirector
     res.json({projectRules,loadPreset:LOAD_PRESET,loads:loadRecords,projects:[...runtimeProjects,...sourceProjects.filter(p=>!projects.has(p.id))],rules:rules.map(r=>({...r,hash:digest(r)})),catalog,runs:runs.sort((a,b)=>b.startedAt.localeCompare(a.startedAt)),settings:{serviceUrl:config.serviceUrl,model:config.model,remembered:config.credentialRef?.startsWith('windows:')??false,hasKey:!!config.credentialRef,connection},preset:MODEL_PRESET});
   });
   app.post('/api/projects/pick-directory',async(_req,res)=>{if(pickingFolder)throw new Error('FOLDER_PICKER_BUSY');pickingFolder=true;const controller=new AbortController();folderController=controller;res.once('close',()=>{if(!res.writableEnded)controller.abort();});try{res.json({directory:await (options.pickDirectory??pickProjectDirectory)(controller.signal)});}finally{pickingFolder=false;if(folderController===controller)folderController=undefined;}});
-  app.post('/api/projects/:id/workflow',async(req,res)=>{const p=project(req.params.id),compiled=await executableRules(p),available=[...rules,...compiled.map(({hash:_hash,ruleRef:_ref,...r})=>r)],catalog=await registry.matchReport(capabilities,available),hashes=new Map(available.map(r=>[r.id,digest(r)])),versions=new Set(catalog.matches.map(m=>`${available.find(r=>digest(r)===m.ruleHash)?.id}:${m.ref.hash}`));p.workflow=writeWorkflow(p.workflow??emptyWorkflow(),req.body,hashes,p.environmentHash,versions);await save();res.json(p.workflow);});
+  app.post('/api/projects/:id/workflow',async(req,res)=>{for(;;){const p=project(req.params.id),compiled=await executableRules(p),available=[...rules,...compiled.map(({hash:_hash,ruleRef:_ref,...r})=>r)],catalog=await registry.matchReport(capabilities,available),hashes=new Map(available.map(r=>[r.id,digest(r)])),versions=new Set(catalog.matches.map(m=>`${available.find(r=>digest(r)===m.ruleHash)?.id}:${m.ref.hash}`));if(project(p.id)!==p)continue;p.workflow=writeWorkflow(p.workflow??emptyWorkflow(),req.body,hashes,p.environmentHash,versions);await save();res.json(p.workflow);return;}});
   app.post('/api/settings',async(req,res)=>{
     modelIdle();const next={serviceUrl:String(req.body.serviceUrl??''),model:String(req.body.model??'')};new ModelProvider(next,modelKeys,new ModelBudget());
     const changed=next.serviceUrl!==config.serviceUrl||next.model!==config.model||!!req.body.key;
@@ -180,7 +181,7 @@ export async function startWorkbench(options:{directory?:string;registryDirector
     p.preparation={status:'preparing',environmentHash:p.environmentHash,startedAt:new Date().toISOString()};preparedInSession.delete(p.id);
     const job=(async()=>{
       await save();await freshEnvironment(p);if(!p.profile.supported)throw new Error('PROJECT_UNSUPPORTED');automaticPasswords(p);
-      const socket=createPortServer();await new Promise<void>(r=>socket.listen(0,'127.0.0.1',r));const port=(socket.address() as {port:number}).port;await new Promise<void>((r,j)=>socket.close(e=>e?j(e):r()));
+      const port=await availableLoopbackPort();
       const copy=await prepareCopy(p.profile,{projectId:p.id,port,confirmed:true,data:p.data,accounts:p.accounts,credentials});
       try{const mapping=bindMapping(p.mapping,copy.id);await copy.prepareExperiment({checkId:'environment-check',ruleHash:digest('environment-check'),mapping,mappingHash:mappingHash(mapping),confirmed:true,budget:{maxOperations:8,deadlineMs:30000}});await copy.completeAttempt();return {status:'ready',verifiedAccounts:p.accounts.length,copyId:copy.id};}
       finally{await copy.close();}
@@ -260,6 +261,6 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   app.use('/api',(_req,res)=>res.status(404).json({error:'NOT_FOUND'}));
   app.use(express.static(options.uiDirectory??join(projectRoot,'apps/ui/dist')));
   app.use((error:Error,_req:express.Request,res:express.Response,_next:express.NextFunction)=>{res.status(400).json({error:scrubSecrets(error.message)});});
-  const server:Server=await new Promise((resolve,reject)=>{const s=app.listen(options.port??4317,'127.0.0.1',(error?:Error)=>{if(error){reject(error);return;}s.off('error',reject);resolve(s)});s.once('error',reject);});origin=`http://127.0.0.1:${(server.address() as {port:number}).port}`;
+  const server:Server=await listenLoopback(createServer(app),options.port??4317);origin=`http://127.0.0.1:${(server.address() as {port:number}).port}`;
   return {url:origin,token,registry,store,close:async()=>{try{await closeSecrets();await saveQueue;}finally{await new Promise<void>((r,j)=>{server.close(e=>e?j(e):r());server.closeAllConnections();});}}};
 }

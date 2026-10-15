@@ -24,6 +24,17 @@ test('T7 frozen templates execute against registration with new evidence',{timeo
       const text=bytes.toString('utf8').replace(/\r\n/g,'\n');assert.equal(text.split(extension).length,2,'only the reviewed T8 extension is permitted');
       bytes=Buffer.from(text.replace(extension,'if ('));
     }
+    // S4 adds explicit expected-rejection verdicts. Project only these exact
+    // reviewed extensions back to the historical T7 bytes; all other edits fail.
+    const extensions={
+      'apps/core/src/scheduler.cj':[
+        'if (reason.isEmpty() && acceptance!=expected) {\n            reason=if (expected=="rejected" && acceptance=="accepted") { "EXPECTED_REJECTION_VIOLATED" } else { "UNEXPECTED_ACCEPTANCE" }\n        }',
+        'if (reason.isEmpty() && acceptance!=expected) { reason="UNEXPECTED_ACCEPTANCE" }'],
+      'apps/core/src/verdict.cj':[
+        'if (reason=="EXPECTED_REJECTION_VIOLATED") { status="fail" }\n    else if (reason.isEmpty()) {',
+        'if (reason.isEmpty()) {'],
+    };
+    if(extensions[path]){const [extension,historical]=extensions[path],text=bytes.toString('utf8');assert.equal(text.split(extension).length,2,'only the reviewed S4 extension is permitted');bytes=Buffer.from(text.replace(extension,historical));}
     assert.equal(createHash('sha256').update(bytes).digest('hex'),hash,`frozen file changed: ${path}`);
   }
   const {restoreFixture}=await import('../../scripts/t7-fixture.mjs');

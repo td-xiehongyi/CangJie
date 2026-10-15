@@ -1,8 +1,9 @@
+import {availableLoopbackPort} from './execution/ports.js';
 import {randomUUID} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {createServer} from 'node:net';
+
 import type {RuleContract,MappingSpec,Observation,ToolAction,Verdict,Transition,TemplateSpec} from '@website-verification/contracts';
 import {validateContract} from '@website-verification/contracts/validate';
 import {TemplateRegistry,type TemplateRef} from './templates/store.js';
@@ -33,7 +34,7 @@ export function confirmPlan(input:Omit<ConfirmedPlan,'id'|'confirmedAt'> & {flow
   validateMapping(input.mapping);if(!/^[a-f0-9]{64}$/.test(input.sourceHash))throw new Error('INVALID_SOURCE_HASH');
   return structuredClone({id:randomUUID(),projectId:input.projectId,flow:input.flow,checks:input.checks,mapping:input.mapping,sourceHash:input.sourceHash,confirmedAt:new Date().toISOString()});
 }
-async function freePort(){const s=createServer();await new Promise<void>(r=>s.listen(0,'127.0.0.1',r));const port=(s.address() as {port:number}).port;await new Promise<void>((r,j)=>s.close(e=>e?j(e):r()));return port;}
+const freePort=availableLoopbackPort;
 export async function qualifyPlan(plan:ConfirmedPlan,registry:TemplateRegistry){
   const checked=confirmPlan(plan); // Structural validation, never auto-confirm a pending rule.
   const templates=[];

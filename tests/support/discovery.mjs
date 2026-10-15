@@ -1,3 +1,4 @@
+import {listenLoopback} from '../../apps/host/dist/execution/ports.js';
 import assert from 'node:assert/strict';
 import {cp,mkdtemp,mkdir,readFile,rm} from 'node:fs/promises';
 import {join} from 'node:path';
@@ -15,11 +16,11 @@ export function overview(files,name='取消订单'){
 }
 export async function setupDiscovery(t,respond,options={}){
   const a=await loadDiscovery();await mkdir('output/s2-discovery',{recursive:true});
-  const directory=await mkdtemp(join(process.cwd(),'output/s2-discovery/session-'));t.after(()=>rm(directory,{recursive:true,force:true}));
+  const directory=await mkdtemp(join(process.cwd(),'output/s2-discovery/session-'));t.after(()=>rm(directory,{recursive:true,force:true,maxRetries:5,retryDelay:100}));
   const root=join(directory,'source');await cp('tests/fixtures/discovery-orders',root,{recursive:true});
   const requests=[];
   const server=createServer(async(req,res)=>{try{let raw='';for await(const c of req)raw+=c;const body=JSON.parse(raw),payload=JSON.parse(body.messages[1].content);requests.push({body,payload,raw});const value=await respond(payload,requests.length,{req,res});if(res.destroyed)return;res.writeHead(200,{'content-type':'application/json'});res.end(JSON.stringify({choices:[{finish_reason:'stop',message:{content:JSON.stringify(value)}}],usage:{total_tokens:options.actualTokens??20}}));}catch{res.destroy()}});
-  await new Promise(r=>server.listen(0,'127.0.0.1',r));t.after(()=>new Promise(r=>{server.closeAllConnections();server.close(r)}));
+  await listenLoopback(server);t.after(()=>new Promise(r=>{server.closeAllConnections();server.close(r)}));
   const credentials=new a.ModelCredentials(),serviceUrl=`http://127.0.0.1:${server.address().port}`;
   const credentialRef=await credentials.set(serviceUrl,'synthetic-discovery-model-key',{remember:false});t.after(()=>credentials.close());
   const config={serviceUrl,model:'deterministic-discovery',credentialRef},store=new a.DiscoveryStore(join(directory,'sessions'));

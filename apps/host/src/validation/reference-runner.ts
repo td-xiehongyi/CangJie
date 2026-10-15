@@ -1,7 +1,8 @@
+import {availableLoopbackPort} from '../execution/ports.js';
 import {readFile,writeFile,mkdir,copyFile} from 'node:fs/promises';
 import {join,resolve} from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
-import {createServer} from 'node:net';
+
 import {randomUUID} from 'node:crypto';
 import type {ProjectRuleRef} from '@website-verification/contracts/discovery';
 import {loadCompiledValidationRule} from '../rules/compiler.js';
@@ -57,7 +58,7 @@ export async function resolveValidationSuite(ruleRef:ProjectRuleRef):Promise<Val
 }
 async function trusted(suite:ValidationSuite):Promise<ValidationSuite>{const original=await loadValidationSuite(suite.rule.id,suite.rule.version);if(digest(suite)!==digest(original))throw new Error('SUITE_CHANGED');return original;}
 async function core():Promise<CoreClient>{const {coreCommand}=await import(pathToFileURL(join(root,'scripts/toolchain.mjs')).href);return new CoreClient({...coreCommand(),timeoutMs:5000});}
-async function port():Promise<number>{const s=createServer();await new Promise<void>(r=>s.listen(0,'127.0.0.1',r));const p=(s.address() as {port:number}).port;await new Promise<void>((r,j)=>s.close(e=>e?j(e):r()));return p;}
+const port=availableLoopbackPort;
 function referenceRef(copyId:string,ref:string):string{return `reference:${copyId}:${ref.replace(/^evidence:/,'')}`;}
 function configure(spec:TemplateSpec,parameters:Record<string,Json>):TemplateSpec{
   const configured=structuredClone(spec);

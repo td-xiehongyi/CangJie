@@ -13,3 +13,13 @@ test('Windows wrapper quotes project path and preserves nonzero startup failure'
 test('launcher and local-settings checks are included in release and all with explicit module mocking',async()=>{
  const calls=[];mock.module('node:child_process',{namedExports:{spawnSync(_exec,args){calls.push(args);return {status:0}}}});const argv=process.argv;try{for(const group of ['release','all']){calls.length=0;process.argv=[process.execPath,'scripts/verify.mjs',group];await import(`../../scripts/verify.mjs?launcher=${group}`);const args=calls.find(a=>a.includes('--test'));for(const path of ['tests/unit/launcher.test.mjs','tests/unit/settings-local.test.mjs','tests/integration/settings-local.test.mjs'])assert.ok(args.includes(path));assert.ok(args.includes('--experimental-test-module-mocks'));}}finally{process.argv=argv}
 });
+
+test('launcher rebuilds an existing core before starting and refuses an unverifiable old core',async()=>{
+ const {launch}=await load(),calls=[];await launch({nodeVersion:'24.0.0',root:'/project',exists:async()=>true,run:async(args)=>calls.push(args),log:()=>{}});
+ assert.ok(calls.findIndex(a=>a[0]==='scripts/build-core.mjs')>=0);assert.ok(calls.findIndex(a=>a[0]==='scripts/build-core.mjs')<calls.findIndex(a=>a[0]==='scripts/workbench.mjs'));
+ await assert.rejects(launch({nodeVersion:'24.0.0',root:'/project',sdk:'/missing-sdk',exists:async p=>!p.endsWith('cjc.exe'),run:async()=>{throw new Error('must not start');},log:()=>{}}),/CORE_REBUILD_REQUIRED/);
+});
+test('missing core and SDK still permit source-only startup with an explicit warning',async()=>{
+ const {launch}=await load(),calls=[],logs=[];await launch({nodeVersion:'24.0.0',root:'/project',exists:async p=>!p.endsWith('cjc.exe')&&!p.endsWith('verification-core.exe'),run:async args=>calls.push(args),log:m=>logs.push(m)});
+ assert.equal(calls.some(a=>a[0]==='scripts/build-core.mjs'),false);assert.equal(calls.at(-1)[0],'scripts/workbench.mjs');assert.ok(logs.some(m=>m.includes('核心')));
+});

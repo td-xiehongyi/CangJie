@@ -1,3 +1,4 @@
+import {listenLoopback} from '../../apps/host/dist/execution/ports.js';
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {join} from 'node:path';
 import {randomUUID} from 'node:crypto';
@@ -11,7 +12,7 @@ export async function publishedFixture(directory,registry,fixture='tests/fixture
   const spec=JSON.parse(await readFile(join(process.cwd(),fixture),'utf8'));
   await mkdir(directory,{recursive:true});await writeFile(join(directory,'public-summary.md'),'Synthetic HTTP JSON project.');
   const server=createServer(async(req,res)=>{for await(const c of req){}res.writeHead(200,{'content-type':'application/json','connection':'close'});res.end(JSON.stringify({choices:[{finish_reason:'stop',message:{content:JSON.stringify(spec)}}],usage:{total_tokens:20}}));});
-  await new Promise(r=>server.listen(0,'127.0.0.1',r));const serviceUrl=`http://127.0.0.1:${server.address().port}`,keys=new ModelCredentials();
+  await listenLoopback(server);const serviceUrl=`http://127.0.0.1:${server.address().port}`,keys=new ModelCredentials();
   try{
     const credentialRef=await keys.set(serviceUrl,'synthetic-t6-model-key',{remember:false}),suite=await loadValidationSuite(ruleId);
     const context={projectId:'t6-fixture',root:directory,entries:[{path:'public-summary.md',contentType:'summary'}],serviceUrl};

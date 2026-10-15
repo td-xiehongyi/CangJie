@@ -22,11 +22,12 @@ test('T8 browser config, real k6, evidence and server restart',{tag:'@t8'},async
     await page.getByText('设置并开始负载检查',{exact:true}).click();
     await expect(page.getByRole('button',{name:'开始目标负载验证',exact:true})).toBeDisabled();
     await page.getByLabel('验证目标是否达标',{exact:true}).check();
-    const fields=[['每秒完整业务检查次数','4'],['持续秒数（最多300）','2'],['完成等待上限（毫秒）','3000'],['允许错误百分比（0—100）','0']];
+    // Keep eight real experiments across all four rules, without using UI coverage as a machine-speed benchmark.
+    const fields=[['每秒完整业务检查次数','1'],['持续秒数（最多300）','8'],['完成等待上限（毫秒）','3000'],['允许错误百分比（0—100）','0']];
     for(const [label,value]of fields)await page.getByLabel(label,{exact:true}).fill(value);
     for(const input of await page.getByLabel(/占比 %/).all())await input.fill('25');
     await page.getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限').check();
-    await page.getByLabel('每秒完整业务检查次数',{exact:true}).fill('5');await expect(page.getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限')).not.toBeChecked();await page.getByLabel('每秒完整业务检查次数',{exact:true}).fill('4');await page.getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限').check();
+    await page.getByLabel('每秒完整业务检查次数',{exact:true}).fill('2');await expect(page.getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限')).not.toBeChecked();await page.getByLabel('每秒完整业务检查次数',{exact:true}).fill('1');await page.getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限').check();
     await page.getByRole('button',{name:'开始目标负载验证',exact:true}).click();
     await expect(page.getByRole('heading',{name:'目标达标',exact:true})).toBeVisible({timeout:30000});
     const result=(await request('/state')).loads[0];expect(result.metrics.started).toBe(8);const detail=await request(`/loads/${result.id}`);expect(new Set(detail.ledger.map((e:any)=>e.ruleId)).size).toBe(4);expect(detail.settlement.unknown).toBe(0);expect(JSON.stringify(detail)).not.toContain('synthetic-t8-browser-owner');

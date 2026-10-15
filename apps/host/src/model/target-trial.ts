@@ -1,5 +1,5 @@
 import {randomUUID} from 'node:crypto';
-import {createServer} from 'node:net';
+import {availableLoopbackPort} from '../execution/ports.js';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {join} from 'node:path';
 import type {TemplateSpec,RuleContract,Transition,ValidationRecord,Verdict} from '@website-verification/contracts';
@@ -20,7 +20,7 @@ export async function runTargetTrial(spec:TemplateSpec,rule:RuleContract,input:T
   if(!input.confirmed)throw new Error('TARGET_TRIAL_NOT_CONFIRMED');
   const profile=await inspectProject(input.source);if(input.sourceHash&&profile.sourceHash!==input.sourceHash)throw new Error('CONDITIONS_CHANGED_RECONNECT_REQUIRED');if(!profile.supported||!profile.mapping)throw new Error('TARGET_PROFILE_GAP');
   await assertCompiledRuleProject(rule,input.projectId,input.mapping??profile.mapping,profile.sourceHash,profile.root);
-  const socket=createServer();await new Promise<void>(r=>socket.listen(0,'127.0.0.1',r));const port=(socket.address() as {port:number}).port;await new Promise<void>((r,j)=>socket.close(e=>e?j(e):r()));
+  const port=await availableLoopbackPort();
   const credentials=input.credentials??new CredentialSession();if(!input.credentials){credentials.set(input.projectId,'owner',randomUUID());credentials.set(input.projectId,'other',randomUUID());}
   const env=await prepareCopy(profile,{projectId:input.projectId,port,confirmed:true,data:input.data??{source:'synthetic',count:2,seedVersion:profile.initialization?.version??'ticket-seed-v1'},accounts:input.accounts??[{actorRef:'owner',username:'alpha',userId:'user-a',role:'user'},{actorRef:'other',username:'beta',userId:'user-b',role:'user'}],credentials});
   const {coreCommand}=await import(pathToFileURL(join(root,'scripts/toolchain.mjs')).href);const core=new CoreClient({...coreCommand(),timeoutMs:5000});

@@ -1,0 +1,5 @@
+# Frozen validation resources must retain the exact reviewed bytes on Windows.
+/tests/reference/** text eol=lf
+/tests/fixtures/** text eol=lf
+/templates/** text eol=lf
+/apps/core/src/** text eol=lf

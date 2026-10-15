@@ -92,7 +92,7 @@ test('a draft saving during reconnection writes the current project rather than 
   const directory=join(process.cwd(),'.local-data/workflow-tests',randomUUID()),host=await startWorkbench({directory,registryDirectory:join(directory,'registry'),port:0});t.after(()=>host.close());
   const request=async(path,body)=>{const r=await fetch(host.url+'/api'+path,{method:body===undefined?'GET':'POST',headers:{authorization:`Bearer ${host.token}`,'content-type':'application/json'},...(body===undefined?{}:{body:JSON.stringify(body)})});const v=await r.json();assert.ok(r.ok,JSON.stringify(v));return v;};
   const {projectId}=await request('/projects',{directory:join(process.cwd(),'samples/ticket'),accountMode:'automatic'}),state=await request('/state'),p=state.projects[0],rule=state.rules.find(r=>r.id==='save-rule');
-  const original=host.registry.matchReport.bind(host.registry);let release,entered=false;host.registry.matchReport=async(...args)=>{entered=true;await new Promise(r=>release=r);return original(...args);};
+  const original=host.registry.matchReport.bind(host.registry);let release,entered=false;host.registry.matchReport=async(...args)=>{if(!entered){entered=true;await new Promise(r=>release=r);}return original(...args);};
   const saving=request(`/projects/${projectId}/workflow`,{revision:0,flow:'submit',choices:{'save-rule':{enabled:true,confirmed:true,ruleHash:rule.hash,environmentHash:p.environmentHash}}});
   while(!entered)await new Promise(r=>setTimeout(r,5));await request('/projects',{id:projectId,directory:p.directory,accountMode:'automatic',count:3});release();const result=await saving;host.registry.matchReport=original;
   const current=(await request('/state')).projects[0];assert.equal(current.workflow.revision,result.revision);assert.equal(current.workflow.flows.submit['save-rule'].enabled,true);assert.equal(current.workflow.flows.submit['save-rule'].confirmed,false);
@@ -105,7 +105,11 @@ test('review routing preserves materials for an owned inactive candidate without
   const stateFile=join(directory,'state.json'),saved=JSON.parse(await readFile(stateFile,'utf8')),oldId=randomUUID(),activeId=randomUUID(),candidateHash='a'.repeat(64);saved.projects[0].candidateId=activeId;saved.projects[0].candidateIds={'save-rule':oldId,'duplicate-rule':activeId};await writeFile(stateFile,JSON.stringify(saved));
   host=await startWorkbench({directory,registryDirectory:join(directory,'registry'),port:0});
   // Routing-only fixture: real qualification/publishing remains covered by candidate/review suites.
-  let routed;host.registry.stageCandidate=async(taskId,metadata)=>{routed=taskId;return {taskId,metadata,candidateHash,draftHash:'b'.repeat(64),validation:{recordRef:'routing-fixture'}};};
+  const {CandidateTask}=await import('../../apps/host/dist/model/candidate.js');
+  const originalOpen=CandidateTask.open,rule={source:'reference:save-rule'};
+  CandidateTask.open=async id=>{assert.equal(id,oldId);return {snapshot:()=>({input:{rule}})};};
+  t.after(()=>{CandidateTask.open=originalOpen;});
+  let routed;host.registry.stageCandidate=async(taskId,metadata)=>{routed=taskId;return {taskId,metadata,rule,candidateHash,draftHash:'b'.repeat(64),validation:{recordRef:'routing-fixture'}};};
   const metadata={version:'1.0.0',applicable:['local'],excluded:['other'],instructions:'retained input'};
   assert.equal((await request(`/projects/${projectId}/review`,{candidateId:oldId,candidateHash,metadata})).ok,true);assert.equal(routed,oldId);
   const p=JSON.parse(await readFile(stateFile,'utf8')).projects[0];assert.equal(p.candidateId,activeId);assert.equal(p.reviewDrafts[oldId].metadata.instructions,'retained input');assert.equal(p.draft,undefined);

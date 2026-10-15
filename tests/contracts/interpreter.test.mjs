@@ -111,7 +111,7 @@ test('actual rejection continues after an explicit expected rejection',async t=>
   const r=await rejectionRun(t,{acceptance:'rejected'});assert.equal(r.verdicts[0].status,'pass');assert.equal(r.verdicts[0].reasonCode,'ASSERTION_TRUE');
 });
 test('late accepted evidence cannot fail an expected rejection',async t=>{
-  const c=client(t),s=clone(seed);s.steps=[s.steps[0]];s.steps[0].bindings={};s.steps[0].expectedAcceptance='rejected';s.limits.actionTimeoutMs=10;
+  const c=client(t),s=clone(seed);s.steps=[s.steps[0]];s.steps[0].bindings={};s.steps[0].expectedAcceptance='rejected';s.assertions[0].expr=eq(field('created','a'),constant(1));s.limits.actionTimeoutMs=10;
   const st=await start(c,s);await new Promise(r=>setTimeout(r,30));const r=await advance(c,st,{id:'x'});
   assert.equal(r.verdicts[0].status,'inconclusive');assert.equal(r.verdicts[0].reasonCode,'ACTION_DEADLINE');
 });
