@@ -39,7 +39,27 @@ test('actual runtime import handler remains on04 instead of jumping to01',async(
  const render=()=>{reset();return runtime.type(runtime.props)};
  let tree=render();const input=nodes(tree).find(n=>n.type==='input'&&n.props.placeholder?.startsWith('例如'));
  input.props.onChange({target:{value:'synthetic-project'}});tree=render();
- const button=nodes(tree).find(n=>n.type==='button'&&text(n)==='检查项目并继续');
+ const button=nodes(tree).find(n=>n.type==='button'&&text(n)==='检查并准备环境');
  assert.ok(button);assert.equal(button.props.disabled,false);button.props.onClick();await pending;
  assert.deepEqual(selected,[['new-project',undefined,'step:4']]);
+});
+
+test('navigation retains06-08 as visible non-navigating substeps',async()=>{
+ const {default:Journey}=await import(pathToFileURL(join(output,'components/WorkflowJourney.mjs')));
+ const html=renderToStaticMarkup(React.createElement(Journey,{step:5,state:{},project:{id:'p'}}));
+ assert.match(html,/06 创建或适配检查方案/);assert.match(html,/07 独立验证方案/);assert.match(html,/08 在当前项目试运行/);assert.match(html,/无需切页/);
+});
+test('failed report prioritizes external repair and nests format exports',()=>{
+ const run={id:'r',projectId:'p',status:'completed',kind:'verification',flow:{title:'示例'},plan:{sourceHash:'h',mapping:{}},checks:[{mode:'verify',rule:{id:'r',expectedChanges:['x'],invariants:[]},templateRef:{id:'t',version:1},observations:[],actions:[],verdicts:[{status:'fail',assertionRef:'a',evidenceRefs:[]}]}],uncovered:[],startedAt:'2026-10-15',events:[]};
+ const html=renderToStaticMarkup(React.createElement(Report,{step:11,project:{id:'p',sourceHash:'h',mapping:{}},run,state:{runs:[run],loads:[],catalog:{matches:[]}},refresh:async()=>{},act:()=>{},select:()=>{}}));
+ assert.match(html,/交给其他agent修复/);assert.match(html,/<summary>更多导出格式与备份<\/summary>/);
+});
+
+test('04 reuses imported directory and has one runtime preparation action',async()=>{
+ const {default:Project}=await import(pathToFileURL(join(output,'ProjectView.mjs')));
+ const html=renderToStaticMarkup(React.createElement(Project,{step:4,project:{id:'p',name:'project',directory:'sample',sourceOnly:true,journey:{businessNotes:'已确认的业务'}},state:{settings:{},catalog:{matches:[]}},refresh:async()=>{},act:()=>{},select:()=>{}}));
+ const runtime=html.slice(html.indexOf('沿用01项目'));
+ assert.match(runtime,/已确认的业务/);assert.match(runtime,/检查并准备环境/);
+ assert.doesNotMatch(runtime,/>导入源码<\/button>|>网站用途<textarea/);
+ assert.match(runtime,/候选生成材料（非02业务分析范围）/);
 });

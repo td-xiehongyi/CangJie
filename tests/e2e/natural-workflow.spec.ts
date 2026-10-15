@@ -53,7 +53,7 @@ test('folder selection can be cancelled on the same page and other actions resum
     await page.getByRole('button',{name:'选择文件夹',exact:true}).click();await expect.poll(()=>started).toBe(true);
     await page.getByRole('button',{name:'取消选择文件夹',exact:true}).click();await expect.poll(()=>aborted).toBe(true);
     await expect(page.getByRole('button',{name:'选择文件夹',exact:true})).toBeEnabled();await expect(visibleLabel(page,'项目目录')).toHaveValue(join(process.cwd(),'samples/ticket'));
-    await page.getByRole('button',{name:'导入源码',exact:true}).click();await expect.poll(()=>new URL(page.url()).searchParams.get('project')).toBeTruthy();await goStep(page,4);await page.getByRole('button',{name:'检查项目并继续',exact:true}).click();await expect(page.getByRole('heading',{name:'准备测试环境',exact:true})).toBeVisible();await expect(page.getByRole('alert')).toHaveCount(0);
+    await page.getByRole('button',{name:'导入源码',exact:true}).click();await expect.poll(()=>new URL(page.url()).searchParams.get('project')).toBeTruthy();await goStep(page,4);await page.getByRole('button',{name:'检查并准备环境',exact:true}).click();await expect(page.getByRole('heading',{name:'准备测试环境',exact:true})).toBeVisible();await expect(page.getByRole('alert')).toHaveCount(0);
   }finally{await host.close();}
 });
 
@@ -64,7 +64,7 @@ test('empty library, preparation history, settings return and draft restoration'
     await page.goto(host.url);
     await page.getByRole('button',{name:'选择文件夹',exact:true}).click();
     await expect(visibleLabel(page,'项目目录')).toHaveValue(join(process.cwd(),'samples/ticket'));
-    await page.getByRole('button',{name:'导入源码',exact:true}).click();await expect.poll(()=>new URL(page.url()).searchParams.get('project')).toBeTruthy();await goStep(page,4);await page.getByRole('button',{name:'检查项目并继续',exact:true}).click();
+    await page.getByRole('button',{name:'导入源码',exact:true}).click();await expect.poll(()=>new URL(page.url()).searchParams.get('project')).toBeTruthy();await goStep(page,4);await page.getByRole('button',{name:'检查并准备环境',exact:true}).click();
     await expect(page.locator('.step-heading h1')).toHaveText('04 检查运行条件');
     await page.getByRole('checkbox',{name:'我同意在独立测试副本中创建用户并重置测试数据'}).check();
     await page.getByRole('button',{name:'执行环境检查',exact:true}).click();await expect(page.getByText('最近检查通过；本次执行前仍会重新核对凭据与环境。',{exact:true})).toBeVisible();await goStep(page,3);

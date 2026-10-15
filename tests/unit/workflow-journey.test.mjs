@@ -43,3 +43,22 @@ test('view persistence is queued without blocking navigation and recovers after 
  release();await writer.settled();
  assert.deepEqual(calls,[['p',2],['p',3]]);assert.deepEqual(errors,['offline']);
 });
+
+test('visible preparation step reflects active and blocked candidate work',()=>{
+ const project={id:'p',workflow:{flow:'submit',flows:{submit:{r:{enabled:true}}}},candidate:{status:'validating'}};
+ assert.equal(journeyState(project,{},undefined,false)[5].status,'running');
+ assert.equal(journeyState({...project,candidate:{ruleId:'r',status:'paused',code:'LIMIT'}},{},undefined,false)[5].status,'blocked');
+});
+test('source business confirmation contributes to03 without granting execution',()=>{
+ const p={id:'p',sourceOnly:true};
+ const state={projectRules:{p:{versions:[{id:'r',version:1,contentHash:'h',sourceCurrent:true,confirmation:{status:'confirmed'}}]}}};
+ assert.equal(journeyState(p,state,undefined,false)[3].status,'completed');
+ assert.equal(journeyState(p,state,undefined,false)[10].status,'pending');
+ state.projectRules.p.versions[0].sourceCurrent=false;
+ assert.equal(journeyState(p,state,undefined,false)[3].status,'stale');
+});
+
+test('an unrelated old candidate does not block current preparation status',()=>{
+ const p={id:'p',workflow:{flow:'submit',flows:{submit:{r:{enabled:true}}}},candidate:{ruleId:'old',status:'paused',code:'LIMIT'}};
+ assert.equal(journeyState(p,{},undefined,false)[5].status,'available');
+});

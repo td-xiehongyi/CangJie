@@ -33,12 +33,19 @@ export function journeyState(project:Value|undefined,state:Value,run:Value|undef
  const choices=Object.values(project.workflow?.flows?.[project.workflow?.flow]??{}).filter((x:any)=>x.enabled) as Value[];
  if(choices.length)result[3]={status:choices.every(x=>x.confirmed&&x.environmentHash===project.environmentHash)?'completed':'available',reason:'已选检查保留；未确认项只能观察，版本变化需重新确认。'};
  if(project.preparation)result[4]={status:project.preparation.environmentHash!==project.environmentHash?'stale':project.preparation.status==='ready'?'evidence':project.preparation.status==='running'?'running':'blocked',reason:'环境准备证据仅适用于对应环境版本。'};
+ const businessRules=state.projectRules?.[project.id]?.versions??[];
+ if(!choices.length&&businessRules.length)result[3]={
+  status:businessRules.some((r:Value)=>r.sourceCurrent===false)?'stale':businessRules.every((r:Value)=>r.confirmation?.status==='confirmed')?'completed':'available',
+  reason:'项目业务预期的确认状态；不代表已选入运行或具备执行资格。'
+ };
  const matches=project.catalog?.matches??state.catalog?.matches??[];
  if(choices.length)result[5]={status:'available',reason:'请逐项核对模板、能力与适用条件。'};
  const exact=choices.length>0&&choices.every(x=>x.version&&x.ruleHash&&matches.some((m:Value)=>m.ref.hash===x.version&&m.ruleHash===x.ruleHash)&&x.environmentHash===project.environmentHash);
  if(exact)for(const id of [6,7,9])result[id]={status:'evidence',reason:'已选精确方案版本存在有效目录记录；请查看其依据，本次未重新验证。'};
  const candidate=project.candidate;
+ if(exact)result[5]={status:'evidence',reason:'已选方案具有对应版本证据；执行前仍须核对适用条件。'};
  if(candidate){
+  if(['running','validating'].includes(candidate.status)||choices.some(x=>candidate.ruleHash&&x.ruleHash===candidate.ruleHash)||Object.entries(project.workflow?.flows?.[project.workflow?.flow]??{}).some(([id,value]:[string,any])=>value.enabled&&id===(candidate.ruleRef?.id??candidate.ruleId??candidate.spec?.ruleRef?.id)))result[5]={status:['running','validating'].includes(candidate.status)?'running':candidate.code?'blocked':'available',reason:['running','validating'].includes(candidate.status)?'方案正在准备，06—08的进度在05内更新。':candidate.code?'方案准备受阻，请查看原因；已有合格版本的资格仍由后端核对。':'方案记录可查看，请核对验证与审核结果。'};
   result[6]={status:['running','validating'].includes(candidate.status)?'running':'available',reason:'候选方案尚需独立验证、项目试运行与审核。'};
   result[7]={status:candidate.status==='validating'?'running':'available',reason:'查看独立验证记录，不以候选存在推断已通过。'};
   result[8]={status:'available',reason:'查看当前项目试运行及适配证据。'};

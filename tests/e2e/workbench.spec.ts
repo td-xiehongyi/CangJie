@@ -26,18 +26,18 @@ test('empty report does not invent runs; four pages respond at 1280, 768, 390',a
   await page.keyboard.press('Tab');await expect(page.getByRole('link',{name:'跳转到主要内容'})).toBeFocused();expect(await page.evaluate(()=>({local:localStorage.length,session:sessionStorage.length}))).toEqual({local:0,session:0});expect(errors).toEqual([]);
 });
 test('project form and session passwords survive scope edits; actual run and package replay',async({page})=>{
-  page.on('pageerror',e=>console.error('BROWSER_ERROR',e.message));await page.goto(host.url+'/?page=project&step=4');await visibleLabel(page,'项目目录').fill(join(process.cwd(),'samples/ticket'));await page.getByRole('textbox',{name:'网站用途',exact:true}).fill('验证提交结果保存');
+  page.on('pageerror',e=>console.error('BROWSER_ERROR',e.message));await page.goto(host.url+'/?page=project&step=4');await visibleLabel(page,'项目目录').fill(join(process.cwd(),'samples/ticket'));
   await page.getByRole('radio',{name:'手动指定测试账号',exact:true}).check();
   for(const [name,username,id,password]of [['用户甲','alpha','user-a','synthetic-e2e-owner'],['用户乙','beta','user-b','synthetic-e2e-other']]){await page.getByLabel(name+'账号',{exact:true}).fill(username);await page.getByLabel(name+'身份 ID',{exact:true}).fill(id);await page.getByLabel(name+'测试密码',{exact:true}).fill(password);}
-  await page.getByRole('button',{name:'检查项目并继续',exact:true}).click();await expect(page.getByText('我同意在独立测试副本中创建用户并重置测试数据')).toBeVisible();projectId=new URL(page.url()).searchParams.get('project')!;
-  await page.getByRole('button',{name:'修改项目信息'}).click();await page.getByText('高级配置：接口映射与 AI 可读取的文件',{exact:true}).click();
-  await page.getByRole('textbox',{name:'网站用途',exact:true}).fill('仍在编辑的用途');await page.getByLabel('用户甲测试密码',{exact:true}).fill('still-in-browser-memory');await page.getByRole('textbox',{name:'发送文件',exact:true}).fill('verification.json\npackage.json');await page.getByRole('button',{name:'更新发送范围',exact:true}).click();await expect(page.getByRole('textbox',{name:'网站用途',exact:true})).toHaveValue('仍在编辑的用途');await expect(page.getByLabel('用户甲测试密码',{exact:true})).toHaveValue('still-in-browser-memory');
+  await page.getByRole('button',{name:'检查并准备环境',exact:true}).click();await expect(page.getByText('我同意在独立测试副本中创建用户并重置测试数据')).toBeVisible();projectId=new URL(page.url()).searchParams.get('project')!;
+  await page.getByRole('button',{name:'修改项目信息'}).click();await page.getByText('高级配置：接口映射与候选生成材料',{exact:true}).click();
+  const mappingDraft=(await page.getByRole('textbox',{name:'映射定义',exact:true}).inputValue())+'\n';await page.getByRole('textbox',{name:'映射定义',exact:true}).fill(mappingDraft);await page.getByLabel('用户甲测试密码',{exact:true}).fill('still-in-browser-memory');await page.getByRole('textbox',{name:'候选生成材料（非02业务分析范围）',exact:true}).fill('verification.json\npackage.json');await page.getByRole('button',{name:'更新发送范围',exact:true}).click();await expect(page.getByRole('textbox',{name:'映射定义',exact:true})).toHaveValue(mappingDraft);await expect(page.getByLabel('用户甲测试密码',{exact:true})).toHaveValue('still-in-browser-memory');
   await page.getByRole('button',{name:'返回准备步骤'}).click();await page.getByText('我同意在独立测试副本中创建用户并重置测试数据').check();await page.getByRole('button',{name:'执行环境检查',exact:true}).click();await expect(page.getByText('最近检查通过；本次执行前仍会重新核对凭据与环境。',{exact:true})).toBeVisible();await goStep(page,3);await expect(page.getByRole('heading',{name:'03 确认业务与测试目标'})).toBeVisible();
   await page.getByLabel('提交结果保存',{exact:true}).selectOption('observe');await page.getByRole('combobox',{name:'提交结果保存',exact:true}).selectOption('confirm');await goStep(page,10);await page.getByRole('button',{name:'准备本轮检查',exact:true}).click();await page.getByRole('button',{name:'执行检查',exact:true}).click();
   await expect.poll(()=>new URL(page.url()).searchParams.get('run')).toBeTruthy();runId=new URL(page.url()).searchParams.get('run')!;
   await page.getByRole('button',{name:'查看检查结果',exact:true}).click();await expect(page.getByText('已验证符合本条规则的预期。')).toBeVisible();
   await page.getByRole('tab',{name:'方案与验证依据'}).click();await page.getByRole('tab',{name:'业务结果',exact:true}).click();expect(new URL(page.url()).searchParams.get('run')).toBe(runId);await page.reload();await expect(page.getByText('已验证符合本条规则的预期。')).toBeVisible();
-  const downloadPromise=page.waitForEvent('download');await expect(page.getByRole('heading',{name:'导出与保存',exact:true})).toBeVisible();await page.getByRole('button',{name:'导出验证包',exact:true}).click();const download=await downloadPromise;const path=join(directory,'exported.json');await download.saveAs(path);const raw=await readFile(path,'utf8'),pkg=JSON.parse(raw);expect(pkg.sourceRunId).toBe(runId);expect(raw).not.toContain('synthetic-e2e-owner');expect(raw).not.toContain('synthetic-e2e-other');
+  const downloadPromise=page.waitForEvent('download');await expect(page.getByRole('heading',{name:'导出与保存',exact:true})).toBeVisible();await page.getByText('更多导出格式与备份',{exact:true}).click();await page.getByRole('button',{name:'导出验证包',exact:true}).click();const download=await downloadPromise;const path=join(directory,'exported.json');await download.saveAs(path);const raw=await readFile(path,'utf8'),pkg=JSON.parse(raw);expect(pkg.sourceRunId).toBe(runId);expect(raw).not.toContain('synthetic-e2e-owner');expect(raw).not.toContain('synthetic-e2e-other');
   await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'output/plan-preparation-20261016/regression/automated/workbench/screenshots/report-actual-pass.png',fullPage:true});
   await page.getByRole('button',{name:'进入12 修复与复测（可选）',exact:true}).click();await page.getByRole('button',{name:'执行复测',exact:true}).click();await expect.poll(()=>new URL(page.url()).searchParams.get('run')).not.toBe(runId);await expect(page.getByText('已验证符合本条规则的预期。')).toBeVisible();
   await page.locator('input[type=file]').setInputFiles(path);await expect(page.getByText('复跑准备',{exact:true})).toBeVisible();await captureStates(page,'package-preparation');await page.getByRole('button',{name:'执行复测',exact:true}).click();await expect(page.getByText('已验证符合本条规则的预期。')).toBeVisible();
@@ -90,8 +90,8 @@ test('automatic accounts complete preparation without typing credentials',async(
     await expect(page.getByRole('radio',{name:'自动生成两个测试用户（推荐）'})).toBeChecked();
     await expect(page.getByLabel('用户甲测试密码',{exact:true})).toHaveCount(0);
     await visibleLabel(page,'项目目录').fill(join(process.cwd(),'samples/registration'));
-    await page.getByLabel('网站用途',{exact:true}).fill('检查报名信息');
-    await page.getByRole('button',{name:'检查项目并继续'}).click();
+
+    await page.getByRole('button',{name:'检查并准备环境'}).click();
     await expect(page.getByText('测试账号信息已自动生成；下一步会创建测试数据，并验证两个用户能否登录。')).toBeVisible();
     await captureStates(page,'automatic-preparation');
     await page.getByRole('checkbox',{name:'我同意在独立测试副本中创建用户并重置测试数据'}).check();

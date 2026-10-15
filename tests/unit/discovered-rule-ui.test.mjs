@@ -188,3 +188,39 @@ test('stale-source history blocks selection and confirmation while real correcti
   });
 });
 test('source-invalidated versions cannot be displayed as executable or offered for compilation',()=>{const value=fixture({compiled:[dynamic],versions:[{...version,sourceCurrent:false}]});assert.deepEqual(view.verificationRules(value.state,value.project),[legacy]);const html=render(value);assert.match(button(html,'编译此精确规则版本'),/disabled/);assert.match(html,/来源已变化，请重新分析/);});
+
+const loadSource=await readFile(join(output,'components/TargetLoadCard.mjs'),'utf8');
+await writeFile(join(output,'components/InteractiveTargetLoadCard.mjs'),loadSource.replace(/from ['"]react['"]/g,"from '../hook-runtime.mjs'"));
+const {default:InteractiveLoad}=await import(pathToFileURL(join(output,'components/InteractiveTargetLoadCard.mjs')).href);
+const loadProps=()=>({project:{id:'p',environmentConfirmed:true,data:{count:0},journey:{rate:'2',durationSeconds:'10'}},run:{id:'run-a',status:'completed',checks:[{rule:{id:'save-rule'},mode:'verify',verdicts:[{status:'pass'}]}]},state:{loads:[],loadPreset:{}},refresh:async()=>{},act:()=>{}});
+const rateField=tree=>nodes(tree).find(n=>n.type==='input'&&n.props.type==='number');
+test('load form follows external saved targets when untouched and clears consent',()=>{
+ const props=loadProps(),renderer=createRenderer(InteractiveLoad,props);let tree=renderer.render();
+ nodes(tree).find(n=>n.type==='input'&&n.props.type==='checkbox').props.onChange({target:{checked:true}});
+ props.project.journey={rate:'5',durationSeconds:'20'};renderer.render();tree=renderer.render();
+ assert.equal(rateField(tree).props.value,'5');
+ assert.equal(nodes(tree).find(n=>n.type==='input'&&n.props.type==='checkbox').props.checked,false);
+});
+test('load form preserves edits and blocks execution until changed targets are reconciled',()=>{
+ const props=loadProps(),renderer=createRenderer(InteractiveLoad,props);let tree=renderer.render();
+ rateField(tree).props.onChange({target:{value:'3'}});renderer.render();
+ props.project.journey={rate:'8',durationSeconds:'30'};renderer.render();tree=renderer.render();
+ assert.equal(rateField(tree).props.value,'3');assert.match(textOf(tree),/03的已保存目标已变化/);
+ assert.equal(nodes(tree).find(n=>n.type==='button'&&textOf(n)==='执行目标负载检查').props.disabled,true);
+ nodes(tree).find(n=>n.type==='button'&&textOf(n)==='使用03最新目标').props.onClick();tree=renderer.render();
+ assert.equal(rateField(tree).props.value,'8');assert.doesNotMatch(textOf(tree),/03的已保存目标已变化/);
+});
+test('new run load instance has fresh proportions and no old consent',()=>{
+ const first=loadProps(),one=createRenderer(InteractiveLoad,first);let tree=one.render();
+ nodes(tree).find(n=>n.type==='input'&&n.props.type==='checkbox').props.onChange({target:{checked:true}});
+ const next=loadProps();next.run={...next.run,id:'run-b',checks:[...next.run.checks,{rule:{id:'other'},mode:'verify',verdicts:[{status:'pass'}]}]};
+ tree=createRenderer(InteractiveLoad,next).render();
+ assert.equal(nodes(tree).find(n=>n.type==='input'&&n.props.type==='checkbox').props.checked,false);
+ assert.equal(nodes(tree).find(n=>n.type==='button'&&textOf(n)==='执行目标负载检查').props.disabled,true);
+});
+test('numbered preparation integrates capability action without a duplicate compilation panel',()=>{
+ const value=fixture();value.project.supported=true;
+ value.state.projectRules[projectId].readiness=[{ruleRef:ref,status:'generatable',missing:[]}];
+ const html=render({...value,step:5});
+ assert.match(html,/准备这项业务的检查/);assert.doesNotMatch(html,/编译已确认的项目规则/);
+});

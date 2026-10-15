@@ -42,6 +42,7 @@ test('result exports, optional repair cancel and explicit replay preserve origin
  await page.goto(host.url+`/?page=verify&step=3&project=${projectId}`);await page.getByLabel('提交结果保存',{exact:true}).selectOption('observe');await page.getByRole('combobox',{name:'提交结果保存',exact:true}).selectOption('confirm');await goStep(page,10);
  await page.getByRole('button',{name:'准备本轮检查',exact:true}).click();await page.getByRole('button',{name:'执行检查',exact:true}).click();await page.getByRole('button',{name:'查看检查结果',exact:true}).click();await expect(page.getByRole('heading',{name:'本轮所选检查通过',exact:true})).toBeVisible();
  const original=new URL(page.url()).searchParams.get('run');
+ await page.getByText('更多导出格式与备份',{exact:true}).click();
  for(const label of ['导出报告 Markdown','导出外部修复报告','导出验证包']){const download=page.waitForEvent('download');await page.getByRole('button',{name:label,exact:true}).click();const file=await download;expect(file.suggestedFilename()).toContain(original!);await file.saveAs(join(output,'automated',file.suggestedFilename()));}
  await page.getByRole('button',{name:'结束本次任务',exact:true}).click();await expect(page.getByText('本次任务已结束，历史记录保留。可以关闭窗口，不需要完成12。',{exact:true})).toBeVisible();
  await page.getByRole('button',{name:'进入12 修复与复测（可选）',exact:true}).click();await expect(page.getByRole('heading',{name:'复跑准备',exact:true})).toBeVisible();

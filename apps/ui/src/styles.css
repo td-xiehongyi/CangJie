@@ -102,3 +102,5 @@ summary{min-height:44px;padding:10px 0}.actions{gap:12px}.text-button{text-align
 .plan-progress {display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;padding:0;list-style:none}
 .plan-progress li {padding:12px;border:1px solid var(--line);border-radius:12px}
 .plan-progress strong,.plan-progress span {display:block}.plan-progress span {margin-top:6px;color:#57647a}
+
+.workflow-nav .workflow-substeps{padding:4px 8px 8px 36px;display:grid;gap:8px}.workflow-substeps li{font-size:12px;line-height:1.5}.workflow-substeps small{display:block;opacity:.8}

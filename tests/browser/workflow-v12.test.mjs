@@ -18,7 +18,8 @@ test('numbered workbench preserves drafts, scopes goals and never auto-dispatche
  await page.goto(host.url);
  const nav=page.getByRole('navigation',{name:'完整业务验证流程'});
  await nav.getByRole('button').first().waitFor();
- assert.equal(await nav.getByRole('button').count(),12);
+ assert.equal(await nav.getByRole('button').count(),9);
+ assert.equal(await nav.getByLabel('05内的自动子步骤').locator('li').count(),3);
  await page.getByLabel('项目目录',{exact:true}).locator('visible=true').fill(source);
  await page.getByRole('button',{name:'导入源码',exact:true}).click();
  await page.waitForURL(/project=/);
