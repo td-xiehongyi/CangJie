@@ -1,5 +1,9 @@
 # AI 开发网站验证系统
 
+## 可操作的测试网站
+
+`samples/ticket`、`samples/registration`、`samples/status-ticket` 已提供基础界面和独立演示入口。在对应目录运行 `npm run demo`，按终端显示的URL和临时账号登录。详见[samples使用说明](samples/README.md)及[开发验证范围](docs/evidence/sample-websites-2026-10-16.md)。
+
 ## 交互修复分支（2026-10-16 北京时间）
 
 `fix/workflow-ux-ponytail` 基于远端 `main@cb8e23e`，修复导航状态、项目确认显示与负载目标同步，精简04、05、11入口。变更及验证范围见[本轮记录](docs/evidence/ponytail-ux-2026-10-16.md)。本分支未合并main，旧基线Windows成绩不覆盖本轮修改。

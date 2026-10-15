@@ -1,9 +1,16 @@
+import {samplePage,sampleStyles} from './ui.ts';
+import {fileURLToPath} from 'node:url';
 import express from 'express';
 import {randomUUID,scryptSync,timingSafeEqual} from 'node:crypto';
 import {openTestDatabase,publicBaseline} from './db.ts';
 
 const db=openTestDatabase(),app=express(),tokens=new Map<string,string>();
 app.disable('x-powered-by');app.use(express.json({limit:'64kb'}));
+// Public presentation only; all business routes retain their authentication checks.
+app.use((_req,res,next)=>{res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Cache-Control','no-store');next();});
+app.get('/',(_req,res)=>res.type('html').send(samplePage));
+app.get('/ui/style.css',(_req,res)=>res.type('css').send(sampleStyles));
+app.get('/ui/app.js',(_req,res)=>res.sendFile(fileURLToPath(new URL('./public/app.js',import.meta.url))));
 app.get('/health',(_req,res)=>res.json({...db.prepare('SELECT * FROM metadata').get(),...publicBaseline(db)}));
 app.post('/sessions',(req,res)=>{
   const user=db.prepare('SELECT * FROM participants WHERE account=?').get(String(req.body.account??''));
@@ -11,6 +18,7 @@ app.post('/sessions',(req,res)=>{
   const token=randomUUID();tokens.set(token,String(user.id));res.json({session:{access:token}});
 });
 app.use((req,res,next)=>{const id=tokens.get(req.headers.authorization?.replace(/^Bearer /,'')??'');if(!id){res.status(401).json({error:'authentication required'});return;}res.locals.participant=id;next();});
+app.post('/logout',(req,res)=>{tokens.delete(req.headers.authorization?.replace(/^Bearer /,'')??'');res.json({loggedOut:true});});
 app.get('/participant',(_req,res)=>res.json({participant:{key:res.locals.participant}}));
 app.post('/enrollments',(req,res)=>{
   const creator=String(res.locals.participant),intent=String(req.body.submissionKey??req.header('x-verification-intent')??''),attempt=req.header('x-verification-attempt');

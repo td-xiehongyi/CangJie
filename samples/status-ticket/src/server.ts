@@ -1,3 +1,5 @@
+import {samplePage,sampleStyles} from './ui.ts';
+import {fileURLToPath} from 'node:url';
 import express from 'express';
 import {randomUUID,scryptSync,timingSafeEqual} from 'node:crypto';
 import {openTestDatabase,publicBaseline} from './db.ts';
@@ -8,6 +10,11 @@ const updateFields=['status'] as const;
 const queryFields=['id','intentId','attemptId','limit'] as const;
 const db=openTestDatabase(),app=express(),tokens=new Map<string,string>();
 app.disable('x-powered-by');app.use(express.json({limit:'64kb'}));
+// Public presentation only; all business routes retain their authentication checks.
+app.use((_req,res,next)=>{res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Cache-Control','no-store');next();});
+app.get('/',(_req,res)=>res.type('html').send(samplePage));
+app.get('/ui/style.css',(_req,res)=>res.type('css').send(sampleStyles));
+app.get('/ui/app.js',(_req,res)=>res.sendFile(fileURLToPath(new URL('./public/app.js',import.meta.url))));
 app.get('/health',(_req,res)=>res.json({...db.prepare('SELECT * FROM metadata').get(),...publicBaseline(db)}));
 app.post('/login',(req,res)=>{
   const user=db.prepare('SELECT * FROM users WHERE username=?').get(String(req.body.username??''));
@@ -15,6 +22,7 @@ app.post('/login',(req,res)=>{
   const token=randomUUID();tokens.set(token,String(user.id));res.json({token});
 });
 app.use((req,res,next)=>{const owner=tokens.get(req.headers.authorization?.replace(/^Bearer /,'')??'');if(!owner){res.status(401).json({error:'authentication required'});return;}res.locals.owner=owner;next();});
+app.post('/logout',(req,res)=>{tokens.delete(req.headers.authorization?.replace(/^Bearer /,'')??'');res.json({loggedOut:true});});
 app.get('/me',(_req,res)=>res.json({id:res.locals.owner}));
 app.post('/tickets',(req,res)=>{
   const ownerId=String(res.locals.owner),attemptId=req.header('x-verification-attempt')??'',intentId=String(req.body.intentId??req.header('x-verification-intent')??'');

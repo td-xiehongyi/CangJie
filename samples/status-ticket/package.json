@@ -1,1 +1,17 @@
-{"name":"verification-status-ticket-sample","version":"0.0.0","private":true,"type":"module","engines":{"node":">=24 <25"},"scripts":{"start":"node src/server.ts","initialize:test":"node src/seed.ts"},"dependencies":{"express":"5.1.0"}}
+{
+  "name": "verification-status-ticket-sample",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "start": "node src/server.ts",
+    "initialize:test": "node src/seed.ts",
+    "demo": "node src/demo.mjs"
+  },
+  "dependencies": {
+    "express": "5.1.0"
+  }
+}
