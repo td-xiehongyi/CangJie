@@ -1,12 +1,23 @@
 # AI 开发网站验证系统
 
-## v1.2 开发分支
+## 当前分支状态与阅读入口（2026-10-15）
 
-本分支新增01—11固定工作流、12可选修复复测、完整文件业务分析、
-业务能力分流与集中报告导出。详见[使用说明](docs/WORKFLOW_V12.md)和
-[本轮验证边界](docs/evidence/workflow-v12-2026-10-15.md)。
-这是待浏览器及Windows原生验收的开发实现版；下方历史测试数不覆盖本轮改动。
+- 分支：`feat/workflow-v12`；本次文档核对的实现提交：`4069b9e`，基线 `main@1fb0474`。
+- 状态：**主要功能已实现，局部开发检查通过，完整验收未完成**。不是正式发布版。
+- 本轮证据：39项单元/组件/状态 + 53项接口集成 + 4项非浏览器Playwright测试，共96项通过。36项真实浏览器用例尚未运行通过；不能引用历史Edge成绩替代。
+- 用户于2026-10-15明确暂停Windows验收；没有创建或启动本轮GitHub Actions。恢复验收需另行安排。
+- 变更仅在开发分支，未合并 `main`。本段状态优先于下方历史开发记录；历史结论只适用于其注明的版本。
 
+首次使用按以下顺序阅读：
+
+1. [快速启动与本地模型设置](docs/QUICK_START.md)：安装、启动、密钥保存及缺少原生工具时的限制。
+2. [v1.2编号工作台使用说明](docs/WORKFLOW_V12.md)：01—11主流程、12可选修复复测、各步条件和跳过规则。
+3. [本轮验证记录](docs/evidence/workflow-v12-2026-10-15.md)：已执行检查、未验证范围及暂停状态。
+4. [实施计划与需求对照](docs/superpowers/plans/2026-10-15-workflow-v12.md)：P1—P6实现程度及剩余工作。
+5. [文档书写约定](docs/DOCUMENTATION_RULES.md)：如何区分需求、实现、证据和正式验收。
+
+完整文件分析仅涵盖确认范围内允许发送的文本文件，正文总量上限为64 KiB；超限拒绝，不自动分批。
+新业务被AI识别或保存为规则，不等于已有可信执行能力。11集中查看、导出与保存；12由用户主动启用，原13已并入11。
 
 ## Windows 快速启动与 API 保存
 
@@ -14,9 +25,9 @@
 
 模型设置新增“保存到本机”，不会发起模型请求；地址/模型跨重启保留。勾选“记住密钥”后Key由Windows凭据管理器保存，JSON不保存明文；不勾选则Key仅本次会话使用。具体位置、首次准备和限制见[快速开始](docs/QUICK_START.md)。本轮开发验证及原生待验边界见[启动与设置证据](docs/evidence/launcher-settings-2026-10-15.md)。
 
-## 当前开发状态（2026-10-15）
+## 历史基线开发状态（2026-10-15）
 
-本机 `main` 已于2026-10-15快进接入 `fix/discovery-analysis-state@9c8b450` 及Windows修复提交 `34b8310`。最终本机完整回归447/447、Edge套件40/40通过，主目录重新构建及12项启动器/端口冒烟通过；原有本地证据和运行数据保持不变。GitHub main尚未推送本次合并。详细修复、日志和边界见[Windows本机验证](docs/evidence/windows-validation-2026-10-15.md)。`main-2026-10-14` 仍是启动配置标识，不是发行版本号。
+本机 `main` 已于2026-10-15快进接入 `fix/discovery-analysis-state@9c8b450` 及Windows修复提交 `34b8310`。最终本机完整回归447/447、Edge套件40/40通过，主目录重新构建及12项启动器/端口冒烟通过；原有本地证据和运行数据保持不变。此处保留当时的本机合并记录；本轮开发已以远端 `main@1fb0474` 为基线，不应再据此推断远端尚未同步。详细修复、日志和边界见[Windows本机验证](docs/evidence/windows-validation-2026-10-15.md)。`main-2026-10-14` 仍是启动配置标识，不是发行版本号。
 
 - S1—S5 功能主线已实现，当前为**开发预览，未完成正式验收**。
 - 新增动态规则执行仅支持已审查的工单关闭状态语义；自由文本规则、任意网站或任意业务不能自动执行。
@@ -36,7 +47,7 @@
 
 ## 自然操作流程（2026-10-14）
 
-当前源码采用统一五步主线，检查选择按项目/流程保存；设置返回原任务，审核先看证据，运行完成后查看结果。多标签冲突与未保存材料均有保护。负载区明确区分记录表现和判断达标。实现与验收见[自然操作流程](docs/evidence/natural-workflow.md)。已有工作台需重启加载；8098验收副本和旧ZIP不会自动更新。
+当时版本采用统一五步主线；v1.2已替换为固定编号主线，检查选择按项目/流程保存；设置返回原任务，审核先看证据，运行完成后查看结果。多标签冲突与未保存材料均有保护。负载区明确区分记录表现和判断达标。实现与验收见[自然操作流程](docs/evidence/natural-workflow.md)。已有工作台需重启加载；8098验收副本和旧ZIP不会自动更新。
 
 文件夹选择的隐藏桌面等待问题已修复，页面支持取消后粘贴路径；真实Windows选择/取消及Edge16/16通过，见[修复记录](docs/evidence/folder-picker-hotfix.md)。
 
@@ -50,15 +61,15 @@
 
 `CANGJIE_TEST_MUTEX=1 npm run test:discovered-rule` 在Linux明示OS锁/核心测试模型口径下检查S4受控链（不计原生验收）；`npm run test:project-rules` 单独检查S3规则、能力和身份事务（原生Windows规则库锁；Linux显式测试替身口径见证据）；`npm run test:discovery-state` 单独检查源码分析状态时序和回归接入，不依赖仓颉核心；`npm run verify -- discovery` 在完整工具链下运行源码专项。`npm run verify -- replay` 检查运行记录/验证包/API；`npm run verify -- workbench` 通过本机Edge验收正式页面；`npm run verify -- transfer` 检查报名迁移与冻结证据恢复；`npm run verify -- target-load` 检查固定负载与停止结算；`npm run verify -- release` 检查交付复现；`npm test` 运行完整回归。测试套件逐文件运行，仓颉及隔离网站真实执行。候选生成使用确定性模型服务、审核使用明确测试身份，仅写隔离测试库，不计作真实模型生成或正式业务审核。详见 [T6验收与限制](docs/evidence/workbench.md)、[T5](docs/evidence/registry.md)、[T4真实调用入口](docs/evidence/candidate.md)。T7受控迁移开发验收已完成；宿主通用基线计数与Windows文件替换已补强，不能称作无需适配的盲迁移。原四页预览六源哈希未变。详见 [T7验收与限制](docs/evidence/transfer.md)。
 
-负载入口在已通过的业务报告下方；填写目标率、时长、等待/错误阈值及所选规则比例，确认后运行。已有工作台需重启以加载新代码。详见 [T8验收与限制](docs/evidence/target-load.md)。依赖恢复入口：`powershell -File scripts/setup-k6.ps1`。
+历史版本的负载入口在已通过的业务报告下方；v1.2唯一编号执行入口为10.2，11仅查看和导出结果。填写目标率、时长、等待/错误阈值及所选规则比例，确认后运行。已有工作台需重启以加载新代码。详见 [T8验收与限制](docs/evidence/target-load.md)。依赖恢复入口：`powershell -File scripts/setup-k6.ps1`。
 
 交付：`npm run package` 仍要求真实原生核心exe，在 `output/delivery` 新建普通运行/源码包与独立开发者验收资源目录，不覆盖已有产物。普通包排除私有答案、候选示例、旧配置和运行记录。按[交付使用说明](docs/delivery-guide.md)在新目录安装依赖和资源后启动；最终交付索引见[交付清单](docs/evidence/t9-delivery.json)，演示和答辩基础见[演示提纲](docs/demo-outline.md)。这些目录不是正式模板发布，也未上传。缺核心时可运行`node scripts/package.mjs --source-only`生成明确未构建核心的源码开发交付与独立资源；不能以此替代正式Windows执行包。
 
 T10测试项目与边界见[对照准备记录](docs/evidence/comparison.md)。专项检查：`node --test tests/integration/comparison-fixture.test.mjs`；这不是正式两组成绩，也不计入历史242项回归。
 
-## 当前入口
+## 历史S1—S5实现与证据索引
 
-以下S1—S5说明包含云端开发时的历史验收边界；本机原生与Edge已于2026-10-15续验，最新状态及限制以上方Windows验证记录为准。
+以下S1—S5说明包含云端开发时的历史验收边界；本机原生与Edge已于2026-10-15续验，旧基线状态见Windows验证记录；本分支最新状态以文首及v1.2验证记录为准。
 
 2026-10-14 新增方向已确认：优先从源码分析业务并推荐项目特有检查。S1/D1源码索引与受控读取、S2/D2—D3分析会话及API/UI已实现，并有历史离线开发验收；真实候选与源码分析效果仍待验收。推送前曾出现专项36/38、API复测4/6。此次状态修复新增7项回归通过，四份专项在明确OS互斥替身的Linux隔离测试中38/38；原生Windows完整构建/集成/Edge仍须续验，不能沿用历史全绿结论。详情见[本轮状态修复与限制](docs/evidence/discovery-state-fix-2026-10-14.md)、[业务分析与推荐历史证据](docs/evidence/discovery-analysis.md)和[推送前核验](docs/evidence/remote-push-2026-10-15.md)。
 
