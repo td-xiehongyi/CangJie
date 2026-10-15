@@ -1,0 +1,15 @@
+(node:35) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:35) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ remembered API restores from local config and native reference after restart, without plaintext key (91.573506ms)
+✔ session-only key is never persisted while endpoint and model survive restart (15.376617ms)
+✔ credential store failure does not silently fall back to plaintext or claim success (10.244391ms)
+✔ occupied local port rejects startup instead of leaving an unhandled server error (4.623058ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 496.820689

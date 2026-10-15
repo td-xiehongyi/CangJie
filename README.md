@@ -1,5 +1,11 @@
 # AI 开发网站验证系统
 
+## Windows 快速启动与 API 保存
+
+首次在根目录执行 `npm ci --ignore-scripts`（需Node24），之后双击 `Start-CangJie.cmd`，或执行 `npm run start:oneclick`。入口检查依赖并重新构建后启动、请求打开本机浏览器；缺原生核心会明确提示限制，不自动安装SDK。
+
+模型设置新增“保存到本机”，不会发起模型请求；地址/模型跨重启保留。勾选“记住密钥”后Key由Windows凭据管理器保存，JSON不保存明文；不勾选则Key仅本次会话使用。具体位置、首次准备和限制见[快速开始](docs/QUICK_START.md)。本轮开发验证及原生待验边界见[启动与设置证据](docs/evidence/launcher-settings-2026-10-15.md)。
+
 ## 当前开发状态（2026-10-15）
 
 以统一分支 `fix/discovery-analysis-state` 为本轮云端开发代码；首次直接审查的产品代码基线为 `525380686cda2c270c6fb691395c77eb8953453c`；其后文档审查提交为 `13cfc0b`，本轮修复继续沿用该分支，具体检查见下方修复证据。Git `main` 尚未合并这些改动。`main-2026-10-14` 是历史本机启动配置标识，不是 Git 分支名或发行版本号。

@@ -1,0 +1,25 @@
+✖ actual settings save-only handler persists without making a model connection request (73.309449ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 401.847769
+
+✖ failing tests:
+
+test at tests/unit/settings-local.test.mjs:3:1
+✖ actual settings save-only handler persists without making a model connection request (73.309449ms)
+  AssertionError [ERR_ASSERTION]: standalone local-save action missing
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/unit/settings-local.test.mjs:15:80)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

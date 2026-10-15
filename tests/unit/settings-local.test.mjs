@@ -1,0 +1,18 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {mkdtemp,writeFile,readFile,symlink,rm} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join,resolve} from 'node:path';import {pathToFileURL} from 'node:url';import ts from 'typescript';
+test('actual settings save-only handler persists without making a model connection request',async t=>{
+ const dir=await mkdtemp(join(tmpdir(),'cangjie-settings-ui-'));t.after(()=>rm(dir,{recursive:true,force:true}));await symlink(resolve('node_modules'),join(dir,'node_modules'),'dir');
+ await writeFile(join(dir,'hooks.mjs'),`let i=0;const values=[];export function reset(){i=0}export function useState(v){const n=i++;if(!(n in values))values[n]=v;return [values[n],v=>values[n]=v]}export function useEffect(){};`);
+ await writeFile(join(dir,'client.mjs'),`export const calls=[];export async function api(path,body){calls.push({path,body})}export const statusNames={not_checked:'未检查'};export const friendlyError=x=>x;`);
+ const code=ts.transpileModule(await readFile('apps/ui/src/SettingsView.tsx','utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2023,jsx:ts.JsxEmit.ReactJSX}}).outputText.replace("from 'react'","from './hooks.mjs'").replace("from './api/client'","from './client.mjs'");await writeFile(join(dir,'view.mjs'),code);
+ const {default:View}=await import(pathToFileURL(join(dir,'view.mjs'))),{reset}=await import(pathToFileURL(join(dir,'hooks.mjs'))),{calls}=await import(pathToFileURL(join(dir,'client.mjs')));let pending;
+ const props={state:{settings:{hasKey:false,connection:{status:'not_checked',code:''}},preset:{}},act:fn=>pending=fn(),refresh:async()=>{},select:()=>{}};
+ const nodes=t=>Array.isArray(t)?t.flatMap(nodes):t&&typeof t==='object'?[t,...nodes(t.props?.children)]:[];
+ const text=t=>Array.isArray(t)?t.map(text).join(''):t&&typeof t==='object'?text(t.props?.children):t??'';
+ const render=()=>{reset();return View(props)};let tree=render();
+ const checkbox=nodes(tree).find(n=>n.type==='input'&&n.props.type==='checkbox');assert.equal(checkbox.props.checked,false);checkbox.props.onChange({target:{checked:true}});
+ const password=nodes(tree).find(n=>n.type==='input'&&n.props.type==='password');password.props.onChange({target:{value:'synthetic-local-key'}});tree=render();
+ const button=nodes(tree).find(n=>n.type==='button'&&text(n)==='保存到本机');assert.ok(button,'standalone local-save action missing');button.props.onClick();await pending;
+ assert.deepEqual(calls.map(c=>c.path),['/settings']);assert.equal(calls[0].body.remember,true);assert.equal(calls[0].body.key,'synthetic-local-key');
+ assert.equal(nodes(render()).find(n=>n.type==='input'&&n.props.type==='password').props.value,'');
+});

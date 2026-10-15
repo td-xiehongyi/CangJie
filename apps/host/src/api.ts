@@ -260,6 +260,6 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   app.use('/api',(_req,res)=>res.status(404).json({error:'NOT_FOUND'}));
   app.use(express.static(options.uiDirectory??join(projectRoot,'apps/ui/dist')));
   app.use((error:Error,_req:express.Request,res:express.Response,_next:express.NextFunction)=>{res.status(400).json({error:scrubSecrets(error.message)});});
-  const server:Server=await new Promise(resolve=>{const s=app.listen(options.port??4317,'127.0.0.1',()=>resolve(s));});origin=`http://127.0.0.1:${(server.address() as {port:number}).port}`;
+  const server:Server=await new Promise((resolve,reject)=>{const s=app.listen(options.port??4317,'127.0.0.1',(error?:Error)=>{if(error){reject(error);return;}s.off('error',reject);resolve(s)});s.once('error',reject);});origin=`http://127.0.0.1:${(server.address() as {port:number}).port}`;
   return {url:origin,token,registry,store,close:async()=>{try{await closeSecrets();await saveQueue;}finally{await new Promise<void>((r,j)=>{server.close(e=>e?j(e):r());server.closeAllConnections();});}}};
 }

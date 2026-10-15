@@ -10,10 +10,10 @@ suites.registry=['tests/integration/registry.test.mjs'];
 suites.replay=['tests/integration/workflow.test.mjs','tests/integration/report-presentation.test.mjs','tests/integration/automatic-accounts.test.mjs','tests/integration/replay.test.mjs','tests/integration/workbench-api.test.mjs','tests/integration/workbench-state.test.mjs'];
 suites.transfer=['tests/integration/transfer-fixture.test.mjs','tests/integration/transfer.test.mjs'];
 suites['target-load']=['tests/integration/target-load.test.mjs'];
-suites.release=['tests/integration/main-entry.test.mjs','tests/integration/release.test.mjs','tests/integration/release-security.test.mjs'];
+suites.release=['tests/unit/launcher.test.mjs','tests/unit/settings-local.test.mjs','tests/integration/settings-local.test.mjs','tests/integration/main-entry.test.mjs','tests/integration/release.test.mjs','tests/integration/release-security.test.mjs'];
 const files = group==='all'?Object.values(suites).flat():suites[group];
 const uiBuild=[['node_modules/typescript/bin/tsc','-p','apps/ui/tsconfig.json'],['node_modules/vite/bin/vite.js','build','apps/ui']];
-const last=group==='workbench'?[...uiBuild,['node_modules/@playwright/test/cli.js','test']]:[[...(group==='discovery'||group==='all'?['--experimental-test-module-mocks']:[]),'--test', '--test-reporter=tap', '--test-concurrency=1', '--test-timeout=180000', ...files]];
+const last=group==='workbench'?[...uiBuild,['node_modules/@playwright/test/cli.js','test']]:[[...(group==='discovery'||group==='all'||group==='release'?['--experimental-test-module-mocks']:[]),'--test', '--test-reporter=tap', '--test-concurrency=1', '--test-timeout=180000', ...files]];
 for (const args of [['node_modules/typescript/bin/tsc', '-p', 'packages/contracts/tsconfig.json'], ['node_modules/typescript/bin/tsc', '-p', 'apps/host/tsconfig.json'], ['node_modules/typescript/bin/tsc','-p','samples/ticket/tsconfig.json'], ['node_modules/typescript/bin/tsc','-p','samples/registration/tsconfig.json'], ['node_modules/typescript/bin/tsc','-p','samples/status-ticket/tsconfig.json'], ['node_modules/typescript/bin/tsc','-p','tests/reference/status-transition/tsconfig.json'], ['node_modules/typescript/bin/tsc','-p','tests/reference/tsconfig.json'], ['scripts/build-core.mjs'], ...(group==='candidate'||group==='all'?uiBuild:[]), ...last]) {
   const result = spawnSync(process.execPath, args, { cwd: root, stdio: 'inherit', windowsHide: true, timeout: (group==='all'||group==='discovery')&&args.includes('--test')?900000:300000 });
   if (result.error) throw result.error;

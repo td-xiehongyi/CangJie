@@ -1,0 +1,97 @@
+✖ launcher rejects unsupported Node and missing dependencies with actionable errors (1.531087ms)
+✖ launcher builds from its own root then starts browser-enabled workbench without installing anything (0.558079ms)
+✖ failed preparation stops before starting host (0.39546ms)
+✖ browser opener accepts only the local workbench and uses no shell (0.488817ms)
+✖ Windows wrapper quotes project path and preserves nonzero startup failure (6.234228ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 90.906539
+
+✖ failing tests:
+
+test at tests/unit/launcher.test.mjs:7:1
+✖ launcher rejects unsupported Node and missing dependencies with actionable errors (1.531087ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/scratch/7074c4c0dda2/CangJie/scripts/launch.mjs' imported from /workspace/scratch/7074c4c0dda2/CangJie/tests/unit/launcher.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///workspace/scratch/7074c4c0dda2/CangJie/scripts/launch.mjs'
+  }
+
+test at tests/unit/launcher.test.mjs:8:1
+✖ launcher builds from its own root then starts browser-enabled workbench without installing anything (0.558079ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/scratch/7074c4c0dda2/CangJie/scripts/launch.mjs' imported from /workspace/scratch/7074c4c0dda2/CangJie/tests/unit/launcher.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///workspace/scratch/7074c4c0dda2/CangJie/scripts/launch.mjs'
+  }
+
+test at tests/unit/launcher.test.mjs:9:1
+✖ failed preparation stops before starting host (0.39546ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/scratch/7074c4c0dda2/CangJie/scripts/launch.mjs' imported from /workspace/scratch/7074c4c0dda2/CangJie/tests/unit/launcher.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///workspace/scratch/7074c4c0dda2/CangJie/scripts/launch.mjs'
+  }
+
+test at tests/unit/launcher.test.mjs:10:1
+✖ browser opener accepts only the local workbench and uses no shell (0.488817ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/scratch/7074c4c0dda2/CangJie/scripts/launch.mjs' imported from /workspace/scratch/7074c4c0dda2/CangJie/tests/unit/launcher.test.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///workspace/scratch/7074c4c0dda2/CangJie/scripts/launch.mjs'
+  }
+
+test at tests/unit/launcher.test.mjs:11:1
+✖ Windows wrapper quotes project path and preserves nonzero startup failure (6.234228ms)
+  Error: ENOENT: no such file or directory, open 'Start-CangJie.cmd'
+      at async open (node:internal/fs/promises:697:25)
+      at async readFile (node:internal/fs/promises:1348:14)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/unit/launcher.test.mjs:11:100)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: 'Start-CangJie.cmd'
+  }

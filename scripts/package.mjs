@@ -26,7 +26,7 @@ async function noLinks(path){
 const files=[
   'package.json','package-lock.json','apps/host/package.json','apps/ui/package.json','packages/contracts/package.json',
   'apps/core/target/verification-core.exe','packages/contracts/schema.json',
-  'scripts/toolchain.mjs','scripts/workbench.mjs','scripts/windows-credential.ps1','scripts/candidate-lock.ps1',
+  'Start-CangJie.cmd','scripts/launch.mjs','scripts/toolchain.mjs','scripts/workbench.mjs','scripts/windows-credential.ps1','scripts/candidate-lock.ps1',
   'scripts/setup-cangjie.mjs','scripts/setup-tools.ps1','scripts/setup-k6.ps1','scripts/doctor.mjs',
   'templates/load-http.js','scripts/package.mjs',
   'apps/host/tsconfig.json','apps/ui/tsconfig.json','apps/ui/index.html','apps/core/cjpm.toml',
@@ -96,7 +96,7 @@ async function buildDelivery(sourceOnly){
   await mkdir(join(directory,'docs'));await copyFile(join(root,'docs/demo-outline.md'),join(directory,'docs/demo-outline.md'));
   await copyFile(join(root,'docs/evidence/release-check.md'),join(directory,'docs/release-check.md'));
   const pkg=JSON.parse(await readFile(join(root,'package.json'),'utf8'));
-  pkg.scripts=Object.fromEntries(Object.entries(pkg.scripts).filter(([key])=>['doctor','start','build:core','build:host','build:ui','build:contracts','build:sample'].includes(key)));
+  pkg.scripts=Object.fromEntries(Object.entries(pkg.scripts).filter(([key])=>['doctor','start','start:oneclick','build:core','build:host','build:ui','build:contracts','build:sample'].includes(key)));
   pkg.scripts.check='npm run build:contracts && npm run build:host && npm run build:sample && npm run build:core && npm run build:ui';
   await writeFile(join(directory,'package.json'),JSON.stringify(pkg,null,2)+'\n');
   const config=JSON.parse(await readFile(join(root,'packages/contracts/tsconfig.json'),'utf8'));config.include=['types.ts','validate.ts','discovery.ts','status-transition.ts'];

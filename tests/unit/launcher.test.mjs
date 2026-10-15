@@ -1,0 +1,15 @@
+import test,{mock} from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtemp,mkdir,writeFile,readFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+const load=()=>import('../../scripts/launch.mjs');
+test('launcher rejects unsupported Node and missing dependencies with actionable errors',async()=>{const {launch}=await load();await assert.rejects(launch({nodeVersion:'22.0.0'}),/NODE_24_REQUIRED/);await assert.rejects(launch({nodeVersion:'24.0.0',exists:async()=>false}),/DEPENDENCIES_MISSING/);});
+test('launcher builds from its own root then starts browser-enabled workbench without installing anything',async()=>{const {launch}=await load(),calls=[];await launch({nodeVersion:'24.0.0',root:'/project 中文',exists:async()=>true,run:async(args,options)=>{calls.push({args,options});},log:()=>{}});assert.equal(calls.at(-1).args.join(' '),'scripts/workbench.mjs --open');assert.ok(calls.every(c=>c.options.cwd==='/project 中文'));assert.ok(calls.some(c=>c.args.includes('apps/host/tsconfig.json')));assert.ok(calls.some(c=>c.args.includes('apps/ui')));assert.ok(calls.every(c=>!c.args.includes('ci')));});
+test('failed preparation stops before starting host',async()=>{const {launch}=await load();let n=0;await assert.rejects(launch({nodeVersion:'24.0.0',exists:async()=>true,run:async()=>{n++;throw new Error('BUILD_FAILED');},log:()=>{}}),/BUILD_FAILED/);assert.equal(n,1);});
+test('browser opener accepts only the local workbench and uses no shell',async()=>{const {openBrowser}=await load();let actual;await openBrowser('http://127.0.0.1:4317',{platform:'win32',spawn:(file,args,options)=>{actual={file,args,options};return {once(event,callback){if(event==='spawn')queueMicrotask(callback);return this;},unref(){}};}});assert.equal(actual.file,'rundll32.exe');assert.equal(actual.options.shell,false);assert.deepEqual(actual.args,['url.dll,FileProtocolHandler','http://127.0.0.1:4317/']);await assert.rejects(openBrowser('https://example.com'),/INVALID_LOCAL_URL/);});
+test('Windows wrapper quotes project path and preserves nonzero startup failure',async()=>{const s=await readFile('Start-CangJie.cmd','utf8');assert.match(s,/pushd "%~dp0"/);assert.match(s,/node "scripts\\launch.mjs"/);assert.match(s,/exit \/b %result%/);});
+
+test('launcher and local-settings checks are included in release and all with explicit module mocking',async()=>{
+ const calls=[];mock.module('node:child_process',{namedExports:{spawnSync(_exec,args){calls.push(args);return {status:0}}}});const argv=process.argv;try{for(const group of ['release','all']){calls.length=0;process.argv=[process.execPath,'scripts/verify.mjs',group];await import(`../../scripts/verify.mjs?launcher=${group}`);const args=calls.find(a=>a.includes('--test'));for(const path of ['tests/unit/launcher.test.mjs','tests/unit/settings-local.test.mjs','tests/integration/settings-local.test.mjs'])assert.ok(args.includes(path));assert.ok(args.includes('--experimental-test-module-mocks'));}}finally{process.argv=argv}
+});

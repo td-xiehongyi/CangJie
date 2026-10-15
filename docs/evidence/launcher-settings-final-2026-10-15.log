@@ -1,0 +1,85 @@
+✔ source-only delivery is explicit, contains public contracts and all sample build sources, excludes private answers (373.376045ms)
+✔ moved delivery installs only production dependencies and actually indexes TSX with exact source references (1244.790858ms)
+✔ developer package freezes both facilities, installs after relocation and builds private sources (17477.458577ms)
+✔ private resource lock rejects tampering even when delivery file hashes are recomputed (76.246684ms)
+✔ v1 developer resource packages remain installable without silent upgrading (62.711921ms)
+✔ unknown manifest and private facility versions fail before any installation (44.207534ms)
+✔ resource installation refuses linked source ancestors and destination ancestors (43.615309ms)
+✔ delivery manifest rejects unsafe Windows names and malformed digest records before reading them (4.97934ms)
+✔ unknown declared delivery and contract formats are rejected while legacy v1 without declarations stays readable (2.659244ms)
+✔ resource bytes changed after source preflight cannot report successful installation (79.191247ms)
+✔ delivery metadata separates requirements from the observed packaging process (335.564337ms)
+✔ main entry resolves its chosen workspace from the project root, with delivery fallback (203.365772ms)
+✔ closing a workbench session revokes its token and permits a fresh key session (104.309786ms)
+✔ closed credential sessions report lifecycle failure instead of an invalid key (0.676563ms)
+✔ model keys accept ordinary r and n characters (0.556537ms)
+✔ model keys reject actual carriage returns and newlines (0.275134ms)
+(node:261) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:261) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ remembered API restores from local config and native reference after restart, without plaintext key (79.114978ms)
+✔ session-only key is never persisted while endpoint and model survive restart (18.515623ms)
+✔ credential store failure does not silently fall back to plaintext or claim success (12.667597ms)
+✔ occupied local port rejects startup instead of leaving an unhandled server error (5.899812ms)
+✔ compile API sends the exact reference to the project-specific endpoint (4.048524ms)
+✔ verification only exposes legacy plus compiled exact current confirmed local versions (0.376263ms)
+✔ catalog selection uses current project matches and never globally exposes dynamic matches (0.194755ms)
+✔ candidate and run request builders preserve exact dynamic refs without legacy title defaults (0.32012ms)
+✔ confirmed project versions require explicit compilation and cannot prepare a run from resources alone (10.848486ms)
+✔ compilation gaps show semantic details without presenting the rule as executable (1.884386ms)
+✔ compiled rules remain behind candidate generation and dual-review template admission (4.460648ms)
+✔ a dynamic candidate continues in the existing automatic validation and review chain (3.922879ms)
+✔ an old dynamic candidate cannot appear as the current exact version review or resume (4.186946ms)
+✔ controlled contract is visible and unchecked by default without inferring arbitrary suggestion semantics (1.668019ms)
+✔ actual confirm handler sends controlled exact behavior and requirements only after explicit opt-in (7.846159ms)
+✔ unchecked actual confirm stays free-text without requirements and changing opt-in clears confirmation (7.249683ms)
+✔ actual free revision preserves existing controlled bindings without implicitly adopting contract semantics (5.348071ms)
+✔ revision opt-in is unsaved semantic state and converts a free version through actual revision API before confirmation (7.809245ms)
+✔ discarding unsaved contract selection restores free current-version confirmation without issuing an API request (4.237591ms)
+✔ an unchecked free revision does not add controlled requirements to an unbound version (2.497166ms)
+✔ stale-source history blocks selection and confirmation while real correction handler appends exact reference (2.212168ms)
+✔ source-invalidated versions cannot be displayed as executable or offered for compilation (1.965656ms)
+(node:285) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:285) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a read that captured running before completion cannot report an orphaned pause (155.681142ms)
+✔ a persisted terminal state stays running until the task mutex is released (90.19233ms)
+✔ API observation of a terminal discovery allows settings and runtime import immediately (373.113885ms)
+✔ explicit resume stays running before the initial persisted running checkpoint (126.706481ms)
+✔ idempotent run of a completed discovery returns its terminal state without another request (125.30612ms)
+✔ a complete job lifecycle during an initially idle read cannot produce an ABA orphan pause (98.52267ms)
+✔ launcher rejects unsupported Node and missing dependencies with actionable errors (2.259396ms)
+✔ launcher builds from its own root then starts browser-enabled workbench without installing anything (0.513323ms)
+✔ failed preparation stops before starting host (0.365937ms)
+✔ browser opener accepts only the local workbench and uses no shell (0.929735ms)
+✔ Windows wrapper quotes project path and preserves nonzero startup failure (5.656153ms)
+(node:309) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:309) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a root changed between optimistic source validation and rule locking cannot be selected (364.088254ms)
+✔ source rebinding cannot mutate identity while locked rule validation is awaiting I/O (261.222383ms)
+✔ actual settings save-only handler persists without making a model connection request (72.308415ms)
+(node:333) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:333) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ full verification includes state regressions and retains its fifteen-minute timeout (5.106227ms)
+(node:341) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:341) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ S3 rule and capability suites run in both discovery and all dispatch (5.325289ms)
+(node:349) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:349) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ all source-business S1-S5 development tests are dispatched with sufficient package/HTTP timeout (5.05427ms)
+(node:357) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:357) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ S4 developer checks are explicit in discovery and all while native core remains prerequisite (5.289996ms)
+ℹ tests 56
+ℹ suites 0
+ℹ pass 56
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24951.069818

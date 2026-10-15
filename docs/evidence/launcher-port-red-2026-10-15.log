@@ -1,0 +1,46 @@
+(node:14) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ remembered API restores from local config and native reference after restart, without plaintext key (86.490772ms)
+✔ session-only key is never persisted while endpoint and model survive restart (19.544463ms)
+✔ credential store failure does not silently fall back to plaintext or claim success (11.623073ms)
+✖ occupied local port rejects startup instead of leaving an unhandled server error (7.485425ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 495.210563
+
+✖ failing tests:
+
+test at tests/integration/settings-local.test.mjs:23:1
+✖ occupied local port rejects startup instead of leaving an unhandled server error (7.485425ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + Comparison {}
+  - Comparison {
+  -   code: 'EADDRINUSE'
+  - }
+  
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/settings-local.test.mjs:23:124)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: TypeError: Cannot read properties of null (reading 'port')
+        at startWorkbench (file:///workspace/scratch/7074c4c0dda2/CangJie/apps/host/dist/api.js:584:50)
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/settings-local.test.mjs:23:124)
+        at async Test.run (node:internal/test_runner/test:1389:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:960:7),
+    expected: { code: 'EADDRINUSE' },
+    operator: 'rejects',
+    diff: 'simple'
+  }

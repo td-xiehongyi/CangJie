@@ -1,0 +1,17 @@
+✔ launcher rejects unsupported Node and missing dependencies with actionable errors (2.892007ms)
+✔ launcher builds from its own root then starts browser-enabled workbench without installing anything (0.694099ms)
+✔ failed preparation stops before starting host (0.542988ms)
+✔ browser opener accepts only the local workbench and uses no shell (1.404282ms)
+(node:13) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ Windows wrapper quotes project path and preserves nonzero startup failure (5.250842ms)
+✔ launcher and local-settings checks are included in release and all with explicit module mocking (5.201439ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 99.32365
