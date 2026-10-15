@@ -1,0 +1,331 @@
+(node:12) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✖ source-only TS/TSX/JSX snapshot has stable fingerprints, symbols, imports and honest routes (12.524135ms)
+✖ excluded and sensitive trees never appear in an index or search, project tests require opt-in (2.633097ms)
+✖ Windows case and separators normalize; traversal, ADS, absolute and unauthorized paths fail (1.367779ms)
+✖ junctions and linked roots cannot escape the source boundary, including replacement after indexing (1.230097ms)
+✖ only actually read, exact version and line ranges validate as source references (1.186733ms)
+✖ UTF-8 excerpt bytes, line ranges, search result caps and large-file partial reading are enforced (2.108798ms)
+✖ binary, oversized and recognizable secret content is withheld with explicit index issues (1.28704ms)
+✔ runtime contracts reject malformed hashes, paths and references (2.994168ms)
+✖ selecting an excluded subtree as the root cannot bypass exclusions (1.207283ms)
+✖ quoted JSON secrets and invalid UTF-8 stay out of snapshots and search (1.051274ms)
+✖ Express settings reads never become routes (1.031826ms)
+✖ module links preserve emitted mjs and cjs suffixes (1.49071ms)
+(node:24) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:24) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ source-only import needs no run configuration and analysis APIs retain session authentication (248.185737ms)
+✔ cited project-specific recommendations remain draft suggestions, never catalog rules or execution verdicts (270.093014ms)
+✔ duplicate request IDs, scope conflicts and host restart do not automatically dispatch new model calls (146.296345ms)
+✔ later runtime import preserves explicitly scoped business sources and project identity (451.415195ms)
+✔ resume rejects changed model configuration visibly before accepting asynchronous work (131.526983ms)
+✔ different source fixtures generate different business and check suggestions through the same pipeline (274.063139ms)
+(node:36) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:36) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ D8 actual controlled discovery without runtime configuration reaches validation, HTTP run, immutable export and reopened replay (14210.945741ms)
+ℹ {"sourceOnlyAnalysis":true,"actualDiscoveryHttpCalls":3,"scope":["readme.md","src"],"independentValidationPhases":20,"actualRunObservations":6,"reopenedReplayObservations":6,"privateModelInputLeak":false,"immutableOriginals":true,"relocatedPackageView":true,"foreignRootExecution":"RULE_PROJECT_MISMATCH","core":"test-only-model","formalHumanReview":false,"realModel":false}
+(node:412) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:412) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ live addition stops further model calls and persists stale without prior reads (147.168353ms)
+✔ live deletion stops further model calls and persists stale without prior reads (75.251679ms)
+✔ live rename stops further model calls and persists stale without prior reads (70.666865ms)
+✔ live modification stops further model calls and persists stale without prior reads (67.930726ms)
+✔ new source while final result is in flight cannot be saved as completed (91.275809ms)
+✔ new source outside the explicitly selected scope does not invalidate analysis (116.455798ms)
+(node:424) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:424) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ source-only delivery is explicit, contains public contracts and all sample build sources, excludes private answers (405.757546ms)
+✔ moved delivery installs only production dependencies and actually indexes TSX with exact source references (1466.385679ms)
+✔ developer package freezes both facilities, installs after relocation and builds private sources (18127.167633ms)
+✔ private resource lock rejects tampering even when delivery file hashes are recomputed (55.845865ms)
+✔ v1 developer resource packages remain installable without silent upgrading (63.371324ms)
+✔ unknown manifest and private facility versions fail before any installation (76.355226ms)
+✔ resource installation refuses linked source ancestors and destination ancestors (51.000955ms)
+✔ delivery manifest rejects unsafe Windows names and malformed digest records before reading them (5.33808ms)
+✔ unknown declared delivery and contract formats are rejected while legacy v1 without declarations stays readable (4.509764ms)
+✔ resource bytes changed after source preflight cannot report successful installation (80.807711ms)
+✔ delivery metadata separates requirements from the observed packaging process (449.356918ms)
+(node:540) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:540) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ uncited selected-business source changes conservatively invalidate a view without rewriting historical analysis (260.879585ms)
+✔ unchanged analysis is readable and new business files invalidate while excluded files do not (194.2842ms)
+✔ project-local correction appends a pending version and does not alter selected historical semantics (13.232798ms)
+✔ API refuses uncited changes for rule selection but permits append-only correction and history (289.24897ms)
+✔ source and data/identity changes cannot reuse a prior business pass as load qualification (0.77599ms)
+✔ a disabled exact publication remains readable but is rejected before any core or adapter call (4.051561ms)
+✔ v1 history can be inspected with no tools while unknown package versions are never executable (7.014263ms)
+✔ load start snapshots caller data and identity before asynchronous preflight and preserves its blocking reason (421.138189ms)
+✔ stale suggestion selection is rejected inside its transaction without changing saved report bytes (121.210097ms)
+✔ default whole-root business scope never exempts newly added package or runtime configuration (65.943153ms)
+✔ a missing or renamed source root leaves historical analysis readable, unmodified and unusable for resume (104.733495ms)
+(node:552) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:552) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ discovery follows search, route, service/data/docs and returns cited unconfirmed project suggestions (370.864818ms)
+✔ forged/unread refs, confirmation escalation and unknown tools never become completed analysis (400.538801ms)
+✔ path escape and unauthorized read requests are refused without sending denied content (240.101834ms)
+✔ scope summary and reads respect exclusions before every request; unconfirmed scope has no network effects (242.534808ms)
+✔ budgets bound calls, encoded bytes, tokens, elapsed time and cumulative outgoing excerpts (486.498039ms)
+✔ pause aborts in-flight work, preserves uncertain usage and explicit resume does not reset budget (183.915043ms)
+✔ duplicate starts cannot dispatch twice, stale revisions cannot overwrite analysis selection (145.825825ms)
+✔ changed source invalidates pending analysis and displayed citations without mixing versions (86.014514ms)
+✔ checkpoint failure blocks network dispatch and persisted reservation cannot be silently replayed (47.329571ms)
+✔ orphaned drafts recover as paused without dispatch, including an initial save failure (78.060611ms)
+✔ insufficient information stays partial without invented flows or business expectations (69.891306ms)
+✔ at most four excerpt actions execute per response, partial suggestions survive budget exhaustion (165.055346ms)
+✔ typed token logic remains original cited source while an actual model key is withheld (195.912391ms)
+✔ explicit retry of invalid model output preserves task budget and does not replay the bad response (156.879116ms)
+✔ known model keys hidden in index metadata are refused before a session record is written (18.31372ms)
+✔ opted-in project tests are disclosed input expectations and cannot be mislabeled source facts (129.307937ms)
+(node:564) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:564) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ closing a workbench session revokes its token and permits a fresh key session (62.810491ms)
+✔ closed credential sessions report lifecycle failure instead of an invalid key (0.591299ms)
+✔ model keys accept ordinary r and n characters (0.484722ms)
+✔ model keys reject actual carriage returns and newlines (0.253713ms)
+(node:576) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:576) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ compile API sends the exact reference to the project-specific endpoint (4.348388ms)
+✔ verification only exposes legacy plus compiled exact current confirmed local versions (0.439075ms)
+✔ catalog selection uses current project matches and never globally exposes dynamic matches (0.237709ms)
+✔ candidate and run request builders preserve exact dynamic refs without legacy title defaults (0.233984ms)
+✔ confirmed project versions require explicit compilation and cannot prepare a run from resources alone (11.180152ms)
+✔ compilation gaps show semantic details without presenting the rule as executable (1.996543ms)
+✔ compiled rules remain behind candidate generation and dual-review template admission (4.379914ms)
+✔ a dynamic candidate continues in the existing automatic validation and review chain (3.917003ms)
+✔ an old dynamic candidate cannot appear as the current exact version review or resume (4.156656ms)
+✔ controlled contract is visible and unchecked by default without inferring arbitrary suggestion semantics (1.708389ms)
+✔ actual confirm handler sends controlled exact behavior and requirements only after explicit opt-in (10.079616ms)
+✔ unchecked actual confirm stays free-text without requirements and changing opt-in clears confirmation (10.786283ms)
+✔ actual free revision preserves existing controlled bindings without implicitly adopting contract semantics (11.008521ms)
+✔ revision opt-in is unsaved semantic state and converts a free version through actual revision API before confirmation (7.505815ms)
+✔ discarding unsaved contract selection restores free current-version confirmation without issuing an API request (4.210835ms)
+✔ an unchecked free revision does not add controlled requirements to an unbound version (2.712525ms)
+✔ stale-source history blocks selection and confirmation while real correction handler appends exact reference (2.469177ms)
+✔ source-invalidated versions cannot be displayed as executable or offered for compilation (2.166873ms)
+node:internal/test_runner/mock/mock:676
+      throw new ERR_INVALID_STATE(
+            ^
+
+Error [ERR_INVALID_STATE]: Invalid state: Cannot mock '../../apps/host/dist/model/task-lock.js'. The module is already mocked.
+    at MockTracker.module (node:internal/test_runner/mock/mock:676:13)
+    at file:///workspace/scratch/7074c4c0dda2/CangJie/tests/unit/discovery-state-race.test.mjs:6:6
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  code: 'ERR_INVALID_STATE'
+}
+
+Node.js v24.19.0
+✖ tests/unit/discovery-state-race.test.mjs (270.269569ms)
+node:internal/test_runner/mock/mock:676
+      throw new ERR_INVALID_STATE(
+            ^
+
+Error [ERR_INVALID_STATE]: Invalid state: Cannot mock '../../apps/host/dist/model/task-lock.js'. The module is already mocked.
+    at MockTracker.module (node:internal/test_runner/mock/mock:676:13)
+    at file:///workspace/scratch/7074c4c0dda2/CangJie/tests/unit/project-rules-source-race.test.mjs:3:27
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  code: 'ERR_INVALID_STATE'
+}
+
+Node.js v24.19.0
+✖ tests/unit/project-rules-source-race.test.mjs (275.018675ms)
+(node:604) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:604) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ full verification includes state regressions and retains its fifteen-minute timeout (1.9879ms)
+(node:612) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:612) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ S3 rule and capability suites run in both discovery and all dispatch (3.305525ms)
+(node:620) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:620) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ all source-business S1-S5 development tests are dispatched with sufficient package/HTTP timeout (2.90685ms)
+(node:628) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:628) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ S4 developer checks are explicit in discovery and all while native core remains prerequisite (2.903694ms)
+ℹ tests 91
+ℹ suites 0
+ℹ pass 78
+ℹ fail 13
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 46812.688284
+
+✖ failing tests:
+
+test at tests/integration/discovery-access.test.mjs:27:1
+✖ source-only TS/TSX/JSX snapshot has stable fingerprints, symbols, imports and honest routes (12.524135ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-bwTWj7'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:28:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-bwTWj7'
+  }
+
+test at tests/integration/discovery-access.test.mjs:43:1
+✖ excluded and sensitive trees never appear in an index or search, project tests require opt-in (2.633097ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-YqG7Ey'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:44:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-YqG7Ey'
+  }
+
+test at tests/integration/discovery-access.test.mjs:54:1
+✖ Windows case and separators normalize; traversal, ADS, absolute and unauthorized paths fail (1.367779ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-vWSgQD'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:55:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-vWSgQD'
+  }
+
+test at tests/integration/discovery-access.test.mjs:63:1
+✖ junctions and linked roots cannot escape the source boundary, including replacement after indexing (1.230097ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-nBwztX'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:64:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-nBwztX'
+  }
+
+test at tests/integration/discovery-access.test.mjs:73:1
+✖ only actually read, exact version and line ranges validate as source references (1.186733ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-urwNCC'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:74:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-urwNCC'
+  }
+
+test at tests/integration/discovery-access.test.mjs:86:1
+✖ UTF-8 excerpt bytes, line ranges, search result caps and large-file partial reading are enforced (2.108798ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-WNxhd9'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:87:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-WNxhd9'
+  }
+
+test at tests/integration/discovery-access.test.mjs:103:1
+✖ binary, oversized and recognizable secret content is withheld with explicit index issues (1.28704ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-UCZRLY'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:104:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-UCZRLY'
+  }
+
+test at tests/integration/discovery-access.test.mjs:120:1
+✖ selecting an excluded subtree as the root cannot bypass exclusions (1.207283ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-TxQvEn'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:121:18)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-TxQvEn'
+  }
+
+test at tests/integration/discovery-access.test.mjs:127:1
+✖ quoted JSON secrets and invalid UTF-8 stay out of snapshots and search (1.051274ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-MFA6r5'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:128:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-MFA6r5'
+  }
+
+test at tests/integration/discovery-access.test.mjs:136:1
+✖ Express settings reads never become routes (1.031826ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-hDenel'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:137:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-hDenel'
+  }
+
+test at tests/integration/discovery-access.test.mjs:142:1
+✖ module links preserve emitted mjs and cjs suffixes (1.49071ms)
+  Error: ENOENT: no such file or directory, mkdtemp '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-oC2Djw'
+      at async mkdtemp (node:internal/fs/promises:1254:10)
+      at async setup (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:19:35)
+      at async TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-access.test.mjs:143:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'mkdtemp',
+    path: '/workspace/scratch/7074c4c0dda2/CangJie/output/s1-source/fixture-oC2Djw'
+  }
+
+test at tests/unit/discovery-state-race.test.mjs:1:1
+✖ tests/unit/discovery-state-race.test.mjs (270.269569ms)
+  'test failed'
+
+test at tests/unit/project-rules-source-race.test.mjs:1:1
+✖ tests/unit/project-rules-source-race.test.mjs (275.018675ms)
+  'test failed'

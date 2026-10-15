@@ -1,5 +1,7 @@
 # 当前会话代码审查与文档核对
 
+> 后续状态（2026-10-15）：R1/R2已按用户授权在当前会话修复并补开发回归，见[修复证据](review-fixes-2026-10-15.md)。下文的“未修复”和“本轮未修改”描述审查提交13cfc0b时的事实，保留为历史记录，不是当前修复状态。
+
 日期：2026-10-15。审查对象：`td-xiehongyi/CangJie`，产品代码基线 `525380686cda2c270c6fb691395c77eb8953453c`，分支 `fix/discovery-analysis-state`。
 
 本轮由当前会话直接阅读、执行检查和修改文档，没有启动或调用子智能体。范围为源码分析状态/读取、规则持久化/确认/编译、负载准入与打包路径/资源校验，以及用户入口文档；不是全仓库逐行安全审计。本轮未修改产品逻辑，未修复下述代码问题。
@@ -18,7 +20,7 @@ S1—S5开发主线已实现，不能据此认定正式交付完成。发现一�
 - 建议修复：处理模型响应和下一次外发之前复核当前范围文件集合/摘要/相关索引缺口；失效时持久化明确stale并停止后续请求，不能只改返回视图。已发出的网络请求无法撤销，应说明观测与取消时点，而非承诺绝对实时。
 - 修复验收：在第一次请求期间新增文件后，后续请求不发出，保存状态不可标当前有效completed；同时覆盖新增/删除/改名和最终响应返回前变化，保留历史正文，既有暂停/预算/恢复回归继续通过。
 
-可复现脚本：[review-midrun-source-addition.mjs](review-midrun-source-addition.mjs)。从仓库根目录、Linux Node24已构建宿主环境运行：
+可复现脚本：[review-midrun-source-addition.mjs](review-midrun-source-addition.mjs)。该脚本只用于修复前13cfc0b产品基线，断言旧错误行为；不要在修复后版本把它当功能通过测试。修复后回归位于tests/integration/discovery-live-source.test.mjs。在修复前基线的仓库根目录、Linux Node24已构建宿主环境运行：
 
 ```sh
 CANGJIE_TEST_MUTEX=1 node --experimental-test-module-mocks --test docs/evidence/review-midrun-source-addition.mjs

@@ -71,6 +71,9 @@ export class DiscoveryService {
     try{
       for(;;){
         if(controller.signal.aborted||await this.store.paused(id)){s.status='paused';s.unresolved.push('ANALYSIS_PAUSED');break;}
+        // Rebuild the selected file set, not just hashes of previously indexed files.
+        // This observes additions/renames and new index gaps after an in-flight response.
+        if((await currentDiscovery(r)).reanalysisRequired)throw new Error('STALE_SOURCE');
         for(const file of scopedSourceFiles(r.snapshot,r.scope))await readIndexedFile(r.snapshot,file);
         if(budget.usage.calls>r.preset.maxCalls||budget.usage.tokens>r.preset.maxTokens||Date.now()-budget.usage.startedAt>=r.preset.deadlineMs)throw new Error('ANALYSIS_BUDGET_EXHAUSTED');
         if(s.pendingResponse!==undefined){
@@ -78,7 +81,7 @@ export class DiscoveryService {
           if(response?.kind==='insufficient'&&Array.isArray(response.unresolved)&&response.unresolved.length>0&&response.unresolved.every((v:unknown)=>typeof v==='string'&&v.length<=8000)){
             s.unresolved.push(...response.unresolved);delete s.pendingResponse;s.status='partial';break;
           }
-          if(response?.kind==='result'){s.result=await this.checkedOverview(r,response.result);delete s.pendingResponse;s.status='completed';break;}
+          if(response?.kind==='result'){const result=await this.checkedOverview(r,response.result);if((await currentDiscovery(r)).reanalysisRequired)throw new Error('STALE_SOURCE');s.result=result;delete s.pendingResponse;s.status='completed';break;}
           if(response?.kind!=='actions'||!Array.isArray(response.actions)||response.actions.length<1||response.actions.length>4)throw new Error('INVALID_DISCOVERY_OUTPUT');
           if(response.partial!==undefined)s.result=await this.checkedOverview(r,response.partial);
           const round={actions:structuredClone(response.actions),results:[] as unknown[]};
@@ -90,12 +93,13 @@ export class DiscoveryService {
           s.rounds.push(round);delete s.pendingResponse;await save();
         }
         const bytes=s.reads.reduce((n,read)=>n+read.bytes,0);if(s.budget.sourceBytes+bytes>r.sourceByteLimit)throw new Error('ANALYSIS_BUDGET_EXHAUSTED');
+        if((await currentDiscovery(r)).reanalysisRequired)throw new Error('STALE_SOURCE');
         await provider.json({purpose:'discovery',instructions:instructions+' If there is not enough evidence even for a flow, return {kind:"insufficient",unresolved:["specific missing information"],limitations:["unread scope"]}.',payload:{lastActions:s.rounds.at(-1)?.results??[],partial:s.result??null,knownSourceRefs:s.reads.map(v=>v.ref)},discovery:{snapshot:r.snapshot,scope:r.scope,reads:s.reads},signal:controller.signal});
       }
     }catch(error){
       const code=(error as Error).message.split(':')[0]!;
       if(/write failure|ANALYSIS_SAVE_FAILED/.test(code))throw error;
-      s.status=['BUDGET_EXHAUSTED','ANALYSIS_BUDGET_EXHAUSTED'].includes(code)?'partial':['STALE_SOURCE','PATH_ESCAPE'].includes(code)&&s.reads.length?'stale':code==='ANALYSIS_PAUSED'?'paused':code==='PROVIDER_UNAVAILABLE'?'paused':'failed';
+      s.status=['BUDGET_EXHAUSTED','ANALYSIS_BUDGET_EXHAUSTED'].includes(code)?'partial':['STALE_SOURCE','PATH_ESCAPE'].includes(code)?'stale':code==='ANALYSIS_PAUSED'?'paused':code==='PROVIDER_UNAVAILABLE'?'paused':'failed';
       s.unresolved.push(code==='BUDGET_EXHAUSTED'?'ANALYSIS_BUDGET_EXHAUSTED':code);if(s.status==='stale')s.referencesValid=false;
     }finally{clearInterval(pauseTimer)}
     s.unresolved=[...new Set(s.unresolved)];await save();return structuredClone(s);

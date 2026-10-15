@@ -1,3 +1,5 @@
+// Historical defect reproducer for product baseline 13cfc0b only.
+// Expected to fail after the fix; current regression is tests/integration/discovery-live-source.test.mjs.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {writeFile,readFile} from 'node:fs/promises';

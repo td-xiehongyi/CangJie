@@ -1,6 +1,6 @@
 # 历史本机主版本约定与当前云端分支
 
-更新：2026-10-15。当前云端开发与审查基线是 `fix/discovery-analysis-state` 的 `5253806`，Git `main` 未合并。本文下述Windows路径、端口和测试成绩是2026-10-14本机记录，不表示该电脑当前在线、服务正在运行或已测试后续云端代码。最新状态见[README](../README.md)和[当前会话审查](evidence/current-session-review-2026-10-15.md)。
+更新：2026-10-15。当前云端开发统一使用 `fix/discovery-analysis-state`，Git `main` 未合并。首次直接审查基线为 `5253806`，随后文档审查提交为 `13cfc0b`，后续修复见[修复证据](evidence/review-fixes-2026-10-15.md)。本文下述Windows路径、端口和测试成绩是2026-10-14本机记录，不表示该电脑当前在线、服务正在运行或已测试后续云端代码。最新状态见[README](../README.md)和[当前会话审查](evidence/current-session-review-2026-10-15.md)。
 
 用户于 2026-10-14 确认当前版本为后续使用、修改与验收的主版本。
 

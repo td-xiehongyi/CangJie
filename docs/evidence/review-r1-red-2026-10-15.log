@@ -1,0 +1,124 @@
+(node:14) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✖ live addition stops further model calls and persists stale without prior reads (144.07338ms)
+✖ live deletion stops further model calls and persists stale without prior reads (49.528673ms)
+✖ live rename stops further model calls and persists stale without prior reads (50.115785ms)
+✖ live modification stops further model calls and persists stale without prior reads (48.978004ms)
+✖ new source while final result is in flight cannot be saved as completed (74.28646ms)
+✔ new source outside the explicitly selected scope does not invalidate analysis (59.544324ms)
+(node:20) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✖ all source-business S1-S5 development tests are dispatched with sufficient package/HTTP timeout (4.709818ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 1
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 705.292242
+
+✖ failing tests:
+
+test at tests/integration/discovery-live-source.test.mjs:14:48
+✖ live addition stops further model calls and persists stale without prior reads (144.07338ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-live-source.test.mjs:17:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-live-source.test.mjs:14:48
+✖ live deletion stops further model calls and persists stale without prior reads (49.528673ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'failed' !== 'stale'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-live-source.test.mjs:17:43)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'failed',
+    expected: 'stale',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-live-source.test.mjs:14:48
+✖ live rename stops further model calls and persists stale without prior reads (50.115785ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'failed' !== 'stale'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-live-source.test.mjs:17:43)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'failed',
+    expected: 'stale',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-live-source.test.mjs:14:48
+✖ live modification stops further model calls and persists stale without prior reads (48.978004ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'failed' !== 'stale'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-live-source.test.mjs:17:43)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'failed',
+    expected: 'stale',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/integration/discovery-live-source.test.mjs:21:1
+✖ new source while final result is in flight cannot be saved as completed (74.28646ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'completed'
+  - 'stale'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-live-source.test.mjs:24:43)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'completed',
+    expected: 'stale',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/unit/verify-reuse-delivery-runner.test.mjs:2:1
+✖ all source-business S1-S5 development tests are dispatched with sufficient package/HTTP timeout (4.709818ms)
+  AssertionError [ERR_ASSERTION]: discovery:tests/integration/discovery-live-source.test.mjs
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/unit/verify-reuse-delivery-runner.test.mjs:2:1448)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

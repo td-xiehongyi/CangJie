@@ -1,0 +1,31 @@
+✖ delivery metadata separates requirements from the observed packaging process (355.01268ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 437.743064
+
+✖ failing tests:
+
+test at tests/integration/discovery-package.test.mjs:114:2
+✖ delivery metadata separates requirements from the observed packaging process (355.01268ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '24.x (verified 24.19.0)'
+  - '24.x'
+         ^
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/7074c4c0dda2/CangJie/tests/integration/discovery-package.test.mjs:116:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '24.x (verified 24.19.0)',
+    expected: '24.x',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

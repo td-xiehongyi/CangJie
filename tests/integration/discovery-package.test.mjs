@@ -110,3 +110,12 @@ test('resource bytes changed after source preflight cannot report successful ins
   t.after(()=>{seam.mock.restore();syncBuiltinESMExports();});
   await assert.rejects(packaging.installDeveloperResources(resources,target),/HASH_MISMATCH|REFERENCE_CHANGED_REVIEW_REQUIRED/);assert.equal(raced,true);
 });
+
+ test('delivery metadata separates requirements from the observed packaging process',async t=>{
+ const directory=await source(t),manifest=await packaging.verifyPackage(directory);
+ assert.equal(manifest.dependencies.node,'24.x');assert.equal(manifest.dependencies.npm,'11.x');
+ assert.deepEqual(manifest.packagingEnvironment,{node:process.versions.node,platform:process.platform,arch:process.arch,npm:{version:null,status:'not-probed'}});
+ assert.doesNotMatch(JSON.stringify(manifest.dependencies),/verified/i);
+ const resources=await packaging.buildDeveloperResources();t.after(()=>rm(resources,{recursive:true,force:true}));
+ assert.deepEqual((await packaging.verifyPackage(resources)).packagingEnvironment,manifest.packagingEnvironment);
+});

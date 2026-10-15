@@ -6,7 +6,7 @@
 
 ## 环境与启动
 
-要求 Node.js 24.x、npm 11.x、仓颉1.0.5及stdx1.0.5.1。历史Windows记录是Node24.19.0/npm11.17.0；2026-10-15云端开发复测是Linux Node24.19.0/npm11.9.0。两者是不同环境，不代表当前安装已核验。打包器manifest中的 `verified` 版本目前是固定历史标签，不是动态环境探测；交付者须另记录实际版本，不能据此宣称本次Windows验收通过。
+要求 Node.js 24.x、npm 11.x、仓颉1.0.5及stdx1.0.5.1。历史Windows记录是Node24.19.0/npm11.17.0；2026-10-15云端开发复测是Linux Node24.19.0/npm11.9.0。两者是不同环境，不代表当前安装已核验。新打包器manifest.dependencies只写依赖要求，packagingEnvironment记录实际打包进程的Node版本、操作系统和架构。打包器不调用npm，npm.version为null且status为not-probed；该字段不是安装或运行环境验收。旧包中的固定verified标签仅作历史记录，不能据此宣称本次Windows验收通过。
 在本目录打开 PowerShell，先 `npm ci --omit=dev --ignore-scripts` 安装锁定依赖。
 首次安装需访问npm仓库；本机离线缓存不完整，不承诺离线首次安装。
 仓颉可用 `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-tools.ps1` 下载校验安装到本目录；也可显式设置
@@ -53,7 +53,7 @@ v1验证包按原样读取，未知schema/interpreter版本拒绝执行；查看
 ## 能力边界
 
 新增项目规则执行桥仅支持已审查的工单关闭状态语义及精确动作/字段映射。自由文本规则可以保存，不代表可以编译执行；无对应执行能力或独立资源时必须保持受阻。
-分析过程中新增范围内源码仍有已知未修缺口：后台可能继续调用模型并保存completed，公开读取才标stale；后续确认不应沿用过期结果。正式模型验收前应先修复此问题，暂勿在运行分析时修改选中源码。
+分析每轮处理前、provider调用前和最终结果引用校验后重建选中范围，观测到变化即保存stale，停止后续调用；不撤回已发请求，也不提供文件系统原子快照。公开读取、确认和执行前的来源校验继续保留。为结果可复现，分析期间仍应避免修改选中源码。
 
 
 支持已核对的 Node24 / Express5 / Token / HTTP JSON 模式及合成数据初始化。

@@ -1,0 +1,21 @@
+(node:34) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:34) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ live addition stops further model calls and persists stale without prior reads (138.601875ms)
+✔ live deletion stops further model calls and persists stale without prior reads (68.518716ms)
+✔ live rename stops further model calls and persists stale without prior reads (68.263796ms)
+✔ live modification stops further model calls and persists stale without prior reads (68.036817ms)
+✔ new source while final result is in flight cannot be saved as completed (91.607332ms)
+✔ new source outside the explicitly selected scope does not invalidate analysis (117.19574ms)
+(node:35) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:35) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ all source-business S1-S5 development tests are dispatched with sufficient package/HTTP timeout (5.489583ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 838.923147

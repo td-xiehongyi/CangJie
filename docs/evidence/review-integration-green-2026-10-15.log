@@ -1,0 +1,100 @@
+(node:12) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ source-only TS/TSX/JSX snapshot has stable fingerprints, symbols, imports and honest routes (88.192239ms)
+✔ excluded and sensitive trees never appear in an index or search, project tests require opt-in (67.645907ms)
+✔ Windows case and separators normalize; traversal, ADS, absolute and unauthorized paths fail (27.40669ms)
+✔ junctions and linked roots cannot escape the source boundary, including replacement after indexing (21.836939ms)
+✔ only actually read, exact version and line ranges validate as source references (46.266044ms)
+✔ UTF-8 excerpt bytes, line ranges, search result caps and large-file partial reading are enforced (66.137666ms)
+✔ binary, oversized and recognizable secret content is withheld with explicit index issues (26.754433ms)
+✔ runtime contracts reject malformed hashes, paths and references (1.771683ms)
+✔ selecting an excluded subtree as the root cannot bypass exclusions (8.488289ms)
+✔ quoted JSON secrets and invalid UTF-8 stay out of snapshots and search (38.664498ms)
+✔ Express settings reads never become routes (24.147141ms)
+✔ module links preserve emitted mjs and cjs suffixes (19.591199ms)
+(node:24) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:24) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ source-only import needs no run configuration and analysis APIs retain session authentication (370.650774ms)
+✔ cited project-specific recommendations remain draft suggestions, never catalog rules or execution verdicts (313.883866ms)
+✔ duplicate request IDs, scope conflicts and host restart do not automatically dispatch new model calls (149.504133ms)
+✔ later runtime import preserves explicitly scoped business sources and project identity (521.705991ms)
+✔ resume rejects changed model configuration visibly before accepting asynchronous work (157.255079ms)
+✔ different source fixtures generate different business and check suggestions through the same pipeline (371.58083ms)
+(node:36) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:36) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ D8 actual controlled discovery without runtime configuration reaches validation, HTTP run, immutable export and reopened replay (14654.867135ms)
+ℹ {"sourceOnlyAnalysis":true,"actualDiscoveryHttpCalls":3,"scope":["readme.md","src"],"independentValidationPhases":20,"actualRunObservations":6,"reopenedReplayObservations":6,"privateModelInputLeak":false,"immutableOriginals":true,"relocatedPackageView":true,"foreignRootExecution":"RULE_PROJECT_MISMATCH","core":"test-only-model","formalHumanReview":false,"realModel":false}
+(node:412) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:412) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ live addition stops further model calls and persists stale without prior reads (197.428472ms)
+✔ live deletion stops further model calls and persists stale without prior reads (78.345723ms)
+✔ live rename stops further model calls and persists stale without prior reads (82.281798ms)
+✔ live modification stops further model calls and persists stale without prior reads (78.463255ms)
+✔ new source while final result is in flight cannot be saved as completed (95.924472ms)
+✔ new source outside the explicitly selected scope does not invalidate analysis (123.467734ms)
+(node:424) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:424) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ source-only delivery is explicit, contains public contracts and all sample build sources, excludes private answers (389.268825ms)
+✔ moved delivery installs only production dependencies and actually indexes TSX with exact source references (1408.964545ms)
+✔ developer package freezes both facilities, installs after relocation and builds private sources (17854.688064ms)
+✔ private resource lock rejects tampering even when delivery file hashes are recomputed (56.538356ms)
+✔ v1 developer resource packages remain installable without silent upgrading (61.951788ms)
+✔ unknown manifest and private facility versions fail before any installation (44.298455ms)
+✔ resource installation refuses linked source ancestors and destination ancestors (48.020072ms)
+✔ delivery manifest rejects unsafe Windows names and malformed digest records before reading them (5.097458ms)
+✔ unknown declared delivery and contract formats are rejected while legacy v1 without declarations stays readable (4.263964ms)
+✔ resource bytes changed after source preflight cannot report successful installation (81.245716ms)
+✔ delivery metadata separates requirements from the observed packaging process (363.366843ms)
+(node:540) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:540) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ uncited selected-business source changes conservatively invalidate a view without rewriting historical analysis (188.739722ms)
+✔ unchanged analysis is readable and new business files invalidate while excluded files do not (143.012102ms)
+✔ project-local correction appends a pending version and does not alter selected historical semantics (7.696356ms)
+✔ API refuses uncited changes for rule selection but permits append-only correction and history (217.463929ms)
+✔ source and data/identity changes cannot reuse a prior business pass as load qualification (1.294382ms)
+✔ a disabled exact publication remains readable but is rejected before any core or adapter call (6.968146ms)
+✔ v1 history can be inspected with no tools while unknown package versions are never executable (7.173338ms)
+✔ load start snapshots caller data and identity before asynchronous preflight and preserves its blocking reason (363.359317ms)
+✔ stale suggestion selection is rejected inside its transaction without changing saved report bytes (106.651228ms)
+✔ default whole-root business scope never exempts newly added package or runtime configuration (62.959399ms)
+✔ a missing or renamed source root leaves historical analysis readable, unmodified and unusable for resume (102.752916ms)
+(node:552) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:552) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ discovery follows search, route, service/data/docs and returns cited unconfirmed project suggestions (314.932376ms)
+✔ forged/unread refs, confirmation escalation and unknown tools never become completed analysis (374.18094ms)
+✔ path escape and unauthorized read requests are refused without sending denied content (177.259748ms)
+✔ scope summary and reads respect exclusions before every request; unconfirmed scope has no network effects (237.581206ms)
+✔ budgets bound calls, encoded bytes, tokens, elapsed time and cumulative outgoing excerpts (441.471666ms)
+✔ pause aborts in-flight work, preserves uncertain usage and explicit resume does not reset budget (144.057602ms)
+✔ duplicate starts cannot dispatch twice, stale revisions cannot overwrite analysis selection (99.734628ms)
+✔ changed source invalidates pending analysis and displayed citations without mixing versions (78.963514ms)
+✔ checkpoint failure blocks network dispatch and persisted reservation cannot be silently replayed (37.670641ms)
+✔ orphaned drafts recover as paused without dispatch, including an initial save failure (81.541431ms)
+✔ insufficient information stays partial without invented flows or business expectations (53.090394ms)
+✔ at most four excerpt actions execute per response, partial suggestions survive budget exhaustion (156.448846ms)
+✔ typed token logic remains original cited source while an actual model key is withheld (175.234243ms)
+✔ explicit retry of invalid model output preserves task budget and does not replay the bad response (126.02092ms)
+✔ known model keys hidden in index metadata are refused before a session record is written (16.8477ms)
+✔ opted-in project tests are disclosed input expectations and cannot be mislabeled source facts (103.141707ms)
+(node:564) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:564) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ closing a workbench session revokes its token and permits a fresh key session (115.392846ms)
+✔ closed credential sessions report lifecycle failure instead of an invalid key (0.541997ms)
+✔ model keys accept ordinary r and n characters (0.350315ms)
+✔ model keys reject actual carriage returns and newlines (0.232852ms)
+ℹ tests 67
+ℹ suites 0
+ℹ pass 67
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 44650.02179

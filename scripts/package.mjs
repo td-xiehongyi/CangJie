@@ -5,6 +5,9 @@ import {fileURLToPath} from 'node:url';
 import {constants} from 'node:fs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+// This process can attest to its Node runtime, not an npm installation or
+// Windows acceptance run. npm is not invoked by the packager; do not guess it.
+const packagingEnvironment=()=>({node:process.versions.node,platform:process.platform,arch:process.arch,npm:{version:null,status:'not-probed'}});
 const resourceFiles=['tests/reference/server.ts','tests/reference/behaviors.ts','tests/reference/db.ts','tests/reference/seed.ts','tests/reference/mapping.json','tests/reference/suite-manifest.json','tests/fixtures/observations.json'];
 const statusResourceFiles=['tests/reference/status-transition/server.ts','tests/reference/status-transition/behaviors.ts','tests/reference/status-transition/db.ts','tests/reference/status-transition/seed.ts','tests/reference/status-transition/mapping.json','tests/reference/status-transition/suite-manifest.json','tests/reference/status-transition/tsconfig.json','tests/fixtures/status-transition-observations.json','tests/fixtures/status-transition-template.json'];
 const legacyResourcePaths=[...resourceFiles,'tests/reference/suite-lock.json'];
@@ -69,7 +72,8 @@ async function buildDelivery(sourceOnly){
   const directory=await mkdtemp(join(parent,'website-verification-'));
   const manifest={schemaVersion:1,product:'AI开发网站验证系统',version:'0.0.0-t9-preview',platform:'win32-x64',createdAt:new Date().toISOString(),
     formatVersions:{delivery:1,contracts:1,verificationPackage:1},
-    dependencies:{node:'24.x (verified 24.19.0)',npm:'11.x (verified 11.17.0)',cangjie:'1.0.5',stdx:'1.0.5.1',k6:'2.3.0',npmLockSha256:hash(await readFile(join(root,'package-lock.json')))},
+    packagingEnvironment:packagingEnvironment(),
+    dependencies:{node:'24.x',npm:'11.x',cangjie:'1.0.5',stdx:'1.0.5.1',k6:'2.3.0',npmLockSha256:hash(await readFile(join(root,'package-lock.json')))},
     limits:['其他电脑兼容性未验证','真实模型与实际人工双审核尚未验收','不包含用户配置、凭据、历史运行及业务数据库'],files:[]};
   if(sourceOnly){manifest.kind='source-development-delivery';manifest.coreBuilt=false;manifest.limits.push('仅源码开发交付；未包含原生仓颉核心，正式执行前须构建并验收');}
   const selected=files.filter(path=>!sourceOnly||path!=='apps/core/target/verification-core.exe');
@@ -113,7 +117,7 @@ export async function buildDeveloperResources(){
   await frozenResources(root,'tests/reference/status-transition/suite-lock.json',statusResourceFiles);
   const parent=join(root,'output/delivery');await noLinks(parent);await mkdir(parent,{recursive:true});
   const directory=await mkdtemp(join(parent,'developer-resources-'));
-  const manifest={schemaVersion:1,kind:'developer-validation-resources',version:'reference-v2',runtime:'Node.js 24 native TypeScript execution; no emitted JavaScript required',build:'npm ci --ignore-scripts && node node_modules/typescript/bin/tsc -p tests/reference/tsconfig.json && node node_modules/typescript/bin/tsc -p tests/reference/status-transition/tsconfig.json',files:[]};
+  const manifest={schemaVersion:1,kind:'developer-validation-resources',version:'reference-v2',packagingEnvironment:packagingEnvironment(),runtime:'Node.js 24 native TypeScript execution; no emitted JavaScript required',build:'npm ci --ignore-scripts && node node_modules/typescript/bin/tsc -p tests/reference/tsconfig.json && node node_modules/typescript/bin/tsc -p tests/reference/status-transition/tsconfig.json',files:[]};
   for(const path of currentResourcePaths.sort()){
     await noLinks(join(root,path));
     const bytes=await readFile(join(root,path));

@@ -1,0 +1,56 @@
+✔ compile API sends the exact reference to the project-specific endpoint (3.997052ms)
+✔ verification only exposes legacy plus compiled exact current confirmed local versions (0.371837ms)
+✔ catalog selection uses current project matches and never globally exposes dynamic matches (0.18335ms)
+✔ candidate and run request builders preserve exact dynamic refs without legacy title defaults (0.289565ms)
+✔ confirmed project versions require explicit compilation and cannot prepare a run from resources alone (11.232851ms)
+✔ compilation gaps show semantic details without presenting the rule as executable (1.868214ms)
+✔ compiled rules remain behind candidate generation and dual-review template admission (4.192248ms)
+✔ a dynamic candidate continues in the existing automatic validation and review chain (3.773553ms)
+✔ an old dynamic candidate cannot appear as the current exact version review or resume (3.962401ms)
+✔ controlled contract is visible and unchecked by default without inferring arbitrary suggestion semantics (1.62005ms)
+✔ actual confirm handler sends controlled exact behavior and requirements only after explicit opt-in (7.866986ms)
+✔ unchecked actual confirm stays free-text without requirements and changing opt-in clears confirmation (7.305231ms)
+✔ actual free revision preserves existing controlled bindings without implicitly adopting contract semantics (5.241559ms)
+✔ revision opt-in is unsaved semantic state and converts a free version through actual revision API before confirmation (4.546439ms)
+✔ discarding unsaved contract selection restores free current-version confirmation without issuing an API request (4.56801ms)
+✔ an unchecked free revision does not add controlled requirements to an unbound version (6.911393ms)
+✔ stale-source history blocks selection and confirmation while real correction handler appends exact reference (2.414707ms)
+✔ source-invalidated versions cannot be displayed as executable or offered for compilation (1.954992ms)
+(node:26) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a read that captured running before completion cannot report an orphaned pause (179.420056ms)
+✔ a persisted terminal state stays running until the task mutex is released (125.918313ms)
+✔ API observation of a terminal discovery allows settings and runtime import immediately (461.752542ms)
+✔ explicit resume stays running before the initial persisted running checkpoint (188.014457ms)
+✔ idempotent run of a completed discovery returns its terminal state without another request (141.717091ms)
+✔ a complete job lifecycle during an initially idle read cannot produce an ABA orphan pause (92.400345ms)
+(node:38) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:38) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ a root changed between optimistic source validation and rule locking cannot be selected (510.474099ms)
+✔ source rebinding cannot mutate identity while locked rule validation is awaiting I/O (338.253762ms)
+(node:50) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ full verification includes state regressions and retains its fifteen-minute timeout (5.040042ms)
+(node:58) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ S3 rule and capability suites run in both discovery and all dispatch (6.93374ms)
+(node:66) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:66) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ all source-business S1-S5 development tests are dispatched with sufficient package/HTTP timeout (6.341209ms)
+(node:74) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:74) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ S4 developer checks are explicit in discovery and all while native core remains prerequisite (7.563065ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3914.75673
