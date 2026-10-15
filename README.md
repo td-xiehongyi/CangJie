@@ -1,5 +1,13 @@
 # AI 开发网站验证系统
 
+## v1.2 开发分支
+
+本分支新增01—11固定工作流、12可选修复复测、完整文件业务分析、
+业务能力分流与集中报告导出。详见[使用说明](docs/WORKFLOW_V12.md)和
+[本轮验证边界](docs/evidence/workflow-v12-2026-10-15.md)。
+这是待浏览器及Windows原生验收的开发实现版；下方历史测试数不覆盖本轮改动。
+
+
 ## Windows 快速启动与 API 保存
 
 首次在根目录执行 `npm ci --ignore-scripts`（需Node24），之后双击 `Start-CangJie.cmd`，或执行 `npm run start:oneclick`。入口检查依赖并重新构建后启动、请求打开本机浏览器；缺原生核心会明确提示限制，不自动安装SDK。
