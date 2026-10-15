@@ -1,3 +1,4 @@
+import {prepareFullFileInput,fullInputLimits} from './full-input.js';
 import type {Express} from 'express';
 import {basename,resolve} from 'node:path';
 import {randomUUID} from 'node:crypto';
@@ -17,7 +18,7 @@ export function mountDiscoveryRoutes(app:Express,options:{store:DiscoveryStore;s
     const snapshot=await buildSourceSnapshot(runtime.directory,id),scope=createAnalysisScope(snapshot,{allowedPaths:['.'],excludedPaths:[],includeProjectTests:false,serviceUrl:options.config().serviceUrl});
     const project={id,revision:0,name:runtime.name,directory:snapshot.root,snapshot,scope};await store.saveProject(project);return project;
   }
-  const disclose=(p:SourceProject)=>({...p,snapshot:{...p.snapshot,files:scopedSourceFiles(p.snapshot,p.scope!)},preset:{...MODEL_PRESET,maxSourceBytes:196608,maxExcerptBytes:8192,maxExcerptsPerRound:4},summarySending:true});
+  const disclose=(p:SourceProject)=>({...p,snapshot:{...p.snapshot,files:scopedSourceFiles(p.snapshot,p.scope!)},preset:{...MODEL_PRESET,maxSourceBytes:196608,maxExcerptBytes:8192,maxExcerptsPerRound:4},summarySending:true,fullInputLimits});
   app.post('/api/source-projects',async(req,res)=>{
     const input=String(req.body.directory??''),existing=(await store.projects()).find(p=>resolve(p.directory).toLowerCase()===resolve(input).toLowerCase()),runtime=options.runtimeProjects().find(p=>resolve(p.directory).toLowerCase()===resolve(input).toLowerCase());
     const id=req.body.id??existing?.id??runtime?.id??randomUUID();let previous:SourceProject|undefined;
@@ -38,10 +39,17 @@ export function mountDiscoveryRoutes(app:Express,options:{store:DiscoveryStore;s
     p.scope=createAnalysisScope(p.snapshot,{allowedPaths:req.body.allowedPaths,excludedPaths:req.body.excludedPaths,includeProjectTests:req.body.includeProjectTests===true,serviceUrl:options.config().serviceUrl});
     await store.saveProject(p,req.body.expectedRevision);res.json(disclose(p));
   });
+  app.post('/api/projects/:id/discovery-input',async(req,res)=>{
+    const p=await sourceProject(req.params.id);
+    if(!p.scope||req.body.expectedRevision!==p.revision)throw new Error('ANALYSIS_CONFLICT');
+    const preview=await prepareFullFileInput(p.snapshot,p.scope,options.config(),req.body);
+    if(options.service().credentials.containsKey(JSON.stringify(preview)))throw new Error('SENSITIVE_FILE');
+    res.json(preview);
+  });
   app.post('/api/projects/:id/discovery',async(req,res)=>{
     const result=await store.startProject(req.params.id,req.body.expectedRevision,req.body.requestId,async p=>{
       if(req.body.confirmed!==true)throw new Error('SENDING_NOT_CONFIRMED');if(!p.scope||req.body.scopeHash!==p.scope.scopeHash)throw new Error('SCOPE_CONFIRMATION_REQUIRED');
-      p.scope={...p.scope,confirmedAt:new Date().toISOString()};return options.service().createDiscovery(p.snapshot,p.scope);
+      p.scope={...p.scope,confirmedAt:new Date().toISOString()};return options.service().createDiscovery(p.snapshot,p.scope,req.body.input);
     });
     if(result.created)void options.service().runDiscovery(result.session.id,result.session.revision).catch(()=>{});
     res.status(202).json(result.session);

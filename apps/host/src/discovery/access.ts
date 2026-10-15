@@ -63,10 +63,10 @@ export async function validateSourceRefs(snapshot:SourceSnapshot,reads:SourceExc
     if(!validateDiscoveryContract('SourceRef',ref).valid||ref.snapshotId!==snapshot.id){invalid();continue;}
     const read=reads.find(r=>['snapshotId','path','fileHash','startLine','endLine','excerptHash'].every(k=>r.ref[k as keyof SourceRef]===ref[k as keyof SourceRef]));
     const file=snapshot.files.find(f=>f.path===ref.path);
-    if(!read||!file||file.hash!==ref.fileHash||sourceHash(read.text)!==ref.excerptHash||Buffer.byteLength(read.text)!==read.bytes||read.bytes>sourceLimits.excerptBytes){invalid();continue;}
+    if(!read||!file||file.hash!==ref.fileHash||sourceHash(read.text)!==ref.excerptHash||Buffer.byteLength(read.text)!==read.bytes||read.bytes>(read.kind==='full-file'?65536:sourceLimits.excerptBytes)){invalid();continue;}
     try{
       const text=await readIndexedFile(snapshot,file),lines=sourceLines(text);
-      if(ref.endLine>lines.length||lines.slice(ref.startLine-1,ref.endLine).join('\n')!==read.text)invalid();
+      if(ref.endLine>lines.length||(read.kind==='full-file'?(ref.startLine!==1||ref.endLine!==lines.length||text!==read.text):lines.slice(ref.startLine-1,ref.endLine).join('\n')!==read.text))invalid();
     }catch(e){issues.push({path:ref.path,code:e instanceof SourceAccessError?e.code:'STALE_SOURCE',detail:'源码或路径已变化；建立新快照并重新读取。'})}
   }
   return {valid:issues.length===0,issues};

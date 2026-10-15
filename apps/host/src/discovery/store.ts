@@ -10,7 +10,7 @@ import {replaceFile} from '../artifacts/replace.js';
 import {digest} from '../projects/inspect.js';
 import {createAnalysisScope,scopedSourceFiles} from './access.js';
 import {buildSourceSnapshot} from './index.js';
-export interface DiscoveryRecord {session:DiscoverySession;snapshot:SourceSnapshot;scope:AnalysisScope;preset:BudgetPreset;sourceByteLimit:number;config:Pick<ModelConfig,'serviceUrl'|'model'>}
+export interface DiscoveryRecord {input?:{mode:'automatic'|'prompt';prompt:string;manifestHash:string};session:DiscoverySession;snapshot:SourceSnapshot;scope:AnalysisScope;preset:BudgetPreset;sourceByteLimit:number;config:Pick<ModelConfig,'serviceUrl'|'model'>}
 /** Conservative selected-business reuse. Re-index locally; never rewrite the saved report.
  * All additions, removals and changes inside the selected scope count, including
  * runtime metadata. A narrower explicit business scope is never broadened. */

@@ -1,3 +1,4 @@
+import {mountJourneyRoutes} from './journey.js';
 import express from 'express';
 import {randomUUID,randomBytes,timingSafeEqual} from 'node:crypto';
 import {mkdir,readFile,writeFile} from 'node:fs/promises';
@@ -21,7 +22,7 @@ import {CandidateTask} from './model/candidate.js';
 import {TemplateRegistry,type RegistryDraft,type TemplateRef} from './templates/store.js';
 import {ArtifactStore,validId} from './artifacts/store.js';
 import {exportPackage,readPackage} from './manifest.js';
-import {renderReport} from './report.js';
+import {renderReport,renderRepairReport} from './report.js';
 import {RunExecutor,confirmPlan,loadReplay,type RunRecord,type RunEnvironment,type PlannedCheck} from './replay.js';
 import {capabilities} from './validation/observations.js';
 import {loadValidationSuite} from './validation/reference-runner.js';
@@ -92,6 +93,7 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   app.get('/api/session',(_req,res)=>res.json({token}));
   app.use('/api',(req,res,next)=>{const given=req.headers.authorization?.replace(/^Bearer /,'')??'';if(given.length!==token.length||!timingSafeEqual(Buffer.from(given),Buffer.from(token)))return void res.status(401).json({error:'SESSION_REQUIRED'});next();});
   const discoveryRoutes=mountDiscoveryRoutes(app,{store:discoveryStore,service:()=>discovery,config:()=>config,runtimeProject:id=>{const p=projects.get(id);return p?{directory:p.profile.root,name:p.profile.name}:undefined},runtimeProjects:()=>[...projects.values()].map(p=>({id:p.id,directory:p.profile.root}))});
+  const journey=mountJourneyRoutes(app,directory,async id=>{if(projects.has(id))return;await discoveryStore.getProject(id);});
   const compilationGaps=new Map<string,CompileGap>();
   const requireRuleInput=(body:Record<string,unknown>)=>{if(['rule','contract','gates','cases','capabilities','validation','resources'].some(key=>key in body))throw new Error('INVALID_RULE_INPUT');};
   const exactRuleRef=(value:unknown,projectId:string,ruleId?:string):ProjectRuleRef=>{
@@ -135,7 +137,7 @@ export async function startWorkbench(options:{directory?:string;registryDirector
     const sourceProjects=await discoveryRoutes.publicProjects();
     const projectRules=Object.fromEntries(await Promise.all([...new Set([...projects.keys(),...sourceProjects.map(p=>p.id)])].map(async id=>[id,await projectRuleRoutes.publicRules(id)])));
     const runtimeProjects=await Promise.all([...projects.values()].map(async p=>({...sourceProjects.find(v=>v.id===p.id),id:p.id,sourceOnly:false,executableRules:local.get(p.id)!.rules,catalog:local.get(p.id)!.catalog,ruleCompilationGaps:[...compilationGaps.values()].filter(g=>g.ruleRef.projectId===p.id),accountMode:p.accountMode??'manual',purpose:p.purpose,directory:p.profile.root,name:p.profile.name,supported:p.profile.supported,gaps:p.profile.gaps,gapMarkdown:p.profile.gapMarkdown,sourceHash:p.profile.sourceHash,workflow:p.workflow??emptyWorkflow(),preparation:p.preparation?{...p.preparation,sessionCurrent:preparedInSession.has(p.id)&&p.preparation.environmentHash===p.environmentHash}:undefined,mapping:p.mapping,accounts:p.accounts.map(a=>({...a,hasPassword:credentials.has(p.id,a.actorRef)})),data:p.data,entries:p.entries,environmentHash:p.environmentHash,environmentConfirmed:p.environmentHash===p.environmentConfirmed,consent:p.consent,analysis:p.analysis,candidate:await publicCandidate(p)})));
-    res.json({projectRules,loadPreset:LOAD_PRESET,loads:loadRecords,projects:[...runtimeProjects,...sourceProjects.filter(p=>!projects.has(p.id))],rules:rules.map(r=>({...r,hash:digest(r)})),catalog,runs:runs.sort((a,b)=>b.startedAt.localeCompare(a.startedAt)),settings:{serviceUrl:config.serviceUrl,model:config.model,remembered:config.credentialRef?.startsWith('windows:')??false,hasKey:!!config.credentialRef,connection},preset:MODEL_PRESET});
+    res.json({projectRules,loadPreset:LOAD_PRESET,loads:loadRecords,projects:await Promise.all([...runtimeProjects,...sourceProjects.filter(p=>!projects.has(p.id))].map(async p=>({...p,journey:await journey.read(p.id)}))),rules:rules.map(r=>({...r,hash:digest(r)})),catalog,runs:runs.sort((a,b)=>b.startedAt.localeCompare(a.startedAt)),settings:{serviceUrl:config.serviceUrl,model:config.model,remembered:config.credentialRef?.startsWith('windows:')??false,hasKey:!!config.credentialRef,connection},preset:MODEL_PRESET});
   });
   app.post('/api/projects/pick-directory',async(_req,res)=>{if(pickingFolder)throw new Error('FOLDER_PICKER_BUSY');pickingFolder=true;const controller=new AbortController();folderController=controller;res.once('close',()=>{if(!res.writableEnded)controller.abort();});try{res.json({directory:await (options.pickDirectory??pickProjectDirectory)(controller.signal)});}finally{pickingFolder=false;if(folderController===controller)folderController=undefined;}});
   app.post('/api/projects/:id/workflow',async(req,res)=>{for(;;){const p=project(req.params.id),compiled=await executableRules(p),available=[...rules,...compiled.map(({hash:_hash,ruleRef:_ref,...r})=>r)],catalog=await registry.matchReport(capabilities,available),hashes=new Map(available.map(r=>[r.id,digest(r)])),versions=new Set(catalog.matches.map(m=>`${available.find(r=>digest(r)===m.ruleHash)?.id}:${m.ref.hash}`));if(project(p.id)!==p)continue;p.workflow=writeWorkflow(p.workflow??emptyWorkflow(),req.body,hashes,p.environmentHash,versions);await save();res.json(p.workflow);return;}});
@@ -231,6 +233,7 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   app.get('/api/runs/:id',async(req,res)=>res.json(active.get(req.params.id)?.record??await store.get(req.params.id)));
   app.post('/api/runs/:id/stop',async(req,res)=>{const a=active.get(req.params.id);if(!a)throw new Error('RUN_NOT_ACTIVE');await a.executor.stop();res.json({stopping:true});});
   app.get('/api/runs/:id/package',async(req,res)=>res.json(await exportPackage(store,req.params.id)));
+  app.get('/api/runs/:id/repair-report',async(req,res)=>{res.type('text/markdown').send(renderRepairReport(await store.get(req.params.id)));});
   app.get('/api/runs/:id/report',async(req,res)=>{res.type('text/markdown').send(renderReport(await store.get(req.params.id)));});
   app.post('/api/projects/:id/load',async(req,res)=>{
     const p=project(req.params.id);if(preparations.has(p.id)||loadBusy(p.id)||[...active.values()].some(a=>a.projectId===p.id))throw new Error('PROJECT_BUSY');await freshEnvironment(p);

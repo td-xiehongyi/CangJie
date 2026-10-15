@@ -1,3 +1,4 @@
+import {prepareFullFileInput,type FullAnalysisInput} from './full-input.js';
 import {resolve} from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {ModelProvider,type ModelConfig} from '../model/provider.js';
@@ -22,12 +23,15 @@ export class DiscoveryService {
   }
   private key(id:string){return resolve(this.store.path(id))}
   active(){return [...jobs.values()].some(j=>j.service===this)}
-  async createDiscovery(snapshot:SourceSnapshot,scope:AnalysisScope):Promise<DiscoverySession>{
+  async createDiscovery(snapshot:SourceSnapshot,scope:AnalysisScope,input?:FullAnalysisInput):Promise<DiscoverySession>{
     if(this.credentials.containsKey(JSON.stringify(snapshot)))throw new Error('SENSITIVE_FILE');
     scopedSourceFiles(snapshot,scope);if(!scope.confirmedAt||!Number.isFinite(Date.parse(scope.confirmedAt)))throw new Error('SENDING_NOT_CONFIRMED');
     const config=this.config();if(serviceUrl(scope.serviceUrl)!==serviceUrl(config.serviceUrl))throw new Error('SERVICE_CONFIRMATION_REQUIRED');if(!config.model)throw new Error('MODEL_REQUIRED');
-    const session:DiscoverySession={id:randomUUID(),projectId:snapshot.projectId,revision:0,snapshotId:snapshot.id,scopeHash:scope.scopeHash,status:'draft',budget:{...new ModelBudget(this.preset).usage,inputBytes:0,sourceBytes:0},reads:[],audit:[],rounds:[],unresolved:[],referencesValid:true};
-    await this.store.create({session,snapshot:structuredClone(snapshot),scope:structuredClone(scope),preset:this.preset,sourceByteLimit:this.sourceByteLimit,config:{serviceUrl:serviceUrl(config.serviceUrl),model:config.model}});return structuredClone(session);
+    const full=input?await prepareFullFileInput(snapshot,scope,config,input):undefined;
+    if(full&&input?.manifestHash!==full.manifestHash)throw new Error('SCOPE_CONFIRMATION_REQUIRED');
+    if(full&&this.credentials.containsKey(JSON.stringify(full)))throw new Error('SENSITIVE_FILE');
+    const session:DiscoverySession={id:randomUUID(),projectId:snapshot.projectId,revision:0,snapshotId:snapshot.id,scopeHash:scope.scopeHash,status:'draft',budget:{...new ModelBudget(this.preset).usage,inputBytes:0,sourceBytes:0},reads:full?.reads??[],audit:[],rounds:[],unresolved:[],referencesValid:true};
+    await this.store.create({...(full?{input:{mode:full.mode,prompt:full.prompt,manifestHash:full.manifestHash}}:{}),session,snapshot:structuredClone(snapshot),scope:structuredClone(scope),preset:this.preset,sourceByteLimit:this.sourceByteLimit,config:{serviceUrl:serviceUrl(config.serviceUrl),model:config.model}});return structuredClone(session);
   }
   async getDiscovery(id:string):Promise<DiscoverySession>{return this.inspectDiscovery(id)}
   private async inspectDiscovery(id:string,ownController?:AbortController):Promise<DiscoverySession>{
@@ -82,6 +86,7 @@ export class DiscoveryService {
             s.unresolved.push(...response.unresolved);delete s.pendingResponse;s.status='partial';break;
           }
           if(response?.kind==='result'){const result=await this.checkedOverview(r,response.result);if((await currentDiscovery(r)).reanalysisRequired)throw new Error('STALE_SOURCE');s.result=result;delete s.pendingResponse;s.status='completed';break;}
+          if(r.input)throw new Error('INVALID_DISCOVERY_OUTPUT');
           if(response?.kind!=='actions'||!Array.isArray(response.actions)||response.actions.length<1||response.actions.length>4)throw new Error('INVALID_DISCOVERY_OUTPUT');
           if(response.partial!==undefined)s.result=await this.checkedOverview(r,response.partial);
           const round={actions:structuredClone(response.actions),results:[] as unknown[]};
@@ -94,7 +99,7 @@ export class DiscoveryService {
         }
         const bytes=s.reads.reduce((n,read)=>n+read.bytes,0);if(s.budget.sourceBytes+bytes>r.sourceByteLimit)throw new Error('ANALYSIS_BUDGET_EXHAUSTED');
         if((await currentDiscovery(r)).reanalysisRequired)throw new Error('STALE_SOURCE');
-        await provider.json({purpose:'discovery',instructions:instructions+' If there is not enough evidence even for a flow, return {kind:"insufficient",unresolved:["specific missing information"],limitations:["unread scope"]}.',payload:{lastActions:s.rounds.at(-1)?.results??[],partial:s.result??null,knownSourceRefs:s.reads.map(v=>v.ref)},discovery:{snapshot:r.snapshot,scope:r.scope,reads:s.reads},signal:controller.signal});
+        await provider.json({purpose:'discovery',instructions:(r.input?instructions.replace(/Return one JSON object:.*?Use search then follow/s,'Return only {kind:"result",result:BusinessOverview} using all supplied complete files. Do not request actions or additional reads. Each suggestion must also include preconditions:string[], exceptions:string[], stateChanges:string[]; mark uncertain behavior as a hypothesis, not a requirement. Follow'):instructions)+' If there is not enough evidence even for a flow, return {kind:"insufficient",unresolved:["specific missing information"],limitations:["unread scope"]}.',payload:{...(r.input?{analysisMode:r.input.mode,userPrompt:r.input.prompt,inputCoverage:'complete authorized files; not a guarantee of all businesses'}:{}),lastActions:s.rounds.at(-1)?.results??[],partial:s.result??null,knownSourceRefs:s.reads.map(v=>v.ref)},discovery:{snapshot:r.snapshot,scope:r.scope,reads:s.reads},signal:controller.signal});
       }
     }catch(error){
       const code=(error as Error).message.split(':')[0]!;
@@ -106,6 +111,7 @@ export class DiscoveryService {
   }
   private async checkedOverview(r:DiscoveryRecord,value:unknown):Promise<BusinessOverview>{
     if(!validBusinessOverview(value))throw new Error('INVALID_DISCOVERY_OUTPUT');
+    if(r.input&&value.suggestions.some(s=>!Array.isArray(s.preconditions)||!Array.isArray(s.exceptions)||!Array.isArray(s.stateChanges)))throw new Error('INVALID_DISCOVERY_OUTPUT');
     const checked=await validateSourceRefs(r.snapshot,r.session.reads,overviewRefs(value));if(!checked.valid)throw new Error(checked.issues[0]!.code);
     for(const s of value.suggestions)for(const expectation of s.expectations){
       if(expectation.source==='documentation'&&expectation.sourceRefs.some(ref=>!(/\.(md|txt)$/i.test(ref.path))))throw new Error('INVALID_EXPECTATION_SOURCE');

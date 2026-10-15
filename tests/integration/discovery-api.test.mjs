@@ -62,3 +62,32 @@ test('different source fixtures generate different business and check suggestion
   const second=await x.request('/source-projects',{directory:secondRoot},201),other=await x.wait((await start(x,second)).id);
   assert.notEqual(first.result.summary,other.result.summary);assert.notEqual(first.result.suggestions[0].id,other.result.suggestions[0].id);assert.equal(other.result.suggestions[0].status,'suggestion');
 });
+
+test('full-file mode sends every previewed whole file on the first call and binds prompt consent',async t=>{
+ const x=await hostFor(t,p=>{const result=overview(p.files);Object.assign(result.result.suggestions[0],{preconditions:['订单未付款'],exceptions:['权限待确认'],stateChanges:['取消后释放库存']});return result;});
+ const p=await x.request('/source-projects',{directory:x.root},201);
+ const preview=await x.request('/projects/'+p.id+'/discovery-input',{expectedRevision:p.revision,mode:'prompt',prompt:'识别取消订单业务'});
+ assert.equal(preview.reads.length,p.snapshot.files.length);
+ const input={mode:'prompt',prompt:'识别取消订单业务',manifestHash:preview.manifestHash};
+ const rejected=await x.request('/projects/'+p.id+'/discovery',{confirmed:true,scopeHash:p.scope.scopeHash,expectedRevision:p.revision,requestId:crypto.randomUUID(),input:{...input,prompt:'未确认的新提示词'}},400);
+ assert.equal(rejected.error,'SCOPE_CONFIRMATION_REQUIRED');assert.equal(x.requests.length,0);
+ const accepted=await x.request('/projects/'+p.id+'/discovery',{confirmed:true,scopeHash:p.scope.scopeHash,expectedRevision:p.revision,requestId:crypto.randomUUID(),input},202);
+ const done=await x.wait(accepted.id);
+ assert.equal(done.status,'completed',JSON.stringify(done));
+ assert.equal(x.requests.length,1);
+ assert.equal(done.reads.length,preview.reads.length);
+ for(const read of done.reads){assert.equal(read.kind,'full-file');assert.equal(read.ref.startLine,1);const shown=await x.request('/discovery/'+done.id+'/excerpts/'+done.reads.indexOf(read));assert.equal(shown.valid,true);}
+});
+
+test('journey goals persist with revision conflicts and repair remains opt-in',async t=>{
+ const x=await hostFor(t,()=>({kind:'insufficient',unresolved:[],limitations:[]}));
+ const p=await x.request('/source-projects',{directory:x.root},201),path='/projects/'+p.id+'/journey';
+ const initial=await x.request(path);assert.equal(initial.repairEnabled,false);assert.equal(initial.goal,'correctness');
+ const input={...initial,goal:'both',rate:'2',durationSeconds:'10',analysisMode:'prompt',analysisPrompt:'人工指定取消订单',businessNotes:'核对取消后的库存',lastStep:3,skipAnalysis:false};
+ const viewed=await x.request(path,{...initial,lastStep:4,viewOnly:true});assert.equal(viewed.revision,0);
+ const next=await x.request(path,input);assert.equal(next.revision,1);assert.equal(next.lastStep,4);
+ const conflict=await x.request(path,input,400);assert.equal(conflict.error,'JOURNEY_CONFLICT');
+ await x.restart();assert.deepEqual(await x.request(path),next);assert.equal(x.requests.length,0);
+ const invalid=await x.request(path,{...next,durationSeconds:'301'},400);assert.equal(invalid.error,'INVALID_JOURNEY');
+ const enabled=await x.request(path,{...next,repairEnabled:true});assert.equal(enabled.repairEnabled,true);
+});

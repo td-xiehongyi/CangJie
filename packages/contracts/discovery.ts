@@ -9,7 +9,7 @@ export interface SourceFile {
 export interface SourceIssue {path:string;code:string;detail:string;line?:number}
 export interface SourceSnapshot {id:string;projectId:string;root:string;sourceHash:string;files:SourceFile[];indexIssues:SourceIssue[]}
 export interface SourceRef {snapshotId:string;path:string;fileHash:string;startLine:number;endLine:number;excerptHash:string}
-export interface SourceExcerpt {text:string;bytes:number;ref:SourceRef}
+export interface SourceExcerpt {kind?:'full-file';text:string;bytes:number;ref:SourceRef}
 export interface SourceMatch {path:string;fileHash:string;line:number;column:number}
 export interface AnalysisScope {
   projectId:string;snapshotId:string;allowedPaths:string[];excludedPaths:string[];
@@ -19,6 +19,7 @@ export interface DiscoveryStatement {text:string;sourceRefs:SourceRef[]}
 export interface DiscoveryExpectation extends DiscoveryStatement {source:'documentation'|'project_test'|'ai_hypothesis';confirmation:'pending'}
 export interface BusinessSuggestion {
   id:string;status:'suggestion';flow:string;facts:DiscoveryStatement[];expectations:DiscoveryExpectation[];risks:DiscoveryStatement[];
+  preconditions?:string[];exceptions?:string[];stateChanges?:string[];
   openQuestions:string[];sourceRefs:SourceRef[];priorityReason:string;operationNeeds:string[];observationNeeds:string[];
 }
 export interface BusinessOverview {
@@ -57,14 +58,14 @@ export function validBusinessOverview(v:unknown):v is BusinessOverview {
     &&list(v.flows,f=>object(f)&&string(f.name)&&strings(f.roles)&&strings(f.steps)&&strings(f.data)&&refs(f.sourceRefs))&&(v.flows as unknown[]).length>0
     &&list(v.suggestions,s=>object(s)&&string(s.id)&&string(s.flow)&&s.status==='suggestion'&&list(s.facts,statement)&&(s.facts as unknown[]).length>0
       &&list(s.expectations,e=>statement(e)&&['documentation','project_test','ai_hypothesis'].includes(e.source)&&e.confirmation==='pending')
-      &&list(s.risks,statement)&&strings(s.openQuestions)&&refs(s.sourceRefs)&&string(s.priorityReason)&&strings(s.operationNeeds)&&strings(s.observationNeeds))
+      &&list(s.risks,statement)&&['preconditions','exceptions','stateChanges'].every(k=>s[k]===undefined||strings(s[k]))&&strings(s.openQuestions)&&refs(s.sourceRefs)&&string(s.priorityReason)&&strings(s.operationNeeds)&&strings(s.observationNeeds))
     &&new Set((v.suggestions as BusinessSuggestion[]).map(s=>s.id)).size===(v.suggestions as unknown[]).length&&strings(v.limitations)&&strings(v.unresolved);
 }
 export function validateDiscoveryContract(name:'SourceSnapshot'|'SourceRef'|'SourceExcerpt'|'AnalysisScope',value:unknown):{valid:boolean;issues:{path:string;code:string}[]} {
   let valid=false;
   if(object(value)){
     if(name==='SourceRef')valid=ref(value);
-    if(name==='SourceExcerpt')valid=typeof value.text==='string'&&integer(value.bytes)&&Number(value.bytes)<=sourceLimits.excerptBytes&&ref(value.ref);
+    if(name==='SourceExcerpt')valid=typeof value.text==='string'&&integer(value.bytes)&&Number(value.bytes)<=(value.kind==='full-file'?65536:sourceLimits.excerptBytes)&&(value.kind===undefined||value.kind==='full-file')&&ref(value.ref);
     if(name==='SourceSnapshot')valid=string(value.id)&&string(value.projectId)&&string(value.root)&&hash(value.sourceHash)&&list(value.files,file)
       &&new Set((value.files as SourceFile[]).map(f=>f.path.toLowerCase())).size===(value.files as SourceFile[]).length
       &&list(value.indexIssues,s=>object(s)&&typeof s.path==='string'&&string(s.code)&&string(s.detail)&&(s.line===undefined||integer(s.line,1)));

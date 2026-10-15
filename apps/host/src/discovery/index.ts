@@ -43,7 +43,7 @@ export async function readIndexedFile(snapshot:SourceSnapshot,file:SourceFile):P
     throw new SourceAccessError('STALE_SOURCE','文件无法按快照读取，请重新建立索引。');
   }
 }
-const languages:Record<string,string>={'.ts':'ts','.tsx':'tsx','.js':'js','.jsx':'jsx','.mjs':'js','.cjs':'js','.mts':'ts','.cts':'ts','.json':'json','.md':'markdown','.txt':'text'};
+const languages:Record<string,string>={'.ts':'ts','.tsx':'tsx','.js':'js','.jsx':'jsx','.mjs':'js','.cjs':'js','.mts':'ts','.cts':'ts','.json':'json','.md':'markdown','.txt':'text','.py':'python','.java':'java','.cj':'cangjie','.go':'go','.rs':'rust','.vue':'vue','.svelte':'svelte','.html':'html','.css':'css','.scss':'scss','.sql':'sql','.yaml':'yaml','.yml':'yaml','.toml':'toml','.sh':'shell','.ps1':'powershell'};
 function syntax(file:SourceFile,text:string,issues:SourceIssue[]):void {
   if(!['ts','tsx','js','jsx'].includes(file.language))return;
   const parsed=ts.createSourceFile(file.path,text,ts.ScriptTarget.Latest,true,file.language==='tsx'?ts.ScriptKind.TSX:file.language==='jsx'?ts.ScriptKind.JSX:file.language==='js'?ts.ScriptKind.JS:ts.ScriptKind.TS);
