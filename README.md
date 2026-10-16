@@ -1,5 +1,13 @@
 # AI 开发网站验证系统
 
+## 当前 main 状态（2026-10-16）
+
+已按用户确认，将 `fix/workflow-ux-ponytail` 从 `cb8e23e` 快进合入远端 main，功能提交为 `73e5c81`。包括交互修复、AI调用可靠性、Windows目录选择和三个可交互samples。工作分支保留，未删除。
+
+合并前重新运行 contracts/host/UI/samples 构建均通过；单元/组件75项与模型/样例集成24项分别通过，共99项。本轮第一次混合执行因测试锁重复mock使两个测试文件无法启动，按各自规定入口分开运行后通过；未修改断言或业务代码。未执行完整npm test，Windows原生窗口、真实浏览器、真实模型和正式业务/负载验收仍未完成。
+
+下方及各阶段证据中的“未合并main”“工作分支”“未推送”描述对应当时快照；当前合并状态以本节为准，不把开发合并等同于正式发布。
+
 ## 可操作的测试网站
 
 `samples/ticket`、`samples/registration`、`samples/status-ticket` 已提供基础界面和独立演示入口。在对应目录运行 `npm run demo`，按终端显示的URL和临时账号登录。详见[samples使用说明](samples/README.md)及[开发验证范围](docs/evidence/sample-websites-2026-10-16.md)。
