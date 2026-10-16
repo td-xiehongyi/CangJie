@@ -28,7 +28,7 @@
 - [T2 接入验收](t2-access.log)：37 项，含真实仓颉/Express/SQLite 联测。
 - [完整回归](t2-all-tests.log)：117 项，包含 T0—T1 的 80 项。
 - [真实核心往返](t2-roundtrip.json)、[原目录与原库完整性](t2-original-integrity.json)、[预览六源文件核对](t2-preview-baseline.json)。
-- 初始失败及审查反例的 red/green 日志、执行决策见 [T2 ledger](t2-progress.md)。独立审查发现的业务关联、初始化目标、崩溃恢复、HTTP 原始证据、截断日志与退出清理问题均已按具体反例修复；末次定向复查未发现 Important/Critical 遗留，实际测试结果由主代理复跑核对。
+- 初始失败及审查反例的 red/green 日志、执行决策见 [T2 ledger](archive/t2-progress.md)。独立审查发现的业务关联、初始化目标、崩溃恢复、HTTP 原始证据、截断日志与退出清理问题均已按具体反例修复；末次定向复查未发现 Important/Critical 遗留，实际测试结果由主代理复跑核对。
 
 本机组合：Windows X64、Node 24.19.0、npm 11.17.0、TypeScript 5.9.3、Express 5.1.0、仓颉 1.0.5/stdx 1.0.5.1。内置 SQLite 已实际执行。依赖通过项目锁文件固定；没有全局安装或修改本机数据库。
 

@@ -1,8 +1,8 @@
 # AI 开发网站验证系统架构与用户流程设计
 
 日期：2026-10-14  
-状态：源码业务分析主线已确认；同步需求v0.44，分阶段计划待审阅，未授权编码  
-授权范围：梳理架构、流程、现有模块调整及代码质量与经验接入；不实施代码、不安装依赖、不提交或发布。
+状态核对：2026-10-17，源码分析与受控执行的S1—S5开发链已接入main@ceb8d95。本文仍是目标架构；代码质量适配器、独立纠错案例及经验扩展不据此视为已实现。当前操作以[编号流程](../../WORKFLOW_V12.md)为准，实际验证见[证据索引](../../evidence/README.md)。
+原设计授权（2026-10-14）仅涵盖架构与流程梳理，后续已开发范围以分阶段计划和证据为准；本轮只整理文档，不扩展开发或安装范围。提交和推送按用户另行授权执行，不等于正式发布。
 
 主线：导入源码 → 授权范围内分析业务 → 推荐项目特有检查 → 确认预期并保存项目规则 → 判断执行能力 → 验证方案并执行 → 证据与复测。细节见[源码业务分析专项设计](2026-10-14-code-grounded-business-discovery.md)，阶段入口见[新增实施计划](../plans/2026-10-14-code-grounded-business-discovery.md)。命名审查和独立经验能力为后续扩展。
 
@@ -268,7 +268,7 @@ flowchart TD
 ## 11 依据与参考
 
 - 当前实现：`apps/core/src`、`apps/host/src/projects/inspect.ts`、`api.ts`、`replay.ts`、`templates/store.ts`、`manifest.ts`、`load/runner.ts`、`packages/contracts/types.ts`及四页UI。
-- 当前流程：[自然操作流程设计](2026-10-14-natural-workflow-design.md)。
+- 当前流程：[编号流程与操作保护](../../WORKFLOW_V12.md)；原自然流程设计已合并，历史原文见[文件迁移索引](../../evidence/README.md)。
 - [reviewdog](https://github.com/reviewdog/reviewdog)及[诊断协议](https://github.com/reviewdog/reviewdog/blob/master/proto/rdf/reviewdog.proto)：参考检查输出与展示解耦。
 - [typescript-eslint 命名规则](https://typescript-eslint.io/rules/naming-convention/)及[CJLint文档](https://docs.cangjie-lang.cn/docs/1.0.0/tools/source_zh_cn/tools/cjlint_manual.html)：候选检查器，具体版本与本机兼容性在接入阶段验证。
 - [Schemathesis](https://github.com/schemathesis/schemathesis)、[Midscene](https://github.com/web-infra-dev/midscene)：API及界面执行能力候选。

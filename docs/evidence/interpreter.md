@@ -35,7 +35,7 @@ JSONL envelope 沿用 schemaVersion/messageId/runId/kind/payload。
 | `npm run verify -- interpreter` | 66 pass、0 fail、0 skipped | [T1 测试日志](t1-tests.log) |
 | `npm test` | 80 pass、0 fail、0 skipped，包含 T0 的 14 项协议回归 | [完整测试日志](t1-all-tests.log) |
 | 最新四页源文件 SHA-256 | 六文件与既有 after 全部一致 | [预览基准核对](t1-preview-baseline.json) |
-| 独立代码审查 | 发现的重放、身份复用、期限、未知传播等重要问题已修复，最后只读复查无剩余重要阻塞 | [执行账本](t1-progress.md) |
+| 独立代码审查 | 发现的重放、身份复用、期限、未知传播等重要问题已修复，最后只读复查无剩余重要阻塞 | [执行账本](archive/t1-progress.md) |
 
 测试中的核心语义必须启动本次编译的真实仓颉进程；宿主计时的三个传输替身测试另作区分，不代替核心运行证据。[真实最终状态](t1-roundtrip.json)绑定保存结果的规则、断言与证据引用。
 

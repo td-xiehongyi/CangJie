@@ -7,7 +7,7 @@
 3. 保存缺陷观察的对象ID和嵌套标题自相矛盾：修正为同一对象且映射字段和原始行一致，重新核对并冻结对照。
 4. 顶层映射摘要只有未绑定定义：逐用例保存实际 copyId、映射和代入参数后的候选摘要；定义摘要和执行集合摘要分别保存。
 
-5项对应回归在 [RED](t3-review-red.log) 中全部失败，在 [GREEN](t3-review-green.log) 中全部通过。补查还复现并修复新增记录不被已有共享合同接受的问题：[RED](t3-record-contract-red.log) → [GREEN](t3-record-contract-green.log)。保持严格字段类型校验，未放开任意附加字段。
+5项对应回归在 [RED](../t3-review-red.log) 中全部失败，在 [GREEN](../t3-review-green.log) 中全部通过。补查还复现并修复新增记录不被已有共享合同接受的问题：[RED](../t3-record-contract-red.log) → [GREEN](../t3-record-contract-green.log)。保持严格字段类型校验，未放开任意附加字段。
 
 审查考虑后排除的事项及执行判断：
 
@@ -18,4 +18,4 @@
 - 未来模型能否收到隐藏集：T4发送范围与上下文隔离尚未实现，本轮不宣称已验收。
 - 缺陷集合有限：符合已接受范围，不外推任意网站或性质正确性。
 
-未延期 Minor；没有被忽略的 Important/Critical。最终完整回归与构建见 [验收记录](validation-harness.md)。
+未延期 Minor；没有被忽略的 Important/Critical。最终完整回归与构建见 [验收记录](../validation-harness.md)。

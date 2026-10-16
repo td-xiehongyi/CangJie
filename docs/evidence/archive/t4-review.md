@@ -7,6 +7,6 @@
 3. 根目录指向tests/reference或fixtures可绕过相对路径禁发：对真实根和文件检查工具私有保护树，覆盖完整模板、参考集及私有证据。
 4. 各版验证需扫描目录追溯且失败轮次偏移：history保存被验证轮次、候选摘要、validationRef和通用诊断，下一轮生成与上一轮验证分开关联。
 
-三项Important均先以回归复现：[修复前](t4-review-red.log)3项失败→[修复后](t4-review-green.log)3项通过。没有未处理的Important/Critical，也没有将证据缺口计为业务失败。补查共享ValidationRecord严格接受试运行copyId/completed/verdicts，错误类型和未知字段仍拒绝。
+三项Important均先以回归复现：[修复前](../t4-review-red.log)3项失败→[修复后](../t4-review-green.log)3项通过。没有未处理的Important/Critical，也没有将证据缺口计为业务失败。补查共享ValidationRecord严格接受试运行copyId/completed/verdicts，错误类型和未知字段仍拒绝。
 
-审查前全量168/168通过仍未发现上述边界，因此不能将“测试全绿”当作完备证明。最终回归以[t4-full.log](t4-full.log)为准。真实DeepSeek密钥/模型尚未取得，真实模型生成后的分层通过仍为开放门槛；模拟候选不得替代，也不提前实施T5/T6。
+审查前全量168/168通过仍未发现上述边界，因此不能将“测试全绿”当作完备证明。最终回归以[t4-full.log](../t4-full.log)为准。真实DeepSeek密钥/模型尚未取得，真实模型生成后的分层通过仍为开放门槛；模拟候选不得替代，也不提前实施T5/T6。

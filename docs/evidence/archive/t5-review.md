@@ -6,7 +6,7 @@
 
 问题：`assertQualified`先读当前证据才检查停用，`matchTemplates`又未隔离`STALE_EVIDENCE`等单版本问题；独立旧版证据损坏可能使有效新版也无法匹配。
 
-复现：两次真实CandidateTask各自产生独立对照及试运行证据，发布隔离测试v1.0/v1.1，停用v1.0后改变旧证据；修复前测试返回`STALE_EVIDENCE`并导致整次匹配失败。活动版本证据改变也未返回明确失效原因。两项失败及父测试失败保存于[t5-review-red.log](t5-review-red.log)。
+复现：两次真实CandidateTask各自产生独立对照及试运行证据，发布隔离测试v1.0/v1.1，停用v1.0后改变旧证据；修复前测试返回`STALE_EVIDENCE`并导致整次匹配失败。活动版本证据改变也未返回明确失效原因。两项失败及父测试失败保存于[t5-review-red.log](../t5-review-red.log)。
 
 修复：停用先由核心拒绝，之后才重读资格依据；仅证据路径的ENOENT/JSON解析失败转为`EVIDENCE_MISSING`/`EVIDENCE_CORRUPT`；`matchReport`按明确版本资格错误隔离并返回原因。权限、核心超时等运行故障继续上抛。历史记录不改写，两个版本不共享测试证据。
 

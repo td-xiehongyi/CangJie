@@ -18,7 +18,7 @@
 
 确定性模型服务用于协议/故障/候选边界测试；候选测试的正确输出来自测试夹具，**不能计作真实AI生成**。这些输出实际进入仓颉静态检查、T3观察和HTTP对照、T2目标副本，正常/对应缺陷/未知逐断言核验。目标优先级被破坏时正确保留fail；目标分页不完整时保持未知并阻断审核就绪。
 
-最终通过：`npm run verify -- candidate`36/36、`npm test`173/173、`npm run check`构建通过。完整日志：[候选验收](t4-candidate-green.log)、[全量回归](t4-full.log)、[构建](t4-build.log)。独立审查发现3项Important、1项Minor，已修复；对应[RED](t4-review-red.log)→[GREEN](t4-review-green.log)，另有[试运行共享合同RED](t4-trial-contract-red.log)→[GREEN](t4-trial-contract-green.log)。详见[审查记录](t4-review.md)。预览六源核对见[t4-preview-baseline.json](t4-preview-baseline.json)。
+最终通过：`npm run verify -- candidate`36/36、`npm test`173/173、`npm run check`构建通过。完整日志：[候选验收](t4-candidate-green.log)、[全量回归](t4-full.log)、[构建](t4-build.log)。独立审查发现3项Important、1项Minor，已修复；对应[RED](t4-review-red.log)→[GREEN](t4-review-green.log)，另有[试运行共享合同RED](t4-trial-contract-red.log)→[GREEN](t4-trial-contract-green.log)。详见[审查记录](archive/t4-review.md)。预览六源核对见[t4-preview-baseline.json](t4-preview-baseline.json)。
 
 支持范围仍为已核对的Node24/Express5/Token/HTTP JSON与标题更新试点；目标适配器对工单查询增加priority/ownerId规范化字段，未宣称任意网站自动映射或任意性质证明。T3冻结设施保持原样；没有可信对照的规则等待能力补充。凭据桥接及任务锁为Windows实现。正式UI、审核发布、验证包、迁移、负载仍属T5—T10。
 

@@ -1,6 +1,6 @@
 # 自然操作流程改造验收
 
-核对日期：2026-10-14。范围：当前源码工作台，依据[已确认方案](../superpowers/specs/2026-10-14-natural-workflow-design.md)。本轮源码改造与自动化验收完成；原T9正式验收仍独立保留。
+核对日期：2026-10-14。范围：当前源码工作台，依据[已确认方案](https://github.com/td-xiehongyi/CangJie/blob/ceb8d95236cd6c85bc245fd9a08f0112b20a4e99/docs/superpowers/specs/2026-10-14-natural-workflow-design.md)。本轮源码改造与自动化验收完成；原T9正式验收仍独立保留。
 
 ## 已实现
 

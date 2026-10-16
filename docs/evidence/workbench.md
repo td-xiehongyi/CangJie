@@ -26,7 +26,7 @@
 - `npm run verify -- replay`：运行/包/会话API；三种子组合实际走仓颉及HTTP，不使用页面伪结果。
 - `npm run verify -- workbench`：Edge真实浏览器，5条端到端流程；四页1280/768/390、无横向溢出、键盘跳转、焦点与表单可访问名称、真实报告保持与复跑、双审核/停用拦截、失败/未知报告及负载阻断。截图见`output/t6-workbench/screenshots`，JSON结果`t6-workbench.json`。
 - `npm run check`：合同、宿主、样例、独立对照、仓颉及React生产构建。
-- [独立审查与修复](t6-review.md)。摘要及六源静态预览哈希核对见`t6-summary.json`。
+- [独立审查与修复](archive/t6-review.md)。摘要及六源静态预览哈希核对见`t6-summary.json`。
 
 ## 证据边界
 
