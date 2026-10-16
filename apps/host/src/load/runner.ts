@@ -11,7 +11,7 @@ import {projectRoot} from '../validation/review.js';
 import {qualifyPlan,type RunRecord,type RunEnvironment} from '../replay.js';
 import {TemplateRegistry} from '../templates/store.js';
 import {prepareCopy} from '../projects/copy.js';
-import {inspectProject,digest} from '../projects/inspect.js';
+import {inspectProject,sourceFiles,digest} from '../projects/inspect.js';
 import type {TestEnvironment,Attempt} from '../projects/reset.js';
 import {bindMapping,mappingHash} from '../execution/mapping.js';
 import {execute,type HttpEnvironment} from '../execution/http.js';
@@ -29,7 +29,7 @@ const integer=(v:unknown,min:number,max:number)=>Number.isSafeInteger(v)&&Number
 export function validateTarget(p:TargetSettings,ruleIds:string[]){
   if(p.confirmed!==true||!integer(p.rate,1,100)||!integer(p.durationSeconds,1,300)||!integer(p.maxVUs,1,16)||!integer(p.maxIterations,1,10000)||!integer(p.maxHostMemoryMb,32,8192)||!integer(p.settlementMs,100,60000)||!integer(p.sustainedSamples,1,100))throw new Error('LOAD_CONFIRMATION_OR_LIMITS_REQUIRED');
   if(p.latencyMs!==undefined&&(!Number.isFinite(p.latencyMs)||p.latencyMs<1||p.latencyMs>300000)||p.errorRate!==undefined&&(!Number.isFinite(p.errorRate)||p.errorRate<0||p.errorRate>1))throw new Error('INVALID_LOAD_THRESHOLDS');
-  if(!p.ratios||Object.keys(p.ratios).length!==ruleIds.length||ruleIds.some(id=>!integer(p.ratios[id],1,100))||Object.values(p.ratios).reduce((a,b)=>a+b,0)!==100)throw new Error('LOAD_RATIO_MISMATCH');
+  if(!p.ratios||Object.keys(p.ratios).length!==ruleIds.length||ruleIds.some(id=>!Number.isFinite(p.ratios[id])||p.ratios[id]!<.01||p.ratios[id]!>100)||Math.abs(Object.values(p.ratios).reduce((a,b)=>a+b,0)-100)>=.00001)throw new Error('LOAD_RATIO_MISMATCH');
 }
 export function assertLoadSource(run:RunRecord,mapping:MappingSpec){
   if(run.status!=='completed'||run.kind!=='verification'||!run.checks.length||run.checks.length!==run.plan.checks.length||digest(run.flow)!==digest(run.plan.flow)||digest(mapping)!==digest(run.plan.mapping)||run.checks.some((c,i)=>c.mode!=='verify'||c.rule.confirmation!=='confirmed'||c.status!=='completed'||!c.verdicts.length||c.verdicts.some(v=>v.status!=='pass')||digest(c.rule)!==digest(run.plan.checks[i]!.rule)||digest(c.templateRef)!==digest(run.plan.checks[i]!.templateRef)))throw new Error('LOAD_BUSINESS_GATE_BLOCKED');
@@ -82,9 +82,10 @@ export function startTargetLoad(input:TargetLoadPlan,mapping:MappingSpec):LoadHa
       const check=source.checks[index]!,entry:LedgerEntry={id:randomUUID(),ruleId:check.rule.id,phase,status:'running',startedAt:Date.now(),actions:[],observations:[],verdicts:[]};ledger.entries.push(entry);
       const core=new CoreClient({...coreCommand(),timeoutMs:5000});const mapped=bindMapping(boundMapping,env!.id),local=new LoadEnvironment(env!,mapped,abort.signal);
       try{
-        assertLoadEnvironment(source,environment,await inspectProject(environment.source),boundMapping);
-        await qualifyPlan(source.plan,input.registry);
-        const qualification=await input.registry.assertQualified(check.templateRef),spec=qualification.spec;
+        // Runtime support is proven before startup; unchanged full file hashes preserve that proof.
+        assertLoadEnvironment(source,environment,{sourceHash:digest(await sourceFiles(environment.source))},boundMapping);
+        // Recheck this dispatched rule, including current qualification and disable state.
+        const [qualification]=await qualifyPlan({...source.plan,checks:[source.plan.checks[index]!]},input.registry),spec=qualification!.spec;
         let state:Transition=await command(core,entry.id,'start',{operation:'runTemplate',spec,rule:check.rule,capabilities,scope:{kind:'published_template',confirmed:true,qualification}});
         while(state.state==='running'){
           if(abort.signal.aborted)throw new Error('SETTLEMENT_DEADLINE');

@@ -32,8 +32,8 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     await page.getByText('查看验证与试运行证据',{exact:true}).click();
     await expect(page.getByRole('heading',{name:'独立验证结果',exact:true})).toBeVisible();
     await expect(page.getByRole('heading',{name:'当前项目试运行',exact:true})).toBeVisible();
-    await mkdir('output/plan-preparation-20261016/screenshots',{recursive:true});
-    for(const width of [1280,390]){await page.setViewportSize({width,height:1000});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();scrollTo(0,0);});await page.screenshot({fullPage:true,path:`output/plan-preparation-20261016/screenshots/preparation-${width}.png`});}
+    await mkdir('output/review-execution-20261016/screenshots',{recursive:true});
+    for(const width of [1280,390]){await page.setViewportSize({width,height:1000});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();scrollTo(0,0);});await page.screenshot({fullPage:true,path:`output/review-execution-20261016/screenshots/preparation-${width}.png`});}
     await page.setViewportSize({width:1280,height:1000});
     await page.getByRole('button',{name:'审核这条检查方案',exact:true}).click();
     const review=page.getByRole('region',{name:'检查方案验证与审核',exact:true});
@@ -66,8 +66,7 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     project=(await request('/state')).projects[0];
     const stale=await fetch(host.url+`/api/projects/${projectId}/review`,{method:'POST',headers:{authorization:`Bearer ${host.token}`,'content-type':'application/json'},body:JSON.stringify({candidateId:project.candidate.id,candidateHash:'stale',metadata:project.candidate.metadata})});
     expect(stale.ok).toBe(false);
-    await mkdir('output/plan-preparation-20261016/regression/automated/review/screenshots',{recursive:true});
-    for(const width of [1280,768,390]){await page.setViewportSize({width,height:1000});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();scrollTo(0,0);});await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();scrollTo(0,0);});await page.screenshot({fullPage:true,path:`output/plan-preparation-20261016/regression/automated/review/screenshots/review-${width}.png`});}
+    for(const width of [1280,768,390]){await page.setViewportSize({width,height:1000});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();scrollTo(0,0);});await page.screenshot({fullPage:true,path:`output/review-execution-20261016/screenshots/review-${width}.png`});}
     await page.setViewportSize({width:1280,height:1000});
     await host.close();host=await startWorkbench({directory,registryDirectory:join(directory,'registry'),port:0});
     await page.goto(host.url+`/?page=verify&step=9&project=${projectId}`);
@@ -79,6 +78,8 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     await review.getByLabel('已审查定义、正反例、端到端证据及限制',{exact:true}).check();
     await review.getByRole('button',{name:'审核通过，保存为可复用方案',exact:true}).click();
     await expect(review.getByText('已发布固定版本 1.0.0',{exact:true})).toBeVisible();
+    await expect(page.getByRole('navigation',{name:'完整业务验证流程'}).getByRole('button',{name:/^09 /})).toContainText('已有证据满足');
+    await expect.poll(async()=> (await request('/state')).projects[0].workflow.flows.submit['save-rule'].confirmed).toBe(true);
     await goStep(page,3);await page.getByLabel('重复提交不重复创建',{exact:true}).selectOption('observe');await goStep(page,10);
     await expect(page.getByRole('button',{name:'准备本轮检查',exact:true})).toBeDisabled();
     await goStep(page,9);await expect(review.locator('.published-evidence')).not.toHaveAttribute('open');
@@ -91,6 +92,12 @@ test('missing template becomes an inline reviewed plan; AI reference and saved e
     await page.getByRole('button',{name:'执行检查',exact:true}).click();
     await expect.poll(()=>new URL(page.url()).searchParams.get('run')).toBeTruthy();
     expect(new URL(page.url()).searchParams.get('page')).toBe('verify');
+    const runId=new URL(page.url()).searchParams.get('run')!;
+    await expect.poll(async()=>(await request('/runs/'+runId)).status,{timeout:40000}).toBe('completed');
+    const run=await request('/runs/'+runId);expect(run.kind).toBe('verification');expect(run.checks).toHaveLength(1);expect(run.checks[0].mode).toBe('verify');expect(run.checks[0].verdicts).toHaveLength(1);expect(run.checks[0].verdicts[0].status).toBe('pass');expect(run.checks[0].observations).toHaveLength(2);expect(Object.keys(run.evidence).length).toBeGreaterThan(0);
+    const pkg=await request('/runs/'+runId+'/package');expect(pkg.kind).toBe('verification');expect(JSON.parse(pkg.files[0].content).checks[0].templateRef).toEqual(run.checks[0].templateRef);
+    await goStep(page,11);await expect(page.getByRole('heading',{name:'本轮所选检查通过',exact:true})).toBeVisible();
+    await page.screenshot({path:'output/review-execution-20261016/screenshots/result-1280.png',fullPage:true});
     expect(calls).toBe(1);
     expect(errors).toEqual([]);
   }finally{await host.close();await new Promise<void>(r=>provider.close(()=>r()));}

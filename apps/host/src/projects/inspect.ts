@@ -3,6 +3,7 @@ import {resolve,relative,isAbsolute,extname,basename,dirname} from 'node:path';
 import {createHash} from 'node:crypto';
 import {validateMapping,type HttpMapping} from '../execution/mapping.js';
 import {databaseTargetsUseTestEnvironment} from './database-target.js';
+import ts from 'typescript';
 
 export interface Gap {code:string;detail:string;affectedChecks:string[]}
 export interface ProjectManifest {
@@ -71,10 +72,29 @@ export async function inspectProject(input:string):Promise<ProjectProfile> {
     try{if(!argvSafe(root,init.argv,files))gap('INITIALIZATION_GAP','已有初始化入口不可运行或不在副本内。');}catch{gap('PATH_ESCAPE','初始化路径越出测试副本。');}
     if(init.source!=='synthetic'||init.databaseEnv!=='TEST_DATABASE'||init.localOnly!==true||!Array.isArray(init.externalServices)||init.externalServices.length||!init.version)gap('UNSAFE_INITIALIZATION_TARGET','初始化须明确使用独立测试库、合成数据和无外部服务的已核对配置。');
   }
+  // Check the declared runtime dependency closure; standalone developer launchers never run in a test copy.
+  const runtimeModules=new Set(['fs','fs/promises','path','url','crypto','sqlite']);
+  const runtime=new Set<string>(),pending=[...(Array.isArray(manifest.start?.argv)?manifest.start.argv:[]),...(Array.isArray(init?.argv)?init.argv:[])].filter(v=>typeof v==='string').map(v=>resolve(root,v)),indexed=new Map(files.map(f=>[resolve(root,f.path),f]));
+  while(pending.length){
+    const file=pending.pop()!;if(runtime.has(file))continue;runtime.add(file);
+    if(!indexed.has(file)){gap('UNSAFE_INITIALIZATION_TARGET','运行依赖不在已索引的项目源码内。');continue;}
+    if(!['.ts','.js','.mjs','.cjs'].includes(extname(file)))continue;
+    const source=ts.createSourceFile(file,await readFile(file,'utf8'),ts.ScriptTarget.Latest,true),imports:string[]=[];
+    const visit=(node:ts.Node):void=>{
+      if((ts.isImportDeclaration(node)||ts.isExportDeclaration(node))&&node.moduleSpecifier&&ts.isStringLiteral(node.moduleSpecifier))imports.push(node.moduleSpecifier.text);
+      if(ts.isCallExpression(node)&&node.expression.kind===ts.SyntaxKind.ImportKeyword){if(node.arguments.length===1&&ts.isStringLiteral(node.arguments[0]!))imports.push(node.arguments[0]!.text);else gap('UNSAFE_INITIALIZATION_TARGET','运行入口含无法静态核对的动态依赖。');}
+      ts.forEachChild(node,visit);
+    };visit(source);
+    for(const specifier of imports){
+      if(!specifier.startsWith('.')){if(!runtimeModules.has(specifier.replace(/^node:/,''))&&specifier!=='express')gap('UNSAFE_INITIALIZATION_TARGET','运行依赖仅支持已核对的Node文件、路径、标识、测试数据库模块和Express。');continue;}
+      const target=resolve(dirname(file),specifier),resolved=[target,...['.ts','.js','.mjs','.cjs'].map(extension=>target+extension)].find(path=>indexed.has(path));
+      if(resolved)pending.push(resolved);else gap('UNSAFE_INITIALIZATION_TARGET','运行依赖无法在项目源码内解析。');
+    }
+  }
   // Conservative support check, not a malicious-code sandbox or a network isolation claim.
-  for(const f of files.filter(f=>['.ts','.js','.mjs','.cjs'].includes(extname(f.path)))){
+  for(const f of files.filter(f=>runtime.has(resolve(root,f.path))&&['.ts','.js','.mjs','.cjs'].includes(extname(f.path)))){
     const text=await readFile(resolve(root,f.path),'utf8');
-    if(!databaseTargetsUseTestEnvironment(resolve(root,f.path))||/https?:\/\/|(?:node:)?child_process|\b(?:eval|require)\s*\(|process\.env\.(?:DATABASE_URL|DB_URL|DATABASE_PATH|DB_PATH)/i.test(text))gap('UNSAFE_INITIALIZATION_TARGET',`源码 ${f.path} 的数据库目标无法确认来自专用测试配置，或存在外部地址/未支持的动态代码和后台进程依赖，需先调整并重新接入。`);
+    if(!databaseTargetsUseTestEnvironment(resolve(root,f.path))||/https?:\/\/|(?:node:)?child_process|\b(?:eval|require|createRequire|getBuiltinModule|mainModule)\b|process\.env\.(?:DATABASE_URL|DB_URL|DATABASE_PATH|DB_PATH)/i.test(text)||/\bFunction\b/.test(text))gap('UNSAFE_INITIALIZATION_TARGET',`源码 ${f.path} 的数据库目标无法确认来自专用测试配置，或存在外部地址/未支持的动态代码和后台进程依赖，需先调整并重新接入。`);
   }
   try{const pkg=JSON.parse(await readFile(resolve(root,'package.json'),'utf8'));if(!pkg.dependencies?.express||!/^([~^]?5\.)/.test(pkg.dependencies.express))gap('DEPENDENCY_GAP','首版要求 Express 5 和 Node 24。');const unsupported=Object.keys(pkg.dependencies??{}).filter(k=>k!=='express');if(unsupported.length)gap('DEPENDENCY_GAP',`需提供并核对额外依赖：${unsupported.join(', ')}。`);}catch{gap('DEPENDENCY_GAP','缺少可核对的 package.json。');}
   const gapMarkdown=gaps.length?`# 测试初始化补充说明\n\n状态：尚未验证（环境受阻），不是业务通过或失败。\n\n${gaps.map(g=>`- ${g.code}：${g.detail}`).join('\n')}\n\n需补齐：测试账号及角色、数据归属与规模、初始状态、独立测试目标、已有初始化和复位入口。\n受影响：依赖该数据的实验；独立且条件齐全的项目实验可单独准备。\n验收：重新读取源码与入口，核对目标、合成数据和版本，确认后初始化成功、HTTP 身份与基线检查通过。生成本说明或口头称已修复均不解除阻塞。\n`:'';

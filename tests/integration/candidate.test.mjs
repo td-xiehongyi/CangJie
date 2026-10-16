@@ -145,3 +145,9 @@ test('legacy repair respects revision limits and cannot coerce arbitrary paramet
   }
   assert.equal(x.requests.length,0);
 });
+
+test('actor listed as an operation is a bounded output revision, not a missing executor',async t=>{
+ const spec=JSON.parse(await readFile(join(root,'tests/fixtures/title-update.json'),'utf8'));
+ const x=await candidateFixture(t,async n=>({choices:[{finish_reason:'stop',message:{content:JSON.stringify(n===1?{...spec,requiredCapabilities:[...spec.requiredCapabilities,'owner']}:spec)}}],usage:{total_tokens:20}}));
+ const result=await(await task(x)).run();assert.equal(result.phase,'awaiting_trial');assert.equal(result.validation.gateResults.admitted,true);assert.equal(result.budget.calls,2);assert.equal(result.revisionIndex,1);assert.equal(x.requests.length,2);assert.equal(result.drafts[0].value.invalidOutput,'INVALID_CAPABILITY_DECLARATION');
+});

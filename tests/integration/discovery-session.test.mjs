@@ -3,6 +3,113 @@ import assert from 'node:assert/strict';
 import {writeFile,readFile,mkdir} from 'node:fs/promises';
 import {join} from 'node:path';
 import {setupDiscovery,action,read,overview} from '../support/discovery.mjs';
+import {prepareFullFileInput} from '../../apps/host/dist/discovery/full-input.js';
+import {validBusinessOverview} from '@website-verification/contracts/discovery';
+
+test('AI answer suggestions are optional and bounded to the original questions',()=>{
+ const ref={snapshotId:'snapshot',path:'README.md',fileHash:'a'.repeat(64),startLine:1,endLine:2,excerptHash:'b'.repeat(64)};
+ const value=overview([{path:'README.md',sourceRef:ref}]).result,s=value.suggestions[0],q=s.openQuestions[0];
+ assert.equal(validBusinessOverview(value),true);
+ s.suggestedAnswers={[q]:'建议仅所有者可取消，库存至多恢复一次，待人工核对。'};
+ value.translations={[q]:'请核对取消权限与库存规则。'};
+ assert.equal(validBusinessOverview(value),true);
+ for(const bad of [[],null,{unrelated:'无关回答'},{[q]:4},{[q]:'x'.repeat(8001)}]){s.suggestedAnswers=bad;assert.equal(validBusinessOverview(value),false);}
+ s.suggestedAnswers={};value.translations={[q]:{text:'invalid'}};assert.equal(validBusinessOverview(value),false);
+});
+
+test('full-file analysis restores compact citation IDs before validating and saving its business draft',async t=>{
+  const x=await setupDiscovery(t,p=>{
+    const response=overview(p.files);
+    response.result.suggestions[0].suggestedAnswers={[response.result.suggestions[0].openQuestions[0]]:'建议仅所有者可取消，库存至多释放一次；待你核对。'};
+    Object.assign(response.result.suggestions[0],{preconditions:[],exceptions:[],stateChanges:[]});
+    return JSON.parse(JSON.stringify(response),(key,value)=>key==='sourceRefs'?value.map(ref=>p.input.knownSourceRefs.findIndex(known=>known.path===ref.path)):value);
+  });
+  const preview=await prepareFullFileInput(x.snapshot,x.scope,x.config,{mode:'automatic',prompt:''});
+  const initial=await x.service.createDiscovery(x.snapshot,x.scope,{mode:'automatic',prompt:'',manifestHash:preview.manifestHash});
+  const done=await x.service.runDiscovery(initial.id,initial.revision);
+  assert.equal(done.status,'completed');assert.equal(x.requests.length,1);
+  assert.ok(x.requests[0].body.messages[0].content.includes('integer IDs'));
+  assert.match(x.requests[0].body.messages[0].content,/suggestedAnswers/);
+  assert.match(x.requests[0].body.messages[0].content,/Chinese/);
+  const source=initial.reads.find(r=>r.ref.path.endsWith('orders.ts')).ref;
+  assert.deepEqual(done.result.sourceRefs,[source]);
+  assert.deepEqual(done.result.suggestions[0].facts[0].sourceRefs,[source]);
+  assert.equal(done.result.suggestions[0].expectations[0].confirmation,'pending');
+  assert.deepEqual(done.result.suggestions[0].suggestedAnswers,{[done.result.suggestions[0].openQuestions[0]]:'建议仅所有者可取消，库存至多释放一次；待你核对。'});
+  assert.ok(done.audit[0].response.result.sourceRefs.every(Number.isInteger));
+  const compactBytes=Buffer.byteLength(JSON.stringify(done.audit[0].response.result)),expandedBytes=Buffer.byteLength(JSON.stringify(done.result));
+  assert.ok(compactBytes<expandedBytes/2,'citation encoding should leave the output budget for business content');
+  t.diagnostic(`same business draft: compact ${compactBytes} bytes, full references ${expandedBytes} bytes`);
+  assert.deepEqual((await x.service.getDiscovery(initial.id)).result,done.result);
+});
+
+test('compact citations cannot refer outside actual reads and missing results stay invalid',async t=>{
+  for(const [ref,source,code] of [[999,'ai_hypothesis','INVALID_SOURCE_REF'],[-1,'ai_hypothesis','INVALID_SOURCE_REF'],[0.5,'ai_hypothesis','INVALID_SOURCE_REF'],[null,'ai_hypothesis','INVALID_DISCOVERY_OUTPUT']]){
+    const x=await setupDiscovery(t,p=>{
+      if(ref===null)return {kind:'result'};
+      const response=overview(p.files);Object.assign(response.result.suggestions[0],{preconditions:[],exceptions:[],stateChanges:[]});
+      const compact=JSON.parse(JSON.stringify(response),(key,value)=>key==='sourceRefs'?value.map(()=>ref):value);
+      compact.result.suggestions[0].expectations[0].source=source;return compact;
+    });
+    const preview=await prepareFullFileInput(x.snapshot,x.scope,x.config,{mode:'automatic',prompt:''});
+    const initial=await x.service.createDiscovery(x.snapshot,x.scope,{mode:'automatic',prompt:'',manifestHash:preview.manifestHash});
+    const done=await x.service.runDiscovery(initial.id,initial.revision);
+    assert.equal(done.status,'failed');assert.equal(done.result,undefined);assert.ok(done.unresolved.includes(code));
+  }
+});
+
+test('full-file analysis accepts an unwrapped overview but still rejects invalid structure and citations',async t=>{
+ for(const mode of ['valid','missing-summary','invalid-ref','actions','legacy']){
+  const x=await setupDiscovery(t,p=>{
+   const value=overview(p.files).result;
+   if(mode==='missing-summary')delete value.summary;
+   if(mode==='invalid-ref')value.sourceRefs=[999];
+   if(mode==='actions')return {kind:'actions',actions:[read('README.md')]};
+   return value;
+  });
+  const preview=await prepareFullFileInput(x.snapshot,x.scope,x.config,{mode:'automatic',prompt:''});
+  const initial=mode==='legacy'?await x.create():await x.service.createDiscovery(x.snapshot,x.scope,{mode:'automatic',prompt:'',manifestHash:preview.manifestHash});
+  const done=await x.service.runDiscovery(initial.id,initial.revision);
+  assert.equal(done.status,mode==='valid'?'completed':'failed',mode);
+  assert.equal(x.requests.length,1);
+  if(mode==='valid')assert.equal(done.result.suggestions[0].expectations[0].confirmation,'pending');
+  else {assert.equal(done.result,undefined);assert.ok(done.unresolved.includes(mode==='invalid-ref'?'INVALID_SOURCE_REF':'INVALID_DISCOVERY_OUTPUT'),mode);}
+ }
+});
+
+test('full-file draft keeps absent boundaries unknown and moves a wrongly sourced expectation to clarification',async t=>{
+  const x=await setupDiscovery(t,p=>{
+    const response=overview(p.files),source=p.files.find(f=>f.path.endsWith('orders.ts')).sourceRef;
+    response.result.suggestions[0].expectations.push({text:'配置中的映射应作为测试要求吗？',source:'project_test',confirmation:'pending',sourceRefs:[source]});
+    return JSON.parse(JSON.stringify(response),(key,value)=>key==='sourceRefs'?value.map(ref=>p.input.knownSourceRefs.findIndex(known=>known.path===ref.path)):value);
+  });
+  const preview=await prepareFullFileInput(x.snapshot,x.scope,x.config,{mode:'automatic',prompt:''});
+  const initial=await x.service.createDiscovery(x.snapshot,x.scope,{mode:'automatic',prompt:'',manifestHash:preview.manifestHash});
+  const done=await x.service.runDiscovery(initial.id,initial.revision);
+  assert.equal(done.status,'completed');assert.equal(x.requests.length,1);
+  const suggestion=done.result.suggestions[0];
+  for(const field of ['preconditions','exceptions','stateChanges'])assert.deepEqual(suggestion[field],[]);
+  assert.equal(suggestion.expectations.length,1);assert.equal(suggestion.expectations[0].source,'documentation');
+  assert.ok(suggestion.openQuestions.includes('配置中的映射应作为测试要求吗？'));
+  assert.ok(done.result.limitations.some(v=>v.includes('未提供')));
+  assert.ok(done.result.limitations.some(v=>v.includes('来源')));
+  assert.equal(done.audit[0].response.result.suggestions[0].expectations[1].source,'project_test','original provider response must remain auditable');
+  assert.equal(done.audit[0].response.result.suggestions[0].preconditions,undefined);
+});
+
+test('source clarification preserves maximum-length text and the normalized draft still satisfies its contract',async t=>{
+  const text='x'.repeat(8000);
+  const x=await setupDiscovery(t,p=>{
+    const response=overview(p.files);response.result.suggestions[0].flow=text;
+    response.result.suggestions[0].expectations=[{text,source:'project_test',confirmation:'pending',sourceRefs:[p.files[0].sourceRef]}];
+    return response;
+  });
+  const preview=await prepareFullFileInput(x.snapshot,x.scope,x.config,{mode:'automatic',prompt:''});
+  const initial=await x.service.createDiscovery(x.snapshot,x.scope,{mode:'automatic',prompt:'',manifestHash:preview.manifestHash});
+  const done=await x.service.runDiscovery(initial.id,initial.revision);
+  assert.equal(done.status,'completed');assert.equal(validBusinessOverview(done.result),true);
+  assert.ok(done.result.suggestions[0].openQuestions.includes(text));
+});
 
 test('discovery follows search, route, service/data/docs and returns cited unconfirmed project suggestions',async t=>{
   const x=await setupDiscovery(t,(p,n)=>n===1?action([{type:'search',query:'cancelOrder',limit:20}]):n===2?action([read('src/routes.ts',1,5)]):n===3?action([read('src/orders.ts',1,9),read('src/storage.ts',1,2),read('README.md',1,2)]):overview(p.files));

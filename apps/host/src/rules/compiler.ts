@@ -12,7 +12,7 @@ import {projectRuleRef} from './readiness.js';
 const root=fileURLToPath(new URL('../../../../',import.meta.url));
 const directory=join(root,'.local-data/rule-compilations');
 export {statusTransitionBehavior,statusTransitionRequirements} from '@website-verification/contracts/status-transition';
-import {statusTransitionBehavior,statusTransitionRequirements} from '@website-verification/contracts/status-transition';
+import {matchesStatusTransitionBusiness,statusTransitionBehavior,statusTransitionRequirements} from '@website-verification/contracts/status-transition';
 export interface CompiledRulePlan {status:'compiled';rule:RuleContract;ruleRef:ProjectRuleRef;resourceId:'status-transition';mappingHash:string;capabilities:CapabilitySet}
 export interface CompileGap {status:'blocked';ruleRef:ProjectRuleRef;missing:{code:string;detail:string}[]}
 interface Binding {schemaVersion:1;plan:CompiledRulePlan;ruleVersion:ProjectRuleVersion;ruleStoreDirectory:string;sourceRoot:string;sourceHash:string}
@@ -38,6 +38,7 @@ export async function compileRulePlan(ruleVersion:ProjectRuleVersion,mapping:Map
   const rule=structuredClone(ruleVersion),ruleRef=projectRuleRef(rule),missing:CompileGap['missing']=[];
   const gap=(code:string,detail:string)=>missing.push({code,detail});
   if(!validProjectRuleVersion(rule)||rule.confirmation.status!=='confirmed')gap('RULE_CONFIRMATION_REQUIRED','需要已确认的精确项目规则版本。');
+  if(isDeepStrictEqual(rule.requirements,statusTransitionRequirements)&&!matchesStatusTransitionBusiness(rule.flow,rule.expectedBehavior))gap('CONTRACT_BUSINESS_MISMATCH','业务名称或已确认预期与工单关闭契约不匹配。');
   if(!isDeepStrictEqual(rule.expectedBehavior,statusTransitionBehavior)||!isDeepStrictEqual(rule.requirements,statusTransitionRequirements))gap('RULE_CAPABILITY_GAP','初版仅编译冻结的工单关闭性质；同名动作不能证明业务语义相同。');
   try{validateMapping(mapping)}catch{gap('OPERATION_MAPPING_GAP','接口映射无效。')}
   const allowed:Record<string,string[]>={create:['title','status','intent'],query:['id','intent','limit'],update:['status']};

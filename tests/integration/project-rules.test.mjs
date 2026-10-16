@@ -1,7 +1,23 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {mkdtemp,rm} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join} from 'node:path';import {randomUUID} from 'node:crypto';
 import {ProjectRuleStore,suggestion,input} from '../support/project-rules.mjs';
+import {statusTransitionBehavior,statusTransitionRequirements} from '@website-verification/contracts/status-transition';
 async function setup(t){const dir=await mkdtemp(join(tmpdir(),'cangjie-s3-'));t.after(()=>rm(dir,{recursive:true,force:true}));return {store:new ProjectRuleStore(dir),projectId:randomUUID()}}
 const ref=r=>({projectId:r.projectId,id:r.id,version:r.version,contentHash:r.contentHash});
+
+test('title modification cannot adopt a closing contract and failed binding leaves history unchanged',async t=>{
+ const {store,projectId}=await setup(t),title={...input,suggestion:{...suggestion,flow:'Update ticket title only'},expectedBehavior:['修改标题，优先级和所有者保持不变'],requirements:undefined};
+ for(const flow of ['Update ticket title only','修改工单标题后关闭','更新工单标题后关闭','编辑工单标题和关闭工单','Rename ticket title then close ticket','Close account'])await assert.rejects(store.confirmProjectRule(projectId,{...title,suggestion:{...title.suggestion,flow},expectedBehavior:statusTransitionBehavior,requirements:statusTransitionRequirements},0),/CONTRACT_BUSINESS_MISMATCH/);
+ const rule=await store.confirmProjectRule(projectId,title,0);
+ await assert.rejects(store.reviseProjectRule(ref(rule),{expectedBehavior:statusTransitionBehavior,requirements:statusTransitionRequirements,note:'尝试把标题规则替换为关闭规则'},1),/CONTRACT_BUSINESS_MISMATCH/);
+ assert.deepEqual((await store.list(projectId)).versions,[rule]);assert.equal((await store.list(projectId)).revision,1);
+});
+
+test('05 binding preserves the already confirmed closing behavior and appends an unconfirmed version',async t=>{
+ const {store,projectId}=await setup(t),data={...input,suggestion:{...suggestion,flow:'关闭工单'},expectedBehavior:statusTransitionBehavior,requirements:undefined};
+ const rule=await store.confirmProjectRule(projectId,data,0);
+ const bound=await store.reviseProjectRule(ref(rule),{expectedBehavior:rule.expectedBehavior,requirements:statusTransitionRequirements,note:'仅绑定执行契约，业务预期不变'},1);
+ assert.deepEqual(bound.expectedBehavior,rule.expectedBehavior);assert.deepEqual(bound.requirements,statusTransitionRequirements);assert.equal(bound.confirmation.status,'pending');assert.deepEqual(await store.getProjectRule(projectId,rule.id,1),rule);
+});
 test('a new project-specific rule is confirmed, selected and restored outside the public catalog',async t=>{const {store,projectId}=await setup(t);assert.equal((await store.list(projectId)).revision,0);const r=await store.confirmProjectRule(projectId,input,0);assert.equal(r.confirmation.status,'confirmed');assert.deepEqual(r.facts,suggestion.facts);assert.deepEqual(r.expectedBehavior,input.expectedBehavior);await store.select(projectId,ref(r),1);assert.deepEqual((await new ProjectRuleStore(store.directory).list(projectId)).selectedRule,ref(r));assert.equal((await store.list(projectId)).revision,2)});
 test('critical unanswered questions and inferred expectations cannot be auto-confirmed',async t=>{const {store,projectId}=await setup(t);await assert.rejects(store.confirmProjectRule(projectId,{...input,answers:{}},0),/RULE_CONFIRMATION_REQUIRED/);await assert.rejects(store.confirmProjectRule(projectId,{...input,confirmed:false},0),/RULE_CONFIRMATION_REQUIRED/);assert.equal((await store.list(projectId)).revision,0)});
 test('project isolation, exact refs and concurrent revision conflicts fail closed',async t=>{const {store,projectId}=await setup(t);const r=await store.confirmProjectRule(projectId,input,0);await assert.rejects(store.getProjectRule(randomUUID(),r.id,1),/RULE_NOT_FOUND/);await assert.rejects(store.select(randomUUID(),ref(r),0),/RULE_PROJECT_MISMATCH/);await assert.rejects(store.confirmProjectRule(projectId,input,0),/RULE_REVISION_CONFLICT/);await assert.rejects(store.select(projectId,{...ref(r),contentHash:'f'.repeat(64)},1),/STALE_PROJECT_RULE/);assert.equal((await store.list(projectId)).versions.length,1)});

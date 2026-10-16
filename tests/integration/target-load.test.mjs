@@ -50,13 +50,28 @@ test('actual k6 fixed target, accumulation, stopping and evidence',{timeout:1800
   });
   async function load(config=base,changes={},onStart){const h=startTargetLoad({...config,...defaults,...changes},config.sourceRun.plan.mapping);if(onStart)await onStart(h);const r=await h.result;reports.push(r);return r;}
   await t.test('no_post_target_exploration and all sent experiments have evidence',async()=>{
-    const r=await load();assert.equal(r.verdict,'pass',JSON.stringify({reason:r.reason,metrics:r.metrics,generator:r.generator,ledger:r.ledger}));assert.equal(r.metrics.started,4);assert.equal(r.settlement.unknown,0);assert.equal(r.generator.dropped,0);assert.equal(r.ledger.filter(e=>e.phase==='preflight').length,1);assert.ok(r.metrics.verificationRequests>0);assert.ok(Object.keys(r.evidence).length>=10);assert.ok(!JSON.stringify(r).includes('t8-synthetic-owner'));
+    const original=registry.assertQualified.bind(registry);let qualifications=0;registry.assertQualified=async(...args)=>{qualifications++;return original(...args)};
+    let r;try{r=await load()}finally{registry.assertQualified=original}
+    assert.equal(qualifications,1+r.ledger.length,'qualify the plan once, then each dispatched rule once; do not revalidate unrelated templates');
+    assert.equal(r.verdict,'pass',JSON.stringify({reason:r.reason,metrics:r.metrics,generator:r.generator,ledger:r.ledger}));assert.equal(r.metrics.started,4);assert.equal(r.settlement.unknown,0);assert.equal(r.generator.dropped,0);assert.equal(r.ledger.filter(e=>e.phase==='preflight').length,1);assert.ok(r.metrics.verificationRequests>0);assert.ok(Object.keys(r.evidence).length>=10);assert.ok(!JSON.stringify(r).includes('t8-synthetic-owner'));
     const {DatabaseSync}=await import('node:sqlite');const db=new DatabaseSync(join(root,'.local-data/projects',r.copyId,'data/test.sqlite'),{readOnly:true});try{assert.equal(db.prepare('SELECT count(*) AS n FROM tickets').get().n,7,'2 seed + 1 preflight + 4 target; no reset');}finally{db.close();}
     assert.deepEqual(await new LoadStore(base.directory).getLoad(r.id),r);
     assert.equal(r.environment.attempts[0].status,'completed','settled environment must not retain a running preparation');
     assert.ok(r.metrics.verificationMs>0,'query execution overhead must be measured separately');
   });
   await t.test('thresholds missing reports observation only',async()=>{const r=await load(base,{latencyMs:undefined});assert.equal(r.verdict,'unknown');assert.equal(r.reason,'OBSERVATION_ONLY');});
+  await t.test('a version withdrawn after preflight prevents target business requests',async()=>{
+    const isolated=new TemplateRegistry(join(directory,'withdrawn-registry'));await mkdir(join(isolated.directory,'published'),{recursive:true});await cp(registry.versionPath(pub.ref),isolated.versionPath(pub.ref));
+    const qualify=isolated.assertQualified.bind(isolated);let calls=0;isolated.assertQualified=async ref=>{if(++calls===3)await isolated.disableVersion(ref,'synthetic withdrawal after preflight');return qualify(ref)};
+    const r=await load({...base,registry:isolated});assert.notEqual(r.verdict,'pass');const target=r.ledger.filter(e=>e.phase==='target');assert.ok(target.length>0);assert.ok(target.every(e=>e.error==='VERSION_DISABLED'&&e.observations.length===0));
+  });
+  await t.test('source changes during target load block later dispatch without business requests',async()=>{
+    const isolated=await prepare(s=>s);const r=await load(isolated,{durationSeconds:4},async h=>{
+      while(h.snapshot().metrics.started<1&&h.snapshot().status!=='blocked')await new Promise(r=>setTimeout(r,25));
+      const path=join(isolated.environment.source,'src/server.ts');await writeFile(path,(await readFile(path,'utf8'))+'\n// synthetic change during load\n');
+    });
+    assert.notEqual(r.verdict,'pass');const blocked=r.ledger.filter(e=>e.error==='LOAD_ENVIRONMENT_CHANGED');assert.ok(blocked.length>0);assert.ok(blocked.every(e=>e.observations.length===0));
+  });
   await t.test('sustained_latency_stops',async()=>{const r=await load(base,{rate:5,durationSeconds:10,latencyMs:1,sustainedSamples:2});assert.equal(r.reason,'sustained_latency');assert.notEqual(r.verdict,'pass');assert.ok(r.metrics.started<50);});
   await t.test('manual_cancel settles in-flight work',async()=>{const r=await load(base,{durationSeconds:10},async h=>{while(h.snapshot().metrics.started<1&&h.snapshot().status!=='blocked')await new Promise(r=>setTimeout(r,25));await h.stop('manual_cancel');});assert.equal(r.reason,'manual_cancel');assert.notEqual(r.verdict,'pass');assert.equal(r.settlement.unfinished.length,0);});
   await t.test('hard operation limit stops without raising the target',async()=>{const r=await load(base,{durationSeconds:5,maxIterations:1});assert.equal(r.reason,'operation_limit');assert.equal(r.metrics.started,1);assert.notEqual(r.verdict,'pass');});

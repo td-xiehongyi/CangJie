@@ -32,7 +32,7 @@ test('project form and session passwords survive scope edits; actual run and pac
   await page.getByRole('button',{name:'检查并准备环境',exact:true}).click();await expect(page.getByText('我同意在独立测试副本中创建用户并重置测试数据')).toBeVisible();projectId=new URL(page.url()).searchParams.get('project')!;
   await page.getByRole('button',{name:'修改项目信息'}).click();await page.getByText('高级配置：接口映射与候选生成材料',{exact:true}).click();
   const mappingDraft=(await page.getByRole('textbox',{name:'映射定义',exact:true}).inputValue())+'\n';await page.getByRole('textbox',{name:'映射定义',exact:true}).fill(mappingDraft);await page.getByLabel('用户甲测试密码',{exact:true}).fill('still-in-browser-memory');await page.getByRole('textbox',{name:'候选生成材料（非02业务分析范围）',exact:true}).fill('verification.json\npackage.json');await page.getByRole('button',{name:'更新发送范围',exact:true}).click();await expect(page.getByRole('textbox',{name:'映射定义',exact:true})).toHaveValue(mappingDraft);await expect(page.getByLabel('用户甲测试密码',{exact:true})).toHaveValue('still-in-browser-memory');
-  await page.getByRole('button',{name:'返回准备步骤'}).click();await page.getByText('我同意在独立测试副本中创建用户并重置测试数据').check();await page.getByRole('button',{name:'执行环境检查',exact:true}).click();await expect(page.getByText('最近检查通过；本次执行前仍会重新核对凭据与环境。',{exact:true})).toBeVisible();await goStep(page,3);await expect(page.getByRole('heading',{name:'03 确认业务与测试目标'})).toBeVisible();
+  await page.getByRole('button',{name:'返回准备步骤'}).click();await page.getByText('我同意在独立测试副本中创建用户并重置测试数据').check();await page.getByRole('button',{name:'执行环境检查',exact:true}).click();await expect(page.getByText('最近检查通过；本次执行前仍会重新核对凭据与环境。',{exact:true})).toBeVisible();await goStep(page,3);await expect(page.getByRole('heading',{name:'03 确认要检查的业务'})).toBeVisible();
   await page.getByLabel('提交结果保存',{exact:true}).selectOption('observe');await page.getByRole('combobox',{name:'提交结果保存',exact:true}).selectOption('confirm');await goStep(page,10);await page.getByRole('button',{name:'准备本轮检查',exact:true}).click();await page.getByRole('button',{name:'执行检查',exact:true}).click();
   await expect.poll(()=>new URL(page.url()).searchParams.get('run')).toBeTruthy();runId=new URL(page.url()).searchParams.get('run')!;
   await page.getByRole('button',{name:'查看检查结果',exact:true}).click();await expect(page.getByText('已验证符合本条规则的预期。')).toBeVisible();
@@ -96,7 +96,7 @@ test('automatic accounts complete preparation without typing credentials',async(
     await captureStates(page,'automatic-preparation');
     await page.getByRole('checkbox',{name:'我同意在独立测试副本中创建用户并重置测试数据'}).check();
     await page.getByRole('button',{name:'执行环境检查'}).click();await expect(page.getByText('最近检查通过；本次执行前仍会重新核对凭据与环境。',{exact:true})).toBeVisible();await goStep(page,3);
-    await expect(page.getByRole('heading',{name:'03 确认业务与测试目标'})).toBeVisible();
+    await expect(page.getByRole('heading',{name:'03 确认要检查的业务'})).toBeVisible();
     await page.getByLabel('提交结果保存',{exact:true}).selectOption('observe');
     await goStep(page,3);await page.getByRole('combobox',{name:'提交结果保存',exact:true}).selectOption('confirm');
     await goStep(page,10);await page.getByRole('button',{name:'准备本轮检查'}).click();
@@ -145,7 +145,7 @@ test('first published template becomes usable without reselecting the rule',asyn
     // A configured model is optional when preparing an existing project.
     await goStep(page,4);await expect(page.getByRole('radio',{name:'让 AI 分析网站并推荐检查内容'})).toHaveCount(0);
     await expect(page.getByRole('button',{name:'刷新 AI 读取范围'})).not.toBeVisible();
-    await page.getByRole('button',{name:'继续：准备检查方案'}).click();await expect(page.locator('.step-heading h1')).toHaveText('05 准备检查方案');await goStep(page,3);await expect(page.getByRole('heading',{name:'03 确认业务与测试目标'})).toBeVisible();
+    await page.getByRole('button',{name:'继续：准备检查方案'}).click();await expect(page.locator('.step-heading h1')).toHaveText('05 选择或生成检查方案');await goStep(page,3);await expect(page.getByRole('heading',{name:'03 确认要检查的业务'})).toBeVisible();
     await goStep(page,11);await page.getByRole('tab',{name:'方案与验证依据'}).click();
     await page.reload();await page.getByRole('tab',{name:'方案与验证依据'}).click();
     await expect(page.getByRole('region',{name:'检查方案验证与审核',exact:true}).getByText('已发布固定版本 1.0.0',{exact:true})).toBeVisible();

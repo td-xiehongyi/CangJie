@@ -13,6 +13,35 @@ test.after(()=>rm(output,{recursive:true,force:true}));
 async function transpile(dir){for(const e of await readdir(dir,{withFileTypes:true})){const p=join(dir,e.name);if(e.isDirectory()){await transpile(p);continue;}if(!/\.tsx?$/.test(e.name))continue;const out=join(output,relative(source,p).replace(/\.tsx?$/,'.mjs'));await mkdir(dirname(out),{recursive:true});const js=ts.transpileModule(await readFile(p,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2023,jsx:ts.JsxEmit.ReactJSX}}).outputText.replace(/(from\s+|import\s*)(['"])(\.\.?\/[^'"]+)\2/g,(_,prefix,q,spec)=>prefix+q+spec.replace(/\.tsx?$/,'')+'.mjs'+q);await writeFile(out,js);}}
 await transpile(source);
 const {default:Report}=await import(pathToFileURL(join(output,'ReportView.mjs')));
+
+test('03 permits confirmed project business before compilation while pending or stale business stays blocked',async()=>{
+ const {default:Verify}=await import(pathToFileURL(join(output,'VerifyView.mjs')));
+ const rule={id:'r',projectId:'p',version:1,contentHash:'h',flow:'报名业务',expectedBehavior:['提交后保存报名内容'],answers:{},confirmation:{status:'confirmed'},sourceCurrent:true,suggestionRef:{discoveryId:'d',suggestionId:'s'}};
+ for(const [changes,disabled] of [[{},false],[{sourceCurrent:false},true],[{confirmation:{status:'pending'}},true]]){
+  const html=renderToStaticMarkup(React.createElement(Verify,{step:3,project:{id:'p',sourceOnly:true},state:{settings:{},rules:[],catalog:{matches:[]},projectRules:{p:{revision:1,versions:[{...rule,...changes}]}}},refresh:async()=>{},act:()=>{},select:()=>{}}));
+  const button=html.match(/<button[^>]*>继续：检查运行条件<\/button>/)?.[0];
+  assert.ok(button);assert.equal(button.includes('disabled'),disabled);
+ }
+});
+
+test('02 presents project AI and manual entry without scope or prompt forms, including after a failed analysis',async()=>{
+ const {default:Discovery}=await import(pathToFileURL(join(output,'components/BusinessDiscovery.mjs')));
+ const props={project:{id:'p',name:'project'},state:{settings:{}},refresh:async()=>{},select:()=>{}};
+ for(const session of [undefined,{id:'s',status:'failed',budget:{calls:1,tokens:20},reads:[],unresolved:['TRUNCATED_OUTPUT'],recovery:{allowed:true,message:'可继续'}}]){
+  const html=renderToStaticMarkup(React.createElement(Discovery,{...props,project:{...props.project,discovery:session}}));
+  assert.match(html,/>AI读取项目分析<\/h2>/);assert.match(html,/>自行填写业务<\/h2>/);
+  assert.match(html,/>读取项目<\/button>/);assert.match(html,/>前往03填写业务<\/button>/);
+  assert.doesNotMatch(html,/<textarea|修改分析范围|重点关注什么/);
+ }
+});
+
+test('saved response recovery is explicitly local and enabled without a model key',async()=>{
+ const {default:Discovery}=await import(pathToFileURL(join(output,'components/BusinessDiscovery.mjs')));
+ const session={id:'s',status:'failed',budget:{calls:1,tokens:20},reads:[],unresolved:['INVALID_DISCOVERY_OUTPUT'],recovery:{allowed:true,reason:'saved_response',message:'已保存响应'}};
+ const html=renderToStaticMarkup(React.createElement(Discovery,{project:{id:'p',name:'project',discovery:session},state:{settings:{}},refresh:async()=>{},select:()=>{}}));
+ const button=html.match(/<button[^>]*>恢复已保存的业务草稿（不调用模型）<\/button>/)?.[0];
+ assert.ok(button);assert.doesNotMatch(button,/disabled/);assert.doesNotMatch(html,/>继续原分析（调用模型）<\/button>/);
+});
 test('step11 does not mount a hidden second load-execution form',()=>{
  const run={id:'r',projectId:'p',status:'completed',kind:'verification',flow:{title:'示例'},plan:{sourceHash:'h',mapping:{}},checks:[],uncovered:[],startedAt:'2026-10-15',events:[]};
  const props={step:11,project:{id:'p',sourceHash:'h',mapping:{}},run,state:{runs:[run],loads:[],catalog:{matches:[]}},refresh:async()=>{},act:()=>{},select:()=>{}};

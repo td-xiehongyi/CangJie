@@ -41,8 +41,11 @@ export type CommonProps={step?:number;state:Data;project?:Data;run?:Data;refresh
 export function friendlyError(code:string):string{
   const messages:Record<string,string>={
     TRUNCATED_OUTPUT:'模型输出不完整，未形成完整分析结果；已有进度保留。继续会再次调用模型，累计预算不重置。（TRUNCATED_OUTPUT）',
-    REVISION_LIMIT_REACHED:'方案已达到修订次数上限，尚未取得准入资格。请核对失败证据，再处理方案与条件。（REVISION_LIMIT_REACHED）',
-    FULL_INPUT_TOO_LARGE:'02 完整文件材料超过输入上限，请缩小确认范围后重新预览；没有截断或发送。',
+    REVISION_LIMIT_REACHED:'本任务的3版方案均未通过独立验证。请核对失败原因；修复后可在下方明确创建新任务，旧记录和预算保留。（REVISION_LIMIT_REACHED）',
+    INVALID_CAPABILITY_DECLARATION:'模型混淆了操作、角色或表达式名称，正在按公开格式要求修订。',
+    CANDIDATE_RESTART_REQUIRED:'原任务已结束，不能继续修订。请点击“重新准备方案（新任务）”，核对范围和新预算后再开始。',
+    CANDIDATE_RESTART_NOT_ALLOWED:'当前任务尚可继续或等待审核，不能替换为新任务。',
+    FULL_INPUT_TOO_LARGE:'项目文本超过完整分析输入上限，尚未发送。可导入独立子项目，或选择自行填写业务。',
     EMPTY_ANALYSIS_INPUT:'02 没有可分析的授权文本文件，请检查范围和排除原因。',
     INVALID_ANALYSIS_INPUT:'02 请选择分析方式并填写有效提示词。',
     INVALID_JOURNEY:'03 测试目标无效，请核对请求率和1—300秒时长。',
@@ -63,7 +66,7 @@ export function friendlyError(code:string):string{
     RULE_VERSION_MISMATCH:'规则版本或内容已变化，请核对最新版本并重新选择。',
     RULE_PROJECT_MISMATCH:'这条规则属于其他项目，请选择当前项目的规则。',
     INVALID_RULE_INPUT:'项目规则内容无效，请核对关键问题、预期行为和纠正说明。',
-    ANALYSIS_CONFLICT:'另一页面已修改分析范围。本页输入已保留，请加载最新范围或保留本页重新保存。',
+    ANALYSIS_CONFLICT:'另一页面已更新项目。请加载最新项目状态，再读取项目。',
     ANALYSIS_BUDGET_EXHAUSTED:'本次分析预算不足，读取与调用记录已保留。请检查材料后重新分析，或自行填写业务。',
     ANALYSIS_RESUME_BLOCKED:'原任务已无法继续。请刷新状态，检查材料后重新分析，或自行填写业务。',
     ANALYSIS_PAUSED:'分析已暂停，在途请求已取消或记录未知用量。',
@@ -85,6 +88,7 @@ export function friendlyError(code:string):string{
     STARTUP_OR_BASELINE_FAILED:'测试网站启动或数据基线准备失败，请检查项目启动与初始化配置后重试。',
     AUTHENTICATION_FAILED:'模型服务未接受密钥，请在模型设置中核对后重试。',
     INVALID_MODEL_KEY:'密钥格式不正确：请粘贴完整密钥，不要包含换行。',
+    CONTRACT_BUSINESS_MISMATCH:'已确认业务与所选契约不匹配。标题修改不能使用工单关闭契约；请在03核对预期，05只绑定相符契约。',
     MODEL_KEY_REQUIRED:'请在本机输入模型 API 密钥后，再保存并检查连接。',
     CREDENTIAL_SESSION_CLOSED:'本机密钥会话已关闭，请重启工作台服务并刷新页面后重新输入密钥。',
     MODEL_NOT_FOUND:'服务返回404，请核对接口基础地址与模型名称。',
@@ -117,7 +121,7 @@ export function friendlyError(code:string):string{
     PROJECT_CONFIRMATION_REQUIRED:'请先确认独立测试环境，再开始检查。',
     TARGET_TRIAL_EVIDENCE_INCOMPLETE:'试运行暂时无法得出结论，请查看下方具体原因与技术证据，处理后继续原方案。',
     TARGET_TRIAL_INCOMPLETE:'试运行未完成，请检查测试环境后继续原方案。',
-    TEMPLATE_SCHEMA_OR_RULE_BINDING_INVALID:'方案定义或默认参数无效，请开发者修正并重新验证后继续。',
+    TEMPLATE_SCHEMA_OR_RULE_BINDING_INVALID:'方案未满足公开的参数、检查步骤或断言格式要求，请修正后重新验证。',
     VERSION_EXISTS:'该固定版本已经发布，请查看已发布的方案；不同版本需重新保存审核材料。'
   };if(code?.startsWith('FULL_INPUT_TOO_LARGE:'))return messages.FULL_INPUT_TOO_LARGE+' 详情：'+code.slice(code.indexOf(':')+1);return messages[code]??code;
 }

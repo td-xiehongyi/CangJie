@@ -25,14 +25,15 @@ test('numbered workbench preserves drafts, scopes goals and never auto-dispatche
  await page.waitForURL(/project=/);
  const pid=new URL(page.url()).searchParams.get('project');
  await nav.getByRole('button',{name:/^02 /}).click();
- await page.getByLabel('重点关注什么（可选）',{exact:true}).fill('识别取消订单业务');
- await nav.getByRole('button',{name:/^05 /}).click(); await page.waitForURL(/step=5/);
+ await page.getByRole('heading',{name:'AI读取项目分析',exact:true}).waitFor();
+ await nav.getByRole('button',{name:/^05 /}).click(); await page.waitForURL(/step=3/);
+ assert.match(await page.getByRole('alert').innerText(),/请先在03选择至少一项检查/);
  await nav.getByRole('button',{name:/^02 /}).click();
  await page.waitForURL(/step=2/);
 
- assert.equal(await page.getByLabel('重点关注什么（可选）',{exact:true}).inputValue(),'识别取消订单业务');
- assert.equal(await page.getByLabel('重点关注什么（可选）',{exact:true}).inputValue(),'识别取消订单业务');
- await page.getByRole('button',{name:'检查材料',exact:true}).click();
+ assert.equal(await page.getByRole('heading',{name:'自行填写业务',exact:true}).count(),1);
+ assert.equal(await page.locator('.business-discovery textarea').count(),0);
+ await page.getByRole('button',{name:'读取项目',exact:true}).click();
  await page.getByRole('button',{name:'查看完整文件清单与正文',exact:true}).click();
  await page.getByRole('dialog',{name:'查看完整文件清单与正文',exact:true}).waitFor();
  await page.keyboard.press('Escape');
@@ -45,8 +46,8 @@ test('numbered workbench preserves drafts, scopes goals and never auto-dispatche
  assert.equal(new URL(page.url()).searchParams.get('step'),'2');
  assert.equal(await page.getByRole('button',{name:'同意发送并开始分析',exact:true}).count(),0);
  assert.equal(await page.getByRole('button',{name:'查看完整文件清单与正文',exact:true}).count(),0);
- assert.equal(await page.getByLabel('重点关注什么（可选）',{exact:true}).inputValue(),'识别取消订单业务');
- await nav.getByRole('button',{name:/^03 /}).click();
+ await page.getByRole('button',{name:'前往03填写业务',exact:true}).click();
+ await page.getByLabel('业务说明（人工输入）',{exact:true}).fill('检查取消订单后库存恢复一次');
  await page.getByLabel('测试目标',{exact:true}).selectOption('both');
  await page.getByLabel('计划每秒完整检查次数').fill('2');
  await page.getByLabel('计划持续秒数').fill('10');
@@ -74,10 +75,10 @@ test('numbered workbench preserves drafts, scopes goals and never auto-dispatche
  }
  await page.evaluate(()=>document.body.style.zoom='1');
  await page.setViewportSize({width:1280,height:720});
- await mkdir('output/ux-workflow-v12-20261015-01a13f78/automated',{recursive:true});
- await page.screenshot({path:'output/ux-workflow-v12-20261015-01a13f78/automated/11-results.png',fullPage:true});
+ await mkdir('output/analysis-entry-20261016',{recursive:true});
+ await page.screenshot({path:'output/analysis-entry-20261016/11-results.png',fullPage:true});
  await nav.getByRole('button',{name:/^02 /}).click();
- await page.screenshot({path:'output/ux-workflow-v12-20261015-01a13f78/automated/02-analysis.png',fullPage:true});
+ await page.screenshot({path:'output/analysis-entry-20261016/02-analysis.png',fullPage:true});
  assert.equal(modelOrRunCalls,0,'navigation and configuration must not launch work');
  assert.deepEqual(errors,[]);
 });

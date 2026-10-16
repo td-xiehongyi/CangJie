@@ -7,7 +7,7 @@ import ProjectView from './ProjectView';
 import VerifyView from './VerifyView';
 import ReportView from './ReportView';
 import SettingsView from './SettingsView';
-import {journeySteps,parseStep,stepPage,createViewPositionWriter} from './workflowJourney';
+import {journeySteps,parseStep,stepPage,createViewPositionWriter,hasBusinessSelection} from './workflowJourney';
 const params=()=>new URLSearchParams(location.search);
 const initialStep=()=>params().has('step')?parseStep(params().get('step')):params().get('page')==='report'?11:params().get('page')==='verify'?3:params().get('page')==='repair'?12:1;
 type LeavePrompt={save:()=>Promise<void>;resolve:(leave:boolean)=>void};
@@ -34,7 +34,11 @@ export default function App(){
     if(page!=='settings'&&params().get('step')===String(step)&&target==='step:'+step&&pid===projectId&&(rid??'')===runId)return;
     if(navigationBusy.current)return;navigationBusy.current=true;
     void (async()=>{if(!await canLeave())return;positions.current.set(projectId+':step:'+step,window.scrollY);const from=page==='settings'?params().get('from'):undefined;if(page==='settings'&&target===from)restorePosition.current=positions.current.get(pid+':'+target);const explicit=target.startsWith('step:')?parseStep(target.slice(5)):undefined;
-      const next=explicit??(target==='report'?11:target==='repair'?12:target==='settings'?step:pid!==projectId?1:target===page?step:target==='verify'?(rid?10:3):4);
+      let next=explicit??(target==='report'?11:target==='repair'?12:target==='settings'?step:pid!==projectId?1:target===page?step:target==='verify'?(rid?10:3):4);
+      if(pid&&next===5&&target!=='settings'){
+        const latest=await api('/state');setState(latest);
+        if(!hasBusinessSelection(latest.projects.find((p:Data)=>p.id===pid),latest)){next=3;setError('请先在03选择至少一项检查，再准备检查方案。');}
+      }
       const destination=target==='settings'?'settings':stepPage(next);
       if(pid&&target!=='settings')viewWriter.current!.save(pid,next);
 
@@ -42,6 +46,12 @@ export default function App(){
   }
   function act(work:()=>Promise<void>){if(busy)return;setError('');setBusy(true);void work().catch(e=>setError(e.message)).finally(()=>setBusy(false));}
   const project=state?.projects.find((p:Data)=>p.id===projectId),run=state?.runs.find((r:Data)=>r.id===runId&&r.projectId===projectId);
+  // Guard entry links once; revisions inside05 must retain the user's local inputs.
+  useEffect(()=>{
+    if(!state||page==='settings'||step!==5||!project||hasBusinessSelection(project,state))return;
+    setError('请先在03选择至少一项检查，再准备检查方案。');
+    const q=params();q.set('page','verify');q.set('step','3');history.replaceState({},'',`?${q}`);applyLocation();
+  },[page,step,projectId,!!state]);
   if(closed)return <main className="closed"><h1>本次会话已退出</h1><p>测试密码、Token 和未记住的模型密钥已清除。</p></main>;
   const props={state:state!,project,run,refresh,act,select,step,settingsReturn:params().get('from')??undefined};
   function finishLeave(leave:boolean){leavePrompt?.resolve(leave);setLeavePrompt(undefined);setLeaving(false);}

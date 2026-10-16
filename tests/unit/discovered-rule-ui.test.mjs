@@ -54,12 +54,66 @@ function control(tree,type,label){const element=nodes(tree).find(node=>node.type
 function checkbox(tree,label){const field=control(tree,'label',label);return nodes(field).find(node=>node.type==='input'&&node.props.type==='checkbox')}
 function change(element,value){assert.equal(!!element.props.disabled,false,'cannot change a disabled UI control');element.props.onChange({target:typeof value==='boolean'?{checked:value}:{value}})}
 function click(element){assert.equal(!!element.props.disabled,false,'cannot click a disabled UI control');element.props.onClick()}
-async function withCard(versions,action){const previous=globalThis.fetch,calls=[],collection={projectId,revision:2,versions,readiness:[]};globalThis.fetch=async(url,options)=>{if(options?.body)calls.push({url,body:JSON.parse(options.body)});return new Response(JSON.stringify(collection),{headers:{'content-type':'application/json'}})};try{const renderer=createRenderer(ruleCard.default,{projectId,session:discovery,collection});renderer.render();await tick();return await action(renderer,calls,collection)}finally{globalThis.fetch=previous}}
+async function withCard(versions,action,stage='plan'){const previous=globalThis.fetch,calls=[],collection={projectId,revision:2,versions,readiness:[]};globalThis.fetch=async(url,options)=>{if(options?.body)calls.push({url,body:JSON.parse(options.body)});return new Response(JSON.stringify(collection),{headers:{'content-type':'application/json'}})};try{const renderer=createRenderer(ruleCard.default,{projectId,session:discovery,collection,stage});renderer.render();await tick();return await action(renderer,calls,collection)}finally{globalThis.fetch=previous}}
 function editor(renderer){const saved=nodes(renderer.render()).find(node=>typeof node.type==='function'&&node.props.rule);assert.ok(saved,'saved rule component missing');return createRenderer(saved.type,saved.props)}
 function fieldInput(tree,label){return nodes(control(tree,'label',label)).find(node=>node.type==='textarea')}
 
+const loadSource=await readFile(join(output,'components/TargetLoadCard.mjs'),'utf8');
+await writeFile(join(output,'components/InteractiveTargetLoadCard.mjs'),loadSource.replace(/from ['"]react['"]/g,"from '../hook-runtime.mjs'"));
+const {default:InteractiveLoad}=await import(pathToFileURL(join(output,'components/InteractiveTargetLoadCard.mjs')).href);
+
+test('03 shows Chinese business choices without contracts or version management',()=>{
+ const html=renderToStaticMarkup(React.createElement(StaticRuleCard,{projectId,stage:'business',session:{...discovery,result:{suggestions:[{...discovery.result.suggestions[0],flow:'Update ticket title only',expectations:[]}]}},collection:{revision:2,versions:[],readiness:[]}}));
+ assert.match(html,/修改工单标题/);assert.match(html,/检查这项业务/);
+ assert.doesNotMatch(html,/采用受控工单关闭契约|项目规则版本库|查看旧版本|确认后的预期行为/);
+});
+
 
 test.after(()=>rm(output,{recursive:true,force:true}));
+
+test('03 prefills AI answers only once and preserves explicit edits and clearing without confirming',async()=>{
+ const previous=discovery.result.suggestions[0];
+ discovery.result.suggestions[0]={...previous,expectations:[{text:'仅订单所有者可以取消'}],suggestedAnswers:{[question]:'建议仅允许所有者操作'}};
+ try{await withCard([],async(renderer,calls)=>{
+  let tree=renderer.render();change(control(tree,'input','检查'+previous.flow),true);tree=renderer.render();
+  assert.equal(control(tree,'textarea',question).props.value,'建议仅允许所有者操作');
+  assert.equal(checkbox(tree,'已核对关键问题与业务预期').props.checked,false);
+  assert.equal(control(tree,'button','确认并保存项目规则').props.disabled,true);assert.equal(calls.length,0);
+  change(control(tree,'textarea',question),'');tree=renderer.render();
+  change(control(tree,'input','检查'+previous.flow),false);tree=renderer.render();change(control(tree,'input','检查'+previous.flow),true);tree=renderer.render();
+  assert.equal(control(tree,'textarea',question).props.value,'');assert.equal(checkbox(tree,'已核对关键问题与业务预期').props.disabled,true);
+  change(control(tree,'textarea',question),'人工核对后的回答');tree=renderer.render();change(checkbox(tree,'已核对关键问题与业务预期'),true);tree=renderer.render();
+  change(control(tree,'textarea',question),'再修订回答');tree=renderer.render();assert.equal(checkbox(tree,'已核对关键问题与业务预期').props.checked,false);
+  change(checkbox(tree,'已核对关键问题与业务预期'),true);tree=renderer.render();click(control(tree,'button','确认并保存项目规则'));await tick();
+  assert.deepEqual(calls[0].body.answers,{[question]:'再修订回答'});assert.equal(calls.length,1);
+ },'business');}finally{discovery.result.suggestions[0]=previous;}
+});
+
+test('03 Chinese display retains original question keys for confirmation and source text',async()=>{
+ const previous=discovery.result.suggestions[0];
+ discovery.result.translations={'Who can cancel?':'谁可以取消？','Only owner':'仅所有者可取消','Current code checks status':'当前代码检查状态'};
+ discovery.result.suggestions[0]={...previous,openQuestions:['Who can cancel?'],suggestedAnswers:{'Who can cancel?':'建议仅允许订单所有者取消'},expectations:[{text:'Only owner'}],facts:[{text:'Current code checks status',sourceRefs:[]}]};
+ try{await withCard([],async(renderer,calls)=>{
+  let tree=renderer.render();change(control(tree,'input','检查'+previous.flow),true);tree=renderer.render();
+  assert.equal(control(tree,'textarea','谁可以取消？').props.value,'建议仅允许订单所有者取消');
+  assert.equal(control(tree,'textarea','确认后的预期行为（每行一条）').props.value,'仅所有者可取消');
+  assert.ok(textOf(tree).includes('当前代码检查状态'));assert.ok(!textOf(tree).includes('Who can cancel?'));
+  change(checkbox(tree,'已核对关键问题与业务预期'),true);tree=renderer.render();click(control(tree,'button','确认并保存项目规则'));await tick();
+  assert.deepEqual(calls[0].body.answers,{'Who can cancel?':'建议仅允许订单所有者取消'});
+ },'business');}finally{discovery.result.suggestions[0]=previous;delete discovery.result.translations;}
+});
+
+test('translated saved rules remain clean until edited and never rewrite history on confirmation',async()=>{
+ discovery.result.translations={'Who can cancel?':'谁可以取消？','Only owner':'仅所有者可取消'};
+ const stored={...version,confirmation:{status:'pending'},openQuestions:['Who can cancel?'],answers:{'Who can cancel?':'Only owner'},expectedBehavior:['Only owner']};
+ try{await withCard([stored],async(renderer,calls)=>{
+  const saved=editor(renderer);let tree=saved.render();assert.ok(textOf(tree).includes('谁可以取消？'));assert.ok(!textOf(tree).includes('Who can cancel?'));
+  change(checkbox(tree,'已核对修订后的业务预期'),true);tree=saved.render();assert.equal(control(tree,'button','确认当前版本').props.disabled,false);
+  click(control(tree,'button','修订业务预期'));tree=saved.render();assert.equal(fieldInput(tree,'修订后的预期行为（每行一条）').props.value,'仅所有者可取消');
+  click(control(tree,'button','收起修订（保留输入）'));tree=saved.render();change(checkbox(tree,'已核对修订后的业务预期'),true);tree=saved.render();click(control(tree,'button','确认当前版本'));await tick();
+  assert.equal(calls.length,1);assert.ok(calls[0].url.endsWith('/confirm-version'));assert.deepEqual(stored.expectedBehavior,['Only owner']);assert.deepEqual(stored.answers,{'Who can cancel?':'Only owner'});
+ });}finally{delete discovery.result.translations;}
+});
 
 test('compile API sends the exact reference to the project-specific endpoint',async()=>{
   assert.equal(typeof client.projectRulesApi.compile,'function','explicit compile API is missing');
@@ -93,7 +147,7 @@ test('candidate and run request builders preserve exact dynamic refs without leg
 
 test('confirmed project versions require explicit compilation and cannot prepare a run from resources alone',()=>{
   const html=render(fixture());assert.ok(button(html,'编译此精确规则版本'),'confirmed rule needs an explicit compile control');assert.match(html,/编译不会生成合格方案/);assert.match(button(html,'准备本轮检查'),/disabled/);assert.doesNotMatch(html,/修订业务预期<\/button>/);
-  const pending=render(fixture({versions:[{...version,confirmation:{status:'pending'}}]}));assert.match(button(pending,'编译此精确规则版本'),/disabled/);
+  const pending=render(fixture({versions:[{...version,expectedBehavior:publicContract.statusTransitionBehavior,confirmation:{status:'pending'}}]}));assert.match(button(pending,'编译此精确规则版本'),/disabled/);
 });
 
 test('compilation gaps show semantic details without presenting the rule as executable',()=>{
@@ -122,42 +176,31 @@ test('an old dynamic candidate cannot appear as the current exact version review
   const html=render(value);assert.doesNotMatch(html,/审核这条检查方案<\/button>/);assert.ok(button(html,'调用模型创建检查方案'));assert.match(html,/<div hidden=""><section class="card candidate-review"/);
 });
 
-test('controlled contract is visible and unchecked by default without inferring arbitrary suggestion semantics',()=>{
-  const html=renderToStaticMarkup(React.createElement(StaticRuleCard,{projectId,session:discovery,collection:{revision:2,versions:[],readiness:[]}}));
-  assert.match(html,new RegExp(optInLabel));assert.doesNotMatch(html,/type="checkbox"[^>]*checked/);
-  assert.match(html,/选择和确认本身不会生成方案或执行项目规则/);
-  for(const behavior of publicContract.statusTransitionBehavior)assert.ok(html.includes(behavior));
-  for(const operation of publicContract.statusTransitionRequirements.operations){assert.ok(html.includes(operation.operationId));assert.ok(html.includes(operation.actorRef));for(const parameter of operation.parameters)assert.ok(html.includes(parameter))}
-  for(const observation of publicContract.statusTransitionRequirements.observations)assert.ok(html.includes(`${observation.operationId}.${observation.field} · requiresComplete=${observation.requiresComplete}`));
-  assert.match(html,/requiresComplete.*true/);assert.match(html,/eq/);assert.match(html,/synthetic-status-ticket/);
-});
+test('03 confirms only selected business expectations without binding a contract',async()=>withCard([],async(renderer,calls)=>{
+ let tree=renderer.render();assert.equal(nodes(tree).some(n=>n.type==='textarea'),false);
+ change(checkbox(tree,'检查这项业务'),true);tree=renderer.render();
+ assert.equal(checkbox(tree,'已核对关键问题与业务预期').props.disabled,true);
+ change(control(tree,'textarea',question),'  用户独立确认  ');tree=renderer.render();
+ change(control(tree,'textarea','确认后的预期行为（每行一条）'),'  退款由财务复核  ');tree=renderer.render();
+ change(checkbox(tree,'已核对关键问题与业务预期'),true);tree=renderer.render();
+ click(control(tree,'button','确认并保存项目规则'));await tick();
+ assert.deepEqual(calls,[{url:`/api/projects/${projectId}/rules/confirm`,body:{discoveryId:discovery.id,suggestionId:'arbitrary-refund',expectedRevision:2,answers:{[question]:'用户独立确认'},expectedBehavior:['退款由财务复核'],confirmed:true}}]);
+}, 'business'));
 
-test('actual confirm handler sends controlled exact behavior and requirements only after explicit opt-in',async()=>withCard([],async(renderer,calls)=>{
-  let tree=renderer.render();assert.equal(checkbox(tree,optInLabel).props.checked,false);
-  change(checkbox(tree,optInLabel),true);tree=renderer.render();
-  assert.equal(checkbox(tree,'已核对关键问题与业务预期').props.disabled,true,'contract opt-in cannot bypass unanswered business questions');
-  assert.equal(control(tree,'textarea','确认后的预期行为（每行一条）').props.disabled,true);
-  assert.equal(control(tree,'textarea','确认后的预期行为（每行一条）').props.value,publicContract.statusTransitionBehavior.join('\n'));
-  change(control(tree,'textarea',question),'  由用户独立确认  ');tree=renderer.render();
-  change(checkbox(tree,'已核对关键问题与业务预期'),true);tree=renderer.render();
-  click(control(tree,'button','确认并保存项目规则'));await tick();
-  assert.deepEqual(calls,[{url:`/api/projects/${projectId}/rules/confirm`,body:{discoveryId:discovery.id,suggestionId:'arbitrary-refund',expectedRevision:2,answers:{[question]:'由用户独立确认'},expectedBehavior:publicContract.statusTransitionBehavior,requirements:publicContract.statusTransitionRequirements,confirmed:true}}]);
-}));
-
-test('unchecked actual confirm stays free-text without requirements and changing opt-in clears confirmation',async()=>withCard([],async(renderer,calls)=>{
-  let tree=renderer.render();change(control(tree,'textarea',question),'用户确认');tree=renderer.render();change(control(tree,'textarea','确认后的预期行为（每行一条）'),'  退款由财务复核  \n');tree=renderer.render();change(checkbox(tree,'已核对关键问题与业务预期'),true);tree=renderer.render();
-  change(checkbox(tree,optInLabel),true);tree=renderer.render();assert.equal(checkbox(tree,'已核对关键问题与业务预期').props.checked,false);
-  change(checkbox(tree,optInLabel),false);tree=renderer.render();assert.equal(control(tree,'textarea','确认后的预期行为（每行一条）').props.value,'  退款由财务复核  \n');change(checkbox(tree,'已核对关键问题与业务预期'),true);tree=renderer.render();click(control(tree,'button','确认并保存项目规则'));await tick();
-  assert.deepEqual(calls[0].body.expectedBehavior,['退款由财务复核']);assert.equal(Object.hasOwn(calls[0].body,'requirements'),false);
-}));
-
-test('actual free revision preserves existing controlled bindings without implicitly adopting contract semantics',async()=>withCard([{...version,requirements:publicContract.statusTransitionRequirements}],async(renderer,calls)=>{
+test('editing a selected business expectation clears confirmation without adding contract requirements',async()=>withCard([],async(renderer,calls)=>{
+ let tree=renderer.render();change(checkbox(tree,'检查这项业务'),true);tree=renderer.render();
+ change(control(tree,'textarea',question),'用户确认');tree=renderer.render();change(control(tree,'textarea','确认后的预期行为（每行一条）'),'仅所有者可修改标题');tree=renderer.render();
+ change(checkbox(tree,'已核对关键问题与业务预期'),true);tree=renderer.render();
+ change(control(tree,'textarea','确认后的预期行为（每行一条）'),'仅所有者可修改标题，优先级不变');tree=renderer.render();
+ assert.equal(checkbox(tree,'已核对关键问题与业务预期').props.checked,false);assert.equal(calls.length,0);
+}, 'business'));
+test('actual free revision preserves existing controlled bindings without implicitly adopting contract semantics',async()=>withCard([{...version,expectedBehavior:publicContract.statusTransitionBehavior,requirements:publicContract.statusTransitionRequirements}],async(renderer,calls)=>{
   const saved=editor(renderer);let tree=saved.render();click(control(tree,'button','修订业务预期'));tree=saved.render();assert.equal(checkbox(tree,optInLabel).props.checked,false);
-  change(fieldInput(tree,'修订后的预期行为（每行一条）'),'更严格的自由业务预期');tree=saved.render();change(fieldInput(tree,'纠正说明'),'明确保留当前能力绑定');tree=saved.render();click(control(tree,'button','保存修订（清除确认）'));await tick();
-  assert.deepEqual(calls[0],{url:`/api/projects/${projectId}/rules/${ruleId}/revise`,body:{expectedRevision:2,expectedBehavior:['更严格的自由业务预期'],answers:{},note:'明确保留当前能力绑定',requirements:publicContract.statusTransitionRequirements}});
+  change(fieldInput(tree,'修订后的预期行为（每行一条）'),publicContract.statusTransitionBehavior.join('\n'));tree=saved.render();change(fieldInput(tree,'纠正说明'),'明确保留当前能力绑定');tree=saved.render();click(control(tree,'button','保存修订（清除确认）'));await tick();
+  assert.deepEqual(calls[0],{url:`/api/projects/${projectId}/rules/${ruleId}/revise`,body:{expectedRevision:2,expectedBehavior:publicContract.statusTransitionBehavior,answers:{},note:'明确保留当前能力绑定',requirements:publicContract.statusTransitionRequirements}});
 }));
 
-test('revision opt-in is unsaved semantic state and converts a free version through actual revision API before confirmation',async()=>withCard([{...version,confirmation:{status:'pending'}}],async(renderer,calls)=>{
+test('revision opt-in is unsaved semantic state and converts a free version through actual revision API before confirmation',async()=>withCard([{...version,expectedBehavior:publicContract.statusTransitionBehavior,confirmation:{status:'pending'}}],async(renderer,calls)=>{
   const saved=editor(renderer);let tree=saved.render();click(control(tree,'button','修订业务预期'));tree=saved.render();change(checkbox(tree,optInLabel),true);tree=saved.render();
   assert.equal(fieldInput(tree,'修订后的预期行为（每行一条）').props.disabled,true);
   click(control(tree,'button','收起修订（保留输入）'));tree=saved.render();assert.equal(control(tree,'button','确认当前版本').props.disabled,true,'unsaved contract choice must block current-version confirmation');
@@ -166,11 +209,11 @@ test('revision opt-in is unsaved semantic state and converts a free version thro
 }));
 
 
-test('discarding unsaved contract selection restores free current-version confirmation without issuing an API request',async()=>withCard([{...version,confirmation:{status:'pending'}}],async(renderer,calls)=>{
+test('discarding unsaved contract selection restores free current-version confirmation without issuing an API request',async()=>withCard([{...version,expectedBehavior:publicContract.statusTransitionBehavior,confirmation:{status:'pending'}}],async(renderer,calls)=>{
   const saved=editor(renderer);let tree=saved.render();click(control(tree,'button','修订业务预期'));tree=saved.render();change(checkbox(tree,optInLabel),true);tree=saved.render();click(control(tree,'button','放弃未保存修订'));tree=saved.render();
   assert.equal(nodes(tree).some(node=>node.type==='button'&&textOf(node)==='放弃未保存修订'),false);assert.equal(calls.length,0);
   change(checkbox(tree,'已核对修订后的业务预期'),true);tree=saved.render();assert.equal(control(tree,'button','确认当前版本').props.disabled,false);
-  click(control(tree,'button','修订业务预期'));tree=saved.render();assert.equal(checkbox(tree,optInLabel).props.checked,false);assert.equal(fieldInput(tree,'修订后的预期行为（每行一条）').props.value,version.expectedBehavior.join('\n'));
+  click(control(tree,'button','修订业务预期'));tree=saved.render();assert.equal(checkbox(tree,optInLabel).props.checked,false);assert.equal(fieldInput(tree,'修订后的预期行为（每行一条）').props.value,publicContract.statusTransitionBehavior.join('\n'));
 }));
 
 test('an unchecked free revision does not add controlled requirements to an unbound version',async()=>withCard([version],async(renderer,calls)=>{
@@ -189,11 +232,12 @@ test('stale-source history blocks selection and confirmation while real correcti
 });
 test('source-invalidated versions cannot be displayed as executable or offered for compilation',()=>{const value=fixture({compiled:[dynamic],versions:[{...version,sourceCurrent:false}]});assert.deepEqual(view.verificationRules(value.state,value.project),[legacy]);const html=render(value);assert.match(button(html,'编译此精确规则版本'),/disabled/);assert.match(html,/来源已变化，请重新分析/);});
 
-const loadSource=await readFile(join(output,'components/TargetLoadCard.mjs'),'utf8');
-await writeFile(join(output,'components/InteractiveTargetLoadCard.mjs'),loadSource.replace(/from ['"]react['"]/g,"from '../hook-runtime.mjs'"));
-const {default:InteractiveLoad}=await import(pathToFileURL(join(output,'components/InteractiveTargetLoadCard.mjs')).href);
 const loadProps=()=>({project:{id:'p',environmentConfirmed:true,data:{count:0},journey:{rate:'2',durationSeconds:'10'}},run:{id:'run-a',status:'completed',checks:[{rule:{id:'save-rule'},mode:'verify',verdicts:[{status:'pass'}]}]},state:{loads:[],loadPreset:{}},refresh:async()=>{},act:()=>{}});
 const rateField=tree=>nodes(tree).find(n=>n.type==='input'&&n.props.type==='number');
+test('load form blocks fractional or excessive rates before dispatch',()=>{
+ const renderer=createRenderer(InteractiveLoad,loadProps());let tree=renderer.render();
+ for(const value of ['0.5','101']){rateField(tree).props.onChange({target:{value}});tree=renderer.render();nodes(tree).find(n=>n.type==='input'&&n.props.type==='checkbox').props.onChange({target:{checked:true}});tree=renderer.render();assert.equal(control(tree,'button','执行目标负载检查').props.disabled,true)}
+});
 test('load form follows external saved targets when untouched and clears consent',()=>{
  const props=loadProps(),renderer=createRenderer(InteractiveLoad,props);let tree=renderer.render();
  nodes(tree).find(n=>n.type==='input'&&n.props.type==='checkbox').props.onChange({target:{checked:true}});
@@ -223,4 +267,19 @@ test('numbered preparation integrates capability action without a duplicate comp
  value.state.projectRules[projectId].readiness=[{ruleRef:ref,status:'generatable',missing:[]}];
  const html=render({...value,step:5});
  assert.match(html,/准备这项业务的检查/);assert.doesNotMatch(html,/编译已确认的项目规则/);
+});
+
+
+test('05 never offers a closing contract for a title-editing business',async()=>withCard([{...version,flow:'Update ticket title only',expectedBehavior:publicContract.statusTransitionBehavior}],async(renderer,calls)=>{
+  const saved=editor(renderer);let tree=saved.render();click(control(tree,'button','修订业务预期'));tree=saved.render();
+  assert.equal(nodes(tree).some(n=>n.type==='input'&&n.props.type==='checkbox'&&textOf(n)===optInLabel),false);
+  assert.ok(textOf(tree).includes('该业务不适用工单关闭契约'));
+  assert.equal(calls.length,0);
+}));
+
+
+test('unknown English businesses keep distinct Chinese names in compiled selection',()=>{
+ const second={...version,id:'second-rule',flow:'Another unknown business'};const first={...version,flow:'Unknown business'};
+ const html=render(fixture({versions:[first,second],compiled:[dynamic,{...dynamic,id:'second-rule',ruleRef:{...ref,id:'second-rule'}}]}));
+ assert.match(html,/aria-label="项目业务1"/);assert.match(html,/aria-label="项目业务2"/);
 });

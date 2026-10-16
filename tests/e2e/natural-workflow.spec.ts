@@ -35,8 +35,11 @@ for(const width of [1280,390])test(`candidate creation reveals sending confirmat
     await page.getByRole('button',{name:'确认范围并调用模型创建方案',exact:true}).click();await expect.poll(()=>launches).toBe(1);
     expect(new URL(page.url()).searchParams.get('step')).toBe('5');await goStep(page,7);await expect(page.getByText('正在准备方案，验证与试运行进度会在这里更新。',{exact:true})).toBeVisible();
     await page.screenshot({path:`output/plan-preparation-20261016/regression/automated/candidate/screenshots/progress-${width}.png`,fullPage:false});
-    await goStep(page,3);await page.getByLabel('只改标题，优先级和所有者不变',{exact:true}).selectOption('off');await goStep(page,5);await expect(page.getByText('另有方案正在准备，不属于本轮选择；完成前暂不能启动新的方案。',{exact:true})).toBeVisible();expect(launches).toBe(1);
-  }finally{await host.close();}
+    await goStep(page,3);await page.getByLabel('只改标题，优先级和所有者不变',{exact:true}).selectOption('off');
+    const toggle=page.getByRole('button',{name:/全部步骤/});if(await toggle.isVisible())await toggle.click();
+    await page.getByRole('navigation',{name:'完整业务验证流程'}).getByRole('button',{name:/^05 /}).click();
+    await expect(page.locator('.step-heading h1')).toHaveText('03 确认要检查的业务');await expect(page.getByRole('alert')).toContainText('请先在03选择至少一项检查');expect(launches).toBe(1);
+  }finally{await page.unrouteAll({behavior:'wait'});await host.close();}
 });
 
 test('leaving project selection cancels its pending folder chooser',async({page})=>{
@@ -68,14 +71,14 @@ test('empty library, preparation history, settings return and draft restoration'
     await expect(page.locator('.step-heading h1')).toHaveText('04 检查运行条件');
     await page.getByRole('checkbox',{name:'我同意在独立测试副本中创建用户并重置测试数据'}).check();
     await page.getByRole('button',{name:'执行环境检查',exact:true}).click();await expect(page.getByText('最近检查通过；本次执行前仍会重新核对凭据与环境。',{exact:true})).toBeVisible();await goStep(page,3);
-    await expect(page.getByRole('heading',{name:'03 确认业务与测试目标'})).toBeVisible();
+    await expect(page.getByRole('heading',{name:'03 确认要检查的业务'})).toBeVisible();
     const projectId=new URL(page.url()).searchParams.get('project')!;
     await page.getByLabel('提交结果保存',{exact:true}).selectOption('observe');
     await page.getByRole('combobox',{name:'提交结果保存',exact:true}).selectOption('confirm');
     await expect(page.getByText('检查选择已保存',{exact:true})).toBeVisible();
     await page.getByRole('button',{name:'模型设置',exact:true}).click();
-    await expect(page.getByRole('button',{name:'返回03 确认业务与测试目标',exact:true})).toBeVisible();
-    await page.getByRole('button',{name:'返回03 确认业务与测试目标',exact:true}).click();
+    await expect(page.getByRole('button',{name:'返回03 确认要检查的业务',exact:true})).toBeVisible();
+    await page.getByRole('button',{name:'返回03 确认要检查的业务',exact:true}).click();
     await page.reload();await expect(page.getByLabel('提交结果保存',{exact:true})).not.toHaveValue('off');
     await expect(page.getByRole('combobox',{name:'提交结果保存',exact:true})).toHaveValue('confirm');
     await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('edit');

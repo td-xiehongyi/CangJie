@@ -36,7 +36,7 @@ test('D8 actual controlled discovery without runtime configuration reaches valid
       if(isDiscovery){
         discoveryCalls++;
         if(discoveryCalls===1)value={kind:'actions',actions:[{type:'search',query:'closed',limit:20}]};
-        else if(discoveryCalls===2)value={kind:'actions',actions:[{type:'read',path:'src/server.ts',startLine:26,endLine:39},{type:'read',path:'README.md',startLine:1,endLine:15}]};
+        else if(discoveryCalls===2)value={kind:'actions',actions:[{type:'read',path:'src/server.ts',startLine:26,endLine:47},{type:'read',path:'README.md',startLine:1,endLine:15}]};
         else{
           const code=payload.files.find(f=>f.path==='src/server.ts').sourceRef,doc=payload.files.find(f=>f.path==='README.md').sourceRef,refs=[code,doc];
           value={kind:'result',result:{summary:'受控工单关闭及拒绝重开业务',objects:['工单'],roles:['所有者'],flows:[{name:'关闭工单后拒绝重开',roles:['所有者'],steps:['创建open工单','关闭','查询','尝试重开','再次查询'],data:['title','status','ownerId'],sourceRefs:refs}],sourceRefs:refs,suggestions:[{id:'controlled-close',status:'suggestion',flow:'关闭工单后拒绝重开',facts:[{text:'实现拒绝closed到open，查询返回完整性声明。',sourceRefs:[code]}],expectations:[{text:'关闭不可逆，标题和归属在每次转换后保持不变。',source:'documentation',confirmation:'pending',sourceRefs:[doc]}],risks:[{text:'应分别核对关闭中间状态与拒绝重开后的状态。',sourceRefs:refs}],openQuestions:['是否采用公开受控工单契约及其操作和观察条件？'],sourceRefs:refs,priorityReason:'核对状态拒绝和字段不变性',operationNeeds:['create','query','update'],observationNeeds:['id','title','status','ownerId及查询完整性']}],limitations:['只读取选定源码与公开需求；尚未配置运行环境。'],unresolved:[]}};

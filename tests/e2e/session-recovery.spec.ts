@@ -12,7 +12,7 @@ for(const mode of ['save','load'])test(`session restart preserves local choices 
   try{
     const {projectId}=await request('/projects',{directory:join(process.cwd(),'samples/ticket'),accountMode:'automatic'});
     await page.setViewportSize({width:mode==='save'?1280:390,height:900});await page.goto(host.url+`/?page=verify&project=${projectId}`);
-    await expect(page.getByRole('heading',{name:'03 确认业务与测试目标'})).toBeVisible();
+    await expect(page.getByRole('heading',{name:'03 确认要检查的业务'})).toBeVisible();
     const port=Number(new URL(host.url).port);await host.close();host=await startWorkbench({directory,registryDirectory,port});
     await page.getByLabel('提交结果保存',{exact:true}).selectOption('observe');
     await expect(page.getByRole('button',{name:'重新连接工作台',exact:true})).toBeVisible();

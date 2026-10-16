@@ -1,6 +1,6 @@
 import test,{mock} from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile,mkdtemp,mkdir,rm} from 'node:fs/promises';
+import {cp,readFile,mkdtemp,mkdir,rm} from 'node:fs/promises';
 import {join} from 'node:path';
 import '../support/project-rules.mjs';
 import {StatusTransitionAdmissionModel} from '../support/status-transition-admission-model.mjs';
@@ -12,7 +12,7 @@ import {ProjectRuleStore,input,suggestion,ref} from '../support/project-rules.mj
 const behavior=['工单允许 open→closed。','closed 后请求 open 必须被拒绝，状态仍为 closed。','标题和归属保持不变。'];
 const requirements={operations:[{operationId:'create',actorRef:'owner',parameters:['title','status']},{operationId:'query',actorRef:'owner',parameters:['id']},{operationId:'update',actorRef:'owner',parameters:['id','status']}],observations:['id','title','status','ownerId'].map(field=>({operationId:'query',field,requiresComplete:true})),assertions:['eq'],dataConditions:['synthetic-status-ticket']};
 async function api(){let available=true;try{await readFile('apps/host/dist/rules/compiler.js')}catch(e){if(e.code==='ENOENT')available=false;else throw e}assert.ok(available,'S4 project rule compiler is not implemented');return import('../../apps/host/dist/rules/compiler.js')}
-async function setup(t){const directory=await mkdtemp(join(process.cwd(),'output/s4-compiler-'));t.after(()=>rm(directory,{recursive:true,force:true}));const store=new ProjectRuleStore(join(directory,'project-rules'));const rule=await store.confirmProjectRule(crypto.randomUUID(),{...input,suggestion:{...suggestion,id:'status-transition',flow:'工单关闭',sourceRefs:[ref]},suggestionRef:{discoveryId:'status-analysis',suggestionId:'status-transition'},expectedBehavior:behavior,requirements},0);return {directory,store,rule}}
+async function setup(t){const directory=await mkdtemp(join(process.cwd(),'output/s4-compiler-'));t.after(()=>rm(directory,{recursive:true,force:true}));const store=new ProjectRuleStore(join(directory,'project-rules'));const rule=await store.confirmProjectRule(crypto.randomUUID(),{...input,suggestion:{...suggestion,id:'status-transition',flow:'工单关闭',sourceRefs:[ref]},suggestionRef:{discoveryId:'status-analysis',suggestionId:'status-transition'},expectedBehavior:behavior,requirements},0);const source=join(directory,'runtime');await cp('samples/status-ticket',source,{recursive:true,filter:path=>!path.endsWith('demo.mjs')});return {directory,store,rule,source}}
 const mapping={id:'status-map',version:1,targetRef:'source-status-ticket',authMode:'token',actorRefs:['owner','other'],auth:{loginPath:'/login',usernameField:'username',passwordField:'password',tokenPath:['token'],identityPath:'/me',idPath:['id']},operations:[{operationId:'create',method:'POST',path:'/tickets',bodyBindings:{title:'title',status:'status',intentId:'intent'}},{operationId:'query',method:'GET',path:'/tickets',queryBindings:{id:'id'}},{operationId:'update',method:'PATCH',path:'/tickets/:id',bodyBindings:{status:'status'}}],resultBindings:{create:{id:['id'],title:['title'],status:['status'],ownerId:['ownerId']},query:{id:['items','0','id'],title:['items','0','title'],status:['items','0','status'],ownerId:['items','0','ownerId'],items:['items']},update:{id:['id'],status:['status']}},queryCompleteness:{query:{itemsPath:['items'],totalPath:['total'],hasMorePath:['hasMore'],completePath:['complete']}}};
 const capabilities={operations:['create','query','update'],actorRefs:['owner','other'],expressions:['field','const','eq']};
 test('a confirmed new project rule compiles only its frozen semantic and explicitly mapped inputs',async t=>{const a=await api(),x=await setup(t),r=await a.compileRulePlan(x.rule,mapping,capabilities);assert.equal(r.status,'compiled',JSON.stringify(r));assert.equal(r.rule.id,x.rule.id);assert.equal(r.rule.version,x.rule.version);assert.match(r.rule.source,new RegExp(x.rule.projectId));assert.equal(r.ruleRef.contentHash,x.rule.contentHash);assert.equal(r.resourceId,'status-transition');assert.ok(!JSON.stringify(r).includes('heldOut'));assert.ok(!JSON.stringify(r).includes('cases'));assert.notEqual(r.rule.id,'title-update-rule');});
@@ -21,7 +21,7 @@ test('an unconfirmed version never compiles and missing private resources remain
 
 test('new UUID rule traverses isolated deterministic candidate, admission, test-review, run and package replay', {timeout:120000},async t=>{
   const a=await api(),x=await setup(t),{inspectProject,digest}=await import('../../apps/host/dist/projects/inspect.js');
-  const profile=await inspectProject('samples/status-ticket'),bound=await a.registerCompiledRule(x.store,{projectId:x.rule.projectId,id:x.rule.id,version:x.rule.version,contentHash:x.rule.contentHash},profile.mapping,capabilities,{root:profile.root,hash:profile.sourceHash});
+  const profile=await inspectProject(x.source),bound=await a.registerCompiledRule(x.store,{projectId:x.rule.projectId,id:x.rule.id,version:x.rule.version,contentHash:x.rule.contentHash},profile.mapping,capabilities,{root:profile.root,hash:profile.sourceHash});
   assert.equal(bound.status,'compiled');
   const loaded=await a.loadCompiledValidationRule(x.rule.id,1);assert.deepEqual(loaded.rule,bound.rule);
   const {resolveValidationSuite}=await import('../../apps/host/dist/validation/reference-runner.js');
@@ -54,11 +54,11 @@ test('new UUID rule traverses isolated deterministic candidate, admission, test-
   const reopened=await loadReplay(pkg,environment,registry),again=await new RunExecutor(registry,store).run(reopened.plan,environment,reopened.parentRunId);assert.equal(again.status,'completed');assert.notEqual(again.checks[0].copyId,run.checks[0].copyId);assert.deepEqual(again.checks[0].verdicts.map(v=>v.status),spec.assertions.map(()=> 'pass'));
   await assert.rejects(new RunExecutor(registry,store).run({...plan,projectId:crypto.randomUUID()},{...environment,projectId:crypto.randomUUID()}),/RULE_PROJECT_MISMATCH/);
   await assert.rejects(a.assertCompiledRuleProject(bound.rule,x.rule.projectId,{...profile.mapping,version:2},profile.sourceHash),/RULE_MAPPING_MISMATCH/);
-  const current=await x.store.list(x.rule.projectId);await x.store.reviseProjectRule(bound.ruleRef,{expectedBehavior:['允许重开'],note:'测试修订'},current.revision);await assert.rejects(registry.assertQualified(published.ref),/STALE_PROJECT_RULE/);
+  const current=await x.store.list(x.rule.projectId);await x.store.reviseProjectRule(bound.ruleRef,{expectedBehavior:behavior,note:'重新核对关闭规则，旧方案须重新审核'},current.revision);await assert.rejects(registry.assertQualified(published.ref),/STALE_PROJECT_RULE/);
 });
 test('compiled validation qualification refuses a changed runtime source before review',async t=>{
   const a=await api(),x=await setup(t),{cp,writeFile}=await import('node:fs/promises'),{inspectProject}=await import('../../apps/host/dist/projects/inspect.js');
-  const source=join(x.directory,'source');await cp('samples/status-ticket',source,{recursive:true});const profile=await inspectProject(source);
+  const source=join(x.directory,'source');await cp(x.source,source,{recursive:true});const profile=await inspectProject(source);
   const plan=await a.registerCompiledRule(x.store,{projectId:x.rule.projectId,id:x.rule.id,version:1,contentHash:x.rule.contentHash},profile.mapping,capabilities,{root:profile.root,hash:profile.sourceHash});assert.equal(plan.status,'compiled');
   await writeFile(join(source,'README.md'),'changed source');await assert.rejects(a.loadCompiledValidationRule(x.rule.id,1),/STALE_PROJECT_RULE/);
 });
@@ -76,7 +76,7 @@ test('status candidates reject schema-like parameters before any target action',
   for(const parameters of [{title:{type:'string'},intent:'synthetic'},{title:'',intent:'synthetic'},{title:'合成',intent:{type:'string'}},{title:'合成'}])assert.equal(candidateShape({...spec,parameters},suite.rule),false);
 });
 test('registration checks the current runtime snapshot inside the project transaction',async t=>{
-  const a=await api(),x=await setup(t),{inspectProject}=await import('../../apps/host/dist/projects/inspect.js'),profile=await inspectProject('samples/status-ticket');
+  const a=await api(),x=await setup(t),{inspectProject}=await import('../../apps/host/dist/projects/inspect.js'),profile=await inspectProject(x.source);
   await assert.rejects(a.registerCompiledRule(x.store,{projectId:x.rule.projectId,id:x.rule.id,version:1,contentHash:x.rule.contentHash},profile.mapping,capabilities,{root:profile.root,hash:profile.sourceHash,validateRuntime(){throw new Error('CONDITIONS_CHANGED_RECONNECT_REQUIRED')}}),/CONDITIONS_CHANGED_RECONNECT_REQUIRED/);
   assert.equal(await a.loadCompiledValidationRule(x.rule.id,1),undefined);
 });
@@ -84,4 +84,12 @@ test('public model guidance sends only the current status obligations and execut
   const {generateCandidate}=await import('../../apps/host/dist/model/proposal.js'),{loadValidationSuite}=await import('../../apps/host/dist/validation/reference-runner.js'),suite=await loadValidationSuite('status-transition-rule'),requests=[];
   await generateCandidate({async json(request){requests.push(request);return {value:{}}}},suite.rule,capabilities,{context:{}},0);
   const request=requests[0];for(const id of ['closed-status','remains-closed','unchanged-title','unchanged-owner','closed-unchanged-title','closed-unchanged-owner'])assert.ok(request.instructions.includes(id));assert.ok(!request.instructions.includes('newTitle'));assert.deepEqual(request.payload.operationFormat.update.input,['id','status']);assert.ok(!JSON.stringify(request).includes('st-held-'));
+});
+
+
+test('legacy title or unrelated closing labels never compile as the controlled ticket closing rule',async t=>{
+ const a=await api(),x=await setup(t);
+ for(const flow of ['Update ticket title only','更新工单标题后关闭','Rename ticket title then close ticket','Close account']){
+  const result=await a.compileRulePlan({...x.rule,flow},mapping,capabilities);assert.equal(result.status,'blocked');assert.ok(result.missing.some(g=>g.code==='CONTRACT_BUSINESS_MISMATCH'));
+ }
 });

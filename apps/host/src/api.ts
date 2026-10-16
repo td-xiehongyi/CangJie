@@ -42,7 +42,7 @@ import type {ProjectRuleRef} from '@website-verification/contracts/discovery';
 import {registerCompiledRule,loadCompiledValidationRule,assertCompiledRuleProject,type CompileGap} from './rules/compiler.js';
 import {validateSourceRefs} from './discovery/access.js';
 
-interface Project {workflow?:WorkflowDraft;preparation?:PreparationResult;accountMode?:'automatic'|'manual';id:string;purpose:string;profile:ProjectProfile;mapping:HttpMapping;accounts:RunEnvironment['accounts'];data:RunEnvironment['data'];entries:ContextRequest['entries'];environmentHash:string;environmentConfirmed?:string;consent?:DisclosureConsent;analysis?:{status:string;code?:string;proposal?:unknown;budget?:BudgetUsage;environmentHash?:string};analysisHistory?:unknown[];candidateId?:string;candidateIds?:Record<string,string>;draft?:RegistryDraft;reviewDrafts?:Record<string,RegistryDraft>}
+interface Project {workflow?:WorkflowDraft;preparation?:PreparationResult;accountMode?:'automatic'|'manual';id:string;purpose:string;profile:ProjectProfile;mapping:HttpMapping;accounts:RunEnvironment['accounts'];data:RunEnvironment['data'];entries:ContextRequest['entries'];environmentHash:string;environmentConfirmed?:string;consent?:DisclosureConsent;analysis?:{status:string;code?:string;proposal?:unknown;budget?:BudgetUsage;environmentHash?:string};analysisHistory?:unknown[];candidateId?:string;candidateIds?:Record<string,string>;candidateHistory?:string[];draft?:RegistryDraft;reviewDrafts?:Record<string,RegistryDraft>}
 const ruleIds=['save-rule','duplicate-rule','permission-rule','title-update-rule'];
 export async function startWorkbench(options:{directory?:string;registryDirectory?:string;port?:number;uiDirectory?:string;pickDirectory?:(signal?:AbortSignal)=>Promise<string|null>}={}){
   const directory=options.directory??join(projectRoot,'.local-data/workbench');await mkdir(directory,{recursive:true});
@@ -76,13 +76,13 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   const context=(p:Project):ContextRequest=>({projectId:p.id,root:p.profile.root,serviceUrl:config.serviceUrl,entries:p.entries});
   const automaticPasswords=(p:Project)=>{if(p.accountMode==='automatic')for(const a of p.accounts)if(!credentials.has(p.id,a.actorRef))credentials.set(p.id,a.actorRef,randomBytes(24).toString('base64url'));};
   const env=(p:Project,reconfirmedChanges=false):RunEnvironment=>{automaticPasswords(p);return ({source:p.profile.root,projectId:p.id,confirmed:p.environmentConfirmed===p.environmentHash,data:p.data,accounts:p.accounts,credentials,reconfirmedChanges});};
-  const publicCandidate=async(p:Project)=>{
-    if(!p.candidateId)return undefined;
-    const s=(await CandidateTask.open(p.candidateId,modelKeys)).snapshot(),latest=s.drafts.at(-1);
+  const publicCandidate=async(p:Project,candidateId=p.candidateId)=>{
+    if(!candidateId)return undefined;
+    const s=(await CandidateTask.open(candidateId,modelKeys)).snapshot(),latest=s.drafts.at(-1);
     const saved=p.draft?.taskId===s.id?p.draft:p.reviewDrafts?.[s.id];
     const draft=saved?.candidateHash===s.candidateHash&&saved?.ruleHash===s.ruleHash?saved:undefined;
     const source=s.input.rule.source.match(/^project-rule:([a-f0-9-]{36}):([a-f0-9-]{36}):(\d+):([a-f0-9]{64})$/),ruleRef=source?{projectId:source[1]!,id:source[2]!,version:Number(source[3]),contentHash:source[4]!}:undefined;
-    return {id:s.id,ruleId:s.input.rule.id,ruleVersion:s.input.rule.version,ruleRef,candidateHash:s.candidateHash,status:s.status==='ready_for_review'&&candidateJobs.has(p.id)?'validating':s.status==='validating'&&s.phase==='awaiting_trial'&&!candidateJobs.has(p.id)?'paused':s.status,phase:s.status==='ready_for_review'&&candidateJobs.has(p.id)?'finalizing':s.phase,code:s.code,revisionIndex:s.revisionIndex,budget:s.budget,preset:MODEL_PRESET,validation:s.validation?{gateResults:s.validation.gateResults,recordRef:s.validation.recordRef,cases:s.validation.cases,issues:s.validation.issues}:undefined,trial:s.trial?{completed:s.trial.completed,verdicts:s.trial.verdicts}:undefined,spec:latest?.value,reference:latest?.hash===s.candidateHash?latest.reference:undefined,metadata:draft?.metadata,draftHash:draft?.draftHash};
+    return {id:s.id,ruleId:s.input.rule.id,ruleVersion:s.input.rule.version,ruleRef,candidateHash:s.candidateHash,status:s.status==='ready_for_review'&&candidateId===p.candidateId&&candidateJobs.has(p.id)?'validating':s.status==='validating'&&s.phase==='awaiting_trial'&&!candidateJobs.has(p.id)?'paused':s.status,phase:s.status==='ready_for_review'&&candidateId===p.candidateId&&candidateJobs.has(p.id)?'finalizing':s.phase,code:s.code,revisionIndex:s.revisionIndex,budget:s.budget,preset:MODEL_PRESET,validation:s.validation?{gateResults:s.validation.gateResults,recordRef:s.validation.recordRef,cases:s.validation.cases,issues:s.validation.issues}:undefined,trial:s.trial?{completed:s.trial.completed,verdicts:s.trial.verdicts}:undefined,spec:latest?.value,reference:latest?.hash===s.candidateHash?latest.reference:undefined,metadata:draft?.metadata,draftHash:draft?.draftHash};
   };
   const rules:RuleContract[]=[];
   // Load only public rule contracts, never the private suite cases/answers.
@@ -141,7 +141,7 @@ export async function startWorkbench(options:{directory?:string;registryDirector
     const loadRecords=await Promise.all([...loadIds].map(async id=>{const r=activeLoads.get(id)?.snapshot()??await loads.getLoad(id);return {...r,ledger:undefined,evidence:undefined,environment:undefined};}));
     const sourceProjects=await discoveryRoutes.publicProjects();
     const projectRules=Object.fromEntries(await Promise.all([...new Set([...projects.keys(),...sourceProjects.map(p=>p.id)])].map(async id=>[id,await projectRuleRoutes.publicRules(id)])));
-    const runtimeProjects=await Promise.all([...projects.values()].map(async p=>({...sourceProjects.find(v=>v.id===p.id),id:p.id,sourceOnly:false,executableRules:local.get(p.id)!.rules,catalog:local.get(p.id)!.catalog,ruleCompilationGaps:[...compilationGaps.values()].filter(g=>g.ruleRef.projectId===p.id),accountMode:p.accountMode??'manual',purpose:p.purpose,directory:p.profile.root,name:p.profile.name,supported:p.profile.supported,gaps:p.profile.gaps,gapMarkdown:p.profile.gapMarkdown,sourceHash:p.profile.sourceHash,workflow:p.workflow??emptyWorkflow(),preparation:p.preparation?{...p.preparation,sessionCurrent:preparedInSession.has(p.id)&&p.preparation.environmentHash===p.environmentHash}:undefined,mapping:p.mapping,accounts:p.accounts.map(a=>({...a,hasPassword:credentials.has(p.id,a.actorRef)})),data:p.data,entries:p.entries,environmentHash:p.environmentHash,environmentConfirmed:p.environmentHash===p.environmentConfirmed,consent:p.consent,analysis:p.analysis,candidate:await publicCandidate(p)})));
+    const runtimeProjects=await Promise.all([...projects.values()].map(async p=>({...sourceProjects.find(v=>v.id===p.id),id:p.id,sourceOnly:false,executableRules:local.get(p.id)!.rules,catalog:local.get(p.id)!.catalog,ruleCompilationGaps:[...compilationGaps.values()].filter(g=>g.ruleRef.projectId===p.id),accountMode:p.accountMode??'manual',purpose:p.purpose,directory:p.profile.root,name:p.profile.name,supported:p.profile.supported,gaps:p.profile.gaps,gapMarkdown:p.profile.gapMarkdown,sourceHash:p.profile.sourceHash,workflow:p.workflow??emptyWorkflow(),preparation:p.preparation?{...p.preparation,sessionCurrent:preparedInSession.has(p.id)&&p.preparation.environmentHash===p.environmentHash}:undefined,mapping:p.mapping,accounts:p.accounts.map(a=>({...a,hasPassword:credentials.has(p.id,a.actorRef)})),data:p.data,entries:p.entries,environmentHash:p.environmentHash,environmentConfirmed:p.environmentHash===p.environmentConfirmed,consent:p.consent,analysis:p.analysis,candidate:await publicCandidate(p),candidateFailures:(await Promise.all(Object.values(p.candidateIds??{}).map(id=>publicCandidate(p,id)))).filter(c=>c?.status==='rejected').map(c=>({id:c!.id,ruleId:c!.ruleId,ruleRef:c!.ruleRef,status:c!.status,phase:c!.phase,code:c!.code}))})));
     res.json({projectRules,loadPreset:LOAD_PRESET,loads:loadRecords,projects:await Promise.all([...runtimeProjects,...sourceProjects.filter(p=>!projects.has(p.id))].map(async p=>({...p,journey:await journey.read(p.id)}))),rules:rules.map(r=>({...r,hash:digest(r)})),catalog,runs:runs.sort((a,b)=>b.startedAt.localeCompare(a.startedAt)),settings:{serviceUrl:config.serviceUrl,model:config.model,remembered:config.credentialRef?.startsWith('windows:')??false,hasKey:!!config.credentialRef,connection},preset:MODEL_PRESET});
   });
   app.post('/api/projects/pick-directory',async(_req,res)=>{if(pickingFolder)throw new Error('FOLDER_PICKER_BUSY');pickingFolder=true;const controller=new AbortController();folderController=controller;res.once('close',()=>{if(!res.writableEnded)controller.abort();});try{res.json({directory:await (options.pickDirectory??pickProjectDirectory)(controller.signal)});}finally{pickingFolder=false;if(folderController===controller)folderController=undefined;}});
@@ -181,7 +181,7 @@ export async function startWorkbench(options:{directory?:string;registryDirector
     if(!Number.isSafeInteger(data.count)||data.count<0||data.count>1000)throw new Error('INVALID_DATA_COUNT');
     const publicAccounts=accounts.map(({actorRef,username,userId,role})=>({actorRef,username,userId,role}));
     const environmentHash=digest({sourceHash:profile.sourceHash,mapping,accounts:publicAccounts,data});
-    const p:Project={id,accountMode,purpose:String(req.body.purpose??old?.purpose??''),profile,mapping,accounts:publicAccounts,data,entries:req.body.entries??old?.entries??[{path:'verification.json',contentType:'summary'}],environmentHash,...(old?.environmentHash===environmentHash?{environmentConfirmed:old.environmentConfirmed}:{}),...(old?{workflow:old.workflow,preparation:old.preparation,consent:old.consent,candidateId:old.candidateId,candidateIds:old.candidateIds,draft:old.draft,reviewDrafts:old.reviewDrafts,analysis:old.analysis,analysisHistory:old.analysisHistory}: {})};
+    const p:Project={id,accountMode,purpose:String(req.body.purpose??old?.purpose??''),profile,mapping,accounts:publicAccounts,data,entries:req.body.entries??old?.entries??[{path:'verification.json',contentType:'summary'}],environmentHash,...(old?.environmentHash===environmentHash?{environmentConfirmed:old.environmentConfirmed}:{}),...(old?{workflow:old.workflow,preparation:old.preparation,consent:old.consent,candidateId:old.candidateId,candidateIds:old.candidateIds,candidateHistory:old.candidateHistory,draft:old.draft,reviewDrafts:old.reviewDrafts,analysis:old.analysis,analysisHistory:old.analysisHistory}: {})};
     if(old&&digest(old.entries)!==digest(p.entries)||old&&old.profile.root!==profile.root)delete p.consent;
     const persist=async()=>{
       if(accountMode==='automatic'&&old?.accountMode!=='automatic')for(const a of accounts)credentials.set(id,a.actorRef,randomBytes(24).toString('base64url'));
@@ -218,10 +218,29 @@ export async function startWorkbench(options:{directory?:string;registryDirector
   });
   app.post('/api/projects/:id/candidate',async(req,res)=>{
     requireRuleInput(req.body);const p=project(req.params.id);if(preparations.has(p.id))throw new Error('PROJECT_BUSY');if(candidateJobs.has(p.id))throw new Error('CANDIDATE_BUSY');if(!env(p).confirmed)throw new Error('PROJECT_CONFIRMATION_REQUIRED');if(req.body.confirmRule!==true)throw new Error('RULE_CONFIRMATION_REQUIRED');
-    await freshEnvironment(p);const ref=req.body.ruleRef===undefined?undefined:exactRuleRef(req.body.ruleRef,p.id,req.body.ruleId);let selected:RuleContract;if(ref){const compiled=await compile(p,ref);if(compiled.status!=='compiled')throw new Error(compiled.missing[0]?.code??'RULE_CAPABILITY_GAP');selected=await resolveCompiled(p,ref);}else selected=rule(String(req.body.ruleId));const candidateKey=(r:RuleContract)=>r.source.startsWith('project-rule:')?`${r.id}@${r.version}`:r.id;let task:CandidateTask;p.candidateIds??={};if(p.candidateId){const existing=await CandidateTask.open(p.candidateId,modelKeys);p.candidateIds[candidateKey(existing.snapshot().input.rule)]=p.candidateId;}if(p.draft)(p.reviewDrafts??={})[p.draft.taskId]=p.draft;const previousId=p.candidateId;p.candidateId=p.candidateIds[candidateKey(selected)];if(previousId!==p.candidateId)p.draft=p.candidateId?p.reviewDrafts?.[p.candidateId]:undefined;
-    if(p.candidateId){task=await CandidateTask.open(p.candidateId,modelKeys);if(digest(task.snapshot().input.rule)!==digest(selected))throw new Error('RULE_VERSION_MISMATCH');await task.reconfigure({context:context(p),consent:p.consent,config});}
-    else{task=await CandidateTask.create({rule:selected,capabilities,context:context(p),consent:p.consent,config},modelKeys);p.candidateId=task.id;p.candidateIds[candidateKey(selected)]=task.id;delete p.draft;await save();}
-    await save();const job=task.run({...env(p),mapping:p.mapping,sourceHash:p.profile.sourceHash}).finally(()=>{candidateJobs.delete(p.id);});candidateJobs.set(p.id,job);void job.catch(()=>{});res.status(202).json({candidateId:task.id});
+    const reservation=Promise.resolve();candidateJobs.set(p.id,reservation);
+    try{
+      await freshEnvironment(p);const ref=req.body.ruleRef===undefined?undefined:exactRuleRef(req.body.ruleRef,p.id,req.body.ruleId);let selected:RuleContract;
+      if(ref){const compiled=await compile(p,ref);if(compiled.status!=='compiled')throw new Error(compiled.missing[0]?.code??'RULE_CAPABILITY_GAP');selected=await resolveCompiled(p,ref);}else selected=rule(String(req.body.ruleId));
+      const candidateKey=(r:RuleContract)=>r.source.startsWith('project-rule:')?`${r.id}@${r.version}`:r.id;let task:CandidateTask;p.candidateIds??={};
+      if(p.candidateId){const existing=await CandidateTask.open(p.candidateId,modelKeys);p.candidateIds[candidateKey(existing.snapshot().input.rule)]=p.candidateId;}
+      const key=candidateKey(selected),previousId=p.candidateIds[key];
+      if(req.body.restartCandidateId!==undefined&&req.body.restartCandidateId!==previousId)throw new Error('STALE_CANDIDATE');
+      if(previousId){
+        task=await CandidateTask.open(previousId,modelKeys);const snapshot=task.snapshot();if(digest(snapshot.input.rule)!==digest(selected))throw new Error('RULE_VERSION_MISMATCH');
+        if(req.body.restartCandidateId!==undefined){
+          if(snapshot.status!=='rejected')throw new Error('CANDIDATE_RESTART_NOT_ALLOWED');
+          task=await CandidateTask.create({rule:selected,capabilities,context:context(p),consent:p.consent,config},modelKeys);
+          (p.candidateHistory??=[]).push(previousId);
+        }else{
+          if(snapshot.status==='rejected')throw new Error('CANDIDATE_RESTART_REQUIRED');
+          await task.reconfigure({context:context(p),consent:p.consent,config});
+        }
+      }else task=await CandidateTask.create({rule:selected,capabilities,context:context(p),consent:p.consent,config},modelKeys);
+      if(p.draft)(p.reviewDrafts??={})[p.draft.taskId]=p.draft;
+      p.candidateId=task.id;p.candidateIds[key]=task.id;p.draft=p.reviewDrafts?.[task.id];await save();
+      const job=task.run({...env(p),mapping:p.mapping,sourceHash:p.profile.sourceHash}).finally(()=>{if(candidateJobs.get(p.id)===job)candidateJobs.delete(p.id);});candidateJobs.set(p.id,job);void job.catch(()=>{});res.status(202).json({candidateId:task.id});
+    }finally{if(candidateJobs.get(p.id)===reservation)candidateJobs.delete(p.id);}
   });
   app.post('/api/projects/:id/review',async(req,res)=>{
     const initial=project(req.params.id);modelIdle(initial.id);if(!initial.candidateId)throw new Error('NO_CANDIDATE');

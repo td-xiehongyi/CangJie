@@ -1,6 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {journeySteps,parseStep,stepPage,journeyState} from '../../apps/ui/src/workflowJourney.ts';
+import {journeySteps,parseStep,stepPage,journeyState,hasBusinessSelection} from '../../apps/ui/src/workflowJourney.ts';
+
+test('preparation requires a current-operation choice or current confirmed project business',()=>{
+ const project={id:'p',journey:{goal:'load'},workflow:{flow:'edit',flows:{submit:{save:{enabled:true}},edit:{title:{enabled:false}}}}};
+ assert.equal(hasBusinessSelection(undefined,{}),false);
+ assert.equal(hasBusinessSelection(project,{}),false);
+ project.workflow.flows.edit.title.enabled=true;
+ assert.equal(hasBusinessSelection(project,{}),true);
+ project.workflow.flows.edit.title.enabled=false;
+ for(const rule of [{sourceCurrent:true,confirmation:{status:'pending'}},{sourceCurrent:false,confirmation:{status:'confirmed'}}]){
+  assert.equal(hasBusinessSelection(project,{projectRules:{p:{versions:[rule]}}}),false);
+ }
+ assert.equal(hasBusinessSelection(project,{projectRules:{p:{versions:[{sourceCurrent:true,confirmation:{status:'confirmed'}}]}}}),true);
+ assert.equal(hasBusinessSelection(project,{projectRules:{other:{versions:[{confirmation:{status:'confirmed'}}]}}}),false);
+});
 test('fixed main steps and an optional repair loop share one catalog',()=>{
  assert.deepEqual(journeySteps.map(s=>s.id),Array.from({length:12},(_,i)=>i+1));
  assert.deepEqual(journeySteps.filter(s=>s.optional).map(s=>s.id),[12]);
@@ -61,4 +75,17 @@ test('source business confirmation contributes to03 without granting execution',
 test('an unrelated old candidate does not block current preparation status',()=>{
  const p={id:'p',workflow:{flow:'submit',flows:{submit:{r:{enabled:true}}}},candidate:{ruleId:'old',status:'paused',code:'LIMIT'}};
  assert.equal(journeyState(p,{},undefined,false)[5].status,'available');
+});
+
+test('a candidate awaiting review is available rather than blocked by its guidance code',()=>{
+ const p={id:'p',workflow:{flow:'submit',flows:{submit:{r:{enabled:true}}}},candidate:{ruleId:'r',status:'ready_for_review',code:'REVIEW_REQUIRED'}};
+ assert.equal(journeyState(p,{},undefined,false)[5].status,'available');
+ assert.match(journeyState(p,{},undefined,false)[5].reason,/审核/);
+});
+
+test('a published selected candidate retains its qualification evidence in navigation',()=>{
+ const p={id:'p',environmentHash:'env',workflow:{flow:'submit',flows:{submit:{r:{enabled:true,version:'published',ruleHash:'rule',environmentHash:'env'}}}},candidate:{ruleId:'r',status:'ready_for_review',code:'REVIEW_REQUIRED',draftHash:'published'}};
+ const state={catalog:{matches:[{ref:{hash:'published'},ruleHash:'rule'}]}};
+ const result=journeyState(p,state,undefined,false);
+ assert.equal(result[5].status,'evidence');assert.equal(result[9].status,'evidence');
 });

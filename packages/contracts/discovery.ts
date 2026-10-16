@@ -21,11 +21,14 @@ export interface BusinessSuggestion {
   id:string;status:'suggestion';flow:string;facts:DiscoveryStatement[];expectations:DiscoveryExpectation[];risks:DiscoveryStatement[];
   preconditions?:string[];exceptions?:string[];stateChanges?:string[];
   openQuestions:string[];sourceRefs:SourceRef[];priorityReason:string;operationNeeds:string[];observationNeeds:string[];
+  suggestedAnswers?:Record<string,string>;
 }
 export interface BusinessOverview {
   summary:string;objects:string[];roles:string[];
   flows:{name:string;roles:string[];steps:string[];data:string[];sourceRefs:SourceRef[]}[];
   sourceRefs:SourceRef[];suggestions:BusinessSuggestion[];limitations:string[];unresolved:string[];
+  /** Display translations of historical prose; original evidence and question keys stay intact. */
+  translations?:Record<string,string>;
 }
 export interface DiscoverySession {
   /** Computed when reading; never grants authority to bypass server checks. */
@@ -60,7 +63,10 @@ export function validBusinessOverview(v:unknown):v is BusinessOverview {
     &&list(v.flows,f=>object(f)&&string(f.name)&&strings(f.roles)&&strings(f.steps)&&strings(f.data)&&refs(f.sourceRefs))&&(v.flows as unknown[]).length>0
     &&list(v.suggestions,s=>object(s)&&string(s.id)&&string(s.flow)&&s.status==='suggestion'&&list(s.facts,statement)&&(s.facts as unknown[]).length>0
       &&list(s.expectations,e=>statement(e)&&['documentation','project_test','ai_hypothesis'].includes(e.source)&&e.confirmation==='pending')
-      &&list(s.risks,statement)&&['preconditions','exceptions','stateChanges'].every(k=>s[k]===undefined||strings(s[k]))&&strings(s.openQuestions)&&refs(s.sourceRefs)&&string(s.priorityReason)&&strings(s.operationNeeds)&&strings(s.observationNeeds))
+      &&list(s.risks,statement)&&['preconditions','exceptions','stateChanges'].every(k=>s[k]===undefined||strings(s[k]))&&strings(s.openQuestions)
+      &&(s.suggestedAnswers===undefined||object(s.suggestedAnswers)&&Object.keys(s.suggestedAnswers).length<=64&&Object.entries(s.suggestedAnswers).every(([q,a])=>(s.openQuestions as string[]).includes(q)&&typeof a==='string'&&a.length<=8000))
+      &&refs(s.sourceRefs)&&string(s.priorityReason)&&strings(s.operationNeeds)&&strings(s.observationNeeds))
+    &&(v.translations===undefined||object(v.translations)&&Object.keys(v.translations).length<=256&&Object.entries(v.translations).every(([a,b])=>a.length>0&&a.length<=8000&&typeof b==='string'&&b.trim().length>0&&b.length<=8000))
     &&new Set((v.suggestions as BusinessSuggestion[]).map(s=>s.id)).size===(v.suggestions as unknown[]).length&&strings(v.limitations)&&strings(v.unresolved);
 }
 export function validateDiscoveryContract(name:'SourceSnapshot'|'SourceRef'|'SourceExcerpt'|'AnalysisScope',value:unknown):{valid:boolean;issues:{path:string;code:string}[]} {

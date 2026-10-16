@@ -2,10 +2,10 @@
 export type StepStatus='pending'|'running'|'completed'|'evidence'|'blocked'|'stale'|'available'|'optional'|'skipped';
 export const journeySteps=[
  {id:1,title:'导入项目',group:'A 明确要测什么',purpose:'选择项目源码或已有项目。'},
- {id:2,title:'了解与分析业务',group:'A 明确要测什么',purpose:'选择分析范围并了解业务；调用模型前明确确认。'},
- {id:3,title:'确认业务与测试目标',group:'A 明确要测什么',purpose:'确认正确行为并选择正确性或目标负载。'},
+ {id:2,title:'了解与分析业务',group:'A 明确要测什么',purpose:'AI读取项目分析，或自行填写业务。'},
+ {id:3,title:'确认要检查的业务',group:'A 明确要测什么',purpose:'选择本轮要检查的业务，确认正确行为与测试目标。'},
  {id:4,title:'检查运行条件',group:'B 准备怎么测',purpose:'补齐隔离环境、测试账号和接口映射。'},
- {id:5,title:'准备检查方案',group:'B 准备怎么测',purpose:'匹配已有方案，按需创建，并在这里查看验证与试运行进度。'},
+ {id:5,title:'选择或生成检查方案',group:'B 准备怎么测',purpose:'为已确认业务选择已有方案或生成新方案，在这里查看验证与试运行进度。'},
  {id:6,title:'创建或适配检查方案',group:'B 准备怎么测',purpose:'创建候选方案或复用精确版本；此时不代表业务通过。'},
  {id:7,title:'独立验证方案',group:'B 准备怎么测',purpose:'查看独立正常、错误及证据不足案例的验证。'},
  {id:8,title:'在当前项目试运行',group:'B 准备怎么测',purpose:'核对方案与当前项目的接口、身份和证据适配。'},
@@ -23,6 +23,11 @@ export function parseStep(value:string|null|undefined):number{
 export function stepPage(step:number):string{return step===11?'report':step===12?'repair':[1,2,4].includes(step)?'project':'verify';}
 export const stepStatusLabels:Record<StepStatus,string>={skipped:'已跳过',pending:'未开始',running:'进行中',completed:'已完成',evidence:'已有证据满足',blocked:'已阻断',stale:'已失效',available:'可查看',optional:'可选 · 未启用'};
 type Value=Record<string,any>;
+export function hasBusinessSelection(project:Value|undefined,state:Value):boolean{
+ if(!project)return false;
+ return Object.values(project.workflow?.flows?.[project.workflow?.flow]??{}).some((choice:any)=>choice.enabled===true)
+  ||(state.projectRules?.[project.id]?.versions??[]).some((rule:Value)=>rule.sourceCurrent!==false&&rule.confirmation?.status==='confirmed');
+}
 export function journeyState(project:Value|undefined,state:Value,run:Value|undefined,repairEnabled:boolean):Record<number,{status:StepStatus;reason:string}>{
  const result:Record<number,{status:StepStatus;reason:string}>=Object.fromEntries(journeySteps.map(s=>[s.id,{status:s.id===12&&!repairEnabled?'optional':'pending',reason:s.purpose}]));
  if(!project)return result;
@@ -45,11 +50,13 @@ export function journeyState(project:Value|undefined,state:Value,run:Value|undef
  const candidate=project.candidate;
  if(exact)result[5]={status:'evidence',reason:'已选方案具有对应版本证据；执行前仍须核对适用条件。'};
  if(candidate){
-  if(['running','validating'].includes(candidate.status)||choices.some(x=>candidate.ruleHash&&x.ruleHash===candidate.ruleHash)||Object.entries(project.workflow?.flows?.[project.workflow?.flow]??{}).some(([id,value]:[string,any])=>value.enabled&&id===(candidate.ruleRef?.id??candidate.ruleId??candidate.spec?.ruleRef?.id)))result[5]={status:['running','validating'].includes(candidate.status)?'running':candidate.code?'blocked':'available',reason:['running','validating'].includes(candidate.status)?'方案正在准备，06—08的进度在05内更新。':candidate.code?'方案准备受阻，请查看原因；已有合格版本的资格仍由后端核对。':'方案记录可查看，请核对验证与审核结果。'};
+  const awaitingReview=candidate.status==='ready_for_review',blocked=!!candidate.code&&!awaitingReview;
+  const published=!!candidate.draftHash&&matches.some((m:Value)=>m.ref.hash===candidate.draftHash);
+  if(['running','validating'].includes(candidate.status)||choices.some(x=>candidate.ruleHash&&x.ruleHash===candidate.ruleHash)||Object.entries(project.workflow?.flows?.[project.workflow?.flow]??{}).some(([id,value]:[string,any])=>value.enabled&&id===(candidate.ruleRef?.id??candidate.ruleId??candidate.spec?.ruleRef?.id)))result[5]={status:['running','validating'].includes(candidate.status)?'running':blocked?'blocked':exact?'evidence':'available',reason:['running','validating'].includes(candidate.status)?'方案正在准备，06—08的进度在05内更新。':blocked?'方案准备受阻，请查看原因；已有合格版本的资格仍由后端核对。':published?'方案已发布，执行前请核对本轮精确版本与适用条件。':awaitingReview?'方案准备已完成，等待业务和技术审核。':'方案记录可查看，请核对验证与审核结果。'};
   result[6]={status:['running','validating'].includes(candidate.status)?'running':'available',reason:'候选方案尚需独立验证、项目试运行与审核。'};
   result[7]={status:candidate.status==='validating'?'running':'available',reason:'查看独立验证记录，不以候选存在推断已通过。'};
   result[8]={status:'available',reason:'查看当前项目试运行及适配证据。'};
-  result[9]={status:'available',reason:'查看双重审核与版本；未完成审核不能执行。'};
+  result[9]={status:published?'evidence':'available',reason:published?'固定方案版本具有有效审核记录；执行前仍需本轮确认。':'查看双重审核与版本；未完成审核不能执行。'};
  }
  const current=run?.projectId===project.id?run:undefined;
  if(current){
