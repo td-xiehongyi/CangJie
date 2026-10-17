@@ -1,0 +1,37 @@
+:root {
+  --paper: #f7f5ef;
+  --paper-raised: #fffefa;
+  --paper-inset: #f2efe7;
+  --ink: #1c1f1e;
+  --ink-body: #3d403c;
+  --ink-soft: #6b6f6c;
+  --ink-faint: #9a9c97;
+  --rule: #ded9cc;
+  --rule-soft: #ebe7dc;
+  --rule-hover: #c9c2b0;
+  --vermilion: #b3382c;
+  --vermilion-deep: #93301f;
+  --bamboo: #3f6b4f;
+  --indigo: #34566b;
+  --amber-muted: #8a6a38;
+  --ochre: #8a6a38;
+  /* three workflow stages: A 测什么 / B 怎么测 / C 执行与结果 */
+  --stage-a: var(--bamboo);
+  --stage-b: var(--indigo);
+  --stage-c: var(--ochre);
+  --stage-d: var(--ink-faint);
+  --paper-grain: rgb(28 31 30 / 3.2%);
+  --brand-primary: var(--ink);
+  --link: var(--indigo);
+  --focus: var(--indigo);
+  --danger: var(--vermilion);
+  --success: var(--bamboo);
+  --warning: var(--amber-muted);
+  --muted: var(--ink-soft);
+  --line: var(--rule);
+  --surface: var(--paper-raised);
+  --font-body: "Microsoft YaHei UI", "PingFang SC", system-ui, sans-serif;
+  --font-title: "Source Han Serif SC", "Noto Serif SC", SimSun, serif;
+  --font-mono: "JetBrains Mono", Consolas, ui-monospace, monospace;
+  --shadow-paper: 0 1px 2px rgb(28 31 30 / 4%);
+}
