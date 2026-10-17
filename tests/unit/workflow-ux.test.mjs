@@ -22,7 +22,7 @@ test('existing history asks the user to select a run, not execute again',()=>{
  const html=render(Report,{step:11});assert.match(html,/请选择一次运行/);assert.doesNotMatch(html,/尚无验证结果|开始一次检查/);
 });
 test('model settings name the exact return step and explicitly disclose the model check',()=>{
- const html=render(Settings,{settingsReturn:'step:2'});assert.match(html,/返回02 了解与分析业务/);assert.match(html,/保存并调用模型检查连接/);
+ const html=render(Settings,{settingsReturn:'step:2'});assert.match(html,/返回：了解与分析业务/);assert.match(html,/保存并调用模型检查连接/);
 });
 test('stopped analysis preserves the diagnostic code and explains incomplete output',()=>{
  assert.match(friendlyError('TRUNCATED_OUTPUT'),/输出不完整/);assert.match(friendlyError('TRUNCATED_OUTPUT'),/TRUNCATED_OUTPUT/);

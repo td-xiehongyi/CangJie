@@ -1,4 +1,4 @@
-import {goStep,visibleLabel} from './workflow-steps';
+import {goStep,clickStep,visibleLabel} from './workflow-steps';
 import {test,expect} from '@playwright/test';
 import {join} from 'node:path';
 import {mkdir} from 'node:fs/promises';
@@ -12,7 +12,7 @@ import {TemplateRegistry} from '../../apps/host/dist/templates/store.js';
 
 test('an empty report does not mark unperformed workflow steps complete',async({page})=>{
   const directory=join(process.cwd(),'.local-data/natural-workflow-tests',randomUUID()),host=await startWorkbench({directory,registryDirectory:join(directory,'registry'),port:0});
-  try{await page.goto(host.url+'/?page=report');await expect(page.getByRole('heading',{name:'尚无验证结果',exact:true})).toBeVisible();await expect(page.getByRole('navigation',{name:'完整业务验证流程'}).getByRole('button')).toHaveCount(9);await expect(page.getByRole('navigation',{name:'完整业务验证流程'})).not.toContainText('已完成');}finally{await host.close();}
+  try{await page.goto(host.url+'/?page=report');await expect(page.getByRole('heading',{name:'尚无验证结果',exact:true})).toBeVisible();await expect(page.getByRole('navigation',{name:'项目检查流程'}).getByRole('button')).toHaveCount(4);await expect(page.getByRole('navigation',{name:'项目检查流程'})).not.toContainText('已完成');}finally{await host.close();}
 });
 
 for(const width of [1280,390])test(`candidate creation reveals sending confirmation and progress at ${width}px`,async({page})=>{
@@ -31,14 +31,14 @@ for(const width of [1280,390])test(`candidate creation reveals sending confirmat
     await goStep(page,6);await page.getByRole('button',{name:'调用模型创建检查方案',exact:true}).click();
     const preparation=page.locator('#candidate-preparation');await expect(preparation).toBeVisible();expect(new URL(page.url()).searchParams.get('step')).toBe('5');
     expect(launches).toBe(0);const confirm=page.getByLabel('同意向该服务发送以上范围内经过过滤的内容',{exact:true});await expect(confirm).not.toBeChecked();await confirm.check();
-    await mkdir('output/plan-preparation-20261016/regression/automated/candidate/screenshots',{recursive:true});await page.screenshot({path:`output/plan-preparation-20261016/regression/automated/candidate/screenshots/preparation-${width}.png`,fullPage:false});
+    await mkdir('output/four-stage-20261017/regression/plan-preparation-20261016/regression/automated/candidate/screenshots',{recursive:true});await page.screenshot({path:`output/four-stage-20261017/regression/plan-preparation-20261016/regression/automated/candidate/screenshots/preparation-${width}.png`,fullPage:false});
     await page.getByRole('button',{name:'确认范围并调用模型创建方案',exact:true}).click();await expect.poll(()=>launches).toBe(1);
     expect(new URL(page.url()).searchParams.get('step')).toBe('5');await goStep(page,7);await expect(page.getByText('正在准备方案，验证与试运行进度会在这里更新。',{exact:true})).toBeVisible();
-    await page.screenshot({path:`output/plan-preparation-20261016/regression/automated/candidate/screenshots/progress-${width}.png`,fullPage:false});
+    await page.screenshot({path:`output/four-stage-20261017/regression/plan-preparation-20261016/regression/automated/candidate/screenshots/progress-${width}.png`,fullPage:false});
     await goStep(page,3);await page.getByLabel('只改标题，优先级和所有者不变',{exact:true}).selectOption('off');
-    const toggle=page.getByRole('button',{name:/全部步骤/});if(await toggle.isVisible())await toggle.click();
-    await page.getByRole('navigation',{name:'完整业务验证流程'}).getByRole('button',{name:/^05 /}).click();
-    await expect(page.locator('.step-heading h1')).toHaveText('03 确认要检查的业务');await expect(page.getByRole('alert')).toContainText('请先在03选择至少一项检查');expect(launches).toBe(1);
+    const toggle=page.getByRole('button',{name:/查看流程/});if(await toggle.isVisible())await toggle.click();
+    await clickStep(page,5);
+    await expect(page.locator('.current-task h2')).toHaveText('确认要检查的业务');await expect(page.getByRole('alert')).toContainText('请先确认至少一项检查');expect(launches).toBe(1);
   }finally{await page.unrouteAll({behavior:'wait'});await host.close();}
 });
 
@@ -68,17 +68,17 @@ test('empty library, preparation history, settings return and draft restoration'
     await page.getByRole('button',{name:'选择文件夹',exact:true}).click();
     await expect(visibleLabel(page,'项目目录')).toHaveValue(join(process.cwd(),'samples/ticket'));
     await page.getByRole('button',{name:'导入源码',exact:true}).click();await expect.poll(()=>new URL(page.url()).searchParams.get('project')).toBeTruthy();await goStep(page,4);await page.getByRole('button',{name:'检查并准备环境',exact:true}).click();
-    await expect(page.locator('.step-heading h1')).toHaveText('04 检查运行条件');
+    await expect(page.locator('.current-task h2')).toHaveText('检查运行条件');
     await page.getByRole('checkbox',{name:'我同意在独立测试副本中创建用户并重置测试数据'}).check();
     await page.getByRole('button',{name:'执行环境检查',exact:true}).click();await expect(page.getByText('最近检查通过；本次执行前仍会重新核对凭据与环境。',{exact:true})).toBeVisible();await goStep(page,3);
-    await expect(page.getByRole('heading',{name:'03 确认要检查的业务'})).toBeVisible();
+    await expect(page.getByRole('heading',{name:'确认要检查的业务'})).toBeVisible();
     const projectId=new URL(page.url()).searchParams.get('project')!;
     await page.getByLabel('提交结果保存',{exact:true}).selectOption('observe');
     await page.getByRole('combobox',{name:'提交结果保存',exact:true}).selectOption('confirm');
     await expect(page.getByText('检查选择已保存',{exact:true})).toBeVisible();
     await page.getByRole('button',{name:'模型设置',exact:true}).click();
-    await expect(page.getByRole('button',{name:'返回03 确认要检查的业务',exact:true})).toBeVisible();
-    await page.getByRole('button',{name:'返回03 确认要检查的业务',exact:true}).click();
+    await expect(page.getByRole('button',{name:'返回：确认要检查的业务',exact:true})).toBeVisible();
+    await page.getByRole('button',{name:'返回：确认要检查的业务',exact:true}).click();
     await page.reload();await expect(page.getByLabel('提交结果保存',{exact:true})).not.toHaveValue('off');
     await expect(page.getByRole('combobox',{name:'提交结果保存',exact:true})).toHaveValue('confirm');
     await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('edit');
@@ -87,13 +87,13 @@ test('empty library, preparation history, settings return and draft restoration'
     await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('submit');await expect(page.getByLabel('提交结果保存',{exact:true})).not.toHaveValue('off');
     await goStep(page,4);
     await expect(page.getByText('最近检查通过；本次执行前仍会重新核对凭据与环境。',{exact:true})).toBeVisible();
-    await expect(page.getByRole('button',{name:'继续：准备检查方案',exact:true})).toBeVisible();
-    await page.reload();await expect(page.getByRole('button',{name:'继续：准备检查方案',exact:true})).toBeVisible();
+    await expect(page.getByRole('button',{name:'继续：准备检查方法',exact:true})).toBeVisible();
+    await page.reload();await expect(page.getByRole('button',{name:'继续：准备检查方法',exact:true})).toBeVisible();
     await host.close();host=await startWorkbench({directory,registryDirectory:join(directory,'registry'),port:0});
     await page.goto(host.url+`/?page=verify&project=${projectId}`);await expect(page.getByLabel('提交结果保存',{exact:true})).not.toHaveValue('off');
-    await mkdir('output/plan-preparation-20261016/regression/automated/natural/screenshots',{recursive:true});
-    for(const width of [1280,768,390]){await page.setViewportSize({width,height:1000});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`output/plan-preparation-20261016/regression/automated/natural/screenshots/choices-${width}.png`,fullPage:true});}
-    await page.setViewportSize({width:1280,height:1000});await page.evaluate(()=>{document.body.style.zoom='2';});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:'output/plan-preparation-20261016/regression/automated/natural/screenshots/choices-zoom.png',fullPage:true});await page.evaluate(()=>{document.body.style.zoom='';});
+    await mkdir('output/four-stage-20261017/regression/plan-preparation-20261016/regression/automated/natural/screenshots',{recursive:true});
+    for(const width of [1280,768,390]){await page.setViewportSize({width,height:1000});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`output/four-stage-20261017/regression/plan-preparation-20261016/regression/automated/natural/screenshots/choices-${width}.png`,fullPage:true});}
+    await page.setViewportSize({width:1280,height:1000});await page.evaluate(()=>{document.body.style.zoom='2';});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:'output/four-stage-20261017/regression/plan-preparation-20261016/regression/automated/natural/screenshots/choices-zoom.png',fullPage:true});await page.evaluate(()=>{document.body.style.zoom='';});
   }finally{await host.close();}
 });
 
@@ -120,7 +120,7 @@ test('completion points to report, report tabs use keyboard and load percentages
     let target:any;await page.route('**/api/projects/*/load',async route=>{target=route.request().postDataJSON().target;await route.fulfill({json:{loadId:'synthetic-no-load'}});});
     await page.getByLabel('我已确认上述目标、比例、等待、错误口径和资源上限',{exact:true}).check();await page.getByRole('button',{name:'执行目标负载检查',exact:true}).click();
     await expect.poll(()=>target?.errorRate).toBe(.05);expect(target.latencyMs).toBe(1000);
-    await mkdir('output/plan-preparation-20261016/regression/automated/natural/screenshots',{recursive:true});await page.screenshot({path:'output/plan-preparation-20261016/regression/automated/natural/screenshots/report-load.png',fullPage:true});
+    await mkdir('output/four-stage-20261017/regression/plan-preparation-20261016/regression/automated/natural/screenshots',{recursive:true});await page.screenshot({path:'output/four-stage-20261017/regression/plan-preparation-20261016/regression/automated/natural/screenshots/report-load.png',fullPage:true});
   }finally{await host.close();}
 });
 

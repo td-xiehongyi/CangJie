@@ -9,6 +9,7 @@ test('full verification includes state regressions and retains its fifteen-minut
   try{await import('../../scripts/verify.mjs?runner-regression')}finally{process.argv=argv}
   const tests=calls.find(c=>c.args.includes('--test'));assert.ok(tests);
   assert.ok(tests.args.includes('tests/unit/discovery-state-race.test.mjs'));
+  assert.ok(tests.args.includes('tests/integration/novice-entry.test.mjs'));
   assert.ok(tests.args.includes('--experimental-test-module-mocks'));
   assert.equal(tests.options.timeout,900000);
 });

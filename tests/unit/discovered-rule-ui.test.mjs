@@ -249,10 +249,10 @@ test('load form preserves edits and blocks execution until changed targets are r
  const props=loadProps(),renderer=createRenderer(InteractiveLoad,props);let tree=renderer.render();
  rateField(tree).props.onChange({target:{value:'3'}});renderer.render();
  props.project.journey={rate:'8',durationSeconds:'30'};renderer.render();tree=renderer.render();
- assert.equal(rateField(tree).props.value,'3');assert.match(textOf(tree),/03的已保存目标已变化/);
+ assert.equal(rateField(tree).props.value,'3');assert.match(textOf(tree),/已保存的检查目标已变化/);
  assert.equal(nodes(tree).find(n=>n.type==='button'&&textOf(n)==='执行目标负载检查').props.disabled,true);
- nodes(tree).find(n=>n.type==='button'&&textOf(n)==='使用03最新目标').props.onClick();tree=renderer.render();
- assert.equal(rateField(tree).props.value,'8');assert.doesNotMatch(textOf(tree),/03的已保存目标已变化/);
+ nodes(tree).find(n=>n.type==='button'&&textOf(n)==='使用最新检查目标').props.onClick();tree=renderer.render();
+ assert.equal(rateField(tree).props.value,'8');assert.doesNotMatch(textOf(tree),/已保存的检查目标已变化/);
 });
 test('new run load instance has fresh proportions and no old consent',()=>{
  const first=loadProps(),one=createRenderer(InteractiveLoad,first);let tree=one.render();

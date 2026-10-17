@@ -2,6 +2,7 @@ node_modules/
 dist/
 .local-tools/
 .local-data/
+practice-projects/
 apps/core/target/
 .superpowers/
 

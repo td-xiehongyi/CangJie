@@ -11,6 +11,7 @@ import {prepareCopy} from './projects/copy.js';
 import {bindMapping,mappingHash} from './execution/mapping.js';
 import type {RuleContract} from '@website-verification/contracts';
 import {inspectProject,digest,type ProjectProfile} from './projects/inspect.js';
+import {inspectSupport,createPracticeExample} from './projects/onboarding.js';
 import {validateMapping,type HttpMapping} from './execution/mapping.js';
 import {CredentialSession} from './execution/session.js';
 import {ModelCredentials} from './model/credentials.js';
@@ -167,6 +168,15 @@ export async function startWorkbench(options:{directory?:string;registryDirector
       connection={status:'connected',code:''};res.json(connection);
     }catch(e){if(revision===configRevision)connection={status:'failed',code:(e as Error).message};throw e;}
     finally{if(connectionController===controller)connectionController=undefined;}});
+  app.get('/api/projects/:id/support',async(req,res)=>{
+    const runtime=projects.get(req.params.id);let source=runtime?.profile.root;
+    if(!source){try{source=(await discoveryStore.getProject(req.params.id)).directory;}catch(e){if((e as NodeJS.ErrnoException).code==='ENOENT')throw new Error('PROJECT_NOT_FOUND');throw e;}}
+    res.json({projectId:req.params.id,...await inspectSupport(source)});
+  });
+  app.post('/api/examples/ticket',async(req,res)=>{
+    if(req.body.confirmed!==true)throw new Error('EXAMPLE_COPY_NOT_CONFIRMED');
+    res.status(201).json(await createPracticeExample(projectRoot));
+  });
   app.post('/api/projects',async(req,res)=>{
     const old=req.body.id?projects.get(String(req.body.id)):undefined;const sourceOnly=req.body.id&&!old?await discoveryStore.getProject(String(req.body.id)):undefined;if(old||sourceOnly)modelIdle(old?.id??sourceOnly!.id);if(old&&(preparations.has(old.id)||loadBusy(old.id)||[...active.values()].some(a=>a.projectId===old.id)))throw new Error('PROJECT_BUSY');
     const profile=await inspectProject(String(req.body.directory??'')),id=old?.id??sourceOnly?.id??randomUUID();

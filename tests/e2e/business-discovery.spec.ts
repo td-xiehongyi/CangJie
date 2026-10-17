@@ -34,7 +34,7 @@ test('saved model response restores a draft locally after deadline and without a
   await expect(page.getByRole('heading',{name:'业务草稿',exact:true})).toBeVisible();
   const done=await x.request('/discovery/'+analysis.id);expect(done.budget).toEqual(budget);expect(x.requests).toHaveLength(1);
   await expect(page.getByText(/部分前置条件、异常或状态变化未提供/)).toBeVisible();
-  await page.screenshot({path:'output/analysis-entry-20261016/local-draft-recovery.png',fullPage:true});
+  await page.screenshot({path:'output/four-stage-20261017/regression/analysis-entry-20261016/local-draft-recovery.png',fullPage:true});
  }finally{await x.close()}
 });
 for(const width of [1280,390])test(`source-only discovery shows real citations and pending project recommendations at ${width}px`,async({page})=>{
@@ -65,10 +65,10 @@ for(const width of [1280,390])test(`source-only discovery shows real citations a
     await expect(page.getByRole('heading',{name:'仍需核对的范围',exact:true})).toBeVisible();
     await expect(page.getByText('仅建议，尚未确认业务预期，也未执行检查。',{exact:true})).toBeVisible();
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
-    await mkdir('output/analysis-entry-20261016',{recursive:true});await page.screenshot({path:`output/analysis-entry-20261016/overview-${width}.png`,fullPage:true});
+    await mkdir('output/four-stage-20261017/regression/analysis-entry-20261016',{recursive:true});await page.screenshot({path:`output/four-stage-20261017/regression/analysis-entry-20261016/overview-${width}.png`,fullPage:true});
     expect((await x.request('/state')).runs).toHaveLength(0);
-    await page.getByRole('button',{name:'去03核对这项业务',exact:true}).click();
-    await expect(page.locator('.step-heading h1')).toContainText('03 ');await expect(page.getByRole('region',{name:'规则预期核对 取消订单'}).getByRole('heading',{name:'取消订单',exact:true})).toBeVisible();
+    await page.getByRole('button',{name:'核对这项业务',exact:true}).click();
+    await expect(page.locator('.current-task h2')).toContainText('确认要检查的业务');await expect(page.getByRole('region',{name:'规则预期核对 取消订单'}).getByRole('heading',{name:'取消订单',exact:true})).toBeVisible();
     await page.getByLabel('检查取消订单',{exact:true}).check();await expect(page.getByRole('button',{name:'确认并保存项目规则',exact:true})).toBeDisabled();
     await page.getByText('核对建议的源码事实与候选预期',{exact:true}).click();
     await expect(page.getByText(/文档预期 · 待确认/)).toBeVisible();
@@ -97,7 +97,7 @@ test('whole project read includes tests and a second tab cannot send a stale pre
     await expect(page.getByRole('region',{name:'待发送材料',exact:true})).toBeVisible();
     const source=(await x.request('/projects/'+p.id+'/discovery-scope'));expect(source.scope.allowedPaths).toEqual(['.']);expect(source.scope.includeProjectTests).toBe(true);expect(source.snapshot.files.some((file:any)=>file.path==='tests/business.test.ts')).toBe(true);
     await page.getByRole('button',{name:'模型设置',exact:true}).click();
-    await page.getByRole('button',{name:'返回02 了解与分析业务',exact:true}).click();
+    await page.getByRole('button',{name:'返回：了解与分析业务',exact:true}).click();
     await expect(page.getByRole('heading',{name:'AI读取项目分析',exact:true})).toBeVisible();
     await page.getByRole('button',{name:'读取项目',exact:true}).click();
     await expect(page.getByRole('region',{name:'待发送材料',exact:true})).toBeVisible();

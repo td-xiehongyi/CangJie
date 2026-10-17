@@ -40,6 +40,8 @@ export type CommonProps={step?:number;state:Data;project?:Data;run?:Data;refresh
 
 export function friendlyError(code:string):string{
   const messages:Record<string,string>={
+    EXAMPLE_UNAVAILABLE:'内置工单示例当前不满足支持条件，请保留现有文件并联系开发者核对；也可选择自己的项目。',
+    EXAMPLE_COPY_NOT_CONFIRMED:'请明确点击“用工单示例体验”，再创建独立练习副本。',
     TRUNCATED_OUTPUT:'模型输出不完整，未形成完整分析结果；已有进度保留。继续会再次调用模型，累计预算不重置。（TRUNCATED_OUTPUT）',
     REVISION_LIMIT_REACHED:'本任务的3版方案均未通过独立验证。请核对失败原因；修复后可在下方明确创建新任务，旧记录和预算保留。（REVISION_LIMIT_REACHED）',
     INVALID_CAPABILITY_DECLARATION:'模型混淆了操作、角色或表达式名称，正在按公开格式要求修订。',

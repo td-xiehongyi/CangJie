@@ -104,3 +104,20 @@ summary{min-height:44px;padding:10px 0}.actions{gap:12px}.text-button{text-align
 .plan-progress strong,.plan-progress span {display:block}.plan-progress span {margin-top:6px;color:#57647a}
 
 .workflow-nav .workflow-substeps{padding:4px 8px 8px 36px;display:grid;gap:8px}.workflow-substeps li{font-size:12px;line-height:1.5}.workflow-substeps small{display:block;opacity:.8}
+
+/* Four user stages; technical tasks stay inside their stage. */
+.workflow-nav>ol{display:grid;gap:8px;padding-top:16px}
+.workflow-tasks{width:100%}.workflow-tasks ol{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0}
+.workflow-tasks li{flex:1;min-width:130px}.workflow-tasks button{width:100%;min-height:56px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.workflow-tasks button[aria-current=step]{border-color:var(--blue);background:#e9efff;color:#244eac}
+.workflow-tasks small{display:block;margin-top:4px;color:var(--muted);font-size:12px}.workflow-tasks button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.current-task{width:100%;display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;border-top:1px solid var(--line);padding-top:16px}.current-task h2{font-size:18px;margin:0}.current-task>.text-button{margin-left:auto}.current-task p{flex-basis:100%;margin:0;color:var(--muted)}
+@media(max-width:800px){.workflow-nav.expanded{display:block}.workflow-nav>ol{grid-template-columns:repeat(2,minmax(0,1fr));padding-top:8px}.workflow-tasks li{min-width:calc(50% - 8px)}.current-task>.text-button{margin-left:0}.sidebar{flex-wrap:wrap}}
+
+.result-group{margin-top:24px}.result-group>h3{font-size:17px;padding-bottom:10px;border-bottom:1px solid var(--line)}.result-group .rule-row>h4{font-size:16px;margin:0 0 10px}.result-group h5{font-size:14px;margin:12px 0}.result-group .rule-row[data-outcome=fail]{border-left:3px solid var(--red)}.result-group .rule-row[data-outcome=unknown]{border-left:3px solid #9a6818}
+.repair-preview{max-height:55dvh;white-space:pre-wrap;overflow-wrap:anywhere}.retest-comparison>p,.retest-comparison>.notice{margin-top:12px}.comparison-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0;overflow-wrap:anywhere}.comparison-table{overflow-x:auto;margin-top:18px}.comparison-table table{width:100%;min-width:580px;border-collapse:collapse;text-align:left}.comparison-table th,.comparison-table td{border-bottom:1px solid var(--line);padding:12px;vertical-align:top}.comparison-table thead{background:#f6f8fc}.comparison-table th:first-child{min-width:130px}.comparison-table td:last-child{min-width:230px}.retest-comparison details p{overflow-wrap:anywhere}
+@media(max-width:600px){.comparison-meta{grid-template-columns:1fr}.result-group .rule-row{padding:16px 12px}.comparison-table th,.comparison-table td{padding:10px}.repair-preview{max-height:50dvh}}
+.imported-project{margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--line)}
+.project-support{margin:1rem 0;padding:1rem;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.project-support h3{margin-top:0}.project-support li{margin:.5rem 0}.project-support details{margin:1rem 0}
+.project-support pre{white-space:pre-wrap;overflow-wrap:anywhere}.example-entry{margin-top:1.5rem}.break{overflow-wrap:anywhere}

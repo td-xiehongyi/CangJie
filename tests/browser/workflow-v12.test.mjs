@@ -16,19 +16,19 @@ test('numbered workbench preserves drafts, scopes goals and never auto-dispatche
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  let modelOrRunCalls=0;page.on('request',r=>{if(r.method()==='POST'&&/\/(discovery|candidate|run|replay|load)$/.test(new URL(r.url()).pathname))modelOrRunCalls++;});
  await page.goto(host.url);
- const nav=page.getByRole('navigation',{name:'完整业务验证流程'});
+ const nav=page.getByRole('navigation',{name:'项目检查流程'});
  await nav.getByRole('button').first().waitFor();
- assert.equal(await nav.getByRole('button').count(),9);
- assert.equal(await nav.getByLabel('05内的自动子步骤').locator('li').count(),3);
+ assert.equal(await nav.getByRole('button').count(),4);
+ assert.equal(await nav.getByLabel('05内的自动子步骤').count(),0);
  await page.getByLabel('项目目录',{exact:true}).locator('visible=true').fill(source);
  await page.getByRole('button',{name:'导入源码',exact:true}).click();
  await page.waitForURL(/project=/);
  const pid=new URL(page.url()).searchParams.get('project');
- await nav.getByRole('button',{name:/^02 /}).click();
+ await nav.getByRole('button',{name:/^2 /}).click();await page.getByRole('navigation',{name:'当前阶段任务'}).locator('button[data-step="2"]').click();
  await page.getByRole('heading',{name:'AI读取项目分析',exact:true}).waitFor();
- await nav.getByRole('button',{name:/^05 /}).click(); await page.waitForURL(/step=3/);
- assert.match(await page.getByRole('alert').innerText(),/请先在03选择至少一项检查/);
- await nav.getByRole('button',{name:/^02 /}).click();
+ await nav.getByRole('button',{name:/^3 /}).click();await page.getByRole('navigation',{name:'当前阶段任务'}).locator('button[data-step="5"]').click(); await page.waitForURL(/step=3/);
+ assert.match(await page.getByRole('alert').innerText(),/请先确认至少一项检查/);
+ await nav.getByRole('button',{name:/^2 /}).click();await page.getByRole('navigation',{name:'当前阶段任务'}).locator('button[data-step="2"]').click();
  await page.waitForURL(/step=2/);
 
  assert.equal(await page.getByRole('heading',{name:'自行填写业务',exact:true}).count(),1);
@@ -42,11 +42,11 @@ test('numbered workbench preserves drafts, scopes goals and never auto-dispatche
  await page.getByLabel('模型名称',{exact:true}).fill('synthetic-unsent-model');
  await page.getByRole('button',{name:'保存到本机',exact:true}).click();
  await page.getByRole('status').filter({hasText:'未发送连接检查'}).waitFor();
- await page.getByRole('button',{name:'返回02 了解与分析业务',exact:true}).click();
+ await page.getByRole('button',{name:'返回：了解与分析业务',exact:true}).click();
  assert.equal(new URL(page.url()).searchParams.get('step'),'2');
  assert.equal(await page.getByRole('button',{name:'同意发送并开始分析',exact:true}).count(),0);
  assert.equal(await page.getByRole('button',{name:'查看完整文件清单与正文',exact:true}).count(),0);
- await page.getByRole('button',{name:'前往03填写业务',exact:true}).click();
+ await page.getByRole('button',{name:'自行填写并确认业务',exact:true}).click();
  await page.getByLabel('业务说明（人工输入）',{exact:true}).fill('检查取消订单后库存恢复一次');
  await page.getByLabel('测试目标',{exact:true}).selectOption('both');
  await page.getByLabel('计划每秒完整检查次数').fill('2');
@@ -60,11 +60,11 @@ test('numbered workbench preserves drafts, scopes goals and never auto-dispatche
  assert.equal(await page.getByLabel('测试目标',{exact:true}).inputValue(),'both');
  assert.equal(new URL(page.url()).searchParams.get('project'),pid);
  // Clicking the already-current step must not swallow the next navigation.
- await nav.getByRole('button',{name:/^03 /}).click();
- await nav.getByRole('button',{name:/^12 /}).click();
+ await nav.getByRole('button',{name:/^2 /}).click();await page.getByRole('navigation',{name:'当前阶段任务'}).locator('button[data-step="3"]').click();
+ await page.goto(host.url+`/?page=repair&step=12&project=${pid}`);
  await page.getByRole('heading',{name:'核对变化并复测',exact:true}).waitFor();
- assert.match(await nav.getByRole('button',{name:/^12 /}).innerText(),/未启用/);
- await nav.getByRole('button',{name:/^11 /}).click();
+ await page.getByRole('button',{name:'查看说明与验证依据',exact:true}).click();assert.match(await page.getByRole('dialog').innerText(),/可选.*未启用/);await page.keyboard.press('Escape');
+ await page.getByRole('button',{name:'返回检查结果',exact:true}).click();
  await page.getByRole('heading',{name:'尚无验证结果',exact:true}).waitFor();
  for(const width of [390,800,1280,1920]){
   await page.setViewportSize({width,height:720});
@@ -75,10 +75,10 @@ test('numbered workbench preserves drafts, scopes goals and never auto-dispatche
  }
  await page.evaluate(()=>document.body.style.zoom='1');
  await page.setViewportSize({width:1280,height:720});
- await mkdir('output/analysis-entry-20261016',{recursive:true});
- await page.screenshot({path:'output/analysis-entry-20261016/11-results.png',fullPage:true});
- await nav.getByRole('button',{name:/^02 /}).click();
- await page.screenshot({path:'output/analysis-entry-20261016/02-analysis.png',fullPage:true});
+ await mkdir('output/four-stage-20261017/regression/analysis-entry-20261016',{recursive:true});
+ await page.screenshot({path:'output/four-stage-20261017/regression/analysis-entry-20261016/11-results.png',fullPage:true});
+ await nav.getByRole('button',{name:/^2 /}).click();await page.getByRole('navigation',{name:'当前阶段任务'}).locator('button[data-step="2"]').click();
+ await page.screenshot({path:'output/four-stage-20261017/regression/analysis-entry-20261016/02-analysis.png',fullPage:true});
  assert.equal(modelOrRunCalls,0,'navigation and configuration must not launch work');
  assert.deepEqual(errors,[]);
 });

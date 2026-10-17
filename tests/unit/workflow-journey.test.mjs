@@ -89,3 +89,13 @@ test('a published selected candidate retains its qualification evidence in navig
  const result=journeyState(p,state,undefined,false);
  assert.equal(result[5].status,'evidence');assert.equal(result[9].status,'evidence');
 });
+
+test('four stages map every historical step without changing legacy parsing',async()=>{
+ const {workflowStages,stageForStep,stageEntry}=await import('../../apps/ui/src/workflowJourney.ts');
+ assert.deepEqual(workflowStages.map(s=>s.title),['选择项目','确认检查','运行检查','处理结果']);
+ assert.deepEqual(journeySteps.map(s=>stageForStep(s.id).id),[1,2,2,3,3,3,3,3,3,3,4,4]);
+ for(const raw of ['5','6','07','8'])assert.equal(parseStep(raw),5);
+ assert.equal(stageEntry(3,3),4);assert.equal(stageEntry(3,9),9);
+ assert.equal(stageEntry(4,12),12);assert.equal(stageEntry(4,3),11);
+ assert.equal(stageEntry(2,11),2);
+});

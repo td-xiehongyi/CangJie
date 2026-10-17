@@ -37,7 +37,7 @@ test('incomplete target evidence pauses and resumes the same candidate without a
   const {chromium,expect}=await import('@playwright/test');
   const browser=await chromium.launch({channel:'msedge',headless:true});t.after(()=>browser.close());
   const page=await browser.newPage();await page.goto(host.url+`/?page=verify&project=${projectId}`);
-  const goStep=async step=>{step=[6,7,8].includes(step)?5:step;await page.getByRole('navigation',{name:'完整业务验证流程'}).getByRole('button',{name:new RegExp('^'+String(step).padStart(2,'0')+' ')}).click();await expect(page.locator('.step-heading h1')).toContainText(String(step).padStart(2,'0')+' ');};
+  const goStep=async step=>{step=[6,7,8].includes(step)?5:step;const stage=step<=3?2:step<=10?3:4;await page.getByRole('navigation',{name:'项目检查流程'}).getByRole('button',{name:new RegExp('^'+stage+' ')}).click();await page.getByRole('navigation',{name:'当前阶段任务'}).locator(`button[data-step="${step}"]`).click();await expect.poll(()=>new URL(page.url()).searchParams.get('step')).toBe(String(step));};
   await page.getByRole('combobox',{name:'要检查网站的哪种操作？',exact:true}).selectOption('edit');
   await page.getByLabel('只改标题，优先级和所有者不变',{exact:true}).selectOption('observe');
   await page.getByRole('combobox',{name:'只改标题，优先级和所有者不变',exact:true}).selectOption('confirm');

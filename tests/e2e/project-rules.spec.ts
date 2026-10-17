@@ -59,7 +59,7 @@ const moduleUrl=importUi;
 test('server-rendered discovery requires unanswered questions and explicit independent expectations',async()=>{
   const {default:BusinessDiscovery}=await import(await moduleUrl('apps/ui/src/components/BusinessDiscovery.tsx'));
   const html=renderToStaticMarkup(createElement(BusinessDiscovery,{state:{settings:{}},project:{id:'project-a',discovery:session},refresh:async()=>{},select:()=>{}}));
-  expect(html).toContain('前往03 确认要检查的业务');
+  expect(html).toContain('继续：确认范围与预期');
   expect(html).not.toContain('确认并保存项目规则');
   const {default:ProjectRuleCard}=await import(await moduleUrl('apps/ui/src/components/ProjectRuleCard.tsx'));
   const form=renderToStaticMarkup(createElement(ProjectRuleCard,{projectId:'project-a',session,collection:{revision:0,versions:[],readiness:[]}}));
@@ -132,7 +132,7 @@ for(const width of [1280,390])test(`Chinese AI answers prefill once and preserve
   await expect(form.getByLabel('确认后的预期行为（每行一条）')).toHaveValue('仅所有者可修改订单。');
   await expect(form.getByLabel('已核对关键问题与业务预期')).not.toBeChecked();await expect(form.getByRole('button',{name:'确认并保存项目规则'})).toBeDisabled();expect(x.writes).toHaveLength(0);
   await form.getByText('核对建议的源码事实与候选预期',{exact:true}).click();await expect(form).toContainText('源码检查工单归属。');await expect(form).not.toContainText(q);
-  await mkdir('output/business-ai-prefill-20261016',{recursive:true});await page.screenshot({path:`output/business-ai-prefill-20261016/prefill-${width}.png`,fullPage:true});
+  await mkdir('output/four-stage-20261017/regression/business-ai-prefill-20261016',{recursive:true});await page.screenshot({path:`output/four-stage-20261017/regression/business-ai-prefill-20261016/prefill-${width}.png`,fullPage:true});
   await answer.fill('');await form.getByLabel('检查修改订单',{exact:true}).uncheck();await form.getByLabel('检查修改订单',{exact:true}).check();await expect(answer).toHaveValue('');await expect(form.getByLabel('已核对关键问题与业务预期')).toBeDisabled();await form.getByText('需要你核对的1个问题',{exact:true}).click();
   await answer.fill('人工修改：仅所有者可修改');await goStep(page,4);await goStep(page,3);await expect(answer).toHaveValue('人工修改：仅所有者可修改');await form.getByText('需要你核对的1个问题',{exact:true}).click();
   await form.getByLabel('已核对关键问题与业务预期').check();await answer.fill('最终核对：仅所有者可修改');await expect(form.getByLabel('已核对关键问题与业务预期')).not.toBeChecked();
@@ -146,11 +146,11 @@ for(const width of [1280,390])test(`explicit owner expectation is saved without 
   await page.setViewportSize({width,height:900});const x=await setupUi(page);
   try{
     const form=page.getByRole('region',{name:'规则预期核对 修改订单'});
-    await expect(form).toBeVisible();await mkdir('output/business-confirmation-20261016',{recursive:true});await page.screenshot({path:`output/business-confirmation-20261016/business-${width}.png`,fullPage:true});await expect(form.getByRole('textbox')).toHaveCount(0);await form.getByLabel('检查修改订单',{exact:true}).check();await form.getByText('核对建议的源码事实与候选预期',{exact:true}).click();await expect(form.getByText('源码事实：当前源码允许任何人修改订单。',{exact:true})).toBeVisible();await expect(form.getByText('文档预期 · 待确认：仅所有者可修改订单。',{exact:true})).toBeVisible();
+    await expect(form).toBeVisible();await mkdir('output/four-stage-20261017/regression/business-confirmation-20261016',{recursive:true});await page.screenshot({path:`output/four-stage-20261017/regression/business-confirmation-20261016/business-${width}.png`,fullPage:true});await expect(form.getByRole('textbox')).toHaveCount(0);await form.getByLabel('检查修改订单',{exact:true}).check();await form.getByText('核对建议的源码事实与候选预期',{exact:true}).click();await expect(form.getByText('源码事实：当前源码允许任何人修改订单。',{exact:true})).toBeVisible();await expect(form.getByText('文档预期 · 待确认：仅所有者可修改订单。',{exact:true})).toBeVisible();
     expect(x.writes).toHaveLength(0);await expect(form.getByLabel('已核对关键问题与业务预期')).not.toBeChecked();await expect(form.getByRole('button',{name:'确认并保存项目规则'})).toBeDisabled();
     await form.getByText('需要你核对的1个问题',{exact:true}).click();await form.getByLabel('谁可以修改订单？',{exact:true}).fill('仅所有者');await form.getByLabel('确认后的预期行为（每行一条）').fill('仅所有者可修改订单');await form.getByLabel('已核对关键问题与业务预期').check();await form.getByRole('button',{name:'确认并保存项目规则'}).click();
     await expect(page.getByRole('article',{name:'已保存业务 修改订单'})).toContainText('已由你确认');await expect(page.getByRole('button',{name:'查看历史版本'})).toBeHidden();await expect(form).toHaveCount(0);await goStep(page,5);const saved=page.getByRole('article',{name:'项目规则 修改订单 v1'});await expect(saved).toContainText('已由你确认');await saved.getByRole('button',{name:'选择此版本（仅保存草稿）'}).click();await expect(saved).toContainText('已选为项目规则草稿');
-    expect(x.writes.filter(v=>v.path.includes('/rules/')).map(v=>v.path.split('/').at(-1))).toEqual(['confirm','selection']);expect(x.writes[0].body.confirmed).toBe(true);expect(x.writes.find(v=>v.path.endsWith('/selection')).body.ruleRef).toEqual(ref(x.store.versions[0]));await mkdir('output/business-confirmation-20261016',{recursive:true});await page.screenshot({path:`output/business-confirmation-20261016/plan-${width}.png`,fullPage:true});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+    expect(x.writes.filter(v=>v.path.includes('/rules/')).map(v=>v.path.split('/').at(-1))).toEqual(['confirm','selection']);expect(x.writes[0].body.confirmed).toBe(true);expect(x.writes.find(v=>v.path.endsWith('/selection')).body.ruleRef).toEqual(ref(x.store.versions[0]));await mkdir('output/four-stage-20261017/regression/business-confirmation-20261016',{recursive:true});await page.screenshot({path:`output/four-stage-20261017/regression/business-confirmation-20261016/plan-${width}.png`,fullPage:true});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }finally{await x.close()}
 });
 test('revision clears confirmation, preserves old version and requires explicit reconfirmation',async({page})=>{

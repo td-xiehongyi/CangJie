@@ -16,6 +16,18 @@ export const journeySteps=[
 ] as const;
 // Retain old step IDs for saved positions and URLs; only one preparation destination is shown.
 export const navigationSteps=journeySteps.filter(s=>![6,7,8].includes(s.id));
+// Stages only group existing views; legacy IDs remain the persisted navigation contract.
+export const workflowStages=[
+ {id:1,title:'选择项目',purpose:'选择要检查的网站源码。',steps:[1]},
+ {id:2,title:'确认检查',purpose:'整理业务，确认本轮检查范围与正确行为。',steps:[2,3]},
+ {id:3,title:'运行检查',purpose:'准备环境与检查方法，完成必要审核后明确开始检查。',steps:[4,5,6,7,8,9,10]},
+ {id:4,title:'处理结果',purpose:'查看问题与证据，交给开发者修复，再按原规则复测。',steps:[11,12]}
+] as const;
+export function stageForStep(step:number){return workflowStages.find(stage=>(stage.steps as readonly number[]).includes(step))??workflowStages[0];}
+export function stageEntry(stageId:number,currentStep:number):number{
+ const stage=workflowStages.find(stage=>stage.id===stageId)??workflowStages[0];
+ return (stage.steps as readonly number[]).includes(currentStep)?parseStep(String(currentStep)):stage.steps[0];
+}
 export function parseStep(value:string|null|undefined):number{
  if(!value||!/^0?[1-9]$|^1[0-2]$/.test(value))return 1;
  return [6,7,8].includes(Number(value))?5:Number(value);
@@ -52,7 +64,7 @@ export function journeyState(project:Value|undefined,state:Value,run:Value|undef
  if(candidate){
   const awaitingReview=candidate.status==='ready_for_review',blocked=!!candidate.code&&!awaitingReview;
   const published=!!candidate.draftHash&&matches.some((m:Value)=>m.ref.hash===candidate.draftHash);
-  if(['running','validating'].includes(candidate.status)||choices.some(x=>candidate.ruleHash&&x.ruleHash===candidate.ruleHash)||Object.entries(project.workflow?.flows?.[project.workflow?.flow]??{}).some(([id,value]:[string,any])=>value.enabled&&id===(candidate.ruleRef?.id??candidate.ruleId??candidate.spec?.ruleRef?.id)))result[5]={status:['running','validating'].includes(candidate.status)?'running':blocked?'blocked':exact?'evidence':'available',reason:['running','validating'].includes(candidate.status)?'方案正在准备，06—08的进度在05内更新。':blocked?'方案准备受阻，请查看原因；已有合格版本的资格仍由后端核对。':published?'方案已发布，执行前请核对本轮精确版本与适用条件。':awaitingReview?'方案准备已完成，等待业务和技术审核。':'方案记录可查看，请核对验证与审核结果。'};
+  if(['running','validating'].includes(candidate.status)||choices.some(x=>candidate.ruleHash&&x.ruleHash===candidate.ruleHash)||Object.entries(project.workflow?.flows?.[project.workflow?.flow]??{}).some(([id,value]:[string,any])=>value.enabled&&id===(candidate.ruleRef?.id??candidate.ruleId??candidate.spec?.ruleRef?.id)))result[5]={status:['running','validating'].includes(candidate.status)?'running':blocked?'blocked':exact?'evidence':'available',reason:['running','validating'].includes(candidate.status)?'方案正在准备，验证与试运行的进度在当前页更新。':blocked?'方案准备受阻，请查看原因；已有合格版本的资格仍由后端核对。':published?'方案已发布，执行前请核对本轮精确版本与适用条件。':awaitingReview?'方案准备已完成，等待业务和技术审核。':'方案记录可查看，请核对验证与审核结果。'};
   result[6]={status:['running','validating'].includes(candidate.status)?'running':'available',reason:'候选方案尚需独立验证、项目试运行与审核。'};
   result[7]={status:candidate.status==='validating'?'running':'available',reason:'查看独立验证记录，不以候选存在推断已通过。'};
   result[8]={status:'available',reason:'查看当前项目试运行及适配证据。'};
@@ -60,7 +72,7 @@ export function journeyState(project:Value|undefined,state:Value,run:Value|undef
  }
  const current=run?.projectId===project.id?run:undefined;
  if(current){
-  result[10]={status:current.status==='running'?'running':current.status==='completed'?'completed':'blocked',reason:'步骤完成和业务通过是两个独立状态，以11中的证据为准。'};
+  result[10]={status:current.status==='running'?'running':current.status==='completed'?'completed':'blocked',reason:'执行完成和业务通过是两个独立状态，以结果页中的证据为准。'};
   result[11]={status:'available',reason:'当前结果可以查看；失败或部分结果也可导出。'};
  }
  return result;
