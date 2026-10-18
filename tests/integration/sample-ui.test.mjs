@@ -23,13 +23,16 @@ for(const name of ['ticket','registration','status-ticket'])test(`${name}: page,
 import {spawn} from 'node:child_process';
 import {access} from 'node:fs/promises';
 import {resolve} from 'node:path';
-for(const name of ['ticket','registration','status-ticket'])test(`${name}: demo launcher creates usable disposable credentials`,async t=>{
- const child=spawn(process.execPath,['src/demo.mjs','--json'],{cwd:resolve('samples',name),env:{...process.env,PORT:'0',TEST_DATABASE:'must-not-use-this-path'},stdio:['ignore','pipe','pipe']});
+for(const name of ['ticket','registration','status-ticket'])test(`${name}: demo launcher creates usable disposable credentials and cleans up on stop`,{timeout:15000},async t=>{
+ const child=spawn(process.execPath,['src/demo.mjs','--json'],{cwd:resolve('samples',name),env:{...process.env,PORT:'0',TEST_DATABASE:'must-not-use-this-path'},stdio:['ignore','pipe','pipe','ipc']});
  const closed=new Promise(r=>child.once('close',r));
  t.after(async()=>{if(child.exitCode===null)child.kill();await closed});
  let errors='';child.stderr.on('data',v=>errors+=v);
  const info=await new Promise((res,rej)=>{let output='';const timer=setTimeout(()=>rej(new Error('demo startup timeout: '+errors)),10000);child.once('error',e=>{clearTimeout(timer);rej(e)});child.once('exit',code=>{clearTimeout(timer);rej(new Error('demo exit '+code+': '+errors))});child.stdout.on('data',v=>{output+=v;if(output.includes('\n')){clearTimeout(timer);try{res(JSON.parse(output.split('\n')[0]))}catch(e){rej(e)}}})});
  assert.equal((await fetch(info.url)).status,200);assert.equal(info.accounts.length,2);assert.notEqual(info.accounts[0].password,info.accounts[1].password);
  const a=info.accounts[0],registration=name==='registration',login=await fetch(info.url+(registration?'/sessions':'/login'),{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(registration?{account:a.username,passphrase:a.password}:{username:a.username,password:a.password})});assert.equal(login.status,200);
- child.kill();await closed;await assert.rejects(access(info.directory));
+ // A forced kill bypasses the launcher's cleanup on Windows. Request a supervised shutdown instead.
+ child.send('stop');
+ assert.equal(await closed,0);await assert.rejects(access(info.directory),{code:'ENOENT'});
+ await assert.rejects(fetch(info.url,{signal:AbortSignal.timeout(2000)}),e=>e.cause?.code==='ECONNREFUSED');
 });
