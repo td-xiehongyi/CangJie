@@ -25,11 +25,32 @@ export default function App(){
   useEffect(()=>subscribeSession(setSessionLost),[]);
   async function reconnect(){if(reconnectingRef.current)return;reconnectingRef.current=true;setReconnecting(true);try{await connect();await refresh();setError('');}catch{setError('CONNECTION_FAILED');setSessionLost(true);}finally{reconnectingRef.current=false;setReconnecting(false);}}
   const guards=useRef(new Map<string,LeaveGuard>()),navigationBusy=useRef(false),lastUrl=useRef(location.href),positions=useRef(new Map<string,number>()),restorePosition=useRef<number|undefined>(undefined),dialog=useRef<HTMLDialogElement>(null),initial=useRef(true);
-  const refresh=useCallback(async()=>{setState(await api('/state'));},[]);
+  const stateReads=useRef({requested:0,applied:0});
+  const refresh=useCallback(async(signal?:AbortSignal)=>{
+    const revision=++stateReads.current.requested,next=await api('/state',undefined,'GET',signal);
+    // An older poll must not overwrite the state read after a completed user action.
+    if(!signal?.aborted&&revision>stateReads.current.applied){stateReads.current.applied=revision;setState(next);}
+  },[]);
   const navigation=useMemo(()=>({beforeChange:()=>canLeave(),register:(id:string,guard:LeaveGuard)=>{guards.current.set(id,guard);return()=>{if(guards.current.get(id)===guard)guards.current.delete(id);};},confirmLeave:(save:()=>Promise<void>)=>new Promise<boolean>(resolve=>setLeavePrompt({save,resolve}))}),[]);
   async function canLeave(){for(const guard of guards.current.values())if(!await guard())return false;return true;}
   function applyLocation(){const next=initialStep();setStep(next);setPage(params().get('page')==='settings'?'settings':stepPage(next));setProjectId(params().get('project')??'');setRunId(params().get('run')??'');lastUrl.current=location.href;}
-  useEffect(()=>{let alive=true;if(closed)return;void connect().then(async()=>{if(alive)await refresh();}).catch(e=>setError(e.message));const timer=setInterval(()=>{if(alive&&!isSessionExpired()&&!reconnectingRef.current)void refresh().catch(e=>setError(e.message));},1500);const back=()=>{void canLeave().then(ok=>{if(ok)applyLocation();else history.pushState({},'',lastUrl.current);}).catch(e=>setError(e.message));};window.addEventListener('popstate',back);return()=>{alive=false;clearInterval(timer);window.removeEventListener('popstate',back);};},[closed,refresh]);
+  useEffect(()=>{
+    if(closed)return;
+    let alive=true,polling=false;
+    const controller=new AbortController();
+    const poll=async()=>{
+      if(!alive||polling||isSessionExpired()||reconnectingRef.current)return;
+      polling=true;
+      try{await refresh(AbortSignal.any([controller.signal,AbortSignal.timeout(30000)]));}
+      catch(error){if(alive)setError((error as Error).name==='TimeoutError'?'STATE_REFRESH_TIMEOUT':(error as Error).message);}
+      finally{polling=false;}
+    };
+    void connect().then(poll).catch(e=>{if(alive)setError(e.message);});
+    const timer=setInterval(()=>void poll(),1500);
+    const back=()=>{void canLeave().then(ok=>{if(ok)applyLocation();else history.pushState({},'',lastUrl.current);}).catch(e=>setError(e.message));};
+    window.addEventListener('popstate',back);
+    return()=>{alive=false;controller.abort();clearInterval(timer);window.removeEventListener('popstate',back);};
+  },[closed,refresh]);
   useEffect(()=>{if(!state)return;if(initial.current){initial.current=false;return;}const visible=document.querySelector(page==='settings'?'div[data-page=settings] h1':'.step-heading h1') as HTMLElement|null;visible?.setAttribute('tabindex','-1');visible?.focus({preventScroll:true});window.scrollTo({top:restorePosition.current??0});restorePosition.current=undefined;},[page,step,projectId,runId,!!state]);
   useEffect(()=>{if(leavePrompt&&!dialog.current?.open)dialog.current?.showModal();},[leavePrompt]);
   function select(pid:string,rid?:string,target=page){

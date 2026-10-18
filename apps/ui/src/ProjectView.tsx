@@ -16,10 +16,32 @@ function RuntimeProjectView({state,project,run,refresh,act,select,step}:CommonPr
   const [preparationClosed,setPreparationClosed]=useState(false);
   const [accountMode,setAccountMode]=useState('automatic'),[editing,setEditing]=useState(!project||project.sourceOnly),[saving,setSaving]=useState(false),[preparing,setPreparing]=useState(false),[useAi,setUseAi]=useState(false),[picking,setPicking]=useState(false);
   const picker=useRef<AbortController|undefined>(undefined);
-  useLeaveGuard('project-picker',async()=>{picker.current?.abort();return true;});
-  useEffect(()=>()=>picker.current?.abort(),[]);
+  const inspection=useRef<AbortController|undefined>(undefined);
+  const [inspectionStopped,setInspectionStopped]=useState<'timeout'|'cancelled'>();
+  useLeaveGuard('project-picker',async()=>{picker.current?.abort();inspection.current?.abort();return true;});
+  useEffect(()=>()=>{picker.current?.abort();const current=inspection.current;inspection.current=undefined;current?.abort();},[]);
   useEffect(()=>{setDirectory(project?.directory??'');setPurpose(project?.purpose??'');setNames(project?.accounts?.map((a:any)=>a.username)??['','']);setIds(project?.accounts?.map((a:any)=>a.userId)??['','']);setScope(project?.entries?.map((e:any)=>e.path).join('\n')??'verification.json');setMapping(project?.mapping?JSON.stringify(project.mapping,null,2):'');setAccountMode(project?.accountMode??'automatic');setPasswords(['','']);setEditing(!project||project.sourceOnly);},[project?.id]);
-  async function inspect(){setSaving(true);try{const body={id:project?.id,directory:normalizeProjectDirectory(directory),purpose,accountMode,...(accountMode==='manual'?{accounts:['owner','other'].map((actorRef,i)=>({actorRef,username:names[i],userId:ids[i],password:passwords[i],role:'user'}))}:{}),entries:scope.split('\n').filter(Boolean).map(path=>({path,contentType:'summary'})),...(mapping?{mapping:JSON.parse(mapping)}:{})};const r=await api('/projects',body);await refresh();setEditing(false);setPreparationClosed(false);setPreparing(true);select(r.projectId,project?.id===r.projectId?run?.id:undefined,step?'step:4':'project');}finally{setSaving(false);}}
+  async function inspect(){
+    if(inspection.current)return;
+    const controller=new AbortController();inspection.current=controller;
+    let timedOut=false;
+    // Bound the whole action, including the state read after the project was saved.
+    const timer=setTimeout(()=>{timedOut=true;controller.abort();},30000);
+    setSaving(true);setInspectionStopped(undefined);
+    try{
+      const body={id:project?.id,directory:normalizeProjectDirectory(directory),purpose,accountMode,...(accountMode==='manual'?{accounts:['owner','other'].map((actorRef,i)=>({actorRef,username:names[i],userId:ids[i],password:passwords[i],role:'user'}))}:{}),entries:scope.split('\n').filter(Boolean).map(path=>({path,contentType:'summary'})),...(mapping?{mapping:JSON.parse(mapping)}:{})};
+      const r=await api('/projects',body,'POST',controller.signal);controller.signal.throwIfAborted();
+      await refresh(controller.signal);controller.signal.throwIfAborted();
+      setEditing(false);setPreparationClosed(false);setPreparing(true);
+      select(r.projectId,project?.id===r.projectId?run?.id:undefined,step?'step:4':'project');
+    }catch(error){
+      if(!controller.signal.aborted)throw error;
+      if(inspection.current===controller)setInspectionStopped(timedOut?'timeout':'cancelled');
+    }finally{
+      clearTimeout(timer);
+      if(inspection.current===controller){inspection.current=undefined;setSaving(false);}
+    }
+  }
   const analyzed=project?.analysis?.status==='completed',analyzing=project?.analysis?.status==='running';
   const analyzeNext=useAi&&!!state.settings.model&&!!state.settings.hasKey;
   const prepared=project?.environmentCurrent!==false&&project?.preparation?.status==='ready'&&project.preparation.environmentHash===project.environmentHash;
@@ -33,8 +55,10 @@ function RuntimeProjectView({state,project,run,refresh,act,select,step}:CommonPr
       <div className="account-choice"><h3>测试用户如何准备？</h3><label className="check"><input type="radio" name="account-mode" checked={accountMode==='automatic'} onChange={()=>setAccountMode('automatic')}/>自动生成两个测试用户（推荐）</label><p className="muted">用于检查用户之间的数据是否隔离；仅在独立测试副本中创建。</p><label className="check"><input type="radio" name="account-mode" checked={accountMode==='manual'} onChange={()=>setAccountMode('manual')}/>手动指定测试账号</label></div>
       {accountMode==='manual'&&<div>{['用户甲','用户乙'].map((name,i)=><div className="account-row" key={name}><label className="field">{name}账号<input value={names[i]} onChange={e=>setNames(names.map((n,j)=>i===j?e.target.value:n))}/></label><label className="field">{name}身份 ID<input value={ids[i]} onChange={e=>setIds(ids.map((n,j)=>i===j?e.target.value:n))}/></label><label className="field">{name}测试密码<input type="password" autoComplete="off" value={passwords[i]} placeholder={project?.accounts?.[i]?.hasPassword?'已在本次会话保存':'仅用于测试账号'} onChange={e=>setPasswords(passwords.map((n,j)=>i===j?e.target.value:n))}/></label></div>)}</div>}
       <details><summary>高级配置：接口映射与候选生成材料</summary><label className="field">映射定义<textarea className="code" value={mapping} onChange={e=>setMapping(e.target.value)} placeholder="默认读取项目自带配置，通常无需填写"/></label><label className="field">方案生成材料（与业务分析分别授权）<textarea value={scope} onChange={e=>setScope(e.target.value)}/></label><p className="fine">每行一个相对路径，仅用于后续候选生成。业务分析材料单独管理；调用模型前仍须核对接收方与材料。</p>{project&&<button className="btn" onClick={()=>act(async()=>{await api(`/projects/${project.id}/scope`,{entries:scope.split('\n').filter(Boolean).map(path=>({path,contentType:'summary'}))});await refresh();})}>更新发送范围</button>}</details>
-      <div className="actions">{project&&<button className="btn" onClick={()=>setEditing(false)}>返回准备步骤</button>}{!step&&<button className="btn primary" disabled={!directory.trim()||saving} onClick={()=>act(async()=>{const p=await api('/source-projects',{directory,...(project?.sourceOnly?{id:project.id,expectedRevision:project.sourceRevision}:{})});await refresh();select(p.id,undefined,'project');})}>导入源码</button>}<button className="btn primary" disabled={!directory.trim()||saving} onClick={()=>act(inspect)}>{saving?'正在检查项目…':step?'检查并准备环境':'检查项目并继续'}</button></div>
+      <div className="actions">{project&&<button className="btn" onClick={()=>{inspection.current?.abort();setEditing(false);}}>返回准备步骤</button>}{!step&&<button className="btn primary" disabled={!directory.trim()||saving} onClick={()=>act(async()=>{const p=await api('/source-projects',{directory,...(project?.sourceOnly?{id:project.id,expectedRevision:project.sourceRevision}:{})});await refresh();select(p.id,undefined,'project');})}>导入源码</button>}<button className="btn primary" disabled={!directory.trim()||saving} onClick={()=>act(inspect)}>{saving?'正在检查项目…':step?'检查并准备环境':'检查项目并继续'}</button></div>
     </section>}
+    {saving&&<div className="actions">{!editing&&<p role="status">正在检查项目…</p>}<button className="btn" onClick={()=>inspection.current?.abort()}>取消等待</button></div>}
+    {inspectionStopped&&<p className="notice" role={inspectionStopped==='timeout'?'alert':'status'}>{inspectionStopped==='timeout'?'检查等待超时，输入已保留。项目可能已保存，请重试检查以核对最新状态。':'已取消等待，输入已保留。项目可能已保存，重试检查可核对最新状态。'}</p>}
     {!editing&&project&&!project.supported&&<section className="card"><h2>还需要补充测试条件</h2><p>这个项目暂时不能自动准备。把下面的说明交给开发者或编码 AI，补齐后重新检查。</p>{project.gapMarkdown&&<><pre aria-label="缺少的测试条件">{project.gapMarkdown}</pre><div className="actions"><button className="btn" onClick={()=>download('initialization-gap.md',project.gapMarkdown,'text/markdown')}>下载补充说明</button><button className="btn primary" onClick={()=>setEditing(true)}>返回并重新检查</button></div></>}</section>}
     {!step&&!editing&&project?.supported&&<section className="card"><h2>接下来检查什么？</h2><p className="muted">{state.catalog.matches.length?'方案库中有已审核方案，选择检查后还需核对适用条件与版本。':'还没有可用检查方案，可先选择要检查的行为，再创建方案。'}</p><label className="check"><input type="radio" name="next-step" checked={!analyzeNext} onChange={()=>setUseAi(false)}/>自行选择检查内容</label><label className="check"><input type="radio" name="next-step" checked={analyzeNext} disabled={!state.settings.model||!state.settings.hasKey} onChange={()=>setUseAi(true)}/>让 AI 分析网站并推荐检查内容</label><p className="fine">AI 推荐为可选步骤；已有合格方案可直接执行。</p>{(!state.settings.model||!state.settings.hasKey)&&<button className="text-button" onClick={()=>select(project.id,run?.id,'settings')}>设置模型连接以启用 AI 分析</button>}</section>}
     {!editing&&project?.supported&&prepared&&!needsPreparation&&<section className="card"><h2>{project.preparation.sessionCurrent?'本次会话环境已核对':'已有历史环境记录'}</h2><p>最近检查通过；本次执行前仍会重新核对凭据与环境。</p><p className="fine">{new Date(project.preparation.completedAt).toLocaleString('zh-CN',{hour12:false})} · {project.preparation.sessionCurrent?'本次会话已核对':'历史准备记录；本次运行前会重新核对凭据和环境'}。每轮检查都会重新准备独立测试数据。</p><div className="actions"><button ref={preparationTrigger} className="text-button" onClick={()=>{setPreparationClosed(false);setPreparing(true);}}>打开环境准备</button><button className="btn primary" onClick={()=>select(project.id,undefined,step?'step:5':'verify')}>{step?'继续：准备检查方法':'继续选择检查'}</button></div></section>}

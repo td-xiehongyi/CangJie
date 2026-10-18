@@ -36,7 +36,7 @@ export const projectRulesApi={
 };
 export const ruleNames:Record<string,string>={'save-rule':'提交结果保存','duplicate-rule':'重复提交不重复创建','permission-rule':'账号之间权限隔离','title-update-rule':'只改标题，优先级和所有者不变'};
 export const statusNames:Record<string,string>={completed:'已完成',running:'进行中',preparing:'准备中',blocked:'受阻',paused:'已暂停',cancelled:'已停止',interrupted:'上次运行未完成',pass:'通过',fail:'发现问题',inconclusive:'无法验证',ready_for_review:'等待双重审核',draft:'草稿',rejected:'未获准入',needs_rule:'等待规则确认',needs_capability:'缺少能力',validating:'验证中',not_checked:'尚未检查',connected:'连接已通过',failed:'连接失败'};
-export type CommonProps={step?:number;state:Data;project?:Data;run?:Data;refresh:()=>Promise<void>;act:(work:()=>Promise<void>)=>void;settingsReturn?:string;select:(projectId:string,runId?:string,page?:string)=>void};
+export type CommonProps={step?:number;state:Data;project?:Data;run?:Data;refresh:(signal?:AbortSignal)=>Promise<void>;act:(work:()=>Promise<void>)=>void;settingsReturn?:string;select:(projectId:string,runId?:string,page?:string)=>void};
 
 export function friendlyError(code:string):string{
   const messages:Record<string,string>={
@@ -85,6 +85,7 @@ export function friendlyError(code:string):string{
     ANALYSIS_SAVE_FAILED:'分析进度保存失败，已停止发送。请检查本机磁盘与文件权限后继续原分析。',
     ANALYSIS_START_FAILED:'分析未能启动，进度已保留。请检查本机服务后重试。',
     CONNECTION_FAILED:'暂时无法重新连接，请确认工作台正在运行后重试。',
+    STATE_REFRESH_TIMEOUT:'读取工作台状态超时，已停止本次等待；将稍后重试，当前输入已保留。',
     WORKFLOW_RECONNECTED:'连接已恢复，本页选择尚未保存。请选择保留本页，或加载已保存的选择。',
     TEST_PASSWORD_REQUIRED:'请补填两个测试用户的会话密码后，重新准备环境。',
     STARTUP_OR_BASELINE_FAILED:'测试网站启动或数据基线准备失败，请检查项目启动与初始化配置后重试。',
