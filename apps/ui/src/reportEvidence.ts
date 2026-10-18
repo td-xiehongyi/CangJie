@@ -33,8 +33,46 @@ export function comparisonFor(check:Data,verdict:Data):{expected:string;actual:s
   return {expected:display(expected),actual:display(actual),source:actualExpr.op==='field'?`${actualExpr.var}.${actualExpr.path.join('.')}`:'未取得对应字段'};
 }
 
+export function differenceFor(check:Data,verdict:Data){
+ const missing={field:verdict.assertionRef,before:'未取得',expected:'请参照本条预期规则',actual:'未取得',source:'未取得对应断言值',status:verdict.status};
+ const expr=check.template?.assertions?.find((a:Data)=>a.id===verdict.assertionRef)?.expr;
+ if(!expr||!['eq','neq'].includes(expr.op)||expr.args?.length!==2)return missing;
+ const steps:Data[]=check.template.steps??[];
+ const read=(arg:Data):unknown=>{
+  if(arg.op==='const')return arg.value;
+  if(arg.op==='count'){const items=read(arg.arg);return Array.isArray(items)?items.length:undefined;}
+  if(arg.op!=='field')return undefined;
+  let value:unknown;
+  if(arg.var==='params')value=check.template.parameters;
+  else{
+   const matches=(check.actions??[]).filter((a:Data)=>a.checkId===verdict.checkId&&steps.some(s=>s.stepId===a.stepId&&s.output===arg.var))
+    .flatMap((a:Data)=>(check.observations??[]).filter((o:Data)=>o.actionId===a.actionId&&o.evidenceRefs?.some((ref:string)=>verdict.evidenceRefs?.includes(ref))));
+   // Multiple observations are ambiguous; never select a convenient value.
+   if(matches.length!==1)return undefined;
+   value=matches[0].result;
+  }
+  for(const key of arg.path??[]){if(!value||typeof value!=='object'||!Object.hasOwn(value,key))return undefined;value=(value as Data)[key];}
+  return value;
+ };
+ const display=(value:unknown)=>value===undefined?'未取得':JSON.stringify(value);
+ const source=(arg:Data):string=>arg.op==='const'?'方案中的指定值':arg.op==='count'?`count(${source(arg.arg)})`:`${arg.var}.${(arg.path??[]).join('.')}`;
+ const fixedIndex=expr.args.findIndex((a:Data)=>a.op==='const'||a.op==='field'&&a.var==='params');
+ let before='不适用（按指定值检查）',expectedArg:Data,actualArg:Data;
+ if(fixedIndex>=0){expectedArg=expr.args[fixedIndex];actualArg=expr.args[1-fixedIndex];}
+ else{
+  if(!expr.args.every((a:Data)=>a.op==='field'))return missing;
+  const order=expr.args.map((a:Data)=>steps.findIndex(s=>s.output===a.var));
+  if(order.some((index:number)=>index<0)||order[0]===order[1])return missing;
+  const beforeIndex=order[0]<order[1]?0:1;
+  expectedArg=expr.args[beforeIndex];actualArg=expr.args[1-beforeIndex];before=display(read(expectedArg));
+ }
+ const expected=display(read(expectedArg)),field=actualArg.path?.at(-1)??verdict.assertionRef;
+ const labels:Record<string,string>={title:'标题／姓名',priority:'优先级／组别',ownerId:'归属',status:'状态',items:'记录列表'};
+ return {field:actualArg.op==='count'?'记录数量':labels[field]??field,before,expected:expr.op==='neq'?`应不同于 ${expected}`:expected,actual:display(read(actualArg)),source:`${source(expectedArg)} → ${source(actualArg)}`,status:verdict.status};
+}
+
 export function issueSummaryText(run:Data):string{
-  return [`${run.flow.title} · ${resultSummary(run).title}`,`运行：${run.id}`,`范围：仅本轮规则、测试副本和数据条件。`,...run.checks.filter((c:Data)=>c.mode==='verify').flatMap((c:Data)=>c.verdicts.filter((v:Data)=>v.status!=='pass').map((v:Data)=>{const values=comparisonFor(c,v);return [`规则：${c.rule.id}`,`预期行为：${[...c.rule.expectedChanges,...c.rule.invariants].join('；')}`,`预期值：${values.expected}`,`实际值：${values.actual}`,`记录来源：${values.source}`,`断言：${v.assertionRef}`,`证据：${v.evidenceRefs.join('、')}`,`下一步：${v.status==='fail'?'修复差异后，按本轮规则复测。':'补齐查询、身份和接口字段证据后复测。'}`].join('\n');}))].join('\n\n');
+  return [`${run.flow.title} · ${resultSummary(run).title}`,`运行：${run.id}`,`范围：仅本轮规则、测试副本和数据条件。`,...run.checks.filter((c:Data)=>c.mode==='verify').flatMap((c:Data)=>c.verdicts.filter((v:Data)=>v.status!=='pass').map((v:Data)=>{const values=differenceFor(c,v);return [`规则：${c.rule.id}`,`预期行为：${[...c.rule.expectedChanges,...c.rule.invariants].join('；')}`,`操作前：${values.before}`,`预期值：${values.expected}`,`实际值：${values.actual}`,`记录来源：${values.source}`,`断言：${v.assertionRef}`,`证据：${v.evidenceRefs.join('、')}`,`下一步：${v.status==='fail'?'修复差异后，按本轮规则复测。':'补齐查询、身份和接口字段证据后复测。'}`].join('\n');}))].join('\n\n');
 }
 
 export type CheckOutcome='fail'|'unknown'|'pass'|'observe';

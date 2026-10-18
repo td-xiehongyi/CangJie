@@ -2,6 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {journeySteps,parseStep,stepPage,journeyState,hasBusinessSelection} from '../../apps/ui/src/workflowJourney.ts';
 
+test('changed project files invalidate historical environment and plan evidence',()=>{
+ const p={id:'p',environmentHash:'env',environmentCurrent:false,preparation:{status:'ready',environmentHash:'env'},workflow:{flow:'submit',flows:{submit:{r:{enabled:true,confirmed:true,environmentHash:'env',ruleHash:'rule',version:'template'}}}}};
+ const status=journeyState(p,{catalog:{matches:[{ruleHash:'rule',ref:{hash:'template'}}]}},undefined,false);
+ assert.equal(status[4].status,'stale');assert.equal(status[5].status,'stale');assert.equal(status[9].status,'stale');
+});
+
 test('preparation requires a current-operation choice or current confirmed project business',()=>{
  const project={id:'p',journey:{goal:'load'},workflow:{flow:'edit',flows:{submit:{save:{enabled:true}},edit:{title:{enabled:false}}}}};
  assert.equal(hasBusinessSelection(undefined,{}),false);

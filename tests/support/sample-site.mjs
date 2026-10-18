@@ -4,8 +4,8 @@ import {tmpdir} from 'node:os';
 import {join,resolve} from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {createServer} from 'node:net';
-export async function sampleSite(t,name){
- const root=resolve('samples',name),directory=await mkdtemp(join(tmpdir(),'cangjie-sample-'));
+export async function sampleSite(t,name,sourceRoot){
+ const root=sourceRoot??resolve('samples',name),directory=await mkdtemp(join(tmpdir(),'cangjie-sample-'));
  const socket=createServer();await new Promise(r=>socket.listen(0,'127.0.0.1',r));const port=socket.address().port;await new Promise(r=>socket.close(r));
  const instanceId=randomUUID(),databasePath=join(directory,'sample.sqlite');
  const env={...process.env,PORT:String(port),TEST_INSTANCE:instanceId,TEST_DATA_ROOT:directory,TEST_DATABASE:databasePath};

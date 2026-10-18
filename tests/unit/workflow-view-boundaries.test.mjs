@@ -42,6 +42,24 @@ test('saved response recovery is explicitly local and enabled without a model ke
  const button=html.match(/<button[^>]*>恢复已保存的业务草稿（不调用模型）<\/button>/)?.[0];
  assert.ok(button);assert.doesNotMatch(button,/disabled/);assert.doesNotMatch(html,/>继续原分析（调用模型）<\/button>/);
 });
+
+test('completed analysis has one next action and keeps its report behind a detail control',async()=>{
+ const {default:Discovery}=await import(pathToFileURL(join(output,'components/BusinessDiscovery.mjs')));
+ const session={id:'s',status:'completed',budget:{calls:1,tokens:20},reads:[],unresolved:[],result:{summary:'报名系统',objects:[],roles:[],flows:[],suggestions:[],limitations:[]}};
+ const html=renderToStaticMarkup(React.createElement(Discovery,{project:{id:'p',name:'报名系统',discovery:session},state:{settings:{}},refresh:async()=>{},select:()=>{}}));
+ assert.match(html,/>继续：确认范围与预期<\/button>/);
+ assert.match(html,/查看业务分析报告/);
+ assert.doesNotMatch(html,/>AI读取项目分析<\/h2>|>自行填写业务<\/h2>|>核对这项业务<\/button>|>建议核对的业务<\/h2>/);
+});
+
+test('plan preparation does not repeat business editing or version selection',async()=>{
+ const {default:Card}=await import(pathToFileURL(join(output,'components/ProjectRuleCard.mjs')));
+ const rule={id:'r',projectId:'p',version:1,contentHash:'h',flow:'报名业务',expectedBehavior:['仅本人可查看'],answers:{},openQuestions:[],facts:[],expectations:[],sourceRefs:[],corrections:[],confirmation:{status:'confirmed'},sourceCurrent:true,suggestionRef:{discoveryId:'d',suggestionId:'s'}};
+ const html=renderToStaticMarkup(React.createElement(Card,{projectId:'p',stage:'plan',collection:{revision:1,versions:[rule],readiness:[]},prepareAction:()=>React.createElement('button',{},'准备这项业务的检查')}));
+ assert.match(html,/准备已确认业务的检查/);
+ assert.match(html,/准备这项业务的检查/);
+ assert.doesNotMatch(html,/契约绑定与版本管理|选择此版本|项目规则草稿|修订业务预期|追加纠正记录|<textarea/);
+});
 test('step11 does not mount a hidden second load-execution form',()=>{
  const run={id:'r',projectId:'p',status:'completed',kind:'verification',flow:{title:'示例'},plan:{sourceHash:'h',mapping:{}},checks:[],uncovered:[],startedAt:'2026-10-15',events:[]};
  const props={step:11,project:{id:'p',sourceHash:'h',mapping:{}},run,state:{runs:[run],loads:[],catalog:{matches:[]}},refresh:async()=>{},act:()=>{},select:()=>{}};
@@ -99,6 +117,16 @@ test('failed report prioritizes external repair and nests format exports',()=>{
  const run={id:'r',projectId:'p',status:'completed',kind:'verification',flow:{title:'示例'},plan:{sourceHash:'h',mapping:{}},checks:[{mode:'verify',rule:{id:'r',expectedChanges:['x'],invariants:[]},templateRef:{id:'t',version:1},observations:[],actions:[],verdicts:[{status:'fail',assertionRef:'a',evidenceRefs:[]}]}],uncovered:[],startedAt:'2026-10-15',events:[]};
  const html=renderToStaticMarkup(React.createElement(Report,{step:11,project:{id:'p',sourceHash:'h',mapping:{}},run,state:{runs:[run],loads:[],catalog:{matches:[]}},refresh:async()=>{},act:()=>{},select:()=>{}}));
  assert.match(html,/预览修复材料/);assert.doesNotMatch(html,/交给其他agent修复（下载报告）/);assert.match(html,/<summary>更多导出格式与备份<\/summary>/);
+});
+
+test('result differences show before, expectation and observed values with escaped content and separate passing evidence',async()=>{
+ const {default:Checks}=await import(pathToFileURL(join(output,'components/ResultChecks.mjs')));
+ const c={mode:'verify',rule:{id:'edit',expectedChanges:['只改标题'],invariants:['归属不变']},actions:[{stepId:'before',actionId:'before',checkId:'edit'},{stepId:'after',actionId:'after',checkId:'edit'}],observations:[{actionId:'before',result:{ownerId:'owner'},evidenceRefs:['e:before']},{actionId:'after',result:{ownerId:'<script>other</script>'},evidenceRefs:['e:after']}],template:{steps:[{stepId:'before',output:'before'},{stepId:'after',output:'after'}],assertions:[{id:'owner',expr:{op:'eq',args:[{op:'field',var:'after',path:['ownerId']},{op:'field',var:'before',path:['ownerId']}]}}]},verdicts:[{assertionRef:'owner',checkId:'edit',status:'fail',reasonCode:'ASSERTION_FALSE',evidenceRefs:['e:before','e:after']}]};
+ const render=()=>renderToStaticMarkup(React.createElement(Checks,{run:{checks:[c]}}));
+ const html=render();assert.match(html,/操作前/);assert.match(html,/操作后／实际观察/);assert.match(html,/&lt;script&gt;other/);assert.doesNotMatch(html,/<script>/);assert.match(html,/e:before/);
+ c.verdicts[0].status='pass';assert.match(render(),/<summary>查看通过项的结果对照<\/summary>/);
+ c.verdicts[0].status='inconclusive';assert.match(render(),/局部值不能证明通过或失败/);
+ c.mode='observe';assert.doesNotMatch(render(),/difference-values/);
 });
 
 test('04 reuses imported directory and has one runtime preparation action',async()=>{

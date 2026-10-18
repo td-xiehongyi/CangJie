@@ -5,6 +5,23 @@ import {readFile,writeFile} from 'node:fs/promises';
 import {randomUUID} from 'node:crypto';
 import {startWorkbench} from '../../apps/host/dist/api.js';
 
+test('state reports changed project files before another environment confirmation and inspection restores currentness', {timeout:60000},async t=>{
+ const {cp,mkdir}=await import('node:fs/promises');
+ const directory=join(process.cwd(),'.local-data/recorded-ui-tests',randomUUID()),source=join(directory,'source');await mkdir(directory,{recursive:true});await cp(join(process.cwd(),'samples/registration'),source,{recursive:true});
+ const host=await startWorkbench({directory:join(directory,'host'),registryDirectory:join(directory,'registry'),port:0});t.after(()=>host.close());
+ const request=async(path,body)=>{const r=await fetch(host.url+'/api'+path,{method:body===undefined?'GET':'POST',headers:{authorization:`Bearer ${host.token}`,'content-type':'application/json'},...(body===undefined?{}:{body:JSON.stringify(body)})});return {ok:r.ok,value:await r.json()};};
+ const {value:{projectId}}=await request('/projects',{directory:source,accountMode:'automatic'});
+ let p=(await request('/state')).value.projects[0];assert.equal(p.environmentCurrent,true);
+ await request(`/projects/${projectId}/confirm`,{environment:true,environmentHash:p.environmentHash});
+ await writeFile(join(source,'README.md'),'changed project documentation');
+ p=(await request('/state')).value.projects[0];assert.equal(p.environmentCurrent,false);assert.equal(p.environmentConfirmed,false);
+ const rejected=await request(`/projects/${projectId}/confirm`,{environment:true,environmentHash:p.environmentHash});assert.equal(rejected.ok,false);assert.equal(rejected.value.error,'CONDITIONS_CHANGED_RECONNECT_REQUIRED');
+ await request('/projects',{id:projectId,directory:source,accountMode:'automatic'});
+ const fresh=(await request('/state')).value.projects[0];assert.equal(fresh.environmentCurrent,true);assert.equal(fresh.environmentConfirmed,false);assert.notEqual(fresh.environmentHash,p.environmentHash);
+ assert.deepEqual(fresh.accounts.map(a=>a.userId),p.accounts.map(a=>a.userId));
+ const prepared=await request(`/projects/${projectId}/prepare`,{});assert.equal(prepared.ok,false);assert.equal(prepared.value.error,'PROJECT_CONFIRMATION_REQUIRED');
+});
+
 test('workflow drafts survive restart, reject stale writes and invalidate changed conditions', {timeout:60000}, async t=>{
   const directory=join(process.cwd(),'.local-data/workflow-tests',randomUUID());
   let host=await startWorkbench({directory,registryDirectory:join(directory,'registry'),port:0});

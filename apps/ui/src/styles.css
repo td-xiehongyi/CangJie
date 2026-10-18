@@ -1390,6 +1390,12 @@ th {
   }
 }
 
+.difference-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:12px 0}
+.difference-values>div{min-width:0;border-left:2px solid var(--line);padding-left:12px}
+.difference-values dt{margin-bottom:6px}
+.difference-values dd{white-space:pre-wrap;overflow-wrap:anywhere}
+@media(max-width:600px){.difference-values{grid-template-columns:1fr;gap:12px}}
+
 @media(prefers-reduced-motion:reduce) {
   *,*::before,*::after {
     transition: none!important;
@@ -1398,3 +1404,20 @@ th {
   }
 }
 
+
+/* Make each business and its controls read as one section in the paper layout. */
+[aria-label="项目业务确认"] > .discovery-suggestion,
+[aria-label="项目业务确认"] > .business-item {
+  border: 0;
+  border-top: 2px solid var(--rule, #bcb7a8);
+  border-radius: 0;
+  padding: 28px 0;
+  margin-top: 8px;
+}
+[aria-label="项目业务确认"] > .discovery-suggestion ~ .discovery-suggestion,
+[aria-label="项目业务确认"] > .business-item {
+  border-top-color: var(--ink-soft, #746e60);
+}
+.business-item .card-header h3 {font-family:var(--font-title);font-size:18px;}
+.business-item .card-header {align-items:baseline;}
+.business-item [role="region"] > .actions {margin-top:16px;}

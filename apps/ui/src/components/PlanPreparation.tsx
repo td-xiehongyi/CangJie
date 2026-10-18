@@ -8,7 +8,7 @@ export default function PlanPreparation({selected,reusable,candidate,unselected=
  const needsReview=candidate?.status==='ready_for_review'&&!published;
  const blocker=published&&candidate?.code==='REVIEW_REQUIRED'?undefined:candidate?.code;
  return <section className="card" aria-label="方案准备进度">
-  <div role="status"><h2>当前方案进度</h2>{candidate&&<span className="pill">{published?'已发布':statusNames[candidate.status]??candidate.status}</span>}<p>{unselected?'另有方案正在准备，不属于本轮选择；完成前暂不能启动新的方案。':active?'正在准备方案，验证与试运行进度会在这里更新。':needsReview?'方案准备已完成，下一步需要人工审核。':ready?'已有合格方案，可核对适用条件后前往检查。':blocker?'方案准备受阻，请查看原因和证据。':selected?'在下方准备尚缺的检查方案。':'业务已确认，请在下方准备检查能力并选择本轮检查项。'}</p></div>
+  <div role="status"><h2>当前方案进度</h2>{candidate&&<span className="pill">{published?'已发布':statusNames[candidate.status]??candidate.status}</span>}<p>{unselected?'另有方案正在准备，不属于本轮选择；完成前暂不能启动新的方案。':active?'正在准备方案，验证与试运行进度会在这里更新。':needsReview?'方案准备已完成，下一步需要人工审核。':ready?'已有合格方案，可核对适用条件后前往检查。':blocker?'方案准备受阻，请查看原因和证据。':selected?'在下方准备尚缺的检查方案。':'业务已确认，请在下方准备本轮检查方案。'}</p></div>
   {needsReview&&reusable>0&&<div className="actions"><button className="btn primary" onClick={onReview}>审核新生成的方案</button><p className="fine">继续执行时仍使用已选的合格版本，新方案通过审核后才可使用。</p></div>}
   <details><summary>查看方案准备过程</summary><ol className="plan-progress" aria-label="方案准备过程">{preparationProgress(selected,reusable,candidate).map(item=><li key={item.label}><strong>{item.label}</strong><span>{item.value}</span></li>)}</ol></details>
   {blocker&&<p className="notice">{friendlyError(blocker)}</p>}

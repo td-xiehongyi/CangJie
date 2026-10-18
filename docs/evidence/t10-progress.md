@@ -1,5 +1,7 @@
 # T10 准备与阻塞记录
 
+- 2026-10-18基线修复：原`manifest.original`对应2026-10-13冻结的repaired原始字节，不应再与持续更新的samples/ticket比较。现将历史快照完整性和当前样例运行前后不变分开校验；旧清单、冻结文件和旧证据保持。专项实际HTTP再次通过，三种完整性故障注入均被拒绝，相关复核134/134通过；[本轮记录](../../output/t10-baseline-fix-20261018/验证与启动记录.md)。这关闭旧基线误报，不关闭正式同模型A/B及人员验收前置条件。
+
 - 授权：用户要求完成T10，暂停询问测试项目是否准备好后要求继续。当前完成测试项目准备；正式两组运行仍受既有真实模型/人工审核前置限制。
 - 原计划：docs/superpowers/plans/2026-10-11-website-verification.md，当前2.34。四项正式完成条件均未勾选。
 - 交付：output/t10-comparison/initial、repaired、public-case.md、private-manifest.json；已有工单样例原文件保留，没有新增评测平台或修改生产代码。

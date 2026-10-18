@@ -8,6 +8,10 @@
 | [registration](registration/README.md) | 登录、报名、报名回执、修改姓名、退出 | 去重；私有回执；修改姓名不改变组别/归属 |
 | [status-ticket](status-ticket/README.md) | 登录、创建、列表、关闭、尝试重开、退出 | 关闭不可逆；标题与归属不变 |
 
+## 正反例与证据不足案例
+
+新增18个公开练习案例：3个正例、12个反例、3个证据不足例。用 `npm run samples:case -- --list` 查看，按案例生成独立副本；原三个样例保持正常实现。完整步骤与判定依据见[案例说明](CASES.md)。
+
 ## 最短启动方式
 
 安装Node.js 24，在仓库根目录先执行 `npm ci`。随后任选一个：

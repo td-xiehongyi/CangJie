@@ -49,7 +49,7 @@ export function journeyState(project:Value|undefined,state:Value,run:Value|undef
  else if(analysis)result[2]={status:analysis.status==='stale'?'stale':analysis.status==='running'?'running':analysis.status==='completed'?'completed':analysis.result?'available':'blocked',reason:analysis.status==='stale'?'来源已变化，请重新核对范围。':'查看业务建议与未决问题，建议不等于已确认规则。'};
  const choices=Object.values(project.workflow?.flows?.[project.workflow?.flow]??{}).filter((x:any)=>x.enabled) as Value[];
  if(choices.length)result[3]={status:choices.every(x=>x.confirmed&&x.environmentHash===project.environmentHash)?'completed':'available',reason:'已选检查保留；未确认项只能观察，版本变化需重新确认。'};
- if(project.preparation)result[4]={status:project.preparation.environmentHash!==project.environmentHash?'stale':project.preparation.status==='ready'?'evidence':project.preparation.status==='running'?'running':'blocked',reason:'环境准备证据仅适用于对应环境版本。'};
+ if(project.preparation)result[4]={status:project.environmentCurrent===false||project.preparation.environmentHash!==project.environmentHash?'stale':project.preparation.status==='ready'?'evidence':['running','preparing'].includes(project.preparation.status)?'running':'blocked',reason:'环境准备证据仅适用于对应环境版本。'};
  const businessRules=state.projectRules?.[project.id]?.versions??[];
  if(!choices.length&&businessRules.length)result[3]={
   status:businessRules.some((r:Value)=>r.sourceCurrent===false)?'stale':businessRules.every((r:Value)=>r.confirmation?.status==='confirmed')?'completed':'available',
@@ -74,6 +74,10 @@ export function journeyState(project:Value|undefined,state:Value,run:Value|undef
  if(current){
   result[10]={status:current.status==='running'?'running':current.status==='completed'?'completed':'blocked',reason:'执行完成和业务通过是两个独立状态，以结果页中的证据为准。'};
   result[11]={status:'available',reason:'当前结果可以查看；失败或部分结果也可导出。'};
+ }
+ if(project.environmentCurrent===false){
+  result[4]={status:'stale',reason:'项目文件已变化，请重新检查项目并确认测试环境。'};
+  for(const id of [5,6,7,8,9])if(result[id].status==='evidence')result[id]={status:'stale',reason:'项目文件已变化，已有方案证据需重新核对适用条件。'};
  }
  return result;
 }

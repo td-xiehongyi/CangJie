@@ -7,8 +7,8 @@ suites.discovery=['tests/integration/novice-entry.test.mjs','tests/integration/d
 // T4 deterministic provider/native credential tests; live DeepSeek acceptance is explicit.
 suites.candidate=['tests/unit/candidate-requirements.test.mjs','tests/integration/candidate-restart.test.mjs','tests/integration/runtime-source-scope.test.mjs','tests/integration/candidate.test.mjs','tests/integration/target-trial-recovery.test.mjs'];
 suites.registry=['tests/integration/registry.test.mjs'];
-suites.replay=['tests/integration/workflow.test.mjs','tests/integration/report-presentation.test.mjs','tests/integration/automatic-accounts.test.mjs','tests/integration/replay.test.mjs','tests/integration/run-state-race.test.mjs','tests/integration/workbench-api.test.mjs','tests/integration/workbench-state.test.mjs'];
-suites.transfer=['tests/integration/sample-ui.test.mjs','tests/integration/sample-client.test.mjs','tests/integration/transfer-fixture.test.mjs','tests/integration/transfer.test.mjs'];
+suites.replay=['tests/unit/result-differences.test.mjs','tests/integration/workflow.test.mjs','tests/integration/report-presentation.test.mjs','tests/integration/automatic-accounts.test.mjs','tests/integration/replay.test.mjs','tests/integration/run-state-race.test.mjs','tests/integration/workbench-api.test.mjs','tests/integration/workbench-state.test.mjs'];
+suites.transfer=['tests/integration/sample-cases.test.mjs','tests/integration/sample-ui.test.mjs','tests/integration/sample-client.test.mjs','tests/integration/transfer-fixture.test.mjs','tests/integration/transfer.test.mjs'];
 suites['target-load']=['tests/integration/target-load.test.mjs'];
 suites.release=['tests/unit/http-ports.test.mjs','tests/unit/launcher.test.mjs','tests/unit/settings-local.test.mjs','tests/integration/settings-local.test.mjs','tests/integration/main-entry.test.mjs','tests/integration/release.test.mjs','tests/integration/release-security.test.mjs'];
 const files = group==='all'?Object.values(suites).flat():suites[group];

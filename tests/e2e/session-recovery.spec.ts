@@ -46,7 +46,15 @@ test('reconnecting keeps unsaved review materials without replaying review or pu
   let host=await startWorkbench({directory,registryDirectory,port:0});
   try{
     const r=await fetch(host.url+'/api/projects',{method:'POST',headers:{authorization:`Bearer ${host.token}`,'content-type':'application/json'},body:JSON.stringify({directory:join(process.cwd(),'samples/ticket'),accountMode:'automatic'})}),{projectId}=await r.json();
-    await page.route('**/api/state',async route=>{const response=await route.fetch();if(!response.ok()){await route.fulfill({response});return;}const value=await response.json();value.projects[0].candidate={id:'review-fixture',ruleId:'save-rule',candidateHash:'a'.repeat(64),status:'ready_for_review',reference:{applicable:['测试副本'],excluded:['线上环境'],instructions:'核对实际保存结果'}};await route.fulfill({json:value});});
+    await page.route('**/api/state',async route=>{
+      let response;
+      try{response=await route.fetch();}catch(error){
+        // The intentional host restart can interrupt a poll; expose the same failed transport to the page.
+        if(!/ECONNRESET|ECONNREFUSED|socket hang up/.test(String(error)))throw error;
+        await route.abort('connectionfailed');return;
+      }
+      if(!response.ok()){await route.fulfill({response});return;}const value=await response.json();value.projects[0].candidate={id:'review-fixture',ruleId:'save-rule',candidateHash:'a'.repeat(64),status:'ready_for_review',reference:{applicable:['测试副本'],excluded:['线上环境'],instructions:'核对实际保存结果'}};await route.fulfill({json:value});
+    });
     await page.goto(host.url+`/?page=verify&step=9&project=${projectId}`);
     await page.getByRole('textbox',{name:'适用条件',exact:true}).fill('尚未保存的业务范围');await page.getByRole('textbox',{name:'业务确认人',exact:true}).fill('本页业务确认人');
     const port=Number(new URL(host.url).port);await host.close();host=await startWorkbench({directory,registryDirectory,port});
@@ -58,5 +66,5 @@ test('reconnecting keeps unsaved review materials without replaying review or pu
     await expect(page.getByRole('textbox',{name:'适用条件',exact:true})).toHaveValue('尚未保存的业务范围');await expect(page.getByRole('textbox',{name:'业务确认人',exact:true})).toHaveValue('本页业务确认人');
     await expect(page.getByText('连接已恢复，审核输入已保留。请核对后手动保存，尚未重新提交审核。',{exact:true})).toBeVisible();
     expect(writes).toBe(0);await expect(page.getByRole('button',{name:'审核通过，保存为可复用方案',exact:true})).toBeDisabled();
-  }finally{await host.close();}
+  }finally{await page.unrouteAll({behavior:'wait'});await host.close();}
 });

@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "scope": "受控合成练习案例；标签不提供给被测项目或候选验收器。",
+  "cases": [
+    {
+      "id": "ticket-normal",
+      "sample": "ticket",
+      "variant": "normal",
+      "kind": "normal",
+      "title": "工单提交：正常业务全流程",
+      "description": "保存、去重、账号隔离和修改约束满足约定；状态样例关闭后拒绝重开。",
+      "expected": "通过所选已确认规则"
+    },
+    {
+      "id": "ticket-save-drop",
+      "sample": "ticket",
+      "variant": "save-drop",
+      "kind": "defect",
+      "title": "工单提交：提交内容未正确保存",
+      "description": "接口创建成功，但重新查询得到错误保存的内容。",
+      "expected": "保存内容检查失败"
+    },
+    {
+      "id": "ticket-duplicate",
+      "sample": "ticket",
+      "variant": "duplicate",
+      "kind": "defect",
+      "title": "工单提交：重复提交产生多条记录",
+      "description": "同一账号、批次和提交意图重复提交后生成两条记录。",
+      "expected": "去重检查失败"
+    },
+    {
+      "id": "ticket-permission-leak",
+      "sample": "ticket",
+      "variant": "permission-leak",
+      "kind": "defect",
+      "title": "工单提交：其他账号读到私有记录",
+      "description": "其他账号在相同批次查询到创建者的记录。",
+      "expected": "权限隔离检查失败"
+    },
+    {
+      "id": "ticket-field-change",
+      "sample": "ticket",
+      "variant": "field-change",
+      "kind": "defect",
+      "title": "工单提交：修改时意外改变优先级",
+      "description": "只修改姓名／标题时，其他受保护字段发生变化。",
+      "expected": "字段保持检查失败"
+    },
+    {
+      "id": "ticket-incomplete-query",
+      "sample": "ticket",
+      "variant": "incomplete-query",
+      "kind": "unknown",
+      "title": "工单提交：查询完整性证据不足",
+      "description": "查询返回当前记录，但明确标记查询不完整；不能据此判定业务通过或失败。",
+      "expected": "依赖完整查询的判定为证据不足"
+    },
+    {
+      "id": "registration-normal",
+      "sample": "registration",
+      "variant": "normal",
+      "kind": "normal",
+      "title": "活动报名：正常业务全流程",
+      "description": "保存、去重、账号隔离和修改约束满足约定；状态样例关闭后拒绝重开。",
+      "expected": "通过所选已确认规则"
+    },
+    {
+      "id": "registration-save-drop",
+      "sample": "registration",
+      "variant": "save-drop",
+      "kind": "defect",
+      "title": "活动报名：提交内容未正确保存",
+      "description": "接口创建成功，但重新查询得到错误保存的内容。",
+      "expected": "保存内容检查失败"
+    },
+    {
+      "id": "registration-duplicate",
+      "sample": "registration",
+      "variant": "duplicate",
+      "kind": "defect",
+      "title": "活动报名：重复提交产生多条记录",
+      "description": "同一账号、批次和提交意图重复提交后生成两条记录。",
+      "expected": "去重检查失败"
+    },
+    {
+      "id": "registration-permission-leak",
+      "sample": "registration",
+      "variant": "permission-leak",
+      "kind": "defect",
+      "title": "活动报名：其他账号读到私有记录",
+      "description": "其他账号在相同批次查询到创建者的记录。",
+      "expected": "权限隔离检查失败"
+    },
+    {
+      "id": "registration-field-change",
+      "sample": "registration",
+      "variant": "field-change",
+      "kind": "defect",
+      "title": "活动报名：修改时意外改变组别",
+      "description": "只修改姓名／标题时，其他受保护字段发生变化。",
+      "expected": "字段保持检查失败"
+    },
+    {
+      "id": "registration-owner-change",
+      "sample": "registration",
+      "variant": "owner-change",
+      "kind": "defect",
+      "title": "活动报名：修改姓名改变报名归属",
+      "description": "创建者仍可访问回执，但独立的报名归属字段被改成另一账号。",
+      "expected": "归属保持检查失败"
+    },
+    {
+      "id": "registration-incomplete-query",
+      "sample": "registration",
+      "variant": "incomplete-query",
+      "kind": "unknown",
+      "title": "活动报名：查询完整性证据不足",
+      "description": "查询返回当前记录，但明确标记查询不完整；不能据此判定业务通过或失败。",
+      "expected": "依赖完整查询的判定为证据不足"
+    },
+    {
+      "id": "status-ticket-normal",
+      "sample": "status-ticket",
+      "variant": "normal",
+      "kind": "normal",
+      "title": "工单状态：正常业务全流程",
+      "description": "保存、去重、账号隔离和修改约束满足约定；状态样例关闭后拒绝重开。",
+      "expected": "通过所选已确认规则"
+    },
+    {
+      "id": "status-ticket-reopen-defect",
+      "sample": "status-ticket",
+      "variant": "reopen-defect",
+      "kind": "defect",
+      "title": "工单状态：已关闭工单被重新打开",
+      "description": "关闭后重开请求被接受，查询状态回到 open。",
+      "expected": "禁止重开检查失败"
+    },
+    {
+      "id": "status-ticket-title-change",
+      "sample": "status-ticket",
+      "variant": "title-change",
+      "kind": "defect",
+      "title": "工单状态：关闭时意外改写标题",
+      "description": "关闭状态正确，但标题被改写。",
+      "expected": "关闭后的标题保持检查失败"
+    },
+    {
+      "id": "status-ticket-temporary-mutation",
+      "sample": "status-ticket",
+      "variant": "temporary-mutation",
+      "kind": "defect",
+      "title": "工单状态：关闭时改写标题随后恢复",
+      "description": "关闭后的中间状态标题被改写，拒绝重开时恢复；不能只比较首尾。",
+      "expected": "中间状态标题保持检查失败"
+    },
+    {
+      "id": "status-ticket-incomplete-query",
+      "sample": "status-ticket",
+      "variant": "incomplete-query",
+      "kind": "unknown",
+      "title": "工单状态：查询完整性证据不足",
+      "description": "查询返回当前记录，但明确标记查询不完整；不能据此判定业务通过或失败。",
+      "expected": "依赖完整查询的判定为证据不足"
+    }
+  ]
+}

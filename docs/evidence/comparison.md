@@ -19,7 +19,7 @@
 | public-case.md | 两组完全相同的业务说明 | 是 |
 | private-manifest.json | 原样例及两版逐文件SHA-256、已知问题、初始条件 | 否，开发者私有 |
 
-开发者已知问题：initial修改标题时将priority从high重置为low；repaired保留优先级和所有者。二者仅server.ts的一处SQL不同，其余5个文件相同；修复版与原样例源码一致。这里是有意构造的受控缺陷，不声称发现了原产品未知缺陷。本文件、修复差异、fixture检查、历史测试和验收答案都不能作为两组发现阶段的模型输入。
+开发者已知问题：initial修改标题时将priority从high重置为low；repaired保留优先级和所有者。二者仅server.ts的一处SQL不同，其余5个文件相同；修复版与2026-10-13冻结时的原样例源码一致。当前samples/ticket可独立演进，不作为历史快照的固定摘要校验对象。这里是有意构造的受控缺陷，不声称发现了原产品未知缺陷。本文件、修复差异、fixture检查、历史测试和验收答案都不能作为两组发现阶段的模型输入。
 
 工单样例和标题字段保持规则已参与T2—T8开发；此案例不是未见业务或独立泛化评估。容量已在T8开发交付，本次只对照一条业务流程，不另做容量评测。
 
@@ -55,6 +55,8 @@
 命令：在项目根目录运行 `node --test tests/integration/comparison-fixture.test.mjs`。
 
 2026-10-13：1/1通过，Node v24.19.0。两版均通过现有接入检查，实际初始化SQLite并运行Express/HTTP；initial查询得到priority=low，repaired得到high，均保存新标题及owner；另一个账号修改返回404、查询无记录。两版语义基线相同，停服后重新初始化摘要一致；冻结源码执行前后摘要一致，原样例摘要匹配。
+
+2026-10-18：修正历史基线检查对象：`manifest.original`严格校验保留原始字节的冻结repaired，当前samples/ticket另作运行前后摘要比对。未重算清单、改写冻结文件或替换旧证据。独立副本实际HTTP专项再次1/1通过；故意改动冻结原版、冻结缺陷版及运行中的当前样例三种情况均被拒绝。T10专项、模型可靠性和全部单元本轮134/134通过。新证据见[本轮复核记录](../../output/t10-baseline-fix-20261018/验证与启动记录.md)；这些仍是开发者夹具验证，不是正式A/B成绩。
 
 证据：[实际HTTP与摘要](t10-fixture-check.json)、[通过日志](t10-fixture-green.log)、[先红日志](t10-fixture-red.log)。初次构造缺陷时的SQL字符串引号导致启动失败，已在冻结前修正；[失败记录](t10-fixture-startup-failure.log)保留。冻结后不覆盖版本，后续有变化需另建版本并说明。
 

@@ -9,6 +9,7 @@ import {startWorkbench} from '../../apps/host/dist/api.js';
 // @ts-ignore compiled persistence for an interrupted historical response fixture
 import {DiscoveryStore} from '../../apps/host/dist/discovery/store.js';
 async function setup(respond:(p:any,n:number)=>any){
+  await mkdir('output/recorded-ui-fixes-20261018/browser/discovery',{recursive:true});
   const cleanup:(()=>any)[]=[],x=await setupDiscovery({after:(f:()=>any)=>cleanup.push(f)},respond);
   const directory=join(x.directory,'ui-host'),host=await startWorkbench({directory,registryDirectory:join(directory,'registry'),port:0});
   const request=async(path:string,body?:unknown)=>{const r=await fetch(host.url+'/api'+path,{method:body===undefined?'GET':'POST',headers:{authorization:`Bearer ${host.token}`,'content-type':'application/json'},...(body===undefined?{}:{body:JSON.stringify(body)})});expect(r.ok).toBe(true);return r.json()};
@@ -16,6 +17,53 @@ async function setup(respond:(p:any,n:number)=>any){
   return {...x,host,request,async close(){await host.close();for(const fn of cleanup.reverse())await fn()}};
 }
 const complete=(p:any,_n?:number)=>{const result=overview(p.files);Object.assign(result.result.suggestions[0],{preconditions:['未付款订单'],exceptions:['所有者权限待确认'],stateChanges:['取消后释放库存']});return JSON.parse(JSON.stringify(result),(key,value)=>key==='sourceRefs'?value.map((ref:any)=>p.input.knownSourceRefs.findIndex((known:any)=>known.path===ref.path)):value);};
+
+for(const next of ['materials','conflict','settings'])test(`analysis report releases the page before ${next}`,async({page})=>{
+ const x=await setup(complete);
+ try{
+  const p=await x.request('/source-projects',{directory:x.root});
+  const material=await x.request('/projects/'+p.id+'/discovery-input',{expectedRevision:p.revision,mode:'automatic',prompt:''});
+  const analysis=await x.request('/projects/'+p.id+'/discovery',{confirmed:true,scopeHash:p.scope.scopeHash,expectedRevision:p.revision,requestId:crypto.randomUUID(),input:{mode:'automatic',prompt:'',manifestHash:material.manifestHash}});
+  await expect.poll(async()=> (await x.request('/discovery/'+analysis.id)).status).toBe('completed');
+  await page.goto(x.host.url+`/?step=2&project=${p.id}`);
+  await page.getByRole('button',{name:'查看业务分析报告',exact:true}).click();
+  const report=page.getByRole('dialog',{name:'查看业务分析报告',exact:true});
+  if(next==='settings'){
+   await report.getByText('读取范围与调用记录',{exact:true}).click();
+   await report.getByRole('button',{name:'修改分析模型',exact:true}).click();
+   await expect(page.locator('dialog[open]')).toHaveCount(0);
+   await expect(page.getByRole('button',{name:'返回：了解与分析业务',exact:true})).toBeVisible();
+   await page.getByRole('button',{name:'返回：了解与分析业务',exact:true}).click();
+   await expect(page.getByRole('button',{name:'查看业务分析报告',exact:true})).toBeVisible();
+  }else{
+   if(next==='conflict')await page.route('**/api/source-projects',route=>route.fulfill({status:409,contentType:'application/json',body:JSON.stringify({error:'ANALYSIS_CONFLICT'})}));
+   await report.getByRole('button',{name:'重新读取项目',exact:true}).click();
+   await expect(report).toHaveCount(0);
+   if(next==='conflict'){
+    await expect(page.getByRole('button',{name:'加载最新项目状态',exact:true})).toBeVisible();
+    await expect(page.getByRole('alert')).toBeFocused();
+   }else{
+    await expect(page.getByRole('button',{name:'同意发送并开始分析',exact:true})).toBeVisible();
+    await expect(page.getByRole('heading',{name:'确认发送项目',exact:true})).toBeFocused();
+   }
+  }
+  expect(x.requests).toHaveLength(1);
+ }finally{await page.unrouteAll({behavior:'wait'});await x.close()}
+});
+
+test('analysis records close before opening settings when no draft exists',async({page})=>{
+ const x=await setup(complete);
+ try{
+  const p=await x.request('/source-projects',{directory:x.root});
+  await page.goto(x.host.url+`/?step=2&project=${p.id}`);
+  await page.getByRole('button',{name:'查看分析详情与记录',exact:true}).click();
+  await page.getByRole('dialog',{name:'查看分析详情与记录',exact:true}).getByRole('button',{name:'修改分析模型',exact:true}).click();
+  await expect(page.locator('dialog[open]')).toHaveCount(0);
+  await page.getByRole('button',{name:'返回：了解与分析业务',exact:true}).click();
+  await expect(page.getByRole('button',{name:'读取项目',exact:true})).toBeVisible();
+  expect(x.requests).toHaveLength(0);
+ }finally{await x.close()}
+});
 
 test('saved model response restores a draft locally after deadline and without a key',async({page})=>{
  const x=await setup(complete);
@@ -31,10 +79,10 @@ test('saved model response restores a draft locally after deadline and without a
   const budget=record.session.budget;await x.request('/settings/clear',{});
   await page.goto(x.host.url+`/?page=project&step=2&project=${p.id}`);
   await page.getByRole('button',{name:'恢复已保存的业务草稿（不调用模型）',exact:true}).click();
-  await expect(page.getByRole('heading',{name:'业务草稿',exact:true})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'业务草稿已生成',exact:true})).toBeVisible();
   const done=await x.request('/discovery/'+analysis.id);expect(done.budget).toEqual(budget);expect(x.requests).toHaveLength(1);
   await expect(page.getByText(/部分前置条件、异常或状态变化未提供/)).toBeVisible();
-  await page.screenshot({path:'output/four-stage-20261017/regression/analysis-entry-20261016/local-draft-recovery.png',fullPage:true});
+  await page.screenshot({path:'output/recorded-ui-fixes-20261018/browser/discovery/local-draft-recovery.png',fullPage:true});
  }finally{await x.close()}
 });
 for(const width of [1280,390])test(`source-only discovery shows real citations and pending project recommendations at ${width}px`,async({page})=>{
@@ -52,7 +100,9 @@ for(const width of [1280,390])test(`source-only discovery shows real citations a
     await page.getByRole('button',{name:'读取项目',exact:true}).click();
     expect(x.requests).toHaveLength(0);
     await page.getByRole('button',{name:'同意发送并开始分析',exact:true}).click();
-    await expect(page.getByRole('heading',{name:'业务草稿',exact:true})).toBeVisible();
+    await expect(page.getByRole('heading',{name:'业务草稿已生成',exact:true})).toBeVisible();
+    await expect(page.getByRole('heading',{name:'仍需核对的范围',exact:true})).toBeVisible();
+    await page.getByRole('button',{name:'查看业务分析报告',exact:true}).click();
     await expect(page.getByText('取消订单',{exact:true}).first()).toBeVisible();
     await expect(page.getByRole('heading',{name:'建议核对的业务',exact:true})).toBeVisible();
     await page.getByText('查看源码事实与依据',{exact:true}).click();
@@ -62,12 +112,12 @@ for(const width of [1280,390])test(`source-only discovery shows real citations a
 
     await page.getByRole('button',{name:/^展开源码 src\/orders.ts:1-/}).first().click();
     await expect(page.getByRole('region',{name:/^源码片段 src\/orders.ts:1-/}).first()).toContainText('releaseInventory');
-    await expect(page.getByRole('heading',{name:'仍需核对的范围',exact:true})).toBeVisible();
     await expect(page.getByText('仅建议，尚未确认业务预期，也未执行检查。',{exact:true})).toBeVisible();
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
-    await mkdir('output/four-stage-20261017/regression/analysis-entry-20261016',{recursive:true});await page.screenshot({path:`output/four-stage-20261017/regression/analysis-entry-20261016/overview-${width}.png`,fullPage:true});
+    await mkdir('output/recorded-ui-fixes-20261018/browser/discovery',{recursive:true});await page.screenshot({path:`output/recorded-ui-fixes-20261018/browser/discovery/overview-${width}.png`,fullPage:true});
     expect((await x.request('/state')).runs).toHaveLength(0);
-    await page.getByRole('button',{name:'核对这项业务',exact:true}).click();
+    await page.getByRole('dialog',{name:'查看业务分析报告',exact:true}).getByRole('button',{name:'关闭详情'}).click();
+    await page.getByRole('button',{name:'继续：确认范围与预期',exact:true}).click();
     await expect(page.locator('.current-task h2')).toContainText('确认要检查的业务');await expect(page.getByRole('region',{name:'规则预期核对 取消订单'}).getByRole('heading',{name:'取消订单',exact:true})).toBeVisible();
     await page.getByLabel('检查取消订单',{exact:true}).check();await expect(page.getByRole('button',{name:'确认并保存项目规则',exact:true})).toBeDisabled();
     await page.getByText('核对建议的源码事实与候选预期',{exact:true}).click();
@@ -119,7 +169,7 @@ test('partial information and failed output remain honest, retry is explicit and
     const before=(await x.request('/state')).projects.find((v:any)=>v.id===p.id).discovery;
     await page.reload();expect(x.requests).toHaveLength(1);await page.getByRole('button',{name:'继续原分析（调用模型）',exact:true}).click();
     await expect(page.getByText('分析未完成',{exact:true})).toBeVisible();await page.getByRole('button',{name:'继续原分析（调用模型）',exact:true}).click();
-    await expect(page.getByRole('heading',{name:'业务草稿',exact:true})).toBeVisible();
+    await expect(page.getByRole('heading',{name:'业务草稿已生成',exact:true})).toBeVisible();
     const after=(await x.request('/state')).projects.find((v:any)=>v.id===p.id).discovery;expect(after.id).toBe(before.id);expect(after.budget.calls).toBe(3);expect(after.budget.startedAt).toBe(before.budget.startedAt);
   }finally{await x.close()}
 });

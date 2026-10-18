@@ -44,7 +44,7 @@ test('a novice can prepare a clearly labelled example and inspect support withou
   await expect(page.getByRole('button',{name:'继续：确认检查',exact:true})).toHaveCount(0);
   await page.getByRole('textbox',{name:'项目目录',exact:true}).fill(examplePath);
   await page.getByRole('button',{name:'继续：确认检查',exact:true}).click();
-  await expect(page.locator('.step-heading h1')).toHaveText('确认检查');expect(execution).toBe(0);
+  await expect(page.locator('.step-heading h1')).toHaveText(/^02\s*确认检查$/);expect(execution).toBe(0);
  }finally{await page.unrouteAll({behavior:'wait'});await host.close();}
 });
 

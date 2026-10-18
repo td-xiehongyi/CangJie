@@ -27,7 +27,9 @@
     "package": "node scripts/package.mjs",
     "test:project-rules": "npm run build:contracts && npm run build:host && node --experimental-test-module-mocks --test tests/integration/project-rules.test.mjs tests/integration/project-rules-api.test.mjs tests/integration/rule-readiness.test.mjs tests/unit/project-rules-source-race.test.mjs tests/unit/verify-project-rules-runner.test.mjs",
     "test:discovered-rule": "npm run build:contracts && npm run build:host && npm run build:sample && npm run check:reference && node --experimental-test-module-mocks --test tests/integration/discovered-rule-execution.test.mjs tests/integration/status-ticket-fixture.test.mjs tests/integration/status-transition-validation.test.mjs tests/integration/discovered-rule-api.test.mjs tests/unit/discovered-rule-ui.test.mjs tests/unit/verify-status-rule-runner.test.mjs",
-    "start:oneclick": "node scripts/launch.mjs"
+    "start:oneclick": "node scripts/launch.mjs",
+    "samples:case": "node scripts/sample-cases.mjs",
+    "test:sample-cases": "node --test tests/integration/sample-cases.test.mjs tests/unit/result-differences.test.mjs"
   },
   "devDependencies": {
     "@types/express": "5.0.5",

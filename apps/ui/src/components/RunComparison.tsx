@@ -1,6 +1,6 @@
 import {useEffect,useState} from 'react';
 import {api,ruleNames,type Data} from '../api/client';
-import {compareRuns,comparisonFor} from '../reportEvidence';
+import {compareRuns,differenceFor} from '../reportEvidence';
 
 export default function RunComparison({run,state,select}:{run:Data;state:Data;select:(projectId:string,runId?:string,page?:string)=>void}){
  const saved=state.runs.find((r:Data)=>r.id===run.parentRunId&&r.projectId===run.projectId);
@@ -20,7 +20,7 @@ function ComparisonEvidence({row}:{row:Data}){
  if(!assertions.length)return null;
  return <details><summary>查看两次实际值与证据</summary>{assertions.map(id=>{
   const old=row.previousCheck?.verdicts.find((v:Data)=>v.assertionRef===id),next=row.currentCheck?.verdicts.find((v:Data)=>v.assertionRef===id);
-  const before=old?comparisonFor(row.previousCheck,old):undefined,after=next?comparisonFor(row.currentCheck,next):undefined;
-  return <div className="comparison-values" key={id}><p>检查依据：{id}</p><p>上次预期值：{before?.expected??'未取得'}</p><p>上次实际值：{before?.actual??'未取得'}</p><p>本次预期值：{after?.expected??'未取得'}</p><p>本次实际值：{after?.actual??'未取得'}</p><p>上次证据引用：{old?.evidenceRefs?.join('、')||'未取得'}</p><p>本次证据引用：{next?.evidenceRefs?.join('、')||'未取得'}</p></div>;
+  const before=old?differenceFor(row.previousCheck,old):undefined,after=next?differenceFor(row.currentCheck,next):undefined;
+  return <div className="comparison-values" key={id}><p>检查依据：{id}</p><p>上次操作前：{before?.before??'未取得'}</p><p>上次预期值：{before?.expected??'未取得'}</p><p>上次实际值：{before?.actual??'未取得'}</p><p>本次操作前：{after?.before??'未取得'}</p><p>本次预期值：{after?.expected??'未取得'}</p><p>本次实际值：{after?.actual??'未取得'}</p><p>上次证据引用：{old?.evidenceRefs?.join('、')||'未取得'}</p><p>本次证据引用：{next?.evidenceRefs?.join('、')||'未取得'}</p></div>;
  })}</details>;
 }

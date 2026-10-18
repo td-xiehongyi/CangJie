@@ -14,8 +14,10 @@ const load=async p=>JSON.parse(await readFile(p,'utf8'));
 
 test('T10 frozen projects preserve originals and reproduce the intended difference over HTTP', {timeout:30000}, async()=>{
   const manifest=await load(resolve(fixture,'private-manifest.json'));
+  const currentOriginals=new Map(await Promise.all(Object.keys(manifest.original).map(async name=>[name,digest(await readFile(resolve(root,'samples/ticket',name)))])));
+  // The repaired snapshot preserves the original at freeze time; the live sample may evolve independently.
   for(const [name,hash] of Object.entries(manifest.original))
-    assert.equal(digest(await readFile(resolve(root,'samples/ticket',name))),hash,`original changed: ${name}`);
+    assert.equal(digest(await readFile(resolve(fixture,'repaired',name))),hash,`frozen original changed: ${name}`);
   for(const [name,hash] of Object.entries(manifest.files))
     assert.equal(digest(await readFile(resolve(fixture,name))),hash,`frozen file changed: ${name}`);
   const {inspectProject}=await import('../../apps/host/dist/projects/inspect.js');
@@ -90,6 +92,8 @@ test('T10 frozen projects preserve originals and reproduce the intended differen
   assert.equal(observations[0].baselineHash,observations[1].baselineHash);
   for(const [name,hash] of Object.entries(manifest.files))
     assert.equal(digest(await readFile(resolve(fixture,name))),hash,`execution changed source: ${name}`);
+  for(const [name,hash] of currentOriginals)
+    assert.equal(digest(await readFile(resolve(root,'samples/ticket',name))),hash,`execution changed current sample: ${name}`);
   await writeFile(resolve(root,'docs/evidence/t10-fixture-check.json'),JSON.stringify({recordedAt:new Date().toISOString(),
     kind:'developer fixture validation only',realModel:false,comparisonRun:false,node:process.version,
     manifestSha256:digest(await readFile(resolve(fixture,'private-manifest.json'))),observations},null,2)+'\n');
