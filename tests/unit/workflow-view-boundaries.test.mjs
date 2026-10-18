@@ -51,6 +51,15 @@ test('step11 does not mount a hidden second load-execution form',()=>{
  assert.doesNotMatch(html,/执行目标负载检查|核对目标与限制/);
 });
 
+test('selected report precedes history in reading order while an unselected report keeps the picker first',()=>{
+ const run={id:'r',projectId:'p',status:'completed',kind:'verification',flow:{title:'示例'},plan:{sourceHash:'h',mapping:{}},checks:[],uncovered:[],startedAt:'2026-10-15',events:[]};
+ const props={step:11,project:{id:'p',sourceHash:'h',mapping:{}},state:{runs:[run],loads:[],catalog:{matches:[]}},refresh:async()=>{},act:()=>{},select:()=>{}};
+ for(const selected of [true,false]){
+  const html=renderToStaticMarkup(React.createElement(Report,{...props,run:selected?run:undefined}));
+  assert.equal(html.indexOf('id="report-panel-result"')<html.indexOf('>运行记录</h2>'),selected);
+ }
+});
+
 test('actual runtime import handler remains on04 instead of jumping to01',async()=>{
  await writeFile(join(output,'hooks.mjs'),"let i=0,s=[];export function reset(){i=0}export function useState(v){let n=i++;if(!(n in s))s[n]=typeof v==='function'?v():v;return[s[n],x=>s[n]=typeof x==='function'?x(s[n]):x]}export function useRef(v){return{current:v}}export function useEffect(){}");
  await writeFile(join(output,'nav-stub.mjs'),"export const useLeaveGuard=()=>({});");
@@ -109,6 +118,20 @@ test('preparation keeps the current blocker visible and folds technical progress
  assert.match(html,/方案准备受阻/);
  assert.ok(html.indexOf('方案准备受阻')<html.indexOf('查看方案准备过程'));
  assert.doesNotMatch(html,/<details open/);
+});
+
+test('published preparation drops expired review guidance but keeps other blockers visible',async()=>{
+ const {default:Preparation}=await import(pathToFileURL(join(output,'components/PlanPreparation.mjs')));
+ const props={selected:1,reusable:1,candidate:{status:'ready_for_review',code:'REVIEW_REQUIRED'},onReview:()=>{}};
+ const pending=renderToStaticMarkup(React.createElement(Preparation,props));
+ assert.match(pending,/请先保存当前方案的审核材料/);
+ const published=renderToStaticMarkup(React.createElement(Preparation,{...props,published:true}));
+ assert.match(published,/已发布/);assert.match(published,/已有合格方案/);
+ assert.doesNotMatch(published,/请先保存当前方案的审核材料/);
+ const unmatched=renderToStaticMarkup(React.createElement(Preparation,{...props,published:true,reusable:0}));
+ assert.doesNotMatch(unmatched,/请先保存当前方案的审核材料|方案准备受阻/);
+ const blocked=renderToStaticMarkup(React.createElement(Preparation,{...props,published:true,candidate:{status:'paused',code:'SYNTHETIC_BLOCKER'}}));
+ assert.match(blocked,/SYNTHETIC_BLOCKER/);
 });
 
 test('retest comparison exposes both recorded actual values and evidence',async()=>{

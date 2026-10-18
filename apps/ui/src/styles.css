@@ -304,7 +304,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
   color: var(--paper-raised);
   box-shadow: 0 0 0 3px var(--stage-ring);
 }
-.workflow-nav small { display: block; font-size: 10.5px; line-height: 1.4; color: var(--ink-faint); margin-top: 1px; }
+.workflow-nav small { display: block; font-size: 12px; line-height: 1.4; color: var(--ink-soft); margin-top: 1px; }
 .workflow-nav button.active small { color: var(--stage); opacity: .85; }
 
 /* 阶段内的任务：不做白卡片，改成顶部虚线的栏目 */
@@ -333,8 +333,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 .workflow-tasks li:has(button[aria-current=step]) {
   border-top-color: var(--stage-c);
 }
-.workflow-tasks button[aria-current=step] small { color: var(--vermilion); opacity: .8; }
-.workflow-tasks small { display: block; margin-top: 3px; color: var(--ink-faint); font-size: 11px; }
+.workflow-tasks button[aria-current=step] small { color: var(--vermilion); opacity: 1; }
+.workflow-tasks small { display: block; margin-top: 3px; color: var(--ink-soft); font-size: 13px; }
 .workflow-tasks button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 .current-task {
@@ -405,6 +405,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
   max-width: none;
 }
 .step-heading {
+  position: relative;
   overflow: visible;
   background: transparent;
   border: 0;
@@ -803,6 +804,11 @@ dialog,.detail-panel,.journey-details {
     transform: translateY(0);
   }
 }
+@media(min-width:1051px) {
+  .report-columns.has-run>aside {
+    order: -1;
+  }
+}
 @media(min-width:801px) {
   .sidebar {
     position: fixed;
@@ -1073,22 +1079,20 @@ dialog,.detail-panel,.journey-details {
   line-height: 1.5;
 }
 .rule-row>h3+.fine {
-  font-size: 11px;
-  color: var(--ink-faint);
+  font-size: 13px;
+  color: var(--ink-soft);
   margin-top: 2px;
 }
-/* 条目内部收紧：折叠项与操作行不再各占 44px 的触屏留白 */
+/* 来源入口保留原生展开标记与触屏点击区域。 */
 .rule-row>details {
   margin-top: 10px;
 }
 .rule-row>details>summary {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 0;
-  font-size: 11.5px;
-  color: var(--ink-faint);
-  padding: 4px 0;
+  display: list-item;
+  min-height: 44px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  padding: 10px 0;
 }
 .rule-row>details>summary:hover {
   color: var(--ink-soft);
@@ -1233,19 +1237,8 @@ body {
   background-image: repeating-linear-gradient(-45deg,transparent 0 7px,rgb(179 56 44 / .075) 7px 8px);
 }
 
-/* L5 折叠项前面一段虚线引导，和实线正文区分开 */
-.rule-row>details>summary {
-  position: relative;
-}
-.rule-row>details>summary:before {
-  content: "";
-  width: 14px;
-  height: 1px;
-  flex: none;
-  background: repeating-linear-gradient(to right,var(--ink-faint) 0 3px,transparent 3px 6px);
-}
 .rule-row>details>summary::marker {
-  color: var(--ink-faint);
+  color: var(--ink-soft);
 }
 
 /* 表格：表头加一条点线，与正文的实线区分 */
