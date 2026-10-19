@@ -31,7 +31,7 @@ test('source-only delivery is explicit, contains public contracts and all sample
   const directory=await source(t),manifest=await packaging.verifyPackage(directory),paths=manifest.files.map(f=>f.path);
   assert.equal(manifest.schemaVersion,1);assert.equal(manifest.kind,'source-development-delivery');assert.equal(manifest.coreBuilt,false);
   assert.ok(!paths.includes('apps/core/target/verification-core.exe'));
-  for(const path of ['Start-CangJie.cmd','scripts/launch.mjs','packages/contracts/discovery.ts','packages/contracts/status-transition.ts','samples/status-ticket/src/server.ts','samples/status-ticket/README.md'])assert.ok(paths.includes(path),path);
+  for(const path of ['Start-JianShi.cmd','Start-CangJie.cmd','scripts/launch.mjs','packages/contracts/discovery.ts','packages/contracts/status-transition.ts','samples/status-ticket/src/server.ts','samples/status-ticket/README.md'])assert.ok(paths.includes(path),path);
   assert.ok(paths.every(path=>!/^tests\/|^\.local-data\/|^node_modules\/|^output\//.test(path)));
   assert.ok(paths.every(path=>!path.includes('/fixtures/')&&!path.includes('/history/')));
   for(const file of manifest.files){if(/\.(?:json|ts|js|mjs|md)$/.test(file.path))assert.doesNotMatch(await readFile(join(directory,file.path),'utf8'),/sk-[A-Za-z0-9_-]{20,}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/);}

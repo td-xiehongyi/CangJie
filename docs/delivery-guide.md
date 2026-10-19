@@ -15,7 +15,7 @@
 以上执行策略只作用于该次 PowerShell 进程，不修改系统设置。
 执行 `npm start`，访问 http://127.0.0.1:4317 。端口占用时在启动前设置 `$env:WORKBENCH_PORT=4318`。
 在终端按 Ctrl+C 退出后台；关闭浏览器标签不等于停止工具。
-新增双击入口：先执行 `npm ci --ignore-scripts` 安装完整开发依赖，再双击根目录 `Start-CangJie.cmd`（或 `npm run start:oneclick`）。入口每次重新构建再启动并请求打开浏览器；仅安装omit=dev依赖时请使用前述npm start。入口不自动安装依赖或SDK。
+新增双击入口：先执行 `npm ci --ignore-scripts` 安装完整开发依赖，再双击根目录 `Start-JianShi.cmd`（或 `npm run start:oneclick`）。入口每次重新构建再启动并请求打开浏览器；仅安装omit=dev依赖时请使用前述npm start。入口不自动安装依赖或SDK。
 
 ## 样例与配置
 

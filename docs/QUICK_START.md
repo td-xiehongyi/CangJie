@@ -6,7 +6,7 @@
 
 1. 安装Node.js 24.x（包含npm），重新打开终端。
 2. 在项目根目录执行`npm ci --ignore-scripts`，按锁文件安装依赖。首次安装通常需要网络。双击入口本身不自动下载依赖、不修改执行策略、不申请管理员权限。
-3. 双击根目录`Start-CangJie.cmd`。也可在根目录执行`npm run start:oneclick`。
+3. 双击根目录`Start-JianShi.cmd`。也可在根目录执行`npm run start:oneclick`。
 
 启动器定位自己的项目目录，因此目录包含空格或中文不需要手动改脚本。它核对Node与依赖，重新编译契约、宿主、三个样例和前端，成功后启动工作台，再请求默认浏览器打开终端显示的本机地址。编译失败则停止并显示错误，不继续启动旧dist。有仓颉 SDK 时还会重新构建核心；已有核心但缺 SDK 时明确报 CORE_REBUILD_REQUIRED 并停止，防止新宿主沿用旧核心。可用 CANGJIE_SDK / CANGJIE_STDX 指定本机工具目录。Node/依赖缺失时显示准备命令，不能把这种情况称为“首次零配置启动”。
 

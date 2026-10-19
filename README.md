@@ -1,6 +1,6 @@
-# CangJie 网站业务与容量验证工作台
+# 鉴实 网站业务与容量验证工作台
 
-CangJie 帮助个人开发者从网站源码梳理业务、确认预期，并取得可复查、可复跑的正确性与目标负载证据。支持范围以已核对的 Node.js 24、Express 5、HTTP/JSON 与 SQLite 项目为主；源码分析可先于运行环境准备。
+鉴实 帮助个人开发者从网站源码梳理业务、确认预期，并取得可复查、可复跑的正确性与目标负载证据。支持范围以已核对的 Node.js 24、Express 5、HTTP/JSON 与 SQLite 项目为主；源码分析可先于运行环境准备。
 
 更新：2026-10-17。产品代码基线为 `main@ceb8d95`，本轮仅整理文档，未修改产品代码。产品仍为开发预览，正式人工交付验收与 T10 两组对照尚未完成。
 
@@ -13,7 +13,7 @@ npm ci --ignore-scripts
 npm run start:oneclick
 ```
 
-需要 Node.js 24.x。也可双击根目录 `Start-CangJie.cmd`；入口核对依赖、重新构建后启动。已构建的开发目录可用 `npm start`。默认地址为 **http://127.0.0.1:4317**，以控制台实际显示为准；运行期间保留控制台，Ctrl+C 停止后台。
+需要 Node.js 24.x。也可双击根目录 `Start-JianShi.cmd`；入口核对依赖、重新构建后启动；原 `Start-CangJie.cmd` 保留兼容。已构建的开发目录可用 `npm start`。默认地址为 **http://127.0.0.1:4317**，以控制台实际显示为准；运行期间保留控制台，Ctrl+C 停止后台。
 
 本目录由 [main-version.json](main-version.json) 指定启动端口和现有数据目录，`main-2026-10-14` 是配置标识，不是发行版本。API Key 仅在本机页面输入；勾选记住后存入 Windows 凭据管理器，不写入 JSON。缺 SDK/原生核心时的限制见[快速开始](docs/QUICK_START.md)。
 

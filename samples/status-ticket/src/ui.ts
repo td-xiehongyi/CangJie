@@ -4,7 +4,7 @@ export const samplePage=`<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>工单状态中心 · CangJie Sample</title>
+<title>工单状态中心 · 鉴实样例</title>
 <link rel="stylesheet" href="/ui/style.css">
 <script src="/ui/app.js" defer>
 </script>
@@ -22,7 +22,7 @@ export const samplePage=`<!doctype html>
 <main>
 <section class="hero">
 <h1>创建工单、关闭处理、核对不可重开规则</h1>
-<p class="muted">真实接口 + 独立合成数据库。操作成功不等同于 CangJie 正式验证通过。</p>
+<p class="muted">真实接口 + 独立合成数据库。操作成功不等同于 鉴实 正式验证通过。</p>
 </section>
 <div id="message" class="notice" role="status" aria-live="polite">请使用演示启动终端显示的测试账号登录。不要输入真实账号密码。</div>
 <section id="login-area" class="grid">
@@ -91,7 +91,7 @@ export const samplePage=`<!doctype html>
 </div>
 </section>
 </main>
-<footer>CangJie · status-ticket · 本页面不会调用 AI。界面只操作当前样例，不读取其他项目目录。</footer>
+<footer>鉴实 · status-ticket · 本页面不会调用 AI。界面只操作当前样例，不读取其他项目目录。</footer>
 </body>
 </html>`;
 

@@ -8,8 +8,8 @@
  *  - cjSealRough  : 位移滤镜，做刀口毛边
  *  - cjSealGrain  : 红面上打散纸色斑点，模拟印泥没吃透的飞白 */
 export default function Brand(){
- return <div className="brand" aria-label="CangJie 仓颉 · 网站验证工作台">
-  <svg className="brand-wordmark" viewBox="0 0 250 84" role="img" aria-label="CangJie 仓颉">
+ return <div className="brand" aria-label="鉴实 · 网站验证工作台">
+  <svg className="brand-wordmark" viewBox="0 0 250 84" role="img" aria-label="鉴实">
    <defs>
     <linearGradient id="cjSealPress" x1="0" y1="0" x2=".7" y2="1">
      <stop offset="0" stopColor="#fff" stopOpacity="1"/>
@@ -38,12 +38,12 @@ export default function Brand(){
      <path d="M200 27 L200 29.4 L202 28.6 Z" fill="#000"/>
      <path d="M232 21.4 L232 23.8 L230.2 22.6 Z" fill="#000"/>
      <path d="M213 8 L215.4 8 L214 9.9 Z" fill="#000"/>
-     <text x="216" y="28" className="brand-seal-face">仓</text>
-     <text x="216" y="47" className="brand-seal-face">颉</text>
+     <text x="216" y="28" className="brand-seal-face">鉴</text>
+     <text x="216" y="47" className="brand-seal-face">实</text>
     </mask>
    </defs>
 
-   <text x="5" y="52" className="brand-script">CangJie</text>
+   <text x="5" y="52" className="brand-script">鉴实</text>
    <path className="brand-flourish" d="M10 62C47 53 81 59 115 61S170 69 193 59"/>
 
    <g transform="rotate(-2.6 216 29)">

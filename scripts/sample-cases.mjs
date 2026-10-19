@@ -38,7 +38,7 @@ function variantSource(source,sample,variant){
  throw new Error('UNKNOWN_SAMPLE_VARIANT: '+variant);
 }
 
-/** Expected labels stay outside the project directory imported by CangJie. */
+/** Expected labels stay outside the project directory imported by 鉴实. */
 export async function materializeCase(id,destination){
  const entry=catalog.cases.find(c=>c.id===id);
  if(!entry)throw new Error('UNKNOWN_SAMPLE_CASE: '+id);
@@ -57,7 +57,7 @@ export async function materializeCase(id,destination){
   await writeFile(seedPath,replaceOnce(seed,entry.sample==='registration'?',UNIQUE(creatorId,intentId,attemptId)':',UNIQUE(ownerId,intentId,attemptId)',''));
  }
  await writeFile(join(target,'case.json'),JSON.stringify({...entry,project:'./project',scope:'预期标签仅供人工核对，不能作为平台运行结果或独立验收答案。'},null,2)+'\n');
- await writeFile(join(target,'README.md'),`# ${entry.title}\n\n${entry.description}\n\n在 CangJie 中仅导入此目录下的 project 子目录。预期：${entry.expected}。\n\n同级 case.json 是人工核对材料，不是实际运行证据。缺陷只存在于本次练习副本；不要用于真实数据。\n`);
+ await writeFile(join(target,'README.md'),`# ${entry.title}\n\n${entry.description}\n\n在 鉴实 中仅导入此目录下的 project 子目录。预期：${entry.expected}。\n\n同级 case.json 是人工核对材料，不是实际运行证据。缺陷只存在于本次练习副本；不要用于真实数据。\n`);
  return {project,caseId:id};
 }
 

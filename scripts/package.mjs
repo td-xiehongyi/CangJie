@@ -26,7 +26,7 @@ async function noLinks(path){
 const files=[
   'package.json','package-lock.json','apps/host/package.json','apps/ui/package.json','packages/contracts/package.json',
   'apps/core/target/verification-core.exe','packages/contracts/schema.json',
-  'Start-CangJie.cmd','scripts/launch.mjs','scripts/toolchain.mjs','scripts/workbench.mjs','scripts/windows-credential.ps1','scripts/candidate-lock.ps1',
+  'Start-JianShi.cmd','Start-CangJie.cmd','scripts/launch.mjs','scripts/toolchain.mjs','scripts/workbench.mjs','scripts/windows-credential.ps1','scripts/candidate-lock.ps1',
   'scripts/setup-cangjie.mjs','scripts/setup-tools.ps1','scripts/setup-k6.ps1','scripts/doctor.mjs',
   'templates/load-http.js','scripts/package.mjs',
   'apps/host/tsconfig.json','apps/ui/tsconfig.json','apps/ui/index.html','apps/core/cjpm.toml',
